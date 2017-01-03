@@ -1,0 +1,267 @@
+body{
+    /*font-size: 10px;*/
+    height: auto;
+    /*background-image: url("../images/Logo_Bokk-Taxi-en-png.png");*/
+}
+
+body, a, p, h1, div, h2, h3, h4, h5, h6 {
+    font-family: "Segoe UI Light", "Segoe UI", Tahoma, Arial, "Helvetica Neue", Helvetica, Sans-Serif!important;
+}
+
+.pushable>.pusher{
+    background-color: #fafafa;
+}
+
+.computer_top_nav.menu.main{
+    height: 5em;
+}
+
+.ui.computer_top_nav.top.inverted.fixed.main.menu .ui.container .left.menu{
+    margin-right: 10rem!important;
+}
+
+@media only screen and (max-width: 1000px) {
+    .ui.computer_top_nav.top.inverted.fixed.main.menu .ui.container .left.menu{
+        margin-right: 4em!important;
+    }
+
+    .ui.inverted.secondary.pointing.menu .item {
+        font-size: 0.8em!important;
+    }
+}
+
+.ui.inverted.secondary.pointing.menu .item {
+    margin-left:1rem;
+    margin-right: 1rem;
+    height: 5em;
+    text-transform: uppercase;
+    font-size: 1rem;
+    /*font-family: Arial, Helvetica, sans-serif!important;*/
+    font-family: "Segoe UI Light", "Segoe UI", Tahoma, Arial, "Helvetica Neue", Helvetica, Sans-Serif;
+}
+
+@media only screen and (max-width: 750px) {
+    .computer_top_nav.menu.main {
+        display: none;
+    }
+
+    .mobile_top_nav.menu.main {
+        display: flex !important;
+    }
+
+    .ui.bottom.attached.segment.pushable {
+        margin-top: 3.8em!important;
+    }
+}
+
+.pushable {
+    height: auto!important;
+    /*background: transparent;*/
+}
+.ui.bottom.attached.segment.pushable {
+    margin-top: 4.9em;
+}
+
+.ui.attached.segment{
+    border: none;
+}
+
+div#home{
+    /*background: yellow!important;*/
+}
+
+.ui.doubling.stackable.grid .column .column_content{
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.ui.doubling.stackable.grid .column{
+    /*padding-top:9em;*/
+}
+
+#logo_computer_menu .ui.tiny.image{
+    width: 60px;
+    height: auto;
+    font-size: .85714286rem;
+}
+
+#logo_mobile_menu .ui.tiny.image{
+    width: 32px;
+    height: auto;
+    font-size: .85714286rem;
+}
+
+
+.flexslider .slides .flex-caption {
+    position: absolute;
+    left: 30px;
+    bottom: 30px;
+    color: #fff;
+    display: inline-block;
+    font-family: 'open sans', arial, sans-serif;
+}
+
+.flexslider .slides .flex-caption .main {
+    display: inline-block;
+    background: #e51837;
+    margin-bottom: 5px;
+    padding: 10px 15px;
+    font-size: 18px;
+    text-transform: uppercase;
+}
+
+.flexslider .slides .flex-caption .secondary {
+    display: inline-block;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 5px 15px;
+    color: #fff;
+    font-size: 16px;
+}
+
+.ui.secondary.inverted.pointing.menu .active.item {
+    border-color: #f7aa1a;
+}
+
+.ui.secondary.inverted.menu .active.item {
+    background: rgba(255,255,255,.15);
+    color: #f7aa1a!important;
+}
+
+.ui.inverted.secondary.pointing.menu .item:hover{
+    color: #f7aa1a!important;
+}
+
+.ui.secondary.inverted.menu a.item:hover {
+    color: #f7aa1a!important;
+}
+
+.flex-control-paging li a.flex-active {
+    background: #f7aa1a!important;
+    cursor: default;
+}
+
+#apropos{
+    background: #ffffff;
+    min-height: 30em;
+    margin-bottom: 4em;
+    box-shadow: none;
+}
+
+#apropos .content h2{
+    font-size: 2em;
+    margin-bottom: 1.5em;
+}
+
+#apropos .ui.centered.card{
+    width: 80%;
+    height: 80%;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+#apropos .ui.centered.card .content{
+    border-top:none;
+}
+
+#apropos .ui.centered.card .content .description p{
+    font-size: 18px;
+}
+
+.ui.centered.card .image{
+    background: white;
+}
+
+.ui.card{
+    border-radius: 0;
+}
+
+#team{
+    background: #ffffff;
+    margin-bottom: 4em;
+    box-shadow: none;
+}
+
+#team .ui.centered.card{
+    width: 80%;
+    height: 80%;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+#team .ui.centered.card .content{
+    border-top:none;
+}
+
+
+#demo{
+    background: #ffffff;
+    margin-bottom: 4em;
+    box-shadow: none;
+    height: 30em;
+}
+
+#demo .ui.centered.card{
+    width: 80%;
+    height: 80%;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+#demo .ui.centered.card .content{
+    border-top:none;
+}
+
+#demo .ui.centered.card .content iframe{
+    width: 100%;
+    height: 25em;
+}
+
+
+#contact{
+    background-color: #1b1c1d;;
+    margin-bottom: 2em;
+    box-shadow: none;
+}
+
+#contact .ui.centered.card{
+    width: 80%;
+    height: 100%;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+canvas{
+    display:none;
+}
+
+#content_posts .ui.card{
+    width: 100%;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+#content_posts {
+    width: 66.5%!important;
+}
+
+#footer{
+    margin-bottom: 0;
+    margin-top: 0;
+    border-radius: 0;
+}
+
+
+.ui.search .prompt{
+    border-radius: 0;
+}
+
+.ui.menu .item>.input input{
+    height: 3em;
+}
+
+.ui.search.item{
+    width: 48em;
+}
