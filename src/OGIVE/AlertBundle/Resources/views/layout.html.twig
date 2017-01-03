@@ -1,0 +1,20 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+    {% include('OGIVEAlertBundle::header.html.twig') %}
+    {% block sub_header %}
+    {% endblock sub_header %}
+    <div class="ui bottom attached segment pushable">
+        <div class="pusher">
+            {% include('OGIVEAlertBundle::sidebar.html.twig') %}
+            {% block content %}
+            {% endblock content %}
+        </div>
+    </div>
+    {% block block_add_new %}
+    {% endblock block_add_new %} 
+    {% block block_edit %}
+    {% endblock block_edit %} 
+{% endblock %}

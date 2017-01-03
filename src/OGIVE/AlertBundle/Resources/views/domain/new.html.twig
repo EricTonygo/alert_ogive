@@ -1,0 +1,40 @@
+<div id="add_domain" class="ui small modal">
+    <i class="close icon"></i>
+    <div class="header">
+        Ajout d'un domaine
+    </div>
+    <div class="content">
+        {{ form_start(form, {'method': 'POST', 'action': '/domains', 'attr': {'class': 'ui form', 'id': 'domain_form'} }) }}
+
+
+        <div class="field">
+            {{ form_label(form.name,"Nom") }}
+            {{ form_errors(form.name, {'attr': {'class': 'ui error message'}})}}
+            {{ form_widget(form.name,{'attr':{'placeholder':'Nom du domaine', 'data-validate': 'name'}})}}
+        </div>
+
+        <div class="field">
+            {{ form_label(form.description,"Description") }}
+            {{ form_errors(form.description, {'attr': {'class': 'ui error message'}})}}
+            {{ form_widget(form.description,{'attr':{'placeholder':'Description du domain', 'data-validate': 'description'}})}}
+        </div>
+
+        <div class="field">
+            {{form_rest(form)}}
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+    <div class="actions">
+        <div id="cancel_add_domain" class="ui black deny button">
+            Annuler
+        </div>
+        <div id='submit_domain' class="ui primary icon button">
+            <i class="save icon"></i>
+            Sauvegarder
+        </div>
+    </div>
+</div>
+<button id="add_domain_btn" class="float_button circular ui huge red icon button" data-tooltip="Nouveau domaine" data-position="top center" data-inverted="">
+    <i class="icon plus"></i>
+</button>

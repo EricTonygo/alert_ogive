@@ -1,0 +1,40 @@
+{% extends "OGIVEUserBundle::layout.html.twig" %}
+{% trans_default_domain 'FOSUserBundle' %}
+{% block title %}Connexion{% endblock %}
+
+{% block login_content %}
+    <div class="ui login_contenair basic segment container"> 
+        <div class="ui centered card">
+            <div class="first content text center aligned">
+                <h2 class="header">Authentifiez-vous pour demarrer</h2>
+            </div>
+            <div class="content">
+                {% if error %}
+                    <div class="ui negative message">
+                        <i class="close icon"></i>
+                        <div class="header">{{ error|trans({}, 'FOSUserBundle') }} </div>
+                    </div>
+                {% endif %}
+                <form id="login_form" class="ui form" action="{{ path("fos_user_security_check") }}" method="post">
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+                    <div class="field">
+                        <label>Matricule ou email</label>
+                        <input type="text" name="_username" placeholder="Matricule ou email">
+                    </div>
+                    <div class="field">
+                        <label>Password</label>
+                        <input type="password" name="_password" placeholder="Password">
+                    </div>
+
+                    <div class="field">
+                        <div class="ui checkbox">
+                            <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+                            <label>{{ 'security.login.remember_me'|trans({}, 'FOSUserBundle') }}</label>
+                        </div>
+                    </div>
+                    <input type="submit" id="_submit" name="_submit" class="ui fluid primary button" value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}" />
+                </form>
+            </div>
+        </div>                       
+    </div>
+{% endblock %}

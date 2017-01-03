@@ -1,0 +1,13 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+    {% include('OGIVEUserBundle::header.html.twig') %}
+    <div class="ui bottom attached segment pushable">
+        <div class="pusher">               
+            {% block login_content %}
+            {% endblock login_content %}            
+        </div>
+    </div>
+{% endblock %}

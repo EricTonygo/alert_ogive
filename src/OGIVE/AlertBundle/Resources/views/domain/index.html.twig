@@ -1,0 +1,41 @@
+{% extends "OGIVEAlertBundle::layout.html.twig" %}
+{% block title %}La liste{% endblock %}
+
+{% block sub_header %}
+    <div id="second_computer_top_nav" class="ui computer_top_nav inverted main menu" style="background-color: #eeeeee; position: fixed;
+         top: 70px; left: 0; right: 0; height:4em;">
+        <div class="ui container">
+            <div class="ui left inverted secondary menu">
+                <a id="document_title" class="item">
+                    <h3>Liste des domaines</h3>
+                </a>
+            </div>
+
+            <div class="ui right inverted secondary menu">
+                <div id='show_list_table' class="ui circular icon button item" data-tooltip="Afficher sous forme de liste" data-position="bottom center" data-inverted="">
+                    <i class="large list layout icon"></i>
+                </div>
+                <a class="ui circular icon button item">
+                    <i class="large trash icon"></i>
+                </a>
+                <a class="ui circular icon button item">
+                    <i class="large folder icon"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block content %}
+
+    {% include('OGIVEAlertBundle:domain:grid.html.twig') %} 
+    {% include('OGIVEAlertBundle:domain:list.html.twig') %}
+{% endblock %}
+{% block block_add_new %}
+    {% include('OGIVEAlertBundle:domain:new.html.twig') %}
+{% endblock %}
+
+{% block block_edit %}
+    <div id="edit_domain_content">
+
+    </div>
+{% endblock %}
