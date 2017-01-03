@@ -1,7 +1,5 @@
 <?php
-
 namespace OGIVE\AlertBundle\Controller;
-
 use OGIVE\AlertBundle\Entity\Domain;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -9,7 +7,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\Controller\Annotations as Rest;
-
 /**
  * Domain controller.
  *
@@ -27,9 +24,7 @@ class DomainController extends Controller
         $em = $this->getDoctrine()->getManager();
         $domain = new Domain();
         $form = $this->createForm('OGIVE\AlertBundle\Form\DomainType', $domain);
-
         $domains = $em->getRepository('OGIVEAlertBundle:Domain')->findAll();
-
         return $this->render('OGIVEAlertBundle:domain:index.html.twig', array(
             'domains' => $domains,
             'form' => $form->createView()
@@ -61,11 +56,10 @@ class DomainController extends Controller
         }
     }
     
-
     /**
      * Creates a new domain entity.
      *
-     * @Route("/new", name="domain_new")
+     * @Route("/domain-new", name="domain_new")
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
@@ -73,41 +67,35 @@ class DomainController extends Controller
         $domain = new Domain();
         $form = $this->createForm('OGIVE\AlertBundle\Form\DomainType', $domain);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($domain);
             $em->flush($domain);
-
             return $this->redirectToRoute('domain_show', array('id' => $domain->getId()));
         }
-
         return $this->render('domain/new.html.twig', array(
             'domain' => $domain,
             'form' => $form->createView(),
         ));
     }
-
     /**
      * Finds and displays a domain entity.
      *
-     * @Route("/{id}", name="domain_show")
+     * @Route("/domain-show/{id}", name="domain_show")
      * @Method("GET")
      */
     public function showAction(Domain $domain)
     {
         $deleteForm = $this->createDeleteForm($domain);
-
         return $this->render('domain/show.html.twig', array(
             'domain' => $domain,
             'delete_form' => $deleteForm->createView(),
         ));
     }
-
     /**
      * Displays a form to edit an existing domain entity.
      *
-     * @Route("/{id}/edit", name="domain_edit")
+     * @Route("/domain-edit/{id}", name="domain_edit")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, Domain $domain)
@@ -115,40 +103,33 @@ class DomainController extends Controller
         $deleteForm = $this->createDeleteForm($domain);
         $editForm = $this->createForm('OGIVE\AlertBundle\Form\DomainType', $domain);
         $editForm->handleRequest($request);
-
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
             return $this->redirectToRoute('domain_edit', array('id' => $domain->getId()));
         }
-
         return $this->render('domain/edit.html.twig', array(
             'domain' => $domain,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
     }
-
     /**
      * Deletes a domain entity.
      *
-     * @Route("/{id}", name="domain_delete")
+     * @Route("/domain-delete/{id}", name="domain_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, Domain $domain)
     {
         $form = $this->createDeleteForm($domain);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($domain);
             $em->flush($domain);
         }
-
         return $this->redirectToRoute('domain_index');
     }
-
     /**
      * Creates a form to delete a domain entity.
      *

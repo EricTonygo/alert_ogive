@@ -10,14 +10,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component
 /**
  * CallOffer controller.
  *
- * @Route("call-offer")
  */
 class CallOfferController extends Controller
 {
     /**
      * Lists all callOffer entities.
      *
-     * @Route("/", name="call_offer_index")
+     * @Route("/calls-offer", name="call_offer_index")
      * @Method("GET")
      */
     public function indexAction()
@@ -34,7 +33,7 @@ class CallOfferController extends Controller
     /**
      * Creates a new callOffer entity.
      *
-     * @Route("/new", name="call_offer_new")
+     * @Route("/call-offer-new", name="call_offer_new")
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
@@ -60,7 +59,7 @@ class CallOfferController extends Controller
     /**
      * Finds and displays a callOffer entity.
      *
-     * @Route("/{id}", name="call_offer_show")
+     * @Route("/call-offer-show/{id}", name="call_offer_show")
      * @Method("GET")
      */
     public function showAction(CallOffer $callOffer)
@@ -76,7 +75,7 @@ class CallOfferController extends Controller
     /**
      * Displays a form to edit an existing callOffer entity.
      *
-     * @Route("/{id}/edit", name="call_offer_edit")
+     * @Route("/call-offer-delete/{id}", name="call_offer_edit")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, CallOffer $callOffer)
@@ -101,7 +100,7 @@ class CallOfferController extends Controller
     /**
      * Deletes a callOffer entity.
      *
-     * @Route("/{id}", name="call_offer_delete")
+     * @Route("/domain-delete/{id}", name="call_offer_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, CallOffer $callOffer)
