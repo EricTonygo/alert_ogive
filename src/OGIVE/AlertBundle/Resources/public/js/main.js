@@ -239,12 +239,17 @@ $(function () {
                                 $('#server_error_message').show();
                             },
                             400: function (response, textStatus, jqXHR) {
-                                $('#error_name_header').append(response.responseJSON.message);
-                                var myerrors = response.responseJSON.errors.children.name.errors;
-                                for (var i = 0; i < myerrors.length; i++) {
-                                    $('#error_name_list').append('<li>' + myerrors[i] + '</li>');
+                                console.log(response);
+                                var myerrors = response.responseJSON;
+                                if (myerrors.success === false) {
+                                    console.log(myerrors.message)
+                                    $('#error_name_header').html("Echec de la validation");
+                                    for (var i = 0; i < myerrors.length; i++) {
+                                        $('#error_name_list').html('<li>' + myerrors.message + '</li>');
+                                    }
+                                    $('#error_name_message').show();
                                 }
-                                $('#error_name_message').show();
+
                             }
                         },
                         success: function (response, textStatus, jqXHR) {
@@ -259,6 +264,7 @@ $(function () {
                                 $('.ui.dropdown').dropdown({
                                     on: 'hover'
                                 });
+                                $('#add_domain.ui.modal').modal('hide');
                             }
 
                         },
@@ -280,40 +286,135 @@ function edit_domain(id) {
         url: '/domains/' + id,
         dataType: 'json',
         beforeSend: function () {
-            $('#submit_edit_domain').addClass('loading');
-            $('#cancel_edit_domain').addClass('disabled');
+
         },
         statusCode: {
             500: function (xhr) {
-                $('#server_error_message_edit').show();
+
             },
             400: function (response, textStatus, jqXHR) {
-                $('#error_name_header_edit').append(response.responseJSON.message);
-                var myerrors = response.responseJSON.errors.children.name.errors;
-                for (var i = 0; i < myerrors.length; i++) {
-                    $('#error_name_list_edit').append('<li>' + myerrors[i] + '</li>');
-                }
-                $('#error_name_message_edit').show();
+
             }
         },
         success: function (response, textStatus, jqXHR) {
             if (response.code === 200) {
-
-                $('#edit_domain_content').append(response.edit_domain_form);
+                $('#edit_domain').remove();
+                $('#edit_domain_content').html(response.edit_domain_form);
                 $('#edit_domain.ui.modal').modal('setting', {
                     autofocus: false,
                     inverted: true
                 });
                 $('#edit_domain.ui.modal').modal('show');
+                execute_edit(id);
             }
 
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            $('#submit_edit_domain').removeClass('loading');
-            $('#cancel_edit_domain').removeClass('disabled');
+
             /*alertify.error("Internal Server Error");*/
         }
     });
 }
 
+function execute_edit(id) {
+    $('#submit_edit_domain').click(function (e) {
+        e.preventDefault();
+        $('#edit_domain_form.ui.form').submit();
+    });
+    $('#edit_domain_form.ui.form')
+            .form({
+                fields: {
+                    name: {
+                        identifier: 'name',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: 'Veuillez saisir le nom du domaine'
+                            }
+                        ]
+                    }
 
+                },
+                inline: true,
+                on: 'blur',
+                onSuccess: function (event, fields) {
+                    $.ajax({
+                        type: 'PUT',
+                        url: $('#edit_domain_form.ui.form').attr('action'),
+                        data: fields,
+                        dataType: 'json',
+                        beforeSend: function () {
+                            $('#submit_edit_domain').addClass('loading');
+                            $('#cancel_edit_domain').addClass('disabled');
+                        },
+                        statusCode: {
+                            500: function (xhr) {
+                                $('#server_error_message_edit').show();
+                            },
+                            400: function (response, textStatus, jqXHR) {
+                                var myerrors = response.responseJSON;
+                                if (myerrors.success === false) {
+                                    $('#error_name_header_edit').html("Echec de la validation");
+                                    for (var i = 0; i < myerrors.length; i++) {
+                                        $('#error_name_list_edit').html('<li>' + myerrors.message + '</li>');
+                                    }
+                                    $('#error_name_message_edit').show();
+                                }
+
+                            }
+                        },
+                        success: function (response, textStatus, jqXHR) {
+                            if (response.code === 200) {
+                                $('#cancel_edit_domain').removeClass('disabled');
+                                $('#submit_edit_domain').removeClass('loading');
+                                $('#domain_grid' + id).html(response.domain_content_grid);
+                                $('#domain_list' + id).html(response.domain_content_list);
+                                $('.ui.dropdown').dropdown({
+                                    on: 'hover'
+                                });
+                                $('#edit_domain.ui.modal').modal('hide');
+                            }
+
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            $('#submit_edit_domain').removeClass('loading');
+                            $('#cancel_edit_domain').removeClass('disabled');
+                            /*alertify.error("Internal Server Error");*/
+                        }
+                    });
+                    return false;
+                }
+            }
+            );
+}
+
+function delete_domain(id) {
+    $.ajax({
+        type: 'DELETE',
+        url: '/domains/' + id,
+        dataType: 'json',
+        beforeSend: function () {
+
+        },
+        statusCode: {
+            500: function (xhr) {
+                $('#server_error_message_delete').show();
+            },
+            400: function (response, textStatus, jqXHR) {
+
+            }
+        },
+        success: function (response, textStatus, jqXHR) {
+            console.log(response);
+            $('#domain_grid' + id).remove();
+            $('#domain_list' + id).remove();
+            $('.ui.dropdown').dropdown({
+                on: 'hover'
+            });
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+
+            /*alertify.error("Internal Server Error");*/
+        }
+    });
+}

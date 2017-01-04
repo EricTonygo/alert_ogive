@@ -1,0 +1,27 @@
+{#<div id="domain_grid{{domain.id}}" class="column">#}
+    <div class="ui fluid card">
+        <div class="content">
+            <div class="header">{{domain.name}}</div>
+            <div class="description">
+                {{domain.description}}
+            </div>
+        </div>
+        <div class="extra content">
+            <div class="right floated">
+                <div class="ui dropdown item">
+                    <i class="ellipsis vertical icon"></i>
+                    <div class="menu">
+                        <div onclick="edit_domain({{domain.id}});" class="edit_domain_btn item">
+                            <i class="edit icon"></i>
+                            Modifier
+                        </div>
+                        <div onclick="delete_domain({{domain.id}});" class="delete_domain_btn item">
+                            <i class="trash icon"></i>
+                            Supprimer
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{#</div>#}

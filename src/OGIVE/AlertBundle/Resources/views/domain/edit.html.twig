@@ -1,10 +1,10 @@
 <div id="edit_domain" class="ui small modal">
     <i class="close icon"></i>
     <div class="header">
-        Modification du domaine {{domain.name}}
+        Modification du domaine << {{domain.name}} >>
     </div>
     <div class="content">
-        {{ form_start(form, {'method': 'PUT', 'action': '/domains/', 'attr': {'class': 'ui form', 'id': 'edit_domain_form'} }) }}
+        {{ form_start(form, {'method': 'PUT', 'action': path('domain_update', {'id': domain.id}), 'attr': {'class': 'ui form', 'id': 'edit_domain_form'} }) }}
 
         <div class="field">
             {{ form_label(form.name,"Nom") }}

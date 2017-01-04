@@ -11,7 +11,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @ORM\Table(name="domain")
  * @ORM\Entity(repositoryClass="OGIVE\AlertBundle\Repository\DomainRepository")
- * @UniqueEntity("name", message="Ce nom est déjà utilisé.")
  */
 class Domain
 {
@@ -69,13 +68,6 @@ class Domain
      * @ORM\OneToMany(targetEntity="OGIVE\AlertBundle\Entity\Entreprise", mappedBy="domain", cascade={"remove", "persist"})
      */
     private $entreprises;
-    
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\OneToMany(targetEntity="OGIVE\AlertBundle\Entity\AlertProcedure", mappedBy="domain", cascade={"remove", "persist"})
-     */
-    private $alertProcedures;
 
     /**
      * Constructor
@@ -261,47 +253,5 @@ class Domain
         return $this;
     }
     
-    /**
-     * Add alertProcedure
-     *
-     * @param OGIVE\AlertBundle\Entity\AlertProcedure $alertProcedure 
-     * @return Domain
-     */
-    public function addAlertProcedure(OGIVE\AlertBundle\Entity\AlertProcedure $alertProcedure) {
-        $this->alertProcedures[] = $alertProcedure;
-        return $this;
-    }
-
-    /**
-     * Get alertProcedures
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getAlertProcedures() {
-        return $this->alertProcedures;
-    }
-
-    /**
-     * Set alertProcedures
-     *
-     * @param \Doctrine\Common\Collections\Collection $alertProcedures
-     * @return Domain
-     */
-    public function setAlertProcedures(\Doctrine\Common\Collections\Collection $alertProcedures = null) {
-        $this->alertProcedures = $alertProcedures;
-
-        return $this;
-    }
-
-    /**
-     * Remove entreprise
-     *
-     * @param OGIVE\AlertBundle\Entity\AlertProcedure $alertProcedure
-     * @return Domain
-     */
-    public function removeAlertProcedure(OGIVE\AlertBundle\Entity\AlertProcedure $alertProcedure) {
-        $this->alertProcedures->removeElement($alertProcedure);
-        return $this;
-    }
 }
 

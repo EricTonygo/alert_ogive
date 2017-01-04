@@ -14,15 +14,15 @@ class DomainRepository extends \Doctrine\ORM\EntityRepository
         $em = $this->_em;
         $domain->setStatus(0);
         $entreprise = new \OGIVE\AlertBundle\Entity\Entreprise();
-        $repositoryEntreprise = $em->getRepository("OGIVE\AlertBundle:Entreprise");
+        $repositoryEntreprise = $em->getRepository("OGIVEAlertBundle:Entreprise");
         $procedureResult = new \OGIVE\AlertBundle\Entity\ProcedureResult();
-        $repositoryProcedureResult = $em->getRepository("OGIVE\AlertBundle:ProcedureResult");
+        $repositoryProcedureResult = $em->getRepository("OGIVEAlertBundle:ProcedureResult");
         $additive = new \OGIVE\AlertBundle\Entity\Additive();
-        $repositoryAdditive = $em->getRepository("OGIVE\AlertBundle:Additive");
+        $repositoryAdditive = $em->getRepository("OGIVEAlertBundle:Additive");
         $expressionInterest = new \OGIVE\AlertBundle\Entity\ExpressionInterest();
-        $repositoryExpressionInterest = $em->getRepository("OGIVE\AlertBundle:ExpressionInterest");
+        $repositoryExpressionInterest = $em->getRepository("OGIVEAlertBundle:ExpressionInterest");
         $callOffer = new \OGIVE\AlertBundle\Entity\CallOffer();
-        $repositoryCallOffer = $em->getRepository("OGIVE\AlertBundle:CallOffer");
+        $repositoryCallOffer = $em->getRepository("OGIVEAlertBundle:CallOffer");
         $em->getConnection()->beginTransaction();
         try {
             $entreprises = $domain->getEntreprises();
