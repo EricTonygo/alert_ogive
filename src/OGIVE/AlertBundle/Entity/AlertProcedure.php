@@ -8,8 +8,6 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * AlertProcedure
- * @ORM\Table(name="alert_procedure")
- * @ORM\Entity(repositoryClass="OGIVE\AlertBundle\Repository\AlertProcedureRepository")
  * @ORM\MappedSuperClass
  * @ORM\HasLifecycleCallbacks
  */
