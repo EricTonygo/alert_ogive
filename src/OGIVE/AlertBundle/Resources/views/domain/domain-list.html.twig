@@ -1,4 +1,4 @@
-<tr>
+<tr id="domain{{domain.id}}">
     <td>
         <div class="ui ribbon label">{{domain.name}}</div>
     </td>
@@ -7,11 +7,11 @@
         <div class="ui dropdown item">
             <i class="ellipsis vertical icon"></i>
             <div class="menu">
-                <div class="item">
+                <div onclick="edit_domain({{domain.id}});" class="edit_domain_btn item">
                     <i class="edit icon"></i>
                     Modifier
                 </div>
-                <div class="item">
+                <div onclick="delete_domain({{domain.id}})" class="delete_domain_btn item">
                     <i class="trash icon"></i>
                     Supprimer
                 </div>

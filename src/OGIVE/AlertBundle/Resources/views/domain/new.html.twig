@@ -4,12 +4,10 @@
         Ajout d'un domaine
     </div>
     <div class="content">
-        {{ form_start(form, {'method': 'POST', 'action': '/domains', 'attr': {'class': 'ui form', 'id': 'domain_form'} }) }}
-
+        {{ form_start(form, {'method': 'POST', 'action': '/domains', 'attr': {'class': 'ui form', 'id': 'add_domain_form'} }) }}
 
         <div class="field">
             {{ form_label(form.name,"Nom") }}
-            {{ form_errors(form.name, {'attr': {'class': 'ui error message'}})}}
             {{ form_widget(form.name,{'attr':{'placeholder':'Nom du domaine', 'data-validate': 'name'}})}}
         </div>
 
@@ -21,6 +19,17 @@
 
         <div class="field">
             {{form_rest(form)}}
+            <div id="server_error_message" class="ui negative message" style="display:none">
+                <i class="close icon"></i>
+                <div id="server_error_content" class="header">Internal server error</div>
+            </div>
+            <div id="error_name_message" class="ui error message" style="display: none">
+                <i class="close icon"></i>
+                <div id="error_name_header" class="header"></div>
+                <ul id="error_name_list" class="list">
+
+                </ul>
+            </div>
         </div>
 
         {{ form_end(form) }}

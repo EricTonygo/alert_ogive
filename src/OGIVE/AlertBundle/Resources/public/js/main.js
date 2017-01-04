@@ -12,7 +12,7 @@ $(function () {
         e.preventDefault();
         $('#add_call_offer_form.ui.form').submit();
     });
-    
+
     $('#add_domain_btn').click(function () {
         $('#add_domain.ui.modal').modal('setting', {
             autofocus: false,
@@ -29,23 +29,23 @@ $(function () {
     $('#show_list_table').click(function () {
         if (init === 0) {
             $('#list_as_grid').hide();
-            $('#list_call_offer_as_table').show();
+            $('#list_as_table').show();
             init = 1;
         } else if (init === 1) {
             $('#list_as_grid').show();
-            $('#list_call_offer_as_table').hide();
+            $('#list_as_table').hide();
             init = 0;
         }
     });
-    
+
     $('.ui.sidebar')
-        .sidebar({
-            //context: $('.bottom.segment'),
-            dimPage: false
-        })
-        .sidebar('setting', 'transition', 'overlay')
-        .sidebar('attach events', '.main.menu .mobile_menu.item')
-        ;
+            .sidebar({
+                //context: $('.bottom.segment'),
+                dimPage: false
+            })
+            .sidebar('setting', 'transition', 'overlay')
+            .sidebar('attach events', '.main.menu .mobile_menu.item')
+            ;
 
     $('.ui.dropdown').dropdown({
         on: 'hover'
@@ -62,13 +62,13 @@ $(function () {
     });
 
     $('.message .close')
-        .on('click', function () {
-            $(this)
-                .closest('.message')
-                .transition('fade')
-                ;
-    })
-    ;
+            .on('click', function () {
+                $(this)
+                        .closest('.message')
+                        .transition('fade')
+                        ;
+            })
+            ;
 
     $('#add_call_offer_form.ui.form')
             .form({
@@ -207,7 +207,7 @@ $(function () {
                 on: 'blur'
             }
             );
-    
+
     $('#add_domain_form.ui.form')
             .form({
                 fields: {
@@ -220,7 +220,7 @@ $(function () {
                             }
                         ]
                     }
-                    
+
                 },
                 inline: true,
                 on: 'blur',
@@ -232,20 +232,39 @@ $(function () {
                         dataType: 'json',
                         beforeSend: function () {
                             $('#submit_domain').addClass('loading');
-                            $('#cancel_add_domain').hide;
+                            $('#cancel_add_domain').addClass('disabled');
+                        },
+                        statusCode: {
+                            500: function (xhr) {
+                                $('#server_error_message').show();
+                            },
+                            400: function (response, textStatus, jqXHR) {
+                                $('#error_name_header').append(response.responseJSON.message);
+                                var myerrors = response.responseJSON.errors.children.name.errors;
+                                for (var i = 0; i < myerrors.length; i++) {
+                                    $('#error_name_list').append('<li>' + myerrors[i] + '</li>');
+                                }
+                                $('#error_name_message').show();
+                            }
                         },
                         success: function (response, textStatus, jqXHR) {
-                            $('#cancel_add_domain').show;
-                            $('#submit_domain').removeClass('loading');
                             console.log(response);
-                            /*if (response.success === true) {
-                                alertify.success(response.data.message);
-                            } else {
-                                alertify.error(response.data.message);
-                            }*/
+                            console.log(response.domain_content_grid);
+                            console.log(response.domain_content_list);
+                            if (response.code === 200) {
+                                $('#cancel_add_domain').removeClass('disabled');
+                                $('#submit_domain').removeClass('loading');
+                                $('#list_as_grid_content').append(response.domain_content_grid);
+                                $('#list_as_table_content').append(response.domain_content_list);
+                                $('.ui.dropdown').dropdown({
+                                    on: 'hover'
+                                });
+                            }
+
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
                             $('#submit_domain').removeClass('loading');
+                            $('#cancel_add_domain').removeClass('disabled');
                             /*alertify.error("Internal Server Error");*/
                         }
                     });
@@ -254,5 +273,47 @@ $(function () {
             }
             );
 });
+
+function edit_domain(id) {
+    $.ajax({
+        type: 'PUT',
+        url: '/domains/' + id,
+        dataType: 'json',
+        beforeSend: function () {
+            $('#submit_edit_domain').addClass('loading');
+            $('#cancel_edit_domain').addClass('disabled');
+        },
+        statusCode: {
+            500: function (xhr) {
+                $('#server_error_message_edit').show();
+            },
+            400: function (response, textStatus, jqXHR) {
+                $('#error_name_header_edit').append(response.responseJSON.message);
+                var myerrors = response.responseJSON.errors.children.name.errors;
+                for (var i = 0; i < myerrors.length; i++) {
+                    $('#error_name_list_edit').append('<li>' + myerrors[i] + '</li>');
+                }
+                $('#error_name_message_edit').show();
+            }
+        },
+        success: function (response, textStatus, jqXHR) {
+            if (response.code === 200) {
+
+                $('#edit_domain_content').append(response.edit_domain_form);
+                $('#edit_domain.ui.modal').modal('setting', {
+                    autofocus: false,
+                    inverted: true
+                });
+                $('#edit_domain.ui.modal').modal('show');
+            }
+
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            $('#submit_edit_domain').removeClass('loading');
+            $('#cancel_edit_domain').removeClass('disabled');
+            /*alertify.error("Internal Server Error");*/
+        }
+    });
+}
 
 

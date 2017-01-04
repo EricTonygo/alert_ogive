@@ -8,7 +8,8 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * AlertProcedure
- *
+ * @ORM\Table(name="alert_procedure")
+ * @ORM\Entity(repositoryClass="OGIVE\AlertBundle\Repository\AlertProcedureRepository")
  * @ORM\MappedSuperClass
  * @ORM\HasLifecycleCallbacks
  */
@@ -704,5 +705,22 @@ class AlertProcedure
         
         $this->uploadedFiles=array();
     } 
+    
+    /**
+     * @ORM\PreUpdate() 
+     */
+    public function preUpdate()
+    {
+        $this->lastUpdateDate = new DateTime();
+    }
+
+    /**
+     * @ORM\PrePersist() 
+     */
+    public function prePersist()
+    {
+        $this->createDate = new DateTime();
+        $this->lastUpdateDate = new DateTime();
+    }
 }
 

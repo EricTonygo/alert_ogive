@@ -6,21 +6,25 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use FOS\RestBundle\View\ViewHandler;
+use FOS\RestBundle\View\View;
 /**
  * Domain controller.
  *
  */
 class DomainController extends Controller
 {
+    
     /**
-     * Lists all domain entities.
-     *
-     * @Route("/domains", name="domain_index")
-     * @Method("GET")
+     * @Rest\View()
+     * @Rest\Get("/domains" , name="domain_index", options={ "method_prefix" = false })
+     * @param Request $request
      */
-    public function indexAction()
-    {
+    public function getDomainsAction(Request $request){
+        
         $em = $this->getDoctrine()->getManager();
         $domain = new Domain();
         $form = $this->createForm('OGIVE\AlertBundle\Form\DomainType', $domain);
@@ -31,6 +35,7 @@ class DomainController extends Controller
         ));
     }
     
+    
     /**
      * @Rest\View(statusCode=Response::HTTP_CREATED)
      * @Rest\Post("/domains")
@@ -39,28 +44,100 @@ class DomainController extends Controller
         $domain = new Domain();
         $repositoryDomain = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Domain');
         $form = $this->createForm('OGIVE\AlertBundle\Form\DomainType', $domain);
-        $form->submit($request->request->all());
+        $form->handleRequest($request);
         
-        if($form->isValid()){
-            if($repositoryDomain->findBy(array('name' => $domain->getName(), 'status' => 1))){
-                return new JsonResponse(["success" => false, 'message' => 'Un domaine avec ce nom existe dejà'], Response::HTTP_NOT_ACCEPTABLE);
-            }
+        if($form->isSubmitted() && $form->isValid()){
+//            if($repositoryDomain->findBy(array('name' => $domain->getName(), 'status' => 1))){
+//                return new JsonResponse(["success" => false, 'message' => 'Un domaine avec ce nom existe dejà'], Response::HTTP_NOT_ACCEPTABLE);
+//            }
             $domain = $repositoryDomain->saveDomain($domain);
             $domain_content_grid = $this->renderView('OGIVEAlertBundle:domain:domain-grid.html.twig', array('domain' => $domain));
             $domain_content_list = $this->renderView('OGIVEAlertBundle:domain:domain-list.html.twig', array('domain' => $domain));
-            return new JsonResponse(["success" => true, 'domain_content_grid' => $domain_content_grid, 'domain_content_list' => $domain_content_list], Response::HTTP_OK);
+            /* @var $domain Domain */
+            $view = View::create(["code" => 200, 'domain' => $domain, 'domain_content_grid' => $domain_content_grid, 'domain_content_list' => $domain_content_list]);
+            $view->setFormat('json');
+            return $view;
+            //return new JsonResponse(["success" => true, 'domain' => $domain, 'domain_content_grid' => $domain_content_grid, 'domain_content_list' => $domain_content_list], Response::HTTP_OK);
         }else{
-            $url = $this->get('router')->generate('call_offer_index');
-            $response = new RedirectResponse($url);
-            return $response;
+            $view = View::create($form);
+            $view->setFormat('json');
+            return $view;
+        }
+    }
+    
+    
+    /**
+     * @Rest\View(statusCode=Response::HTTP_NO_CONTENT)
+     * @Rest\Delete("/domains/{id}")
+     */
+    public function removeDomainAction(Domain $domain) {
+       
+        $repositoryDomain = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Domain');
+        if($domain){
+            $repositoryDomain->removeDomain($domain);
+            return new JsonResponse(["message" => 'Domaine supprimé avec succès']); 
+        }else{
+            return new JsonResponse(["message" => 'Domain introuvable'], Response::HTTP_NOT_FOUND);
         }
     }
     
     /**
-     * Creates a new domain entity.
-     *
-     * @Route("/domain-new", name="domain_new")
-     * @Method({"GET", "POST"})
+     * @Rest\View()
+     * @Rest\Put("/domains/{id}")
+     */
+    public function putDomainAction(Request $request, Domain $domain) {
+        
+        return $this->updateDomainAction($request, $domain);
+    }
+    
+    /**
+     * @Rest\View()
+     * @Rest\Patch("/domains/{id}")
+     */
+    public function patchDomainAction(Request $request, Domain $domain) {
+        
+        return $this->updatePlaceAction($request, $domain);
+    }
+    
+    public function updateDomainAction(Request $request, Domain $domain) {
+        
+        $repositoryDomain = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Domain');
+        
+        if(empty($domain)){
+            return new JsonResponse(['message' => 'Domaine introuvable'], Response::HTTP_NOT_FOUND);
+        }
+        
+        $form = $this->createForm('OGIVE\AlertBundle\Form\DomainType', $domain);
+        
+        $form->handleRequest($request);
+        
+        if($form->isSubmitted()){
+            if($form->isValid()){
+                $domain = $repositoryDomain->updateDomain($domain);
+                $domain_content_grid = $this->renderView('OGIVEAlertBundle:domain:domain-grid.html.twig', array('domain' => $domain));
+                $domain_content_list = $this->renderView('OGIVEAlertBundle:domain:domain-list.html.twig', array('domain' => $domain));
+                /* @var $domain Domain */
+                $view = View::create(["code" => 200, 'domain' => $domain, 'domain_content_grid' => $domain_content_grid, 'domain_content_list' => $domain_content_list]);
+                $view->setFormat('json');
+                return $view;
+            }else{
+               return $form;
+            }
+        } else {
+            $edit_domain_form = $this->renderView('OGIVEAlertBundle:domain:edit.html.twig', array('form' => $form->createView(), 'domain' => $domain));
+            /* @var $domain Domain */
+            $view = View::create(["code" => 200, 'domain' => $domain, 'edit_domain_form' => $edit_domain_form]);
+            $view->setFormat('json');
+            return $view;
+        }
+    }
+    
+    
+    /**
+    * Creates a new domain entity.
+    *
+    * @Route("/domain-new", name="domain_new")
+    * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
     {

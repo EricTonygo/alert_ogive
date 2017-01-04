@@ -3,12 +3,15 @@
 namespace OGIVE\AlertBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Domain
  *
  * @ORM\Table(name="domain")
  * @ORM\Entity(repositoryClass="OGIVE\AlertBundle\Repository\DomainRepository")
+ * @UniqueEntity("name", message="Ce nom est déjà utilisé.")
  */
 class Domain
 {
@@ -24,7 +27,11 @@ class Domain
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="name", type="string", length=255, unique=true)
+     * 
+     * @Assert\NotBlank(
+     *     message = "Le nom ne peut pas être vide."
+     * )
      */
     private $name;
     

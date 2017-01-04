@@ -5,7 +5,11 @@ namespace OGIVE\AlertBundle\Controller;
 use OGIVE\AlertBundle\Entity\CallOffer;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
+use FOS\RestBundle\Controller\Annotations as Rest;
+use FOS\RestBundle\View\ViewHandler;
+use FOS\RestBundle\View\View;
 
 /**
  * CallOffer controller.
@@ -13,13 +17,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component
  */
 class CallOfferController extends Controller
 {
+    
     /**
-     * Lists all callOffer entities.
-     *
-     * @Route("/calls-offer", name="call_offer_index")
-     * @Method("GET")
+     * @Rest\View()
+     * @Rest\Get("/calls-offer" , name="call_offer_index", options={ "method_prefix" = false })
+     * @param Request $request
      */
-    public function indexAction()
+    public function getCallOffersAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 

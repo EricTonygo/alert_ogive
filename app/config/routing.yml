@@ -1,10 +1,10 @@
 ogive_alert_domain:
     resource: "@OGIVEAlertBundle/Controller/DomainController.php"
-    type:     annotation
+    type:     rest
     
 ogive_alert_call_offer:    
     resource: "@OGIVEAlertBundle/Controller/CallOfferController.php"
-    type:     annotation
+    type:     rest
 
 
 

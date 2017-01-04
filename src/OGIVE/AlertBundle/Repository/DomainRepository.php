@@ -73,6 +73,7 @@ class DomainRepository extends \Doctrine\ORM\EntityRepository
             $em->close();
             throw $ex;
         }
+        return $domain;
     }
 
     public function updateDomain(\OGIVE\AlertBundle\Entity\Domain $domain) {
@@ -87,6 +88,7 @@ class DomainRepository extends \Doctrine\ORM\EntityRepository
             $em->close();
             throw $ex;
         }
+        return $domain;
     }
     
     public function getAll() 

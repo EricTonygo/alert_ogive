@@ -1,4 +1,4 @@
-<div id='list_call_offer_as_table' class="ui basic segment container" style="display: none;">
+<div id='list_as_table' class="ui basic segment container" style="display: none;">
     <table class="ui very basic table">
         <thead>
             <tr><th>Nom</th>
@@ -6,21 +6,23 @@
                 <th class="right aligned"></th>
             </tr>
         </thead>
-        <tbody>
-            <tr>
+        <tbody id='list_as_table_content'>
+        {%if domains%}
+            {%for domain in domains%}
+            <tr id="domain{{domain.id}}">
                 <td>
-                    <div class="ui ribbon label">Domain</div>
+                    <div class="ui ribbon label">{{domain.name}}</div>
                 </td>
-                <td>Description of a domain</td>
+                <td>{{domain.description}}</td>
                 <td class="right aligned">
                     <div class="ui dropdown item">
                         <i class="ellipsis vertical icon"></i>
                         <div class="menu">
-                            <div class="item">
+                            <div onclick="edit_domain({{domain.id}});" class="edit_domain_btn item">
                                 <i class="edit icon"></i>
                                 Modifier
                             </div>
-                            <div class="item">
+                            <div onclick="delete_domain({{domain.id}})" class="delete_domain_btn item">
                                 <i class="trash icon"></i>
                                 Supprimer
                             </div>
@@ -28,51 +30,12 @@
                     </div>
                 </td>
             </tr>
-            <tr>
-                <td>
-                    <div class="ui ribbon label">Domain</div>
-                </td>
-                <td>Description of a domain</td>
-                <td class="right aligned">
-                    <div class="ui dropdown item">
-                        <i class="ellipsis vertical icon"></i>
-                        <div class="menu">
-                            <div class="item">
-                                <i class="edit icon"></i>
-                                Modifier
-                            </div>
-                            <div class="item">
-                                <i class="trash icon"></i>
-                                Supprimer
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="ui ribbon label">Domain</div>
-                </td>
-                <td>Description of a domain</td>
-                <td class="right aligned">
-                    <div class="ui dropdown item">
-                        <i class="ellipsis vertical icon"></i>
-                        <div class="menu">
-                            <div class="item">
-                                <i class="edit icon"></i>
-                                Modifier
-                            </div>
-                            <div class="item">
-                                <i class="trash icon"></i>
-                                Supprimer
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
+            {%endfor%} 
+        {%endif%} 
+            
         </tbody>
         <tfoot>
-            <tr><th colspan="3">
+            <!--tr><th colspan="3">
                     <div class="ui right floated pagination menu">
                         <a class="icon item">
                             <i class="left chevron icon"></i>
@@ -86,6 +49,6 @@
                         </a>
                     </div>
                 </th>
-            </tr></tfoot>
+            </tr--></tfoot>
     </table>
 </div> 
