@@ -38,6 +38,24 @@ class DomainController extends Controller {
     }
 
     /**
+     * @Rest\View()
+     * @Rest\Get("/domains/{id}" , name="domain_get_one", options={ "method_prefix" = false })
+     */
+    public function getDomainByIdAction(Domain $domain) {
+        if (empty($domain)) {
+            return new JsonResponse(['message' => 'Domaine introuvable'], Response::HTTP_NOT_FOUND);
+        }
+        $form = $this->createForm('OGIVE\AlertBundle\Form\DomainType', $domain, array('method' => 'PUT'));
+        $domain_details = $this->render('OGIVEAlertBundle:domain:show.html.twig', array(
+            'domain' => $domain,
+            'form' => $form->createView()
+        ));
+        $view = View::create(["code" => 200, 'domain' => $domain, 'domain_details' => $domain_details]);
+        $view->setFormat('json');
+        return $view;
+    }
+
+    /**
      * @Rest\View(statusCode=Response::HTTP_CREATED)
      * @Rest\Post("/domains")
      */
@@ -48,7 +66,7 @@ class DomainController extends Controller {
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if($repositoryDomain->findOneBy(array('name' => $domain->getName(), 'status' => 1))){
+            if ($repositoryDomain->findOneBy(array('name' => $domain->getName(), 'status' => 1))) {
                 return new JsonResponse(["success" => false, 'message' => 'Un domaine avec ce nom existe dejà'], Response::HTTP_BAD_REQUEST);
             }
             $domain = $repositoryDomain->saveDomain($domain);
@@ -93,7 +111,6 @@ class DomainController extends Controller {
         return $this->updateDomainAction($request, $domain);
     }
 
-    
     public function updateDomainAction(Request $request, Domain $domain) {
 
         $repositoryDomain = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Domain');
@@ -104,10 +121,10 @@ class DomainController extends Controller {
         $form = $this->createForm('OGIVE\AlertBundle\Form\DomainType', $domain, array('method' => 'PUT'));
 
         $form->handleRequest($request);
-        
+
         if ($form->isSubmitted() && $form->isValid()) {
             $domainUnique = $repositoryDomain->findOneBy(array('name' => $domain->getName(), 'status' => 1));
-            if($domainUnique && $domainUnique->getId() != $domain->getId()){
+            if ($domainUnique && $domainUnique->getId() != $domain->getId()) {
                 return new JsonResponse(["success" => false, 'message' => 'Un domaine avec ce nom existe dejà'], Response::HTTP_NOT_FOUND);
             }
             $domain = $repositoryDomain->updateDomain($domain);
@@ -127,4 +144,5 @@ class DomainController extends Controller {
             return $view;
         }
     }
+
 }

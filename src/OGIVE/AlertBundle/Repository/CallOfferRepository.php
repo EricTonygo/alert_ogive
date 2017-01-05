@@ -57,17 +57,21 @@ class CallOfferRepository extends EntityRepository
     }
     public function getAll() 
     {
-        $qb = $this->createQueryBuilder('c');
-        $qb->where('c.status = :status')
-           ->setParameter('status', 1);
+        $qb = $this->createQueryBuilder('e');
+        $qb->where('e.status = :status')
+            ->orderBy('e.createDate', 'DESC')
+            ->setParameter('status', 1);
         return $qb->getQuery()->getResult();
     }
     
-    public function getCallOfferQueryBuilder() {
+    public function getDomainQueryBuilder() {
          return $this
-          ->createQueryBuilder('c')
-          ->where('c.status = :status')
-          ->setParameter('status', 1);
+          ->createQueryBuilder('e')
+          ->where('e.status = :status')
+          ->where('e.state = :state')
+          ->orderBy('e.name', 'ASC')
+          ->setParameter('status', 1)
+         ->setParameter('state', 1);
 
     }
 }

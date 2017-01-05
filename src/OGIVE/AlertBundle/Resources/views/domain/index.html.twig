@@ -39,3 +39,7 @@
 
     </div>
 {% endblock %}
+{% block javascripts %}
+    {{ parent()}}
+    <script type="text/javascript" src="{{ asset('bundles/ogivealert/js/domain.js')}}"></script>
+{% endblock %}

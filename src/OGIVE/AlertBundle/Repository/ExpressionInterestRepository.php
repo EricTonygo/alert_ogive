@@ -58,15 +58,19 @@ class ExpressionInterestRepository extends \Doctrine\ORM\EntityRepository
     {
         $qb = $this->createQueryBuilder('e');
         $qb->where('e.status = :status')
-           ->setParameter('status', 1);
+            ->orderBy('e.createDate', 'DESC')
+            ->setParameter('status', 1);
         return $qb->getQuery()->getResult();
     }
     
-    public function getExpressionInterestQueryBuilder() {
+    public function getDomainQueryBuilder() {
          return $this
           ->createQueryBuilder('e')
           ->where('e.status = :status')
-          ->setParameter('status', 1);
+          ->where('e.state = :state')
+          ->orderBy('e.name', 'ASC')
+          ->setParameter('status', 1)
+         ->setParameter('state', 1);
 
     }
 }
