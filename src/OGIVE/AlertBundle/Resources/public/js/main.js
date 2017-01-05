@@ -416,13 +416,14 @@ function delete_domain(id) {
             }
         },
         success: function (response, textStatus, jqXHR) {
+            console.log(response);
             $('#domain_grid' + id).remove();
             $('#domain_list' + id).remove();
             $('.ui.dropdown').dropdown({
                 on: 'hover'
             });
             $('#message_loading').hide();
-            $('#message_success>div.header').html(response.responseJSON.message);
+            $('#message_success>div.header').html(response.message);
             $('#message_success').show();
             setTimeout(function () {
                 $('#message_success').hide();

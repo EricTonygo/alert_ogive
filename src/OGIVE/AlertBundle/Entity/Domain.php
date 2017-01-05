@@ -26,7 +26,7 @@ class Domain
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255, unique=true)
+     * @ORM\Column(name="name", type="string", length=255)
      * 
      * @Assert\NotBlank(
      *     message = "Le nom ne peut pas être vide."
@@ -80,7 +80,7 @@ class Domain
      * Constructor
      */
     public function __construct() {
-        
+        $this->state = 0;
     }
 
     /**
@@ -296,7 +296,6 @@ class Domain
     {
         $this->createDate = new \DateTime();
         $this->lastUpdateDate = new \DateTime();
-        $this->state = 0;
         $this->status = 1;
     }
     

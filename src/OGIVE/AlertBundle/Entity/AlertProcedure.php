@@ -150,11 +150,9 @@ class AlertProcedure
 
 
     public function __construct() {
-        $this->status = 1;
+        $this->state = 1;
         $this->piecesjointes = array();
         $this->originalpiecesjointes = array();
-        $this->createDate = new \Datetime();
-        $this->lastUpdateDate = new \Datetime();
     }
     
     /**
@@ -709,7 +707,7 @@ class AlertProcedure
      */
     public function preUpdate()
     {
-        $this->lastUpdateDate = new DateTime();
+        $this->lastUpdateDate = new \DateTime();
     }
 
     /**
@@ -717,8 +715,9 @@ class AlertProcedure
      */
     public function prePersist()
     {
-        $this->createDate = new DateTime();
-        $this->lastUpdateDate = new DateTime();
+        $this->createDate = new \DateTime();
+        $this->lastUpdateDate = new \DateTime();
+        $this->status = 1;
     }
 }
 

@@ -13,8 +13,8 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  * @ORM\Entity(repositoryClass="OGIVEAlertBundle\Repository\AdressRepository")
  * @ORM\HasLifecycleCallbacks
  */
-class Adress
-{
+class Adress {
+
     /**
      * @var integer
      *
@@ -72,17 +72,31 @@ class Adress
      * @ORM\Column(name="status", type="integer", nullable=true)
      */
     private $status;
-    
-     /**
+
+    /**
      * @ORM\Column(name="country", type="string", length=255, nullable=true) 
      */
     private $country;
-    
+
     /**
      * @ORM\Column(name="street", type="string", length=255, nullable=true) 
      */
     private $street;
     
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="create_date", type="datetime")
+     */
+    private $createDate;
+    
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="last_update_date", type="datetime")
+     */
+    private $lastUpdateDate;
+
     /**
      * @ORM\Column(type="string", length=255, nullable=true) 
      */
@@ -92,17 +106,14 @@ class Adress
      * @Assert\File(maxSize="6000000") 
      */
     private $url;
-    
     private $temp;
 
     /**
      * Constructor
      */
-    public function __construct()
-    {
-        $this->status=1;
-		$this->latitude=0;
-		$this->longitude=0;
+    public function __construct() {
+        $this->latitude = 0;
+        $this->longitude = 0;
     }
 
     /**
@@ -110,8 +121,7 @@ class Adress
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -121,8 +131,7 @@ class Adress
      * @param string $phone
      * @return Adress
      */
-    public function setPhone($phone)
-    {
+    public function setPhone($phone) {
         $this->phone = $phone;
 
         return $this;
@@ -133,8 +142,7 @@ class Adress
      *
      * @return string 
      */
-    public function getPhone()
-    {
+    public function getPhone() {
         return $this->phone;
     }
 
@@ -144,8 +152,7 @@ class Adress
      * @param string $email
      * @return Adress
      */
-    public function setEmail($email)
-    {
+    public function setEmail($email) {
         $this->email = $email;
 
         return $this;
@@ -156,8 +163,7 @@ class Adress
      *
      * @return string 
      */
-    public function getEmail()
-    {
+    public function getEmail() {
         return $this->email;
     }
 
@@ -167,8 +173,7 @@ class Adress
      * @param float $latitude
      * @return Adress
      */
-    public function setLatitude($latitude)
-    {
+    public function setLatitude($latitude) {
         $this->latitude = $latitude;
 
         return $this;
@@ -179,8 +184,7 @@ class Adress
      *
      * @return float 
      */
-    public function getLatitude()
-    {
+    public function getLatitude() {
         return $this->latitude;
     }
 
@@ -190,8 +194,7 @@ class Adress
      * @param float $longitude
      * @return Adress
      */
-    public function setLongitude($longitude)
-    {
+    public function setLongitude($longitude) {
         $this->longitude = $longitude;
 
         return $this;
@@ -202,8 +205,7 @@ class Adress
      *
      * @return float 
      */
-    public function getLongitude()
-    {
+    public function getLongitude() {
         return $this->longitude;
     }
 
@@ -213,8 +215,7 @@ class Adress
      * @param string $mailBox
      * @return Adress
      */
-    public function setMailBox($mailBox)
-    {
+    public function setMailBox($mailBox) {
         $this->mailBox = $mailBox;
 
         return $this;
@@ -225,8 +226,7 @@ class Adress
      *
      * @return string 
      */
-    public function getMailBox()
-    {
+    public function getMailBox() {
         return $this->mailBox;
     }
 
@@ -236,8 +236,7 @@ class Adress
      * @param string $place
      * @return Adress
      */
-    public function setPlace($place)
-    {
+    public function setPlace($place) {
         $this->place = $place;
 
         return $this;
@@ -248,8 +247,7 @@ class Adress
      *
      * @return string 
      */
-    public function getPlace()
-    {
+    public function getPlace() {
         return $this->place;
     }
 
@@ -259,8 +257,7 @@ class Adress
      * @param integer $status
      * @return Adress
      */
-    public function setStatus($status)
-    {
+    public function setStatus($status) {
         $this->status = $status;
 
         return $this;
@@ -271,19 +268,17 @@ class Adress
      *
      * @return integer 
      */
-    public function getStatus()
-    {
+    public function getStatus() {
         return $this->status;
     }
-    
+
     /**
      * Set path
      *
      * @param string $path
      * @return Adress
      */
-    public function setPath($path)
-    {
+    public function setPath($path) {
         $this->path = $path;
 
         return $this;
@@ -294,11 +289,10 @@ class Adress
      *
      * @return string 
      */
-    public function getPath()
-    {
+    public function getPath() {
         return $this->path;
     }
-    
+
     /**
      * @param UploadedFile $url
      * @return object
@@ -325,10 +319,9 @@ class Adress
         return $this->url;
     }
 
-     protected function getUploadRootDir() {
+    protected function getUploadRootDir() {
         return __DIR__ . '/../../../web/uploads/planslocalisation';
     }
-
 
     /**
      * @ORM\PrePersist() 
@@ -384,16 +377,14 @@ class Adress
         }
         $this->url = null;
     }
-    
-    
+
     /**
      * Set country
      *
      * @param string $country
      * @return Adress
      */
-    public function setCountry($country)
-    {
+    public function setCountry($country) {
         $this->country = $country;
 
         return $this;
@@ -404,20 +395,17 @@ class Adress
      *
      * @return string 
      */
-    public function get()
-    {
+    public function get() {
         return $this->country;
     }
-    
-    
+
     /**
      * Set street
      *
      * @param string $street
      * @return Adress
      */
-    public function setStreet($street)
-    {
+    public function setStreet($street) {
         $this->street = $street;
 
         return $this;
@@ -428,9 +416,25 @@ class Adress
      *
      * @return string 
      */
-    public function getStreet()
-    {
+    public function getStreet() {
         return $this->street;
     }
-    
+
+    /**
+     * @ORM\PreUpdate() 
+     */
+    public function preUpdate()
+    {
+        $this->lastUpdateDate = new \DateTime();
+    }
+
+    /**
+     * @ORM\PrePersist() 
+     */
+    public function prePersist()
+    {
+        $this->createDate = new \DateTime();
+        $this->lastUpdateDate = new \DateTime();
+        $this->status = 1;
+    }
 }

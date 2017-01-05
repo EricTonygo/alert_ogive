@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="subscription")
  * @ORM\Entity(repositoryClass="OGIVE\AlertBundle\Repository\SubscriptionRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class Subscription
 {
@@ -241,6 +242,24 @@ class Subscription
     public function getLastUpdateDate()
     {
         return $this->lastUpdateDate;
+    }
+    
+    /**
+     * @ORM\PreUpdate() 
+     */
+    public function preUpdate()
+    {
+        $this->lastUpdateDate = new \DateTime();
+    }
+
+    /**
+     * @ORM\PrePersist() 
+     */
+    public function prePersist()
+    {
+        $this->createDate = new \DateTime();
+        $this->lastUpdateDate = new \DateTime();
+        $this->status = 1;
     }
 }
 

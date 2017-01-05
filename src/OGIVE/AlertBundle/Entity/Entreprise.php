@@ -123,6 +123,7 @@ class Entreprise
      * Constructor
      */
     public function __construct() {
+        $this->state = 0;
     }
 
     /**
@@ -537,7 +538,6 @@ class Entreprise
     {
         $this->createDate = new \DateTime();
         $this->lastUpdateDate = new \DateTime();
-        $this->state = 0;
         $this->status = 1;
     }
 }

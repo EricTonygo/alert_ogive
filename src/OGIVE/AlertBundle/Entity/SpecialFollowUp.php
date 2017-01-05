@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="special_follow_up")
  * @ORM\Entity(repositoryClass="OGIVE\AlertBundle\Repository\SpecialFollowUpRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class SpecialFollowUp
 {
@@ -68,7 +69,6 @@ class SpecialFollowUp
      * Constructor
      */
     public function __construct() {
-        $this->status = 1;
     }
 
     /**
@@ -242,6 +242,24 @@ class SpecialFollowUp
     public function getLastUpdateDate()
     {
         return $this->lastUpdateDate;
+    }
+    
+    /**
+     * @ORM\PreUpdate() 
+     */
+    public function preUpdate()
+    {
+        $this->lastUpdateDate = new \DateTime();
+    }
+
+    /**
+     * @ORM\PrePersist() 
+     */
+    public function prePersist()
+    {
+        $this->createDate = new \DateTime();
+        $this->lastUpdateDate = new \DateTime();
+        $this->status = 1;
     }
 }
 

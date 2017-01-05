@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="historical_alert_subscriber")
  * @ORM\Entity(repositoryClass="OGIVE\AlertBundle\Repository\HistoricalAlertSubscriberRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class HistoricalAlertSubscriber
 {
@@ -255,6 +256,24 @@ class HistoricalAlertSubscriber
     public function getLastUpdateDate()
     {
         return $this->lastUpdateDate;
+    }
+    
+    /**
+     * @ORM\PreUpdate() 
+     */
+    public function preUpdate()
+    {
+        $this->lastUpdateDate = new \DateTime();
+    }
+
+    /**
+     * @ORM\PrePersist() 
+     */
+    public function prePersist()
+    {
+        $this->createDate = new \DateTime();
+        $this->lastUpdateDate = new \DateTime();
+        $this->status = 1;
     }
 }
 
