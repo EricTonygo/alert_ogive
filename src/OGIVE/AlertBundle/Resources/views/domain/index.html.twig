@@ -2,6 +2,7 @@
 {% block title %}Les domaines{% endblock %}
 
 {% block sub_header %}
+    {{parent()}}
     <div id="second_computer_top_nav" class="ui computer_top_nav inverted main menu" style="background-color: #eeeeee; position: fixed;
          top: 70px; left: 0; right: 0; height:4em;">
         <div class="ui container">
@@ -26,7 +27,6 @@
     </div>
 {% endblock %}
 {% block content %}
-
     {% include('OGIVEAlertBundle:domain:grid.html.twig') %} 
     {% include('OGIVEAlertBundle:domain:list.html.twig') %}
 {% endblock %}

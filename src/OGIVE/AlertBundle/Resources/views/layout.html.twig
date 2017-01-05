@@ -5,15 +5,29 @@
 {% block body %}
     {% include('OGIVEAlertBundle::header.html.twig') %}
     {% block sub_header %}
+        <div id="message_success" class="ui success message" style="position: fixed; top: 5em; right: 40em; left: auto; z-index: 5; width: 25em; display: none">
+            <i class="close icon"></i>
+            <div class="header"></div>
+        </div>
+
+        <div id="message_error" class="ui error message" style="position: fixed; top: 5em; right: 40em; left: auto; z-index: 5; width: 25em; display: none">
+            <i class="close icon"></i>
+            <div class="header"> vbvvb </div>
+        </div>
+
+        <div id="message_loading" class="ui icon message" style="position: fixed; top: 5em; right: 40em; left: auto; z-index: 5; width: 20em; display: none;">
+            <i class="notched circle loading icon"></i>
+            <div class="content">
+                <div class="header">Traitement encours... </div>
+            </div>
+        </div>
     {% endblock sub_header %}
     <div class="ui bottom attached segment pushable">
         <div class="pusher">
             {% include('OGIVEAlertBundle::sidebar.html.twig') %}
             {% block content %}
             {% endblock content %}
-            {% block page_loading %}
-                
-            {% endblock %}
+
         </div>
     </div>
     {% block block_add_new %}

@@ -93,18 +93,21 @@ class DomainRepository extends \Doctrine\ORM\EntityRepository
     
     public function getAll() 
     {
-        $qb = $this->createQueryBuilder('d');
-        $qb->where('d.status = :status')
-           ->setParameter('status', 1);
+        $qb = $this->createQueryBuilder('e');
+        $qb->where('e.status = :status')
+            ->orderBy('e.createDate', 'DESC')
+            ->setParameter('status', 1);
         return $qb->getQuery()->getResult();
     }
     
     public function getDomainQueryBuilder() {
          return $this
-          ->createQueryBuilder('d')
-          ->where('d.status = :status')
-          ->orderBy('t.createDate', 'DESC')
-          ->setParameter('status', 1);
+          ->createQueryBuilder('e')
+          ->where('e.status = :status')
+          ->where('e.state = :state')
+          ->orderBy('e.name', 'ASC')
+          ->setParameter('status', 1)
+         ->setParameter('state', 1);
 
     }
 }

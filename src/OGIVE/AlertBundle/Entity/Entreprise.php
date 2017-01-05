@@ -60,7 +60,7 @@ class Entreprise
     private $email;
 
     /**
-     * @var int
+     * @var integer
      *
      * @ORM\Column(name="status", type="integer")
      */
@@ -110,12 +110,19 @@ class Entreprise
      * @ORM\Column(name="last_update_date", type="datetime")
      */
     private $lastUpdateDate;
+    
+    
+    /**
+     * @var \Adress 
+     * @ORM\OneToOne(targetEntity="Adress",cascade={"persist"})
+     * @ORM\JoinColumn(name="adress", referencedColumnName="id")
+     */
+    private $adress;
 
     /** 
      * Constructor
      */
     public function __construct() {
-        $this->status = 1;
     }
 
     /**
@@ -490,6 +497,48 @@ class Entreprise
     public function getLastUpdateDate()
     {
         return $this->lastUpdateDate;
+    }
+    
+    /**
+     * Set adress
+     *
+     * @param OGIVE\AlertBundle\Entity\Adress $adress
+     * @return Entreprise
+     */
+    public function setAdress(\OGIVE\AlertBundle\Entity\Adress $adress = null)
+    {
+        $this->adress = $adress;
+
+        return $this;
+    }
+
+    /**
+     * Get adress
+     *
+     * @return OGIVE\AlertBundle\Entity\Adress 
+     */
+    public function getAdress()
+    {
+        return $this->adress;
+    }
+    
+    /**
+     * @ORM\PreUpdate() 
+     */
+    public function preUpdate()
+    {
+        $this->lastUpdateDate = new \DateTime();
+    }
+
+    /**
+     * @ORM\PrePersist() 
+     */
+    public function prePersist()
+    {
+        $this->createDate = new \DateTime();
+        $this->lastUpdateDate = new \DateTime();
+        $this->state = 0;
+        $this->status = 1;
     }
 }
 

@@ -4,13 +4,13 @@ namespace OGIVE\AlertBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Domain
  *
  * @ORM\Table(name="domain")
  * @ORM\Entity(repositoryClass="OGIVE\AlertBundle\Repository\DomainRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class Domain
 {
@@ -56,11 +56,18 @@ class Domain
     private $lastUpdateDate;
 
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="status", type="string", length=255)
+     * @ORM\Column(name="status", type="integer")
      */
     private $status;
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="state", type="integer")
+     */
+    private $state;
     
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -73,9 +80,7 @@ class Domain
      * Constructor
      */
     public function __construct() {
-        $this->status = 1;
-        $this->createDate = new \Datetime();
-        $this->lastUpdateDate = new \Datetime();
+        
     }
 
     /**
@@ -188,7 +193,7 @@ class Domain
     /**
      * Set status
      *
-     * @param string $status
+     * @param integer $status
      *
      * @return Domain
      */
@@ -202,13 +207,36 @@ class Domain
     /**
      * Get status
      *
-     * @return string
+     * @return integer
      */
     public function getStatus()
     {
         return $this->status;
     }
     
+    /**
+     * Set state
+     *
+     * @param integer $state
+     *
+     * @return Domain
+     */
+    public function setState($state)
+    {
+        $this->state = $state;
+
+        return $this;
+    }
+
+    /**
+     * Get state
+     *
+     * @return integer
+     */
+    public function getState()
+    {
+        return $this->state;
+    }
     
     /**
      * Add entreprise
@@ -251,6 +279,25 @@ class Domain
     public function removeEntreprise(OGIVE\AlertBundle\Entity\Entreprise $entreprise) {
         $this->entreprises->removeElement($entreprise);
         return $this;
+    }
+    
+    /**
+     * @ORM\PreUpdate() 
+     */
+    public function preUpdate()
+    {
+        $this->lastUpdateDate = new \DateTime();
+    }
+
+    /**
+     * @ORM\PrePersist() 
+     */
+    public function prePersist()
+    {
+        $this->createDate = new \DateTime();
+        $this->lastUpdateDate = new \DateTime();
+        $this->state = 0;
+        $this->status = 1;
     }
     
 }
