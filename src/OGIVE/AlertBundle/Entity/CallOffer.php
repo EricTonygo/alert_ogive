@@ -18,6 +18,7 @@ class CallOffer extends AlertProcedure
      */
     public function __construct() {
         parent::__construct();
+        $this->setType("AAO");
     }
 }
 

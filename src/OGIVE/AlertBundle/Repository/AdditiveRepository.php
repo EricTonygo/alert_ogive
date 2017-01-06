@@ -20,6 +20,7 @@ class AdditiveRepository extends EntityRepository
             $em->persist($additive);
             $em->flush();
             $em->getConnection()->commit();
+            return $additive;
         } catch (Exception $ex) {
             $em->getConnection()->rollback();
             $em->close();
@@ -41,6 +42,7 @@ class AdditiveRepository extends EntityRepository
             $em->close();
             throw $ex;
         }
+        return $additive;
     }
 
     public function updateAdditive(\OGIVE\AlertBundle\Entity\Additive $additive) {
@@ -55,6 +57,7 @@ class AdditiveRepository extends EntityRepository
             $em->close();
             throw $ex;
         }
+        return $additive;
     }
     public function getAll() 
     {

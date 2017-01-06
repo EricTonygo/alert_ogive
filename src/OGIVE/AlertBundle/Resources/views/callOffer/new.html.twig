@@ -69,14 +69,11 @@
                 </div>
             </div>
         </div>
-        <div class="field">
-            {{ form_label(form.uploadedFiles, "Fichiers attachés")}}
-            <div class="ui error message">
-                <i class="close icon"></i>
-                {{ form_errors(form.uploadedFiles, {'attr': {'class': 'list'}})}}
-            </div>
+        {#<div class="field">
+            {{ form_label(form.uploadedFiles, "Fichiers attachés")}}           
+                {{ form_errors(form.uploadedFiles, {'attr': {'class': 'list'}})}}           
             {{ form_widget(form.uploadedFiles, { 'attr' : {'class' : 'inputfile' }}) }}
-        </div>
+        </div>#}
 
         <div class="field">
             {{form_rest(form)}}

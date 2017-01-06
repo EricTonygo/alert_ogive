@@ -39,6 +39,7 @@ class HistoricalAlertSubscriberRepository extends \Doctrine\ORM\EntityRepository
             $em->close();
             throw $ex;
         }
+        return $historicalAlertSubscriber;
     }
 
     public function updateHistoricalAlertSubscriber(\OGIVE\AlertBundle\Entity\HistoricalAlertSubscriber $historicalAlertSubscriber) {
@@ -53,6 +54,7 @@ class HistoricalAlertSubscriberRepository extends \Doctrine\ORM\EntityRepository
             $em->close();
             throw $ex;
         }
+        return $historicalAlertSubscriber;
     }
     public function getAll() 
     {

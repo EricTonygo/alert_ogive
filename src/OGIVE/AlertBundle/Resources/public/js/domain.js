@@ -10,6 +10,7 @@ $(function () {
 
     $('#submit_domain').click(function (e) {
         e.preventDefault();
+        $('#server_error_message').hide();
         $('#message_error').hide();
         $('#message_success').hide();
         $('#error_name_message').hide();
@@ -52,7 +53,7 @@ $(function () {
                                 if (myerrors.success === false) {
                                     $('#error_name_header').html("Echec de la validation");
                                     $('#error_name_list').html('<li>' + myerrors.message + '</li>');
-                                    $('#error_name_message').show();
+                                    $('#error_name_message').hide();
                                 }
 
                             }
@@ -131,6 +132,7 @@ function edit_domain(id) {
 function execute_edit(id) {
     $('#submit_edit_domain').click(function (e) {
         e.preventDefault();
+        $('#server_error_message').hide();
         $('#message_error').hide();
         $('#message_success').hide();
         $('#error_name_message').hide();

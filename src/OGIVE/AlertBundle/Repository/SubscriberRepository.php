@@ -39,6 +39,7 @@ class SubscriberRepository extends \Doctrine\ORM\EntityRepository
             $em->close();
             throw $ex;
         }
+        return $subscriber;
     }
 
     public function updateSubscriber(\OGIVE\AlertBundle\Entity\Subscriber $subscriber) {
@@ -53,6 +54,7 @@ class SubscriberRepository extends \Doctrine\ORM\EntityRepository
             $em->close();
             throw $ex;
         }
+        return $subscriber;
     }
     public function getAll() 
     {

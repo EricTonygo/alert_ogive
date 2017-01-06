@@ -39,6 +39,7 @@ class ProcedureResultRepository extends \Doctrine\ORM\EntityRepository
             $em->close();
             throw $ex;
         }
+        return $procedureResult;
     }
 
     public function updateProcedureResult(\OGIVE\AlertBundle\Entity\ProcedureResult $procedureResult) {
@@ -53,6 +54,7 @@ class ProcedureResultRepository extends \Doctrine\ORM\EntityRepository
             $em->close();
             throw $ex;
         }
+        return $procedureResult;
     }
     public function getAll() 
     {

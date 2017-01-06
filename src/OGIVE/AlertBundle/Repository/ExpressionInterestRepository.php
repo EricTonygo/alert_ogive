@@ -39,6 +39,7 @@ class ExpressionInterestRepository extends \Doctrine\ORM\EntityRepository
             $em->close();
             throw $ex;
         }
+        return $expressionInterest;
     }
 
     public function updateExpressionInterest(\OGIVE\AlertBundle\Entity\ExpressionInterest $expressionInterest) {
@@ -53,6 +54,7 @@ class ExpressionInterestRepository extends \Doctrine\ORM\EntityRepository
             $em->close();
             throw $ex;
         }
+        return $expressionInterest;
     }
     public function getAll() 
     {

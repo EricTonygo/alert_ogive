@@ -40,6 +40,7 @@ class CallOfferRepository extends EntityRepository
             $em->close();
             throw $ex;
         }
+        return $callOffer;
     }
 
     public function updateCallOffer(\OGIVE\AlertBundle\Entity\CallOffer $callOffer) {
@@ -48,12 +49,13 @@ class CallOfferRepository extends EntityRepository
         try{
             $em->persist($callOffer);
             $em->flush();
-            $em->getConnection()->commit();
+            $em->getConnection()->commit();           
         } catch (Exception $ex) {
             $em->getConnection()->rollback();
             $em->close();
             throw $ex;
         }
+        return $callOffer;
     }
     public function getAll() 
     {
