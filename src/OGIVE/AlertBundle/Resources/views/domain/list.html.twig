@@ -7,32 +7,36 @@
             </tr>
         </thead>
         <tbody id='list_as_table_content'>
-        {%if domains%}
-            {%for domain in domains%}
-            <tr id="domain_list{{domain.id}}">
-                <td>
-                    <div class="ui ribbon label">{{domain.name}}</div>
-                </td>
-                <td>{{domain.description}}</td>
-                <td class="right aligned">
-                    <div class="ui dropdown item">
-                        <i class="ellipsis vertical icon"></i>
-                        <div class="menu">
-                            <div onclick="edit_domain({{domain.id}});" class="edit_domain_btn item">
-                                <i class="edit icon"></i>
-                                Modifier
+            {%if domains%}
+                {%for domain in domains%}
+                    <tr id="domain_list{{domain.id}}">
+                        <td>
+                            <div class="ui ribbon label">{{domain.name}}</div>
+                        </td>
+                        <td>{{domain.description}}</td>
+                        <td class="right aligned">
+                            <div class="ui dropdown item">
+                                <i class="ellipsis vertical icon"></i>
+                                <div class="menu">
+                                    <div onclick="show_domain({{domain.id}});" class="show_domain_btn item">
+                                        <i class="unhide icon"></i>
+                                        Détails
+                                    </div>
+                                    <div onclick="edit_domain({{domain.id}});" class="edit_domain_btn item">
+                                        <i class="edit icon"></i>
+                                        Modifier
+                                    </div>
+                                    <div onclick="delete_domain({{domain.id}})" class="delete_domain_btn item">
+                                        <i class="trash icon"></i>
+                                        Supprimer
+                                    </div>
+                                </div>
                             </div>
-                            <div onclick="delete_domain({{domain.id}})" class="delete_domain_btn item">
-                                <i class="trash icon"></i>
-                                Supprimer
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            {%endfor%} 
-        {%endif%} 
-            
+                        </td>
+                    </tr>
+                {%endfor%} 
+            {%endif%} 
+
         </tbody>
         <tfoot>
             <!--tr><th colspan="3">

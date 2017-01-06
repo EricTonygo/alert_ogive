@@ -46,7 +46,7 @@ class DomainController extends Controller {
             return new JsonResponse(['message' => 'Domaine introuvable'], Response::HTTP_NOT_FOUND);
         }
         $form = $this->createForm('OGIVE\AlertBundle\Form\DomainType', $domain, array('method' => 'PUT'));
-        $domain_details = $this->render('OGIVEAlertBundle:domain:show.html.twig', array(
+        $domain_details = $this->renderView('OGIVEAlertBundle:domain:show.html.twig', array(
             'domain' => $domain,
             'form' => $form->createView()
         ));

@@ -8,13 +8,13 @@
 
         <div class="field">
             {{ form_label(form.name,"Nom") }}
-            {{ form_widget(form.name,{'attr':{'placeholder':'Nom du domaine', 'data-validate': 'name', 'class': 'disabled'}})}}
+            {{ form_widget(form.name,{'attr':{'placeholder':'Nom du domaine', 'data-validate': 'name', 'disabled': ''}})}}
         </div>
 
         <div class="field">
             {{ form_label(form.description,"Description") }}
             {{ form_errors(form.description, {'attr': {'class': 'ui error message'}})}}
-            {{ form_widget(form.description,{'attr':{'placeholder':'Description du domain', 'data-validate': 'description', 'class': 'disabled'}})}}
+            {{ form_widget(form.description,{'attr':{'placeholder':'Description du domain', 'data-validate': 'description', 'disabled': ''}})}}
         </div>
 
         <div class="inline field">

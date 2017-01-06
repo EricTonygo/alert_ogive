@@ -254,10 +254,48 @@ function delete_domain(id) {
             /*alertify.error("Internal Server Error");*/
         }
     });
+}
 
-    $('#edit_domain_btn').click(function () {
-        $('#edit_domain_form.ui.form>input').removeClass('disabled');
-        $('#submit_edit_domain').show();
-        $(this).hide();
+function show_domain(id) {
+    $('#message_error').hide();
+    $('#message_success').hide();
+    $.ajax({
+        type: 'GET',
+        url: '/domains/' + id,
+        dataType: 'json',
+        beforeSend: function () {
+            $('#message_loading').show();
+        },
+        statusCode: {
+            500: function (xhr) {
+
+            },
+            400: function (response, textStatus, jqXHR) {
+                $('#message_error>div.header').html(response.responseJSON.message);
+                $('#message_error').show();
+            }
+        },
+        success: function (response, textStatus, jqXHR) {
+            if (response.code === 200) {
+                $('#edit_domain').remove();
+                $('#edit_domain_content').html(response.domain_details);
+                $('#edit_domain.ui.modal').modal('setting', {
+                    autofocus: false,
+                    inverted: true
+                });
+                $('#edit_domain.ui.modal').modal('show');
+                execute_edit(id);
+                $('#edit_domain_btn').click(function () {
+                    $('#edit_domain_form.ui.form>input').removeClass('disabled');
+                    $('#submit_edit_domain').show();
+                    $(this).hide();
+                });
+            }
+            $('#message_loading').hide();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            $('#message_loading').hide()();
+            /*alertify.error("Internal Server Error");*/
+        }
     });
 }

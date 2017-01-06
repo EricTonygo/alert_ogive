@@ -13,7 +13,16 @@ class AdressType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('phone')->add('email')->add('latitude')->add('longitude')->add('mailBox')->add('place')->add('status')->add('country')->add('street')->add('path')        ;
+        $builder->add('phone')
+                ->add('email')
+                ->add('latitude')
+                ->add('longitude')
+                ->add('mailBox')
+                ->add('place')
+                ->add('status')
+                ->add('country')
+                ->add('street')
+                ->add('path');
     }
     
     /**
