@@ -1,0 +1,68 @@
+{% extends "OGIVEAlertBundle::layout.html.twig" %}
+{% block title %}Les additifs{% endblock %}
+
+{% block sub_header %}
+    {{parent()}}
+    <div id="second_computer_top_nav" class="ui computer_top_nav inverted main menu" style="background-color: #eeeeee; position: fixed;
+         top: 70px; left: 0; right: 0; height:4em;">
+        <div class="ui container">
+            <div class="ui left inverted secondary menu">
+                <a id="document_title" class="item">
+                    <h3>Liste des additifs</h3>
+                </a>
+            </div>
+
+            <div class="ui right inverted secondary menu">
+                <div id='show_list_table' class="ui circular icon button item" data-tooltip="Afficher sous forme de liste" data-position="bottom center" data-inverted="">
+                    <i class="large list layout icon"></i>
+                </div>
+                <a class="ui circular icon button item">
+                    <i class="large trash icon"></i>
+                </a>
+                <a class="ui circular icon button item">
+                    <i class="large folder icon"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block content %}
+    {% include('OGIVEAlertBundle:additive:grid.html.twig') %} 
+    {% include('OGIVEAlertBundle:additive:list.html.twig') %}
+{% endblock %}
+{% block block_add_new %}
+    {% include('OGIVEAlertBundle:additive:new.html.twig') %}
+{% endblock %}
+
+{% block block_edit %}
+    <div id="edit_additive_content">
+
+    </div>
+{% endblock %}
+{% block block_delete_modal %}
+    <div id="confirm_delete_additive" class="ui modal">
+        <i class="close icon"></i>
+        <div class="header">
+            Confirmation de la suppression
+        </div>
+        <div class="content">
+            <div class="description">
+                <p>Voulez-vous vraiment supprimé cet additif ?</p>
+            </div>
+        </div>
+        <div class="actions">
+            <div class="ui black deny button">
+                Non
+            </div>
+            <div i class="ui green right labeled icon button">
+                Oui
+                <i class="checkmark icon"></i>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent()}}
+    <script type="text/javascript" src="{{ asset('bundles/ogivealert/js/additive.js')}}"></script>
+{% endblock %}

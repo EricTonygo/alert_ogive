@@ -5,6 +5,10 @@ ogive_alert_domain:
 ogive_alert_call_offer:    
     resource: "@OGIVEAlertBundle/Controller/CallOfferController.php"
     type:     rest
+    
+ogive_alert_additive:
+    resource: "@OGIVEAlertBundle/Controller/AdditiveController.php"
+    type:     rest
 
 
 

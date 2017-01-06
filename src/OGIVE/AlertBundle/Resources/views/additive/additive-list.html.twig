@@ -1,0 +1,35 @@
+<tr id="additive_list{{additive.id}}">
+    <td>
+        <div class="ui ribbon label">{{additive.reference}}</div>
+    </td>
+    <td>{{additive.object}}</td>
+    <td class="right aligned">
+        <div class="ui dropdown item">
+            <i class="ellipsis vertical icon"></i>
+            <div class="menu">
+                <div onclick="show_additive({{additive.id}});" class="show_additive_btn item">
+                    <i class="unhide icon"></i>
+                    Détails
+                </div>
+                <div onclick="edit_additive({{additive.id}});" class="edit_additive_btn item">
+                    <i class="edit icon"></i>
+                    Modifier
+                </div>
+                <div onclick="delete_additive({{additive.id}});" class="delete_additive_btn item">
+                    <i class="trash icon"></i>
+                    Supprimer
+                </div>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <div onclick="enable_additive({{additive.id}});" class="enable_additive_btn item" {% if additive.state == 1 %} style="display: none" {% endif %}>
+                        <i class="unlock icon"></i>
+                        Activer
+                    </div>
+                    <div onclick="disable_additive({{additive.id}});" class="disable_additive_btn item" {% if additive.state != 1 %} style="display: none" {% endif %}>
+                        <i class="lock icon"></i>
+                        Désactiver
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </td>
+</tr>

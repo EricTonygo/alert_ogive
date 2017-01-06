@@ -102,3 +102,13 @@ fos_rest:
         #default_engine: twig
     routing_loader:
         include_format: false
+        
+vresh_twilio:
+    #(Required) Your Account SID from www.twilio.com/user/account
+    sid: 'AC71c576e91846ddec61949497268ea126'
+    #(Required) Your Auth Token from www.twilio.com/user/account
+    authToken: '59bd4af7424f295f5d92226c5b13aa8a'
+    #(Optional, default: '2010-04-01') Twilio API version
+    version: '2010-04-01'
+    #(Optional, default: 1) Number of times to retry failed requests
+    retryAttempts: 3

@@ -24,7 +24,8 @@
         "friendsofsymfony/user-bundle": "~1.3",
         "friendsofsymfony/rest-bundle": "^2.1",
         "jms/serializer-bundle": "^1.1",
-        "friendsofsymfony/jsrouting-bundle": "^1.6"
+        "friendsofsymfony/jsrouting-bundle": "^1.6",
+        "vresh/twilio-bundle": "dev-master"
     },
     "require-dev": {
         "sensio/generator-bundle": "~3.0",

@@ -1,0 +1,92 @@
+<div id="edit_additive" class="ui small modal">
+    <i class="close icon"></i>
+    <div id="header_details" class="header">
+        Details de l'additif << {{additive.reference}} >>
+    </div>
+    <div id="header_edits" class="header" style="display: none">
+        Modification de l'additif << {{additive.reference}} >>
+    </div>
+    <div class="content">
+        {{ form_start(form, {'method': 'PUT', 'action': path('call_offer_update', {'id': additive.id}), 'attr': {'class': 'ui form', 'id': 'edit_additive_form'} }) }}
+        <div id="block_form_edit" style="display: none">
+            <div class="field">
+                {{ form_label(form.reference,"Référence") }}
+                {{ form_widget(form.reference,{'attr':{'placeholder':"Référence de l'additif", 'data-validate': 'reference'}})}}
+            </div>
+
+            <div class="field">
+                {{ form_label(form.object,"Objet") }}
+                {{ form_errors(form.object, {'attr': {'class': 'ui error message'}})}}
+                {{ form_widget(form.object,{'attr':{'placeholder':"Objet de l'additif", 'data-validate': 'object'}})}}
+            </div>
+        </div>
+        <div id="block_details">
+            <div class="inline field">
+                <label>Référence : </label> <span> {{ additive.reference}}</span>
+            </div>
+
+            <div class="inline field">
+                <label>Objet : </label> <p> {{ additive.object}}</p>
+            </div>
+
+            <div class="inline field">
+                <label>Date de création : </label> <span> {{ additive.createDate is empty ? "" : additive.createDate|date('d-m-Y H:i:s')}}</span>
+            </div>
+
+            <div class="inline field">
+                <label>Date de la dernière modification : </label> <span> {{ additive.createDate is empty ? "" : additive.createDate|date('d-m-Y H:i:s')}}</span>
+            </div>
+
+            <div id="field_state_enable" class="inline field" {% if additive.state != 1 %} style="display: none" {% endif %}>
+                <label>Etat : </label> <span> Activé </span>
+            </div>
+            
+            <div id="field_state_disable" class="inline field" {% if additive.state == 1 %} style="display: none" {% endif %}>
+                <label>Etat : </label> <span> Désactivé </span>
+            </div>
+
+        </div>
+        <div class="field">
+            {{form_rest(form)}}
+            <div id="server_error_message_edit" class="ui negative message" style="display:none">
+                <i class="close icon"></i>
+                <div id="server_error_content_edit" class="header">Internal server error</div>
+            </div>
+            <div id="error_name_message_edit" class="ui error message" style="display: none">
+                <i class="close icon"></i>
+                <div id="error_name_header_edit" class="header"></div>
+                <ul id="error_name_list_edit" class="list">
+
+                </ul>
+            </div>
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+    <div class="actions">
+        <div id="cancel_details_additive" class="ui black deny button">
+            Fermer
+        </div>
+        {% if is_granted('ROLE_ADMIN') %}
+            <div id="cancel_edit_additive" class="ui grey button" style="display:none">
+                Annuler
+            </div>
+            <div id='disable_additive' onclick="disable_additive({{additive.id}});" class="ui red icon button" {% if additive.state != 1 %} style="display: none" {% endif %}>
+                <i class="lock icon"></i>
+                Désactiver
+            </div>
+            <div id='enable_additive' onclick="enable_additive({{additive.id}});" class="ui green icon button" {% if additive.state == 1 %} style="display: none" {% endif %}>
+                <i class="unlock icon"></i>
+                Activer
+            </div>
+            <div id='edit_additive_btn' class="ui primary icon button">
+                <i class="edit icon"></i>
+                Modifier
+            </div>
+            <div id='submit_edit_additive' class="ui primary icon button" style="display: none">
+                <i class="save icon"></i>
+                Sauvegarder
+            </div>
+        {% endif %}
+    </div>
+</div>

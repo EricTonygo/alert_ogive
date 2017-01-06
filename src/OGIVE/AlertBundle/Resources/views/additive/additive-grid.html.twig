@@ -1,0 +1,36 @@
+<div id="additive_grid{{additive.id}}" class="column">
+    <div class="ui fluid card">
+
+        <div class="content">
+            <div class="header">{{additive.reference}}</div>
+            <div class="description">
+                {{additive.object}}
+            </div>
+        </div>
+        <div class="extra content">
+            {% if is_granted('ROLE_ADMIN') %}
+            <a id="enable_additive_grid{{additive.id}}" onclick="enable_additive({{additive.id}});" {% if additive.state == 1 %} style="display: none" {% endif %}  data-tooltip="Activer" data-position="bottom center" data-inverted=""><i class="unlock red icon"></i></a>
+            <a id="disable_additive_grid{{additive.id}}" onclick="disable_additive({{additive.id}});" {% if additive.state != 1 %} style="display: none" {% endif %}  data-tooltip="Désactiver" data-position="bottom center" data-inverted=""><i class="lock green icon"></i></a>
+        {% endif %}
+        <div class="right floated">
+            <div class="ui dropdown item">
+                <i class="ellipsis vertical icon"></i>
+                <div class="menu">
+                    <div onclick="show_additive({{additive.id}});" class="show_additive_btn item">
+                        <i class="unhide icon"></i>
+                        Détails
+                    </div>
+                    <div onclick="edit_additive({{additive.id}});" class="edit_additive_btn item">
+                        <i class="edit icon"></i>
+                        Modifier
+                    </div>
+                    <div onclick="delete_additive({{additive.id}});" class="delete_additive_btn item">
+                        <i class="trash icon"></i>
+                        Supprimer
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>

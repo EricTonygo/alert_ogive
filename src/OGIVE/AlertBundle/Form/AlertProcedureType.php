@@ -13,7 +13,22 @@ class AlertProcedureType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('type')->add('reference')->add('publicationDate')->add('deadline')->add('openingDate')->add('object')->add('owner')->add('abstract')->add('status')->add('state')->add('sendingDate')->add('createDate')->add('lastUpdateDate')->add('piecesjointes')->add('originalpiecesjointes')->add('domain')        ;
+        $builder->add('type')
+                ->add('reference')
+                ->add('publicationDate')
+                ->add('deadline')
+                ->add('openingDate')
+                ->add('object')
+                ->add('owner')
+                ->add('abstract')
+                ->add('status')
+                ->add('state')
+                ->add('sendingDate')
+                ->add('createDate')
+                ->add('lastUpdateDate')
+                ->add('piecesjointes')
+                ->add('originalpiecesjointes')
+                ->add('domain')        ;
     }
     
     /**
