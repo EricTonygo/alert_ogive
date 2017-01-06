@@ -78,7 +78,6 @@ class HistoricalAlertSubscriber
      * Constructor
     */
     public function __construct() {
-        $this->status = 1;
     }
 
     /**

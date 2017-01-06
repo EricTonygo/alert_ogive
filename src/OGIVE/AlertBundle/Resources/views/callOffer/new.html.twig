@@ -1,57 +1,49 @@
-<div id="add_call_offer" class="ui small modal">
+<div id="add_callOffer" class="ui small modal">
     <i class="close icon"></i>
     <div class="header">
         Ajout d'un appel d'offre
     </div>
     <div class="content">
-        <form id="add_call_offer_form" class="ui form">
-            <div class="field">
-                <label class="left aligned">Type</label>
-                <input type="text" name="type_procedure" placeholder="Nom">
-            </div>
+        {{ form_start(form, {'method': 'POST', 'action': '/calls-offer', 'attr': {'class': 'ui form', 'id': 'add_callOffer_form'} }) }}
 
-            <div class="field">
-                <label class="left aligned" >Reference</label>
-                <input type="text" name="reference" placeholder="Reférence">
-            </div>
+        <div class="field">
+            {{ form_label(form.reference,"Référence") }}
+            {{ form_widget(form.reference,{'attr':{'placeholder':'Référence du callOffere', 'data-validate': 'name'}})}}
+        </div>
 
-            <div class="field">
-                <label class="left aligned">Objet</label>
-                <input type="text" name="object" placeholder="Object">
-            </div>
+        <div class="field">
+            {{ form_label(form.object,"Objet") }}
+            {{ form_errors(form.object, {'attr': {'class': 'ui error message'}})}}
+            {{ form_widget(form.object,{'attr':{'placeholder':"Objet de l'appel d'offre", 'data-validate': 'description'}})}}
+        </div>
 
-            <div class="field">
-                <label class="left aligned">Maître d'ouvrage</label>
-                <input type="text" name="owner" placeholder="Maître d'ouvrage">
+        <div class="field">
+            {{form_rest(form)}}
+            <div id="server_error_message" class="ui negative message" style="display:none">
+                <i class="close icon"></i>
+                <div id="server_error_content" class="header">Internal server error</div>
             </div>
+            <div id="error_name_message" class="ui error message" style="display: none">
+                <i class="close icon"></i>
+                <div id="error_name_header" class="header"></div>
+                <ul id="error_name_list" class="list">
 
-            <div class="field">
-                <label class="left aligned" >Date de publication</label>
-                <input type="text" name="published_date" placeholder="Date de publication">
+                </ul>
             </div>
+        </div>
 
-            <div class="field">
-                <label class="left aligned">Date de debut de depôt</label>
-                <input type="text" name="opening_date" placeholder="Date de debut de depôt">
-            </div>
-
-            <div class="field">
-                <label class="left aligned">Date limite</label>
-                <input type="text" name="deadline" placeholder="Date limite">
-            </div>
-
-        </form>
+        {{ form_end(form) }}
     </div>
     <div class="actions">
-        <div class="ui black deny button">
+        <div id="cancel_add_callOffer" class="ui black deny button">
             Annuler
         </div>
-        <div id='submit_call_offer' class="ui primary icon button">
+        <div id='submit_callOffer' class="ui primary icon button">
             <i class="save icon"></i>
             Sauvegarder
         </div>
     </div>
 </div>
-<button id="add_call_offer_btn" class="float_button circular ui huge red icon button">
+<button id="add_callOffer_btn" class="float_button circular ui huge red icon button" data-tooltip="Nouveau callOffere" data-position="top center" data-inverted="">
     <i class="icon plus"></i>
 </button>

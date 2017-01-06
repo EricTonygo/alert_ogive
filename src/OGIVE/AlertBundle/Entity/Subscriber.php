@@ -110,7 +110,7 @@ class Subscriber
      * Constructor
      */
     public function __construct() {
-        $this->state = 1;
+        $this->state = 0;
     }
     
     /**

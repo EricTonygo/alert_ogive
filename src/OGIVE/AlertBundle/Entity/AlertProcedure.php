@@ -150,7 +150,7 @@ class AlertProcedure
 
 
     public function __construct() {
-        $this->state = 1;
+        $this->state = 0;
         $this->piecesjointes = array();
         $this->originalpiecesjointes = array();
     }
@@ -598,7 +598,7 @@ class AlertProcedure
     }
 
      protected function getUploadRootDir() {
-        return __DIR__ . '/../../../web/uploads/couriers';
+        return __DIR__ . '/../../../web/uploads/procedures';
     }
 
 

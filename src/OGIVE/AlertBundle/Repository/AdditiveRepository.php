@@ -65,11 +65,11 @@ class AdditiveRepository extends EntityRepository
         return $qb->getQuery()->getResult();
     }
     
-    public function getDomainQueryBuilder() {
+    public function getAdditiveQueryBuilder() {
          return $this
           ->createQueryBuilder('e')
           ->where('e.status = :status')
-          ->where('e.state = :state')
+          ->andWhere('e.state = :state')
           ->orderBy('e.name', 'ASC')
           ->setParameter('status', 1)
          ->setParameter('state', 1);

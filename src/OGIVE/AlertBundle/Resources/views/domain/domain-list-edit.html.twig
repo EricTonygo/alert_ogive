@@ -1,21 +1,35 @@
 {#<tr id="domain{{domain.id}}">#}
-    <td>
-        <div class="ui ribbon label">{{domain.name}}</div>
-    </td>
-    <td>{{domain.description}}</td>
-    <td class="right aligned">
-        <div class="ui dropdown item">
-            <i class="ellipsis vertical icon"></i>
-            <div class="menu">
-                <div onclick="edit_domain({{domain.id}});" class="edit_domain_btn item">
-                    <i class="edit icon"></i>
-                    Modifier
-                </div>
-                <div onclick="delete_domain({{domain.id}});" class="delete_domain_btn item">
-                    <i class="trash icon"></i>
-                    Supprimer
-                </div>
+<td>
+    <div class="ui ribbon label">{{domain.name}}</div>
+</td>
+<td>{{domain.description}}</td>
+<td class="right aligned">
+    <div class="ui dropdown item">
+        <i class="ellipsis vertical icon"></i>
+        <div class="menu">
+            <div onclick="show_domain({{domain.id}});" class="show_domain_btn item">
+                <i class="unhide icon"></i>
+                Détails
             </div>
+            <div onclick="edit_domain({{domain.id}});" class="edit_domain_btn item">
+                <i class="edit icon"></i>
+                Modifier
+            </div>
+            <div onclick="delete_domain({{domain.id}});" class="delete_domain_btn item">
+                <i class="trash icon"></i>
+                Supprimer
+            </div>
+            {% if is_granted('ROLE_ADMIN') %}
+                <div onclick="enable_domain({{domain.id}});" class="enable_domain_btn item" {% if domain.state == 1 %} style="display: none" {% endif %}>
+                    <i class="unlock icon"></i>
+                    Activer
+                </div>
+                <div onclick="disable_domain({{domain.id}});" class="disable_domain_btn item" {% if domain.state != 1 %} style="display: none" {% endif %}>
+                    <i class="lock icon"></i>
+                    Désactiver
+                </div>
+            {% endif %}
         </div>
-    </td>
+    </div>
+</td>
 {#</tr>#}

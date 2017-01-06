@@ -44,6 +44,13 @@ class SpecialFollowUp
     private $status;
     
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="state", type="integer")
+     */
+    private $state;
+    
+    /**
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\ManyToMany(targetEntity="Subscriber", inversedBy="specialFollowUps", cascade={"persist"})
@@ -69,6 +76,7 @@ class SpecialFollowUp
      * Constructor
      */
     public function __construct() {
+        $this->state = 0;
     }
 
     /**
@@ -151,6 +159,14 @@ class SpecialFollowUp
     public function getStatus()
     {
         return $this->status;
+    }
+    
+     function getState() {
+        return $this->state;
+    }
+    
+    function setState($state) {
+        $this->state = $state;
     }
     
     /**

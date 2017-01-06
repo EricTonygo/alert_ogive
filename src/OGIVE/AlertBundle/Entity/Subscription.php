@@ -44,6 +44,13 @@ class Subscription
     private $status;
     
     /**
+     * @var int
+     *
+     * @ORM\Column(name="state", type="integer")
+     */
+    private $state;
+    
+    /**
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\OneToMany(targetEntity="OGIVE\AlertBundle\Entity\Subscriber", mappedBy="subscriber", cascade={"remove", "persist"})
@@ -68,7 +75,7 @@ class Subscription
      * Constructor
      */
     public function __construct() {
-        $this->status = 1;
+        $this->state = 0;
     }
     
     /**
@@ -151,6 +158,30 @@ class Subscription
     public function getStatus()
     {
         return $this->status;
+    }
+    
+    /**
+     * Set state
+     *
+     * @param integer $state
+     *
+     * @return Subscription
+     */
+    public function setState($state)
+    {
+        $this->state = $state;
+
+        return $this;
+    }
+
+    /**
+     * Get state
+     *
+     * @return int
+     */
+    public function getState()
+    {
+        return $this->state;
     }
     
     /**

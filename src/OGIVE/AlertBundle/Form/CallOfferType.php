@@ -21,16 +21,14 @@ class CallOfferType extends AbstractType
                 ->add('openingDate', 'datetime')
                 ->add('object')
                 ->add('owner')
-                ->add('abstract')
-                ->add('status')
-                ->add('state')
+                //->add('abstract')
                 ->add('sendingDate', 'datetime')
                 ->add('uploadedFiles', 'file', array(
                     'multiple' => true, 
                     'data_class' => null,
                 ))
                 ->add('domain','entity', array(
-                    'class' => 'NNGenieInfosMatBundle:Type',
+                    'class' => 'OGIVEAlertBundle:Domain',
                     'property' => 'name',
                     'empty_value' => "",
                     'multiple'=>false,

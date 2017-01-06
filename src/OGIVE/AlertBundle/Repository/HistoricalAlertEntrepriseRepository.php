@@ -63,14 +63,13 @@ class HistoricalAlertEntrepriseRepository extends \Doctrine\ORM\EntityRepository
         return $qb->getQuery()->getResult();
     }
     
-    public function getDomainQueryBuilder() {
+    public function getHistoricalAlertEntrepriseQueryBuilder() {
          return $this
           ->createQueryBuilder('e')
           ->where('e.status = :status')
-          ->where('e.state = :state')
           ->orderBy('e.name', 'ASC')
           ->setParameter('status', 1)
-         ->setParameter('state', 1);
+        ;
 
     }
 }

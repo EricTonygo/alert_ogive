@@ -1,46 +1,63 @@
 $(function () {
-    $('#add_domain_btn').click(function () {
-        $('#add_domain.ui.modal').modal('setting', {
+    $('#add_callOffer_btn').click(function () {
+        $('#add_callOffer.ui.modal').modal('setting', {
             autofocus: false,
             inverted: true,
             closable: false
         });
-        $('#add_domain.ui.modal').modal('show');
+        $('#add_callOffer.ui.modal').modal('show');
     });
 
-    $('#submit_domain').click(function (e) {
+    $('#submit_callOffer').click(function (e) {
         e.preventDefault();
         $('#message_error').hide();
         $('#message_success').hide();
         $('#error_name_message').hide();
-        $('#add_domain_form.ui.form').submit();
+        $('#add_callOffer_form.ui.form').submit();
     });
-    $('#add_domain_form.ui.form')
+    $('#add_callOffer_form.ui.form')
             .form({
                 fields: {
-                    name: {
-                        identifier: 'name',
+                    reference: {
+                        identifier: 'reference',
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: 'Veuillez saisir le nom du domaine'
+                                prompt: 'Veuillez saisir une reférence'
+                            }
+                        ]
+                    },
+                    object: {
+                        identifier: 'object',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: 'Veuillez saisir une reférence'
+                            }
+                        ]
+                    },
+                    owner: {
+                        identifier: 'owner',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Veuillez renseigner le maître d'ouvrage"
                             }
                         ]
                     }
-
                 },
                 inline: true,
                 on: 'blur',
                 onSuccess: function (event, fields) {
                     $.ajax({
                         type: 'post',
-                        url: $('#add_domain_form.ui.form').attr('action'),
+                        url: $('#add_callOffer_form.ui.form').attr('action'),
                         data: fields,
                         dataType: 'json',
                         beforeSend: function () {
-                            $('#submit_domain').addClass('disabled');
-                            $('#cancel_add_domain').addClass('disabled');
-                            $('#add_domain_form.ui.form').addClass('loading');
+                            $('#submit_callOffer').addClass('disabled');
+                            $('#cancel_add_callOffer').addClass('disabled');
+                            $('#add_callOffer_form.ui.form').addClass('loading');
                         },
                         statusCode: {
                             500: function (xhr) {
@@ -59,15 +76,15 @@ $(function () {
                         },
                         success: function (response, textStatus, jqXHR) {
                             if (response.code === 200) {
-                                $('#cancel_add_domain').removeClass('disabled');
-                                $('#submit_domain').removeClass('disabled');
-                                $('#add_domain_form.ui.form').removeClass('loading');
-                                $('#list_as_grid_content').prepend(response.domain_content_grid);
-                                $('#list_as_table_content').prepend(response.domain_content_list);
+                                $('#cancel_add_callOffer').removeClass('disabled');
+                                $('#submit_callOffer').removeClass('disabled');
+                                $('#add_callOffer_form.ui.form').removeClass('loading');
+                                $('#list_as_grid_content').prepend(response.callOffer_content_grid);
+                                $('#list_as_table_content').prepend(response.callOffer_content_list);
                                 $('.ui.dropdown').dropdown({
                                     on: 'hover'
                                 });
-                                $('#add_domain.ui.modal').modal('hide');
+                                $('#add_callOffer.ui.modal').modal('hide');
                                 $('#message_success>div.header').html('Domaine ajouté avec succès !');
                                 $('#message_success').show();
                                 setTimeout(function () {
@@ -77,9 +94,9 @@ $(function () {
 
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
-                            $('#cancel_add_domain').removeClass('disabled');
-                            $('#submit_domain').removeClass('disabled');
-                            $('#add_domain_form.ui.form').removeClass('loading');
+                            $('#cancel_add_callOffer').removeClass('disabled');
+                            $('#submit_callOffer').removeClass('disabled');
+                            $('#add_callOffer_form.ui.form').removeClass('loading');
                             /*alertify.error("Internal Server Error");*/
                         }
                     });
@@ -89,12 +106,12 @@ $(function () {
             );
 });
 
-function edit_domain(id) {
+function edit_callOffer(id) {
     $('#message_error').hide();
     $('#message_success').hide();
     $.ajax({
         type: 'PUT',
-        url: '/domains/' + id,
+        url: '/calls-offers/' + id,
         dataType: 'json',
         beforeSend: function () {
             $('#message_loading').show();
@@ -110,13 +127,13 @@ function edit_domain(id) {
         },
         success: function (response, textStatus, jqXHR) {
             if (response.code === 200) {
-                $('#edit_domain').remove();
-                $('#edit_domain_content').html(response.edit_domain_form);
-                $('#edit_domain.ui.modal').modal('setting', {
+                $('#edit_callOffer').remove();
+                $('#edit_callOffer_content').html(response.edit_callOffer_form);
+                $('#edit_callOffer.ui.modal').modal('setting', {
                     autofocus: false,
                     inverted: true
                 });
-                $('#edit_domain.ui.modal').modal('show');
+                $('#edit_callOffer.ui.modal').modal('show');
                 execute_edit(id);
             }
             $('#message_loading').hide();
@@ -129,14 +146,14 @@ function edit_domain(id) {
 }
 
 function execute_edit(id) {
-    $('#submit_edit_domain').click(function (e) {
+    $('#submit_edit_callOffer').click(function (e) {
         e.preventDefault();
         $('#message_error').hide();
         $('#message_success').hide();
         $('#error_name_message').hide();
-        $('#edit_domain_form.ui.form').submit();
+        $('#edit_callOffer_form.ui.form').submit();
     });
-    $('#edit_domain_form.ui.form')
+    $('#edit_callOffer_form.ui.form')
             .form({
                 fields: {
                     name: {
@@ -144,7 +161,7 @@ function execute_edit(id) {
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: 'Veuillez saisir le nom du domaine'
+                                prompt: 'Veuillez saisir le nom du callOffere'
                             }
                         ]
                     }
@@ -155,16 +172,16 @@ function execute_edit(id) {
                 onSuccess: function (event, fields) {
                     $.ajax({
                         type: 'PUT',
-                        url: $('#edit_domain_form.ui.form').attr('action'),
+                        url: $('#edit_callOffer_form.ui.form').attr('action'),
                         data: fields,
                         dataType: 'json',
                         beforeSend: function () {
-                            $('#submit_edit_domain').addClass('disabled');
-                            $('#cancel_edit_domain').addClass('disabled');
-                            $('#edit_domain_form.ui.form').addClass('loading');
-                            $('#cancel_details_domain').addClass('disabled');
-                            $('#disable_domain').addClass('disabled');
-                            $('#enable_domain').addClass('disabled');
+                            $('#submit_edit_callOffer').addClass('disabled');
+                            $('#cancel_edit_callOffer').addClass('disabled');
+                            $('#edit_callOffer_form.ui.form').addClass('loading');
+                            $('#cancel_details_callOffer').addClass('disabled');
+                            $('#disable_callOffer').addClass('disabled');
+                            $('#enable_callOffer').addClass('disabled');
                         },
                         statusCode: {
                             500: function (xhr) {
@@ -182,31 +199,31 @@ function execute_edit(id) {
                         },
                         success: function (response, textStatus, jqXHR) {
                             if (response.code === 200) {
-                                $('#submit_edit_domain').removeClass('disabled');
-                                $('#cancel_edit_domain').removeClass('disabled');
-                                $('#edit_domain_form.ui.form').removeClass('loading');
-                                $('#cancel_details_domain').removeClass('disabled');
-                                $('#disable_domain').removeClass('disabled');
-                                $('#enable_domain').removeClass('disabled');
-                                $('#domain_grid' + id).html(response.domain_content_grid);
-                                $('#domain_list' + id).html(response.domain_content_list);
+                                $('#submit_edit_callOffer').removeClass('disabled');
+                                $('#cancel_edit_callOffer').removeClass('disabled');
+                                $('#edit_callOffer_form.ui.form').removeClass('loading');
+                                $('#cancel_details_callOffer').removeClass('disabled');
+                                $('#disable_callOffer').removeClass('disabled');
+                                $('#enable_callOffer').removeClass('disabled');
+                                $('#callOffer_grid' + id).html(response.callOffer_content_grid);
+                                $('#callOffer_list' + id).html(response.callOffer_content_list);
                                 $('.ui.dropdown').dropdown({
                                     on: 'hover'
                                 });
-                                $('#edit_domain.ui.modal').modal('hide');
+                                $('#edit_callOffer.ui.modal').modal('hide');
                                 $('#message_success>div.header').html('Domaine modifié avec succès !');
                                 $('#message_success').show();
                                 setTimeout(function () {
                                     $('#message_success').hide();
                                 }, 4000);
-                                $('#edit_domain').remove();
+                                $('#edit_callOffer').remove();
                             }
 
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
-                            $('#submit_edit_domain').removeClass('disabled');
-                            $('#cancel_edit_domain').removeClass('disabled');
-                            $('#edit_domain_form.ui.form').removeClass('loading');
+                            $('#submit_edit_callOffer').removeClass('disabled');
+                            $('#cancel_edit_callOffer').removeClass('disabled');
+                            $('#edit_callOffer_form.ui.form').removeClass('loading');
                             /*alertify.error("Internal Server Error");*/
                         }
                     });
@@ -216,12 +233,12 @@ function execute_edit(id) {
             );
 }
 
-function delete_domain(id) {
+function delete_callOffer(id) {
     $('#message_error').hide();
     $('#message_success').hide();
     $.ajax({
         type: 'DELETE',
-        url: '/domains/' + id,
+        url: '/calls-offer/' + id,
         dataType: 'json',
         beforeSend: function () {
             $('#message_loading').show();
@@ -244,8 +261,8 @@ function delete_domain(id) {
         },
         success: function (response, textStatus, jqXHR) {
             console.log(response);
-            $('#domain_grid' + id).remove();
-            $('#domain_list' + id).remove();
+            $('#callOffer_grid' + id).remove();
+            $('#callOffer_list' + id).remove();
             $('#message_loading').hide();
             $('#message_success>div.header').html(response.message);
             $('#message_success').show();
@@ -260,12 +277,12 @@ function delete_domain(id) {
     });
 }
 
-function show_domain(id) {
+function show_callOffer(id) {
     $('#message_error').hide();
     $('#message_success').hide();
     $.ajax({
         type: 'GET',
-        url: '/domains/' + id,
+        url: '/calls-offer/' + id,
         dataType: 'json',
         beforeSend: function () {
             $('#message_loading').show();
@@ -281,26 +298,26 @@ function show_domain(id) {
         },
         success: function (response, textStatus, jqXHR) {
             if (response.code === 200) {
-                $('#edit_domain').remove();
-                $('#edit_domain_content').html(response.domain_details);
-                $('#edit_domain.ui.modal').modal('setting', {
+                $('#edit_callOffer').remove();
+                $('#edit_callOffer_content').html(response.callOffer_details);
+                $('#edit_callOffer.ui.modal').modal('setting', {
                     autofocus: false,
                     inverted: true
                 });
-                $('#edit_domain.ui.modal').modal('show');
+                $('#edit_callOffer.ui.modal').modal('show');
                 execute_edit(id);
-                $('#edit_domain_btn').click(function () {
+                $('#edit_callOffer_btn').click(function () {
                     $('#block_details').hide();
                     $('#block_form_edit').show();
-                    $('#cancel_edit_domain').show();
-                    $('#submit_edit_domain').show();
+                    $('#cancel_edit_callOffer').show();
+                    $('#submit_edit_callOffer').show();
                     $(this).hide();
                 });
-                $('#cancel_edit_domain').click(function () {
+                $('#cancel_edit_callOffer').click(function () {
                     $('#block_details').show();
                     $('#block_form_edit').hide();
-                    $('#edit_domain_btn').show();
-                    $('#submit_edit_domain').hide();
+                    $('#edit_callOffer_btn').show();
+                    $('#submit_edit_callOffer').hide();
                     $(this).hide();
                 });
             }
@@ -313,14 +330,14 @@ function show_domain(id) {
     });
 }
 
-function enable_domain(id) {
+function enable_callOffer(id) {
     $('#message_error').hide();
     $('#message_success').hide();
-    $('#edit_domain.ui.modal').modal('hide');
-    $('#edit_domain').remove();
+    $('#edit_callOffer.ui.modal').modal('hide');
+    $('#edit_callOffer').remove();
     $.ajax({
         type: 'PUT',
-        url: '/domains/' + id,
+        url: '/calls-offer/' + id,
         data: {'action': 'enable'},
         dataType: 'json',
         beforeSend: function () {
@@ -335,7 +352,7 @@ function enable_domain(id) {
                 }, 4000);
             },
             400: function (response, textStatus, jqXHR) {
-                $('#message_error>div.header').html("Echec d'activation du domaine");
+                $('#message_error>div.header').html("Echec d'activation du callOffere");
                 $('#message_error').show();
                 setTimeout(function () {
                     $('#message_error').hide();
@@ -345,8 +362,8 @@ function enable_domain(id) {
         success: function (response, textStatus, jqXHR) {
             console.log(response);
             $('#message_loading').hide();
-            $('#enable_domain_grid' + id).hide();
-            $('#disable_domain_grid' + id).show();
+            $('#enable_callOffer_grid' + id).hide();
+            $('#disable_callOffer_grid' + id).show();
             $('#message_success>div.header').html(response.message);
             $('#message_success').show();
             setTimeout(function () {
@@ -360,14 +377,14 @@ function enable_domain(id) {
     });
 }
 
-function disable_domain(id) {
+function disable_callOffer(id) {
     $('#message_error').hide();
     $('#message_success').hide();
-    $('#edit_domain.ui.modal').modal('hide');
-    $('#edit_domain').remove();
+    $('#edit_callOffer.ui.modal').modal('hide');
+    $('#edit_callOffer').remove();
     $.ajax({
         type: 'PUT',
-        url: '/domains/' + id,
+        url: '/calls-offer/' + id,
         data: {'action': 'disable'},
         dataType: 'json',
         beforeSend: function () {
@@ -382,7 +399,7 @@ function disable_domain(id) {
                 }, 4000);
             },
             400: function (response, textStatus, jqXHR) {
-                $('#message_error>div.header').html("Echec de la désactivation du domaine");
+                $('#message_error>div.header').html("Echec de la désactivation du callOffere");
                 $('#message_error').show();
                 setTimeout(function () {
                     $('#message_error').hide();
@@ -392,8 +409,8 @@ function disable_domain(id) {
         success: function (response, textStatus, jqXHR) {
             console.log(response);
             $('#message_loading').hide();
-            $('#disable_domain_grid' + id).hide();
-            $('#enable_domain_grid' + id).show();
+            $('#disable_callOffer_grid' + id).hide();
+            $('#enable_callOffer_grid' + id).show();
             $('#message_success>div.header').html(response.message);
             $('#message_success').show();
             setTimeout(function () {

@@ -1,19 +1,21 @@
 {% extends "OGIVEAlertBundle::layout.html.twig" %}
-{% block title %}Les appels d'offres{% endblock %}
+{% block title %}Les appels d'offre{% endblock %}
 
 {% block sub_header %}
-    <div id="second_computer_top_nav" class="ui computer_top_nav inverted main menu" >
+    {{parent()}}
+    <div id="second_computer_top_nav" class="ui computer_top_nav inverted main menu" style="background-color: #eeeeee; position: fixed;
+         top: 70px; left: 0; right: 0; height:4em;">
         <div class="ui container">
             <div class="ui left inverted secondary menu">
                 <a id="document_title" class="item">
-                    <h3>Les appels d'offre</h3>
+                    <h3>Liste des appels d'offre</h3>
                 </a>
             </div>
 
             <div class="ui right inverted secondary menu">
-                <a id='show_list_table' class="ui circular icon button item">
+                <div id='show_list_table' class="ui circular icon button item" data-tooltip="Afficher sous forme de liste" data-position="bottom center" data-inverted="">
                     <i class="large list layout icon"></i>
-                </a>
+                </div>
                 <a class="ui circular icon button item">
                     <i class="large trash icon"></i>
                 </a>
@@ -25,10 +27,42 @@
     </div>
 {% endblock %}
 {% block content %}
-    
-   {% include('OGIVEAlertBundle:callOffer:grid.html.twig') %} 
-   {% include('OGIVEAlertBundle:callOffer:list.html.twig') %}
+    {% include('OGIVEAlertBundle:callOffer:grid.html.twig') %} 
+    {% include('OGIVEAlertBundle:callOffer:list.html.twig') %}
 {% endblock %}
-{% block button_add_new %}
+{% block block_add_new %}
     {% include('OGIVEAlertBundle:callOffer:new.html.twig') %}
+{% endblock %}
+
+{% block block_edit %}
+    <div id="edit_callOffer_content">
+
+    </div>
+{% endblock %}
+{% block block_delete_modal %}
+    <div id="confirm_delete_callOffer" class="ui modal">
+        <i class="close icon"></i>
+        <div class="header">
+            Confirmation de la suppression
+        </div>
+        <div class="content">
+            <div class="description">
+                <p>Voulez-vous vraiment supprimé cet appel d'offre ?</p>
+            </div>
+        </div>
+        <div class="actions">
+            <div class="ui black deny button">
+                Non
+            </div>
+            <div i class="ui green right labeled icon button">
+                Oui
+                <i class="checkmark icon"></i>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent()}}
+    <script type="text/javascript" src="{{ asset('bundles/ogivealert/js/callOffer.js')}}"></script>
 {% endblock %}

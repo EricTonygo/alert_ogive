@@ -67,7 +67,7 @@ class Entreprise
     private $status;
     
     /**
-     * @var int
+     * @var integer
      *
      * @ORM\Column(name="state", type="integer")
      */

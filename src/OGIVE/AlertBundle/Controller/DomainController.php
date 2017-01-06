@@ -69,6 +69,9 @@ class DomainController extends Controller {
             if ($repositoryDomain->findOneBy(array('name' => $domain->getName(), 'status' => 1))) {
                 return new JsonResponse(["success" => false, 'message' => 'Un domaine avec ce nom existe dejà'], Response::HTTP_BAD_REQUEST);
             }
+            if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+                $domain->setState(1);
+            }
             $domain = $repositoryDomain->saveDomain($domain);
             $domain_content_grid = $this->renderView('OGIVEAlertBundle:domain:domain-grid.html.twig', array('domain' => $domain));
             $domain_content_list = $this->renderView('OGIVEAlertBundle:domain:domain-list.html.twig', array('domain' => $domain));
@@ -117,6 +120,20 @@ class DomainController extends Controller {
 
         if (empty($domain)) {
             return new JsonResponse(['message' => 'Domaine introuvable'], Response::HTTP_NOT_FOUND);
+        }
+        
+        if($request->get('action')== 'enable'){
+            $domain->setState(1);
+            $domain = $repositoryDomain->updateDomain($domain);
+            return new JsonResponse(['message' => 'Domaine activé avec succcès !'], Response::HTTP_OK
+                    );
+        }
+        
+        if($request->get('action')== 'disable'){
+            $domain->setState(0);
+            $domain = $repositoryDomain->updateDomain($domain);
+            return new JsonResponse(['message' => 'Domaine désactivé avec succcès !'], Response::HTTP_OK
+                    );
         }
         $form = $this->createForm('OGIVE\AlertBundle\Form\DomainType', $domain, array('method' => 'PUT'));
 

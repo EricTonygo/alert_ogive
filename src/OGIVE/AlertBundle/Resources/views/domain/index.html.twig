@@ -39,6 +39,29 @@
 
     </div>
 {% endblock %}
+{% block block_delete_modal %}
+    <div id="confirm_delete_domain" class="ui modal">
+        <i class="close icon"></i>
+        <div class="header">
+            Confirmation de la suppression
+        </div>
+        <div class="content">
+            <div class="description">
+                <p>Voulez-vous vraiment supprimé ce domaine ?</p>
+            </div>
+        </div>
+        <div class="actions">
+            <div class="ui black deny button">
+                Non
+            </div>
+            <div i class="ui green right labeled icon button">
+                Oui
+                <i class="checkmark icon"></i>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
 {% block javascripts %}
     {{ parent()}}
     <script type="text/javascript" src="{{ asset('bundles/ogivealert/js/domain.js')}}"></script>
