@@ -23,7 +23,7 @@ $(function () {
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: 'Veuillez saisir une reférence'
+                                prompt: 'Veuillez saisir la reférence'
                             }
                         ]
                     },
@@ -32,7 +32,7 @@ $(function () {
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: 'Veuillez saisir une reférence'
+                                prompt: "Veuillez saisir l'objet"
                             }
                         ]
                     },
@@ -44,7 +44,26 @@ $(function () {
                                 prompt: "Veuillez renseigner le maître d'ouvrage"
                             }
                         ]
+                    },
+                    domain: {
+                        identifier: 'domain',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Veuillez selectionner le domaine"
+                            }
+                        ]
+                    },
+                    publication_date: {
+                        identifier: 'publication_date',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Veuillez renseigner la date de publication de l'offre"
+                            }
+                        ]
                     }
+                    
                 },
                 inline: true,
                 on: 'blur',

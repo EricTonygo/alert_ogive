@@ -8,13 +8,74 @@
 
         <div class="field">
             {{ form_label(form.reference,"Référence") }}
-            {{ form_widget(form.reference,{'attr':{'placeholder':'Référence du callOffere', 'data-validate': 'name'}})}}
+            {{ form_widget(form.reference,{'attr':{'placeholder':"Référence de l'appel", 'data-validate': 'reference'}})}}
         </div>
 
         <div class="field">
             {{ form_label(form.object,"Objet") }}
             {{ form_errors(form.object, {'attr': {'class': 'ui error message'}})}}
-            {{ form_widget(form.object,{'attr':{'placeholder':"Objet de l'appel d'offre", 'data-validate': 'description'}})}}
+            {{ form_widget(form.object,{'attr':{'placeholder':"Objet de l'appel d'offre", 'data-validate': 'object'}})}}
+        </div>
+
+        <div class="field">
+            {{ form_label(form.owner,"Maître d'ouvrage") }}
+            {{ form_errors(form.owner, {'attr': {'class': 'ui error message'}})}}
+            {{ form_widget(form.owner,{'attr':{'placeholder':"Maître d'ouvrage", 'data-validate': 'owner'}})}}
+        </div>
+
+        <div class="field">
+            {{ form_label(form.domain,"Domaine") }}
+            {{ form_errors(form.domain, {'attr': {'class': 'ui error message'}})}}
+            {{ form_widget(form.domain,{'attr':{'data-validate': 'domain', 'class': 'ui dropdown'}})}}
+        </div>
+
+        <div class="field">
+            {{ form_label(form.publicationDate,"Date de publication") }}
+            {{ form_widget(form.publicationDate,{'attr':{'data-validate': 'publication_date'}})}}
+        </div>
+
+        <div class="field">
+            {{ form_label(form.openingDate,"Date d'ouverture de dépôt") }}
+            <div class="two fields">
+                <div class="field">
+                    {{ form_widget(form.openingDate.date,{'attr':{'data-validate': 'opening_date_date'}})}}
+                </div>
+                <div class="field">
+                    {{ form_widget(form.openingDate.time,{'attr':{'data-validate': 'opening_date_time'}})}}
+                </div>
+            </div>
+        </div>
+
+        <div class="field">
+            {{ form_label(form.deadline,"Date limite de dépôt") }}
+            <div class="two fields">
+                <div class="field">
+                    {{ form_widget(form.deadline.date,{'attr':{'data-validate': 'deadline_date'}})}}
+                </div>
+                <div class="field">
+                    {{ form_widget(form.deadline.time,{'attr':{'data-validate': 'deadline_time'}})}}
+                </div>
+            </div>
+        </div>
+
+        <div class="field">
+            {{ form_label(form.sendingDate,"Date de notification aux abonnés") }}
+            <div class="two fields">
+                <div class="field">
+                    {{ form_widget(form.sendingDate.date,{'attr':{'data-validate': 'sending_date_date'}})}}
+                </div>
+                <div class="field">
+                    {{ form_widget(form.sendingDate.time,{'attr':{'data-validate': 'sending_date_time'}})}}
+                </div>
+            </div>
+        </div>
+        <div class="field">
+            {{ form_label(form.uploadedFiles, "Fichiers attachés")}}
+            <div class="ui error message">
+                <i class="close icon"></i>
+                {{ form_errors(form.uploadedFiles, {'attr': {'class': 'list'}})}}
+            </div>
+            {{ form_widget(form.uploadedFiles, { 'attr' : {'class' : 'inputfile' }}) }}
         </div>
 
         <div class="field">
@@ -44,6 +105,6 @@
         </div>
     </div>
 </div>
-<button id="add_callOffer_btn" class="float_button circular ui huge red icon button" data-tooltip="Nouveau callOffere" data-position="top center" data-inverted="">
+<button id="add_callOffer_btn" class="float_button circular ui huge red icon button" data-tooltip="Nouvel appel" data-position="top center" data-inverted="">
     <i class="icon plus"></i>
 </button>
