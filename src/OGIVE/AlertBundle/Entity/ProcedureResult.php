@@ -18,6 +18,7 @@ class ProcedureResult extends AlertProcedure
      */
     public function __construct() {
         parent::__construct();
+        $this->setType("Attribution");
     }
 }
 

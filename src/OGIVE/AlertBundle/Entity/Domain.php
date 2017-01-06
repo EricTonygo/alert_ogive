@@ -72,7 +72,7 @@ class Domain
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="OGIVE\AlertBundle\Entity\Entreprise", mappedBy="domain", cascade={"remove", "persist"})
+     * @ORM\OneToMany(targetEntity="\OGIVE\AlertBundle\Entity\Entreprise", mappedBy="domain", cascade={"remove", "persist"})
      */
     private $entreprises;
 
@@ -241,10 +241,10 @@ class Domain
     /**
      * Add entreprise
      *
-     * @param OGIVE\AlertBundle\Entity\Entreprise $entreprise 
+     * @param \OGIVE\AlertBundle\Entity\Entreprise $entreprise 
      * @return Domain
      */
-    public function addEntreprise(OGIVE\AlertBundle\Entity\Entreprise $entreprise) {
+    public function addEntreprise(\OGIVE\AlertBundle\Entity\Entreprise $entreprise) {
         $this->entreprises[] = $entreprise;
         return $this;
     }
@@ -273,10 +273,10 @@ class Domain
     /**
      * Remove entreprise
      *
-     * @param OGIVE\AlertBundle\Entity\Entreprise $entreprise
+     * @param \OGIVE\AlertBundle\Entity\Entreprise $entreprise
      * @return Domain
      */
-    public function removeEntreprise(OGIVE\AlertBundle\Entity\Entreprise $entreprise) {
+    public function removeEntreprise(\OGIVE\AlertBundle\Entity\Entreprise $entreprise) {
         $this->entreprises->removeElement($entreprise);
         return $this;
     }

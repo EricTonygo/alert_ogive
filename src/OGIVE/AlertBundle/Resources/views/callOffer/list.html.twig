@@ -11,9 +11,9 @@
                 {%for callOffer in callOffers%}
                     <tr id="callOffer_list{{callOffer.id}}">
                         <td>
-                            <div class="ui ribbon label">{{callOffer.name}}</div>
+                            <div class="ui ribbon label">{{callOffer.reference}}</div>
                         </td>
-                        <td>{{callOffer.description}}</td>
+                        <td>{{callOffer.object}}</td>
                         <td class="right aligned">
                             <div class="ui dropdown item">
                                 <i class="ellipsis vertical icon"></i>

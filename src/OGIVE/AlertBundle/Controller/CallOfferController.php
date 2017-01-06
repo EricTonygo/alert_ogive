@@ -72,6 +72,8 @@ class CallOfferController extends Controller {
             if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
                 $callOffer->setState(1);
             }
+            $abstract = $callOffer->getType()." : "."N°".$callOffer->getReference()." du ".date_format($callOffer->getPublicationDate(), "d/m/Y")." pour ".$callOffer->getObject().". Dépôt des offres du ".date_format($callOffer->getOpeningDate(), "d/m/Y")." à ".date_format($callOffer->getOpeningDate(), "H:i")." au ".date_format($callOffer->getDeadline(), "d/m/Y")." à ".date_format($callOffer->getOpeningDate(), "H:i"); 
+            $callOffer->setAbstract($abstract);
             $callOffer = $repositoryCallOffer->saveCallOffer($callOffer);
             $callOffer_content_grid = $this->renderView('OGIVEAlertBundle:callOffer:callOffer-grid.html.twig', array('callOffer' => $callOffer));
             $callOffer_content_list = $this->renderView('OGIVEAlertBundle:callOffer:callOffer-list.html.twig', array('callOffer' => $callOffer));

@@ -47,11 +47,11 @@ class CallOfferType extends AbstractType {
                 ->add('object', null, array('required' => false))
                 ->add('owner', null, array('required' => false))
                 //->add('abstract')
-                ->add('uploadedFiles', 'file', array(
+               /* ->add('uploadedFiles', 'file', array(
                     'multiple' => true,
                     'data_class' => null,
                     'required' => false
-                ))
+                ))*/
                 ->add('domain', 'entity', array(
                     'class' => 'OGIVEAlertBundle:Domain',
                     'property' => 'name',

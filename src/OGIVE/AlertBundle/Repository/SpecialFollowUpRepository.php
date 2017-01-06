@@ -39,6 +39,7 @@ class SpecialFollowUpRepository extends \Doctrine\ORM\EntityRepository
             $em->close();
             throw $ex;
         }
+        return $specialFollowUp;
     }
 
     public function updateSpecialFollowUp(\OGIVE\AlertBundle\Entity\SpecialFollowUp $specialFollowUp) {
@@ -53,6 +54,7 @@ class SpecialFollowUpRepository extends \Doctrine\ORM\EntityRepository
             $em->close();
             throw $ex;
         }
+        return $specialFollowUp;
     }
     public function getAll() 
     {

@@ -11,8 +11,8 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  * @ORM\MappedSuperClass
  * @ORM\HasLifecycleCallbacks
  */
-class AlertProcedure
-{
+class AlertProcedure {
+
     /**
      * @var integer
      *
@@ -20,99 +20,99 @@ class AlertProcedure
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="type", type="string", length=255)
      */
-    private $type;
+    protected $type;
 
     /**
      * @var string
      *
      * @ORM\Column(name="reference", type="string", length=255)
      */
-    private $reference;
+    protected $reference;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="publication_date", type="datetime")
      */
-    private $publicationDate;
+    protected $publicationDate;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="deadline", type="datetime")
      */
-    private $deadline;
-    
+    protected $deadline;
+
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="opening_date", type="datetime")
      */
-    private $openingDate;
+    protected $openingDate;
 
     /**
      * @var string
      *
      * @ORM\Column(name="object", type="text")
      */
-    private $object;
-    
+    protected $object;
+
     /**
      * @var string
      *
      * @ORM\Column(name="owner", type="string", length=255)
      */
-    private $owner;
+    protected $owner;
 
     /**
      * @var string
      *
      * @ORM\Column(name="abstract", type="text")
      */
-    private $abstract;
+    protected $abstract;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="status", type="integer")
      */
-    private $status;
+    protected $status;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="state", type="integer")
      */
-    private $state;
+    protected $state;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="sending_date", type="datetime")
      */
-    private $sendingDate;
-    
+    protected $sendingDate;
+
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="create_date", type="datetime")
      */
-    private $createDate;
-    
+    protected $createDate;
+
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="last_update_date", type="datetime")
      */
-    private $lastUpdateDate;
-    
+    protected $lastUpdateDate;
+
     /**
      * @var \Domain
      *
@@ -121,47 +121,42 @@ class AlertProcedure
      *   @ORM\JoinColumn(name="domain", referencedColumnName="id")
      * })
      */
-    private $domain;
-    
-    
-    private $path;
+    protected $domain;
+    protected $path;
 
     /**
      * @Assert\File(maxSize="6000000") 
-    */
-    private $file;
-    
-    private $temp;
+     */
+    protected $file;
+    protected $temp;
 
     /**
-    * @ORM\Column(type="array", nullable=true)
-    */
-    private $piecesjointes;
-    
-    /**
-    * @ORM\Column(type="array", nullable=true)
-    */
-    private $originalpiecesjointes;
-	
-	/**
-    * @var array
-    */
-    private $uploadedFiles;
+     * @ORM\Column(type="array", nullable=true)
+     */
+    protected $piecesjointes;
 
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    protected $originalpiecesjointes;
+
+    /**
+     * @var array
+     */
+    protected $uploadedFiles;
 
     public function __construct() {
         $this->state = 0;
         $this->piecesjointes = array();
         $this->originalpiecesjointes = array();
     }
-    
+
     /**
      * Get id
      *
      * @return int
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -172,8 +167,7 @@ class AlertProcedure
      *
      * @return AlertProcedure
      */
-    public function setType($type)
-    {
+    public function setType($type) {
         $this->type = $type;
 
         return $this;
@@ -184,8 +178,7 @@ class AlertProcedure
      *
      * @return string
      */
-    public function getType()
-    {
+    public function getType() {
         return $this->type;
     }
 
@@ -196,8 +189,7 @@ class AlertProcedure
      *
      * @return AlertProcedure
      */
-    public function setReference($reference)
-    {
+    public function setReference($reference) {
         $this->reference = $reference;
 
         return $this;
@@ -208,8 +200,7 @@ class AlertProcedure
      *
      * @return string
      */
-    public function getReference()
-    {
+    public function getReference() {
         return $this->reference;
     }
 
@@ -220,8 +211,7 @@ class AlertProcedure
      *
      * @return AlertProcedure
      */
-    public function setPublicationDate($publicationDate)
-    {
+    public function setPublicationDate($publicationDate) {
         $this->publicationDate = $publicationDate;
 
         return $this;
@@ -232,8 +222,7 @@ class AlertProcedure
      *
      * @return \DateTime
      */
-    public function getPublicationDate()
-    {
+    public function getPublicationDate() {
         return $this->publicationDate;
     }
 
@@ -244,8 +233,7 @@ class AlertProcedure
      *
      * @return AlertProcedure
      */
-    public function setDeadline($deadline)
-    {
+    public function setDeadline($deadline) {
         $this->deadline = $deadline;
 
         return $this;
@@ -256,8 +244,7 @@ class AlertProcedure
      *
      * @return \DateTime
      */
-    public function getDeadline()
-    {
+    public function getDeadline() {
         return $this->deadline;
     }
 
@@ -268,8 +255,7 @@ class AlertProcedure
      *
      * @return AlertProcedure
      */
-    public function setObject($object)
-    {
+    public function setObject($object) {
         $this->object = $object;
 
         return $this;
@@ -280,11 +266,10 @@ class AlertProcedure
      *
      * @return string
      */
-    public function getObject()
-    {
+    public function getObject() {
         return $this->object;
     }
-    
+
     /**
      * Set owner
      *
@@ -292,8 +277,7 @@ class AlertProcedure
      *
      * @return AlertProcedure
      */
-    public function setOwner($owner)
-    {
+    public function setOwner($owner) {
         $this->owner = $owner;
 
         return $this;
@@ -304,8 +288,7 @@ class AlertProcedure
      *
      * @return string
      */
-    public function getOwner()
-    {
+    public function getOwner() {
         return $this->owner;
     }
 
@@ -316,8 +299,7 @@ class AlertProcedure
      *
      * @return AlertProcedure
      */
-    public function setAbstract($abstract)
-    {
+    public function setAbstract($abstract) {
         $this->abstract = $abstract;
 
         return $this;
@@ -328,8 +310,7 @@ class AlertProcedure
      *
      * @return string
      */
-    public function getAbstract()
-    {
+    public function getAbstract() {
         return $this->abstract;
     }
 
@@ -340,8 +321,7 @@ class AlertProcedure
      *
      * @return AlertProcedure
      */
-    public function setStatus($status)
-    {
+    public function setStatus($status) {
         $this->status = $status;
 
         return $this;
@@ -352,8 +332,7 @@ class AlertProcedure
      *
      * @return int
      */
-    public function getStatus()
-    {
+    public function getStatus() {
         return $this->status;
     }
 
@@ -364,8 +343,7 @@ class AlertProcedure
      *
      * @return AlertProcedure
      */
-    public function setState($state)
-    {
+    public function setState($state) {
         $this->state = $state;
 
         return $this;
@@ -376,8 +354,7 @@ class AlertProcedure
      *
      * @return int
      */
-    public function getState()
-    {
+    public function getState() {
         return $this->state;
     }
 
@@ -388,8 +365,7 @@ class AlertProcedure
      *
      * @return AlertProcedure
      */
-    public function setSendingDate($sendingDate)
-    {
+    public function setSendingDate($sendingDate) {
         $this->sendingDate = $sendingDate;
 
         return $this;
@@ -400,11 +376,10 @@ class AlertProcedure
      *
      * @return \DateTime
      */
-    public function getSendingDate()
-    {
+    public function getSendingDate() {
         return $this->sendingDate;
     }
-    
+
     /**
      * Set domain
      *
@@ -412,8 +387,7 @@ class AlertProcedure
      *
      * @return AlertProcedure
      */
-    public function setDomain($domain)
-    {
+    public function setDomain($domain) {
         $this->domain = $domain;
 
         return $this;
@@ -424,11 +398,10 @@ class AlertProcedure
      *
      * @return OGIVE\AlertBundle\Entity\Domain
      */
-    public function getDomain()
-    {
+    public function getDomain() {
         return $this->domain;
     }
-    
+
     /**
      * Set createDate
      *
@@ -436,8 +409,7 @@ class AlertProcedure
      *
      * @return AlertProcedure
      */
-    public function setCreateDate($createDate)
-    {
+    public function setCreateDate($createDate) {
         $this->createDate = $createDate;
 
         return $this;
@@ -448,11 +420,10 @@ class AlertProcedure
      *
      * @return \DateTime
      */
-    public function getCreateDate()
-    {
+    public function getCreateDate() {
         return $this->createDate;
     }
-    
+
     /**
      * Set lastUpdateDate
      *
@@ -460,8 +431,7 @@ class AlertProcedure
      *
      * @return AlertProcedure
      */
-    public function setLastUpdateDate($lastUpdateDate)
-    {
+    public function setLastUpdateDate($lastUpdateDate) {
         $this->lastUpdateDate = $lastUpdateDate;
 
         return $this;
@@ -472,12 +442,10 @@ class AlertProcedure
      *
      * @return \DateTime
      */
-    public function getLastUpdateDate()
-    {
+    public function getLastUpdateDate() {
         return $this->lastUpdateDate;
     }
-    
-    
+
     /**
      * Set openingDate
      *
@@ -485,8 +453,7 @@ class AlertProcedure
      *
      * @return AlertProcedure
      */
-    public function setOpeningDate($openingDate)
-    {
+    public function setOpeningDate($openingDate) {
         $this->openingDate = $openingDate;
 
         return $this;
@@ -497,19 +464,17 @@ class AlertProcedure
      *
      * @return \DateTime
      */
-    public function getOpeningDate()
-    {
+    public function getOpeningDate() {
         return $this->openingDate;
     }
-    
+
     /**
      * Set path
      *
      * @param string $path
      * @return Ressource
      */
-    public function setPath($path)
-    {
+    public function setPath($path) {
         $this->path = $path;
 
         return $this;
@@ -520,19 +485,17 @@ class AlertProcedure
      *
      * @return string 
      */
-    public function getPath()
-    {
+    public function getPath() {
         return $this->path;
     }
-    
+
     /**
      * Set piecesjointes
      *
      * @param string $piecesjointes
      * @return Ressource
      */
-    public function setPiecesjointes($piecesjointes)
-    {
+    public function setPiecesjointes($piecesjointes) {
         $this->piecesjointes = $piecesjointes;
 
         return $this;
@@ -543,19 +506,17 @@ class AlertProcedure
      *
      * @return array 
      */
-    public function getPiecesjointes()
-    {
+    public function getPiecesjointes() {
         return $this->piecesjointes;
     }
-    
+
     /**
      * Set originalpiecesjointes
      *
      * @param string $originalpiecesjointes
      * @return Ressource
      */
-    public function setOriginalpiecesjointes($originalpiecesjointes)
-    {
+    public function setOriginalpiecesjointes($originalpiecesjointes) {
         $this->originalpiecesjointes = $originalpiecesjointes;
 
         return $this;
@@ -566,11 +527,10 @@ class AlertProcedure
      *
      * @return array 
      */
-    public function getOriginalpiecesjointes()
-    {
+    public function getOriginalpiecesjointes() {
         return $this->originalpiecesjointes;
     }
-    
+
     /**
      * @param UploadedFile $file
      * @return object
@@ -597,10 +557,9 @@ class AlertProcedure
         return $this->file;
     }
 
-     protected function getUploadRootDir() {
+    protected function getUploadRootDir() {
         return __DIR__ . '/../../../web/uploads/procedures';
     }
-
 
     /**
      * @ORM\PrePersist() 
@@ -645,7 +604,7 @@ class AlertProcedure
         // the entity from being persisted to the database on error
         $this->getFile()->move($this->getUploadRootDir(), $this->path);
         $info = pathinfo($this->getFile()->getClientOriginalName());
-        $file_name =  basename($this->getFile()->getClientOriginalName(),'.'.$info['extension']);
+        $file_name = basename($this->getFile()->getClientOriginalName(), '.' . $info['extension']);
         $this->setReference($file_name);
         // check if we have an old image
         if (isset($this->temp)) {
@@ -658,14 +617,13 @@ class AlertProcedure
         }
         $this->file = null;
     }
-    
+
     /**
      * Sets uploadedFiles.
      *
      * @param array $uploadedFiles
      */
-    public function setUploadedFiles(array $uploadedFiles = null)
-    {
+    public function setUploadedFiles(array $uploadedFiles = null) {
         $this->uploadedFiles = $uploadedFiles;
     }
 
@@ -674,50 +632,45 @@ class AlertProcedure
      *
      * @return array
      */
-    public function getUploadedFiles()
-    {
+    public function getUploadedFiles() {
         return $this->uploadedFiles;
     }
-    
+
     /**
-    * @ORM\PreFlush()
-    */
-    public function uploadPiecesjointes()
-    {
-        if($this->uploadedFiles){
-            $this->piecesjointes= array();
-            $this->originalpiecesjointes= array();
-            foreach($this->uploadedFiles as $file)
-            {
+     * @ORM\PreFlush()
+     */
+    public function uploadPiecesjointes() {
+        if ($this->uploadedFiles) {
+            $this->piecesjointes = array();
+            $this->originalpiecesjointes = array();
+            foreach ($this->uploadedFiles as $file) {
                 $info = pathinfo($file->getClientOriginalName());
-                $file_name =  basename($file->getClientOriginalName(),'.'.$info['extension']);
+                $file_name = basename($file->getClientOriginalName(), '.' . $info['extension']);
                 array_push($this->originalpiecesjointes, $file_name);
-                $path = sha1(uniqid(mt_rand(), true)).'.'.$file->guessExtension();
-                array_push ($this->piecesjointes, $path);
+                $path = sha1(uniqid(mt_rand(), true)) . '.' . $file->guessExtension();
+                array_push($this->piecesjointes, $path);
                 $file->move($this->getUploadRootDir(), $path);
                 unset($file);
             }
         }
-        
-        $this->uploadedFiles=array();
-    } 
-    
+
+        $this->uploadedFiles = array();
+    }
+
     /**
      * @ORM\PreUpdate() 
      */
-    public function preUpdate()
-    {
+    public function preUpdate() {
         $this->lastUpdateDate = new \DateTime();
     }
 
     /**
      * @ORM\PrePersist() 
      */
-    public function prePersist()
-    {
+    public function prePersist() {
         $this->createDate = new \DateTime();
         $this->lastUpdateDate = new \DateTime();
         $this->status = 1;
     }
-}
 
+}

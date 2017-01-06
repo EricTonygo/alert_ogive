@@ -18,7 +18,7 @@ class SubscriptionRepository extends \Doctrine\ORM\EntityRepository
         $em->getConnection()->beginTransaction();
         try{
             $subscribers = $subscription->getSubscribers();
-            foreach ($subscriber as $subscribers) {
+            foreach ($subscribers as $subscriber) {
                 $subscriber->setSubscription(null);
                 $repositorySubscriber->updateSubscriber($subscriber);
             }
@@ -46,6 +46,7 @@ class SubscriptionRepository extends \Doctrine\ORM\EntityRepository
             $em->close();
             throw $ex;
         }
+        return $subscription;
     }
 
     public function updateSubscription(\OGIVE\AlertBundle\Entity\Subscription $subscription) {
@@ -60,6 +61,7 @@ class SubscriptionRepository extends \Doctrine\ORM\EntityRepository
             $em->close();
             throw $ex;
         }
+        return $subscription;
     }
     public function getAll() 
     {

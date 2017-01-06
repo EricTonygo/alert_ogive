@@ -94,6 +94,9 @@ class DomainController extends Controller {
     public function removeDomainAction(Domain $domain) {
 
         $repositoryDomain = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Domain');
+//        $repositoryCallOffer = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:CallOffer');
+//        $callOffer = $repositoryCallOffer->findOneBy(array("domain" => 6, "status" => 1));
+//        $callOffer->setDomain(null);
         if ($domain) {
             $repositoryDomain->deleteDomain($domain);
             $view = View::create(['domain' => $domain, "message" => 'Domaine supprimé avec succès']);

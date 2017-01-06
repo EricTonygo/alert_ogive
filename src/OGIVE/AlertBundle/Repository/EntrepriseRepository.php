@@ -12,9 +12,15 @@ class EntrepriseRepository extends \Doctrine\ORM\EntityRepository
 {
     public function deleteEntreprise(\OGIVE\AlertBundle\Entity\Entreprise $entreprise) {
         $em= $this->_em;
+        $repositorySubscriber = $em->getRepository("OGIVE\AlertBundle:Subscriber");
         $entreprise->setStatus(0);
         $em->getConnection()->beginTransaction();
         try{
+            $subscribers = $entreprise->getSubscribers();
+            foreach ($subscribers as $subscriber) {
+                $subscriber->setStatus(0);
+                $repositorySubscriber->updateSubscriber($subscriber);
+            }
             $em->persist($entreprise);
             $em->flush();
             $em->getConnection()->commit();
@@ -39,6 +45,7 @@ class EntrepriseRepository extends \Doctrine\ORM\EntityRepository
             $em->close();
             throw $ex;
         }
+        return $entreprise;
     }
 
     public function updateEntreprise(\OGIVE\AlertBundle\Entity\Entreprise $entreprise) {
@@ -53,6 +60,7 @@ class EntrepriseRepository extends \Doctrine\ORM\EntityRepository
             $em->close();
             throw $ex;
         }
+        return $entreprise;
     }
     public function getAll() 
     {

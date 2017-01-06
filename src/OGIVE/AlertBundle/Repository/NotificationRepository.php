@@ -39,6 +39,7 @@ class NotificationRepository extends \Doctrine\ORM\EntityRepository
             $em->close();
             throw $ex;
         }
+        return $notification;
     }
 
     public function updateNotification(\OGIVE\AlertBundle\Entity\Notification $notification) {
@@ -53,6 +54,7 @@ class NotificationRepository extends \Doctrine\ORM\EntityRepository
             $em->close();
             throw $ex;
         }
+        return $notification;
     }
     public function getAll() 
     {
