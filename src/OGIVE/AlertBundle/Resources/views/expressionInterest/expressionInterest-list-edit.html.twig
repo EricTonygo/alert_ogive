@@ -1,0 +1,35 @@
+{#<tr id="expressionInterest{{expressionInterest.id}}">#}
+<td>
+    <div class="ui ribbon label">{{expressionInterest.reference}}</div>
+</td>
+<td>{{expressionInterest.object}}</td>
+<td class="right aligned">
+    <div class="ui dropdown item">
+        <i class="ellipsis vertical icon"></i>
+        <div class="menu">
+            <div onclick="show_expressionInterest({{expressionInterest.id}});" class="show_expressionInterest_btn item">
+                <i class="unhide icon"></i>
+                Détails
+            </div>
+            <div onclick="edit_expressionInterest({{expressionInterest.id}});" class="edit_expressionInterest_btn item">
+                <i class="edit icon"></i>
+                Modifier
+            </div>
+            <div onclick="delete_expressionInterest({{expressionInterest.id}});" class="delete_expressionInterest_btn item">
+                <i class="trash icon"></i>
+                Supprimer
+            </div>
+            {% if is_granted('ROLE_ADMIN') %}
+                <div onclick="enable_expressionInterest({{expressionInterest.id}});" class="enable_expressionInterest_btn item" {% if expressionInterest.state == 1 %} style="display: none" {% endif %}>
+                    <i class="unlock icon"></i>
+                    Activer
+                </div>
+                <div onclick="disable_expressionInterest({{expressionInterest.id}});" class="disable_expressionInterest_btn item" {% if expressionInterest.state != 1 %} style="display: none" {% endif %}>
+                    <i class="lock icon"></i>
+                    Désactiver
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</td>
+{#</tr>#}

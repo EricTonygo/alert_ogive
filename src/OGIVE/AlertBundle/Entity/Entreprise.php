@@ -124,6 +124,8 @@ class Entreprise
      */
     public function __construct() {
         $this->state = 0;
+        $this->historicalAlertEntreprises = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->subscribers = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**

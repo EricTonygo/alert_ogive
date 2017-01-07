@@ -14,11 +14,74 @@ use Doctrine\ORM\Mapping as ORM;
 class ProcedureResult extends AlertProcedure
 {
     /**
+     * @var \CallOffer
+     *
+     * @ORM\ManyToOne(targetEntity="CallOffer")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="callOffer", referencedColumnName="id")
+     * })
+     */
+    private $callOffer;
+    
+    /**
+     * @var \ExpressionInterest
+     *
+     * @ORM\ManyToOne(targetEntity="ExpressionInterest")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="expressionInterest", referencedColumnName="id")
+     * })
+     */
+    private $expressionInterest;
+    
+    /**
      * Constructor
      */
     public function __construct() {
         parent::__construct();
-        $this->setType("Attribution");
+    }
+    
+    /**
+     * Set callOffer
+     *
+     * @param OGIVE\AlertBundle\Entity\CallOffer $callOffer
+     *
+     * @return ProcedureResult
+     */
+    public function setCallOffer($callOffer) {
+        $this->callOffer = $callOffer;
+
+        return $this;
+    }
+
+    /**
+     * Get callOffer
+     *
+     * @return OGIVE\AlertBundle\Entity\CallOffer
+     */
+    public function getCallOffer() {
+        return $this->callOffer;
+    }
+    
+    /**
+     * Set expressionInterest
+     *
+     * @param OGIVE\AlertBundle\Entity\ExpressionInterest $expressionInterest
+     *
+     * @return ProcedureResult
+     */
+    public function setExpressionInterest($expressionInterest) {
+        $this->expressionInterest = $expressionInterest;
+
+        return $this;
+    }
+
+    /**
+     * Get expressionInterest
+     *
+     * @return OGIVE\AlertBundle\Entity\ExpressionInterest
+     */
+    public function getExpressionInterest() {
+        return $this->expressionInterest;
     }
 }
 

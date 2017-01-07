@@ -76,6 +76,7 @@ class Subscription
      */
     public function __construct() {
         $this->state = 0;
+        $this->subscribers = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
     /**

@@ -1,23 +1,23 @@
-<div id="edit_additive" class="ui small modal">
+<div id="edit_expressionInterest" class="ui small modal">
     <i class="close icon"></i>
     <div id="header_details" class="header">
-        Details de l'additif << {{additive.reference}} >>
+        Details de la manifestation d'intérêt << {{expressionInterest.reference}} >>
     </div>
     <div id="header_edits" class="header" style="display: none">
-        Modification de l'additif << {{additive.reference}} >>
+        Modification de la manifestation d'intérêt << {{expressionInterest.reference}} >>
     </div>
     <div class="content">
-        {{ form_start(form, {'method': 'PUT', 'action': path('additive_update', {'id': additive.id}), 'attr': {'class': 'ui form', 'id': 'edit_additive_form'} }) }}
+        {{ form_start(form, {'method': 'PUT', 'action': path('expressionInterest_update', {'id': expressionInterest.id}), 'attr': {'class': 'ui form', 'id': 'edit_expressionInterest_form'} }) }}
         <div id="block_form_edit" style="display: none">
             <div class="field">
                 {{ form_label(form.reference,"Référence") }}
-                {{ form_widget(form.reference,{'attr':{'placeholder':"Référence de l'additif", 'data-validate': 'reference'}})}}
+                {{ form_widget(form.reference,{'attr':{'placeholder':"Référence de la manifestation d'intérêt", 'data-validate': 'reference'}})}}
             </div>
 
             <div class="field">
                 {{ form_label(form.object,"Objet") }}
                 {{ form_errors(form.object, {'attr': {'class': 'ui error message'}})}}
-                {{ form_widget(form.object,{'attr':{'placeholder':"Objet de l'additif", 'data-validate': 'object'}})}}
+                {{ form_widget(form.object,{'attr':{'placeholder':"Objet de la manifestation d'intérêt", 'data-validate': 'object'}})}}
             </div>
 
             <div class="field">
@@ -99,7 +99,7 @@
                     <label>Référence : </label> 
                 </div>
                 <div class="field">
-                    <span> {{ additive.reference}}</span>
+                    <span> {{ expressionInterest.reference}}</span>
                 </div>
             </div>
 
@@ -108,7 +108,7 @@
                     <label>Objet : </label> 
                 </div>
                 <div class="field">
-                    {{ additive.object}}
+                    {{ expressionInterest.object}}
                 </div>
             </div>
 
@@ -117,7 +117,7 @@
                     <label>Maître d'ouvrage : </label> 
                 </div>
                 <div class="field">
-                    <span> {{ additive.owner}}</span>
+                    <span> {{ expressionInterest.owner}}</span>
                 </div>
             </div>
 
@@ -126,7 +126,7 @@
                     <label>Domaine : </label> 
                 </div>
                 <div class="field">
-                    <span> {{ additive.domain.name}}</span>
+                    <span> {{ expressionInterest.domain.name}}</span>
                 </div>
             </div>
 
@@ -135,7 +135,7 @@
                     <label>Date de publication : </label> 
                 </div>
                 <div class="field">
-                    <span> {{ additive.publicationDate is empty ? "" : additive.publicationDate|date('d-m-Y')}}</span>
+                    <span> {{ expressionInterest.publicationDate is empty ? "" : expressionInterest.publicationDate|date('d-m-Y')}}</span>
                 </div>
             </div>
 
@@ -144,7 +144,7 @@
                     <label>Date de début de dépôt des offres : </label> 
                 </div>
                 <div class="field">
-                    <span> {{ additive.openingDate is empty ? "" : additive.openingDate|date('d-m-Y H:i:s')}}</span>
+                    <span> {{ expressionInterest.openingDate is empty ? "" : expressionInterest.openingDate|date('d-m-Y H:i:s')}}</span>
                 </div>
             </div>
 
@@ -153,7 +153,7 @@
                     <label>Date de fermeture de dépôt des offres : </label> 
                 </div>
                 <div class="field">
-                    <span> {{ additive.deadline is empty ? "" : additive.deadline|date('d-m-Y H:i:s')}}</span>
+                    <span> {{ expressionInterest.deadline is empty ? "" : expressionInterest.deadline|date('d-m-Y H:i:s')}}</span>
                 </div>
             </div>
 
@@ -162,7 +162,7 @@
                     <label>Date de notification aux abonnés : </label>
                 </div>
                 <div class="field">
-                    <span> {{ additive.sendingDate is empty ? "" : additive.sendingDate|date('d-m-Y H:i:s')}}</span>
+                    <span> {{ expressionInterest.sendingDate is empty ? "" : expressionInterest.sendingDate|date('d-m-Y H:i:s')}}</span>
                 </div>
             </div>
 
@@ -171,7 +171,7 @@
                     <label>Date de création : </label>
                 </div>
                 <div class="field">
-                    <span> {{ additive.createDate is empty ? "" : additive.createDate|date('d-m-Y H:i:s')}}</span>
+                    <span> {{ expressionInterest.createDate is empty ? "" : expressionInterest.createDate|date('d-m-Y H:i:s')}}</span>
                 </div>
             </div>
 
@@ -180,11 +180,11 @@
                     <label>Date de la dernière modification : </label> 
                 </div>
                 <div class="field">
-                    <span> {{ additive.createDate is empty ? "" : additive.createDate|date('d-m-Y H:i:s')}}</span>
+                    <span> {{ expressionInterest.createDate is empty ? "" : expressionInterest.createDate|date('d-m-Y H:i:s')}}</span>
                 </div>
             </div>
 
-            <div id="field_state_enable" class="two fields" {% if additive.state != 1 %} style="display: none" {% endif %}>
+            <div id="field_state_enable" class="two fields" {% if expressionInterest.state != 1 %} style="display: none" {% endif %}>
                 <div class="field">
                      <label>Etat : </label>
                 </div>
@@ -193,7 +193,7 @@
                 </div>             
             </div>
 
-            <div id="field_state_disable" class="two fields" {% if additive.state == 1 %} style="display: none" {% endif %}>
+            <div id="field_state_disable" class="two fields" {% if expressionInterest.state == 1 %} style="display: none" {% endif %}>
                 <div class="field">
                      <label>Etat : </label>
                 </div>
@@ -222,26 +222,26 @@
         {{ form_end(form) }}
     </div>
     <div class="actions">
-        <div id="cancel_details_additive" class="ui black deny button">
+        <div id="cancel_details_expressionInterest" class="ui black deny button">
             Fermer
         </div>
         {% if is_granted('ROLE_ADMIN') %}
-            <div id="cancel_edit_additive" class="ui grey button" style="display:none">
+            <div id="cancel_edit_expressionInterest" class="ui grey button" style="display:none">
                 Annuler
             </div>
-            <div id='disable_additive' onclick="disable_additive({{additive.id}});" class="ui red icon button" {% if additive.state != 1 %} style="display: none" {% endif %}>
+            <div id='disable_expressionInterest' onclick="disable_expressionInterest({{expressionInterest.id}});" class="ui red icon button" {% if expressionInterest.state != 1 %} style="display: none" {% endif %}>
                 <i class="lock icon"></i>
                 Désactiver
             </div>
-            <div id='enable_additive' onclick="enable_additive({{additive.id}});" class="ui green icon button" {% if additive.state == 1 %} style="display: none" {% endif %}>
+            <div id='enable_expressionInterest' onclick="enable_expressionInterest({{expressionInterest.id}});" class="ui green icon button" {% if expressionInterest.state == 1 %} style="display: none" {% endif %}>
                 <i class="unlock icon"></i>
                 Activer
             </div>
-            <div id='edit_additive_btn' class="ui primary icon button">
+            <div id='edit_expressionInterest_btn' class="ui primary icon button">
                 <i class="edit icon"></i>
                 Modifier
             </div>
-            <div id='submit_edit_additive' class="ui primary icon button" style="display: none">
+            <div id='submit_edit_expressionInterest' class="ui primary icon button" style="display: none">
                 <i class="save icon"></i>
                 Sauvegarder
             </div>

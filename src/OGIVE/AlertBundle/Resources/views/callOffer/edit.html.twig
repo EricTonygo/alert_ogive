@@ -4,11 +4,11 @@
         Modification de l'appel d'offre << {{callOffer.reference}} >>
     </div>
     <div class="content">
-        {{ form_start(form, {'method': 'PUT', 'action': path('call_offer_update', {'id': callOffer.id}), 'attr': {'class': 'ui form', 'id': 'edit_callOffer_form'} }) }}
+        {{ form_start(form, {'method': 'PUT', 'action': path('call_offer_update', {'id': callOffer.id}), 'attr': {'class': 'ui form', 'id': 'edit_callOffer_form'} })}}
 
        <div class="field">
             {{ form_label(form.reference,"Référence") }}
-            {{ form_widget(form.reference,{'attr':{'placeholder':"Référence de l'appel", 'data-validate': 'reference'}})}}
+            {{ form_widget(form.reference,{'attr':{'placeholder':"Référence de l'appel d'offre", 'data-validate': 'reference'}})}}
         </div>
 
         <div class="field">
@@ -26,7 +26,7 @@
         <div class="field">
             {{ form_label(form.domain,"Domaine") }}
             {{ form_errors(form.domain, {'attr': {'class': 'ui error message'}})}}
-            {{ form_widget(form.domain,{'attr':{'data-validate': 'domain', 'class': 'ui dropdown'}})}}
+            {{ form_widget(form.domain,{'attr':{'data-validate': 'domain', 'class': 'ui search dropdown'}})}}
         </div>
 
         <div class="field">
@@ -69,23 +69,22 @@
                 </div>
             </div>
         </div>
-        <div class="field">
+        {#<div class="field">
             {{ form_label(form.uploadedFiles, "Fichiers attachés")}}           
                 {{ form_errors(form.uploadedFiles, {'attr': {'class': 'list'}})}}           
-            {{ form_widget(form.uploadedFiles, { 'attr' : {'class' : 'inputfile' }}) }}
-        </div>
+            {{ form_widget(form.uploadedFiles) }}
+        </div>#}
 
         <div class="field">
             {{form_rest(form)}}
-            <div id="server_error_message" class="ui negative message" style="display:none">
+            <div id="server_error_message_edit" class="ui negative message" style="display:none">
                 <i class="close icon"></i>
-                <div id="server_error_content" class="header">Internal server error</div>
+                <div id="server_error_content_edit" class="header">Internal server error</div>
             </div>
-            <div id="error_name_message" class="ui error message" style="display: none">
+            <div id="error_name_message_edit" class="ui error message" style="display: none">
                 <i class="close icon"></i>
-                <div id="error_name_header" class="header"></div>
-                <ul id="error_name_list" class="list">
-                    
+                <div id="error_name_header_edit" class="header"></div>
+                <ul id="error_name_list_edit" class="list">
                 </ul>
             </div>
         </div>

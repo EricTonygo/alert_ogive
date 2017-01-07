@@ -1,4 +1,7 @@
 $(function () {
+    $('#ogive_alertbundle_additive_domain.ui.dropdown').dropdown({
+        on: 'click'
+    });
     $('#add_additive_btn').click(function () {
         $('#add_additive.ui.modal').modal('setting', {
             autofocus: false,
@@ -10,6 +13,7 @@ $(function () {
 
     $('#submit_additive').click(function (e) {
         e.preventDefault();
+        $('#server_error_message').hide();
         $('#message_error').hide();
         $('#message_success').hide();
         $('#error_name_message').hide();
@@ -62,15 +66,69 @@ $(function () {
                                 prompt: "Veuillez renseigner la date de publication de l'offre"
                             }
                         ]
+                    },
+                    opening_date_date: {
+                        identifier: 'opening_date_date',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Veuillez renseigner la date d'ouverture de dépôt"
+                            }
+                        ]
+                    },
+                    opening_date_time: {
+                        identifier: 'opening_date_time',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Veuillez renseigner l'heure d'ouverture de dépôt"
+                            }
+                        ]
+                    },
+                    deadline_date: {
+                        identifier: 'deadline_date',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Veuillez renseigner la date limite de dépôt"
+                            }
+                        ]
+                    },
+                    deadline_time: {
+                        identifier: 'deadline_time',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Veuillez renseigner l'heure limite de dépôt"
+                            }
+                        ]
+                    },
+                    sending_date_date: {
+                        identifier: 'sending_date_date',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Veuillez renseigner la date de notification aux abonnés"
+                            }
+                        ]
+                    },
+                    sending_date_time: {
+                        identifier: 'sending_date_time',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Veuillez renseigner l'heure de notification aux abonnés"
+                            }
+                        ]
                     }
-                    
+
                 },
                 inline: true,
                 on: 'blur',
                 onSuccess: function (event, fields) {
                     $.ajax({
                         type: 'post',
-                        url: $('#add_additive_form.ui.form').attr('action'),
+                        url: Routing.generate('additive_add'),
                         data: fields,
                         dataType: 'json',
                         beforeSend: function () {
@@ -104,7 +162,7 @@ $(function () {
                                     on: 'hover'
                                 });
                                 $('#add_additive.ui.modal').modal('hide');
-                                $('#message_success>div.header').html('Additive ajouté avec succès !');
+                                $('#message_success>div.header').html('Additif ajouté avec succès !');
                                 $('#message_success').show();
                                 setTimeout(function () {
                                     $('#message_success').hide();
@@ -130,7 +188,7 @@ function edit_additive(id) {
     $('#message_success').hide();
     $.ajax({
         type: 'PUT',
-        url: '/additives/' + id,
+        url: Routing.generate('additive_update', {id: id}),
         dataType: 'json',
         beforeSend: function () {
             $('#message_loading').show();
@@ -150,7 +208,11 @@ function edit_additive(id) {
                 $('#edit_additive_content').html(response.edit_additive_form);
                 $('#edit_additive.ui.modal').modal('setting', {
                     autofocus: false,
-                    inverted: true
+                    inverted: true,
+                    closable: false
+                });
+                $('#ogive_alertbundle_additive_domain.ui.dropdown').dropdown({
+                    on: 'click'
                 });
                 $('#edit_additive.ui.modal').modal('show');
                 execute_edit(id);
@@ -158,7 +220,7 @@ function edit_additive(id) {
             $('#message_loading').hide();
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            $('#message_loading').hide()();
+            $('#message_loading').hide();
             /*alertify.error("Internal Server Error");*/
         }
     });
@@ -167,6 +229,7 @@ function edit_additive(id) {
 function execute_edit(id) {
     $('#submit_edit_additive').click(function (e) {
         e.preventDefault();
+        $('#server_error_message').hide();
         $('#message_error').hide();
         $('#message_success').hide();
         $('#error_name_message').hide();
@@ -175,23 +238,112 @@ function execute_edit(id) {
     $('#edit_additive_form.ui.form')
             .form({
                 fields: {
-                    name: {
-                        identifier: 'name',
+                    reference: {
+                        identifier: 'reference',
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: "Veuillez saisir le nom de l'additif"
+                                prompt: 'Veuillez saisir la reférence'
+                            }
+                        ]
+                    },
+                    object: {
+                        identifier: 'object',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Veuillez saisir l'objet"
+                            }
+                        ]
+                    },
+                    owner: {
+                        identifier: 'owner',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Veuillez renseigner le maître d'ouvrage"
+                            }
+                        ]
+                    },
+                    domain: {
+                        identifier: 'domain',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Veuillez selectionner le domaine"
+                            }
+                        ]
+                    },
+                    publication_date: {
+                        identifier: 'publication_date',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Veuillez renseigner la date de publication de l'offre"
+                            }
+                        ]
+                    },
+                    opening_date_date: {
+                        identifier: 'opening_date_date',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Veuillez renseigner la date d'ouverture de dépôt"
+                            }
+                        ]
+                    },
+                    opening_date_time: {
+                        identifier: 'opening_date_time',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Veuillez renseigner l'heure d'ouverture de dépôt"
+                            }
+                        ]
+                    },
+                    deadline_date: {
+                        identifier: 'deadline_date',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Veuillez renseigner la date limite de dépôt"
+                            }
+                        ]
+                    },
+                    deadline_time: {
+                        identifier: 'deadline_time',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Veuillez renseigner l'heure limite de dépôt"
+                            }
+                        ]
+                    },
+                    sending_date_date: {
+                        identifier: 'sending_date_date',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Veuillez renseigner la date de notification aux abonnés"
+                            }
+                        ]
+                    },
+                    sending_date_time: {
+                        identifier: 'sending_date_time',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Veuillez renseigner l'heure de notification aux abonnés"
                             }
                         ]
                     }
-
                 },
                 inline: true,
                 on: 'blur',
                 onSuccess: function (event, fields) {
                     $.ajax({
                         type: 'PUT',
-                        url: $('#edit_additive_form.ui.form').attr('action'),
+                        url: Routing.generate('additive_update', {id: id}),
                         data: fields,
                         dataType: 'json',
                         beforeSend: function () {
@@ -257,7 +409,7 @@ function delete_additive(id) {
     $('#message_success').hide();
     $.ajax({
         type: 'DELETE',
-        url: '/additives/' + id,
+        url: Routing.generate('additive_delete', {id: id}),
         dataType: 'json',
         beforeSend: function () {
             $('#message_loading').show();
@@ -301,7 +453,7 @@ function show_additive(id) {
     $('#message_success').hide();
     $.ajax({
         type: 'GET',
-        url: '/additives/' + id,
+        url: Routing.generate('additive_get_one', {id: id}),
         dataType: 'json',
         beforeSend: function () {
             $('#message_loading').show();
@@ -321,7 +473,11 @@ function show_additive(id) {
                 $('#edit_additive_content').html(response.additive_details);
                 $('#edit_additive.ui.modal').modal('setting', {
                     autofocus: false,
-                    inverted: true
+                    inverted: true,
+                    closable: false
+                });
+                $('#ogive_alertbundle_additive_domain.ui.dropdown').dropdown({
+                    on: 'click'
                 });
                 $('#edit_additive.ui.modal').modal('show');
                 execute_edit(id);
@@ -343,7 +499,7 @@ function show_additive(id) {
             $('#message_loading').hide();
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            $('#message_loading').hide()();
+            $('#message_loading').hide();
             /*alertify.error("Internal Server Error");*/
         }
     });
@@ -356,7 +512,7 @@ function enable_additive(id) {
     $('#edit_additive').remove();
     $.ajax({
         type: 'PUT',
-        url: '/additives/' + id,
+        url: Routing.generate('additive_update', {id: id}),
         data: {'action': 'enable'},
         dataType: 'json',
         beforeSend: function () {
@@ -403,7 +559,7 @@ function disable_additive(id) {
     $('#edit_additive').remove();
     $.ajax({
         type: 'PUT',
-        url: '/additives/' + id,
+        url: Routing.generate('additive_update', {id: id}),
         data: {'action': 'disable'},
         dataType: 'json',
         beforeSend: function () {
@@ -418,7 +574,7 @@ function disable_additive(id) {
                 }, 4000);
             },
             400: function (response, textStatus, jqXHR) {
-                $('#message_error>div.header').html("Echec de la désactivation du additivee");
+                $('#message_error>div.header').html("Echec de la désactivation de l'additif");
                 $('#message_error').show();
                 setTimeout(function () {
                     $('#message_error').hide();

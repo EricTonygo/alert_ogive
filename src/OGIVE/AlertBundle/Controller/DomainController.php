@@ -22,11 +22,15 @@ class DomainController extends Controller {
 
     /**
      * @Rest\View()
-     * @Rest\Get("/domains" , name="domain_index", options={ "method_prefix" = false })
+     * @Rest\Get("/domains" , name="domain_index", options={ "method_prefix" = false, "expose" = true })
      * @param Request $request
      */
     public function getDomainsAction(Request $request) {
 
+        if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            return $this->redirect($this->generateUrl('fos_user_security_login'));
+        }
+        
         $em = $this->getDoctrine()->getManager();
         $domain = new Domain();
         $form = $this->createForm('OGIVE\AlertBundle\Form\DomainType', $domain);
@@ -39,9 +43,12 @@ class DomainController extends Controller {
 
     /**
      * @Rest\View()
-     * @Rest\Get("/domains/{id}" , name="domain_get_one", options={ "method_prefix" = false })
+     * @Rest\Get("/domains/{id}" , name="domain_get_one", options={ "method_prefix" = false, "expose" = true })
      */
     public function getDomainByIdAction(Domain $domain) {
+        if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            return $this->redirect($this->generateUrl('fos_user_security_login'));
+        }
         if (empty($domain)) {
             return new JsonResponse(['message' => 'Domaine introuvable'], Response::HTTP_NOT_FOUND);
         }
@@ -57,9 +64,12 @@ class DomainController extends Controller {
 
     /**
      * @Rest\View(statusCode=Response::HTTP_CREATED)
-     * @Rest\Post("/domains")
+     * @Rest\Post("/domains", name="domain_add", options={ "method_prefix" = false, "expose" = true  })
      */
     public function postDomainsAction(Request $request) {
+        if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            return $this->redirect($this->generateUrl('fos_user_security_login'));
+        }
         $domain = new Domain();
         $repositoryDomain = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Domain');
         $form = $this->createForm('OGIVE\AlertBundle\Form\DomainType', $domain);
@@ -75,7 +85,6 @@ class DomainController extends Controller {
             $domain = $repositoryDomain->saveDomain($domain);
             $domain_content_grid = $this->renderView('OGIVEAlertBundle:domain:domain-grid.html.twig', array('domain' => $domain));
             $domain_content_list = $this->renderView('OGIVEAlertBundle:domain:domain-list.html.twig', array('domain' => $domain));
-            /* @var $domain Domain */
             $view = View::create(["code" => 200, 'domain' => $domain, 'domain_content_grid' => $domain_content_grid, 'domain_content_list' => $domain_content_list]);
             $view->setFormat('json');
             return $view;
@@ -89,14 +98,14 @@ class DomainController extends Controller {
 
     /**
      * @Rest\View(statusCode=Response::HTTP_OK)
-     * @Rest\Delete("/domains/{id}")
+     * @Rest\Delete("/domains/{id}", name="domain_delete", options={ "method_prefix" = false, "expose" = true  })
      */
     public function removeDomainAction(Domain $domain) {
 
+        if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            return $this->redirect($this->generateUrl('fos_user_security_login'));
+        }
         $repositoryDomain = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Domain');
-//        $repositoryCallOffer = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:CallOffer');
-//        $callOffer = $repositoryCallOffer->findOneBy(array("domain" => 6, "status" => 1));
-//        $callOffer->setDomain(null);
         if ($domain) {
             $repositoryDomain->deleteDomain($domain);
             $view = View::create(['domain' => $domain, "message" => 'Domaine supprimé avec succès']);
@@ -109,11 +118,13 @@ class DomainController extends Controller {
 
     /**
      * @Rest\View()
-     * @Rest\Put("/domains/{id}", name="domain_update", options={ "method_prefix" = false })
+     * @Rest\Put("/domains/{id}", name="domain_update", options={ "method_prefix" = false, "expose" = true  })
      * @param Request $request
      */
     public function putDomainAction(Request $request, Domain $domain) {
-
+        if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            return $this->redirect($this->generateUrl('fos_user_security_login'));
+        }
         return $this->updateDomainAction($request, $domain);
     }
 
@@ -150,7 +161,6 @@ class DomainController extends Controller {
             $domain = $repositoryDomain->updateDomain($domain);
             $domain_content_grid = $this->renderView('OGIVEAlertBundle:domain:domain-grid-edit.html.twig', array('domain' => $domain));
             $domain_content_list = $this->renderView('OGIVEAlertBundle:domain:domain-list-edit.html.twig', array('domain' => $domain));
-            /* @var $domain Domain */
             $view = View::create(["code" => 200, 'domain' => $domain, 'domain_content_grid' => $domain_content_grid, 'domain_content_list' => $domain_content_list]);
             $view->setFormat('json');
             return $view;
@@ -158,7 +168,6 @@ class DomainController extends Controller {
             return $form;
         } else {
             $edit_domain_form = $this->renderView('OGIVEAlertBundle:domain:edit.html.twig', array('form' => $form->createView(), 'domain' => $domain));
-            /* @var $domain Domain */
             $view = View::create(["code" => 200, 'domain' => $domain, 'edit_domain_form' => $edit_domain_form]);
             $view->setFormat('json');
             return $view;

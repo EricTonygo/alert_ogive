@@ -1,65 +1,64 @@
-<div id="edit_additive" class="ui small modal">
+<div id="edit_procedureResult" class="ui small modal">
     <i class="close icon"></i>
     <div id="header_details" class="header">
-        Details de l'additif << {{additive.reference}} >>
+        Details de l'attribution << {{procedureResult.reference}} >>
     </div>
     <div id="header_edits" class="header" style="display: none">
-        Modification de l'additif << {{additive.reference}} >>
+        Modification de l'attribution << {{procedureResult.reference}} >>
     </div>
     <div class="content">
-        {{ form_start(form, {'method': 'PUT', 'action': path('additive_update', {'id': additive.id}), 'attr': {'class': 'ui form', 'id': 'edit_additive_form'} }) }}
+        {{ form_start(form, {'method': 'PUT', 'action': path('procedureResult_update', {'id': procedureResult.id}), 'attr': {'class': 'ui form', 'id': 'edit_procedureResult_form'} }) }}
         <div id="block_form_edit" style="display: none">
+            <div class="inline fields">
+                <label>Type d'attribution: </label>
+                <div class="field">
+                    <div class="ui radio checkbox">
+                        <input id='checkbox_aao_edit' type="radio" name="role" value="ATTRIBUTION_AAO" checked="checked">
+                        <label>D'un AAO</label>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="ui radio checkbox">
+                        <input id='checkbox_asmi_edit' type="radio" name="role" value="ATTRIBUTION_ASMI">
+                        <label>D'un ASMI</label>
+                    </div>
+                </div>
+            </div>
+
             <div class="field">
                 {{ form_label(form.reference,"Référence") }}
-                {{ form_widget(form.reference,{'attr':{'placeholder':"Référence de l'additif", 'data-validate': 'reference'}})}}
+                {{ form_widget(form.reference,{'attr':{'placeholder':"Référence de l'attribution", 'data-validate': 'reference'}})}}
+            </div>
+
+            <div div="field_aao_edit" class="field">
+                {{ form_label(form.callOffer,"L'appel d'offre conserné") }}
+                {{ form_errors(form.callOffer, {'attr': {'class': 'ui error message'}})}}
+                {{ form_widget(form.callOffer,{'attr':{'data-validate': 'callOffer', 'class': 'ui search dropdown'}})}}
+            </div>
+
+            <div div="field_asmi_edit" class="field">
+                {{ form_label(form.expressionInterest,"La manifestation d'intérêt consernée") }}
+                {{ form_errors(form.expressionInterest, {'attr': {'class': 'ui error message'}})}}
+                {{ form_widget(form.expressionInterest,{'attr':{'data-validate': 'expressionInterest', 'class': 'ui search dropdown'}})}}
             </div>
 
             <div class="field">
-                {{ form_label(form.object,"Objet") }}
+                {{ form_label(form.object,"Contenu") }}
                 {{ form_errors(form.object, {'attr': {'class': 'ui error message'}})}}
-                {{ form_widget(form.object,{'attr':{'placeholder':"Objet de l'additif", 'data-validate': 'object'}})}}
+                {{ form_widget(form.object,{'attr':{'placeholder':"Contenu de l'attribution", 'data-validate': 'object'}})}}
             </div>
 
             <div class="field">
-                {{ form_label(form.owner,"Maître d'ouvrage") }}
-                {{ form_errors(form.owner, {'attr': {'class': 'ui error message'}})}}
-                {{ form_widget(form.owner,{'attr':{'placeholder':"Maître d'ouvrage", 'data-validate': 'owner'}})}}
-            </div>
-
-            <div class="field">
-                {{ form_label(form.domain,"Domaine") }}
-                {{ form_errors(form.domain, {'attr': {'class': 'ui error message'}})}}
-                {{ form_widget(form.domain,{'attr':{'data-validate': 'domain', 'class': 'ui dropdown'}})}}
-            </div>
-
-            <div class="field">
-                {{ form_label(form.publicationDate,"Date de publication") }}
-                {{ form_widget(form.publicationDate,{'attr':{'data-validate': 'publication_date'}})}}
-            </div>
-
-            <div class="field">
-                {{ form_label(form.openingDate,"Date d'ouverture de dépôt") }}
-                <div class="two fields">
-                    <div class="field">
-                        {{ form_widget(form.openingDate.date,{'attr':{'data-validate': 'opening_date_date'}})}}
-                    </div>
-                    <div class="field">
-                        {{ form_widget(form.openingDate.time,{'attr':{'data-validate': 'opening_date_time'}})}}
-                    </div>
+            {{ form_label(form.publicationDate,"Date de publication") }}
+            <div class="two fields">
+                <div class="field">
+                    {{ form_widget(form.publicationDate.date,{'attr':{'data-validate': 'publication_date_date'}})}}
+                </div>
+                <div class="field">
+                    {{ form_widget(form.publicationDate.time,{'attr':{'data-validate': 'publication_date_time'}})}}
                 </div>
             </div>
-
-            <div class="field">
-                {{ form_label(form.deadline,"Date limite de dépôt") }}
-                <div class="two fields">
-                    <div class="field">
-                        {{ form_widget(form.deadline.date,{'attr':{'data-validate': 'deadline_date'}})}}
-                    </div>
-                    <div class="field">
-                        {{ form_widget(form.deadline.time,{'attr':{'data-validate': 'deadline_time'}})}}
-                    </div>
-                </div>
-            </div>
+        </div>
 
             <div class="field">
                 {{ form_label(form.sendingDate,"Date de notification aux abonnés") }}
@@ -99,61 +98,60 @@
                     <label>Référence : </label> 
                 </div>
                 <div class="field">
-                    <span> {{ additive.reference}}</span>
+                    <span> {{ procedureResult.reference}}</span>
                 </div>
             </div>
 
+            <div class="two fields">
+                <div class="field">
+                    <label>Contenu : </label> 
+                </div>
+                <div class="field">
+                    {{ procedureResult.object}}
+                </div>
+            </div>
+            {% if procedureResult.callOffer %}
+            <div class="two fields">
+                <div class="field">
+                    <label>AAO : </label> 
+                </div>
+                <div class="field">
+                    <span> {{ procedureResult.callOffer.reference}}</span>
+                </div>
+            </div>
             <div class="two fields">
                 <div class="field">
                     <label>Objet : </label> 
                 </div>
                 <div class="field">
-                    {{ additive.object}}
+                    <span> {{ procedureResult.callOffer.object}}</span>
                 </div>
             </div>
-
+            {% elseif procedureResult.expressionInterest %}
             <div class="two fields">
                 <div class="field">
-                    <label>Maître d'ouvrage : </label> 
+                    <label>ASMI : </label> 
                 </div>
                 <div class="field">
-                    <span> {{ additive.owner}}</span>
+                    <span> {{ procedureResult.expressionInterest.reference}}</span>
                 </div>
             </div>
-
             <div class="two fields">
                 <div class="field">
-                    <label>Domaine : </label> 
+                    <label>Objet : </label> 
                 </div>
                 <div class="field">
-                    <span> {{ additive.domain.name}}</span>
+                    <span> {{ procedureResult.expressionInterest.object}}</span>
                 </div>
             </div>
+            {% endif %}
 
             <div class="two fields">
                 <div class="field">
                     <label>Date de publication : </label> 
                 </div>
                 <div class="field">
-                    <span> {{ additive.publicationDate is empty ? "" : additive.publicationDate|date('d-m-Y')}}</span>
-                </div>
-            </div>
-
-            <div class="two fields">
-                <div class="field">
-                    <label>Date de début de dépôt des offres : </label> 
-                </div>
-                <div class="field">
-                    <span> {{ additive.openingDate is empty ? "" : additive.openingDate|date('d-m-Y H:i:s')}}</span>
-                </div>
-            </div>
-
-            <div class="two fields">
-                <div class="field">
-                    <label>Date de fermeture de dépôt des offres : </label> 
-                </div>
-                <div class="field">
-                    <span> {{ additive.deadline is empty ? "" : additive.deadline|date('d-m-Y H:i:s')}}</span>
+                    <span> {{ procedureResult.publicationDate is empty ? "" : procedureResult.publicationDate|date('d-m-Y H:i:s')}}</span>
                 </div>
             </div>
 
@@ -162,7 +160,7 @@
                     <label>Date de notification aux abonnés : </label>
                 </div>
                 <div class="field">
-                    <span> {{ additive.sendingDate is empty ? "" : additive.sendingDate|date('d-m-Y H:i:s')}}</span>
+                    <span> {{ procedureResult.sendingDate is empty ? "" : procedureResult.sendingDate|date('d-m-Y H:i:s')}}</span>
                 </div>
             </div>
 
@@ -171,7 +169,7 @@
                     <label>Date de création : </label>
                 </div>
                 <div class="field">
-                    <span> {{ additive.createDate is empty ? "" : additive.createDate|date('d-m-Y H:i:s')}}</span>
+                    <span> {{ procedureResult.createDate is empty ? "" : procedureResult.createDate|date('d-m-Y H:i:s')}}</span>
                 </div>
             </div>
 
@@ -180,27 +178,27 @@
                     <label>Date de la dernière modification : </label> 
                 </div>
                 <div class="field">
-                    <span> {{ additive.createDate is empty ? "" : additive.createDate|date('d-m-Y H:i:s')}}</span>
+                    <span> {{ procedureResult.createDate is empty ? "" : procedureResult.createDate|date('d-m-Y H:i:s')}}</span>
                 </div>
             </div>
 
-            <div id="field_state_enable" class="two fields" {% if additive.state != 1 %} style="display: none" {% endif %}>
+            <div id="field_state_enable" class="two fields" {% if procedureResult.state != 1 %} style="display: none" {% endif %}>
                 <div class="field">
-                     <label>Etat : </label>
+                    <label>Etat : </label>
                 </div>
                 <div class="field">
-                     <span> Activé </span>
+                    <span> Activé </span>
                 </div>             
             </div>
 
-            <div id="field_state_disable" class="two fields" {% if additive.state == 1 %} style="display: none" {% endif %}>
+            <div id="field_state_disable" class="two fields" {% if procedureResult.state == 1 %} style="display: none" {% endif %}>
                 <div class="field">
-                     <label>Etat : </label>
+                    <label>Etat : </label>
                 </div>
                 <div class="field">
-                     <span> Désactivé </span>
+                    <span> Désactivé </span>
                 </div>
-                 
+
             </div>
 
         </div>
@@ -222,26 +220,26 @@
         {{ form_end(form) }}
     </div>
     <div class="actions">
-        <div id="cancel_details_additive" class="ui black deny button">
+        <div id="cancel_details_procedureResult" class="ui black deny button">
             Fermer
         </div>
         {% if is_granted('ROLE_ADMIN') %}
-            <div id="cancel_edit_additive" class="ui grey button" style="display:none">
+            <div id="cancel_edit_procedureResult" class="ui grey button" style="display:none">
                 Annuler
             </div>
-            <div id='disable_additive' onclick="disable_additive({{additive.id}});" class="ui red icon button" {% if additive.state != 1 %} style="display: none" {% endif %}>
+            <div id='disable_procedureResult' onclick="disable_procedureResult({{procedureResult.id}});" class="ui red icon button" {% if procedureResult.state != 1 %} style="display: none" {% endif %}>
                 <i class="lock icon"></i>
                 Désactiver
             </div>
-            <div id='enable_additive' onclick="enable_additive({{additive.id}});" class="ui green icon button" {% if additive.state == 1 %} style="display: none" {% endif %}>
+            <div id='enable_procedureResult' onclick="enable_procedureResult({{procedureResult.id}});" class="ui green icon button" {% if procedureResult.state == 1 %} style="display: none" {% endif %}>
                 <i class="unlock icon"></i>
                 Activer
             </div>
-            <div id='edit_additive_btn' class="ui primary icon button">
+            <div id='edit_procedureResult_btn' class="ui primary icon button">
                 <i class="edit icon"></i>
                 Modifier
             </div>
-            <div id='submit_edit_additive' class="ui primary icon button" style="display: none">
+            <div id='submit_edit_procedureResult' class="ui primary icon button" style="display: none">
                 <i class="save icon"></i>
                 Sauvegarder
             </div>

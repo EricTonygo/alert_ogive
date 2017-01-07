@@ -1,0 +1,35 @@
+<tr id="procedureResult_list{{procedureResult.id}}">
+    <td>
+        <div class="ui ribbon label">{{procedureResult.reference}}</div>
+    </td>
+    <td>{{procedureResult.object}}</td>
+    <td class="right aligned">
+        <div class="ui dropdown item">
+            <i class="ellipsis vertical icon"></i>
+            <div class="menu">
+                <div onclick="show_procedureResult({{procedureResult.id}});" class="show_procedureResult_btn item">
+                    <i class="unhide icon"></i>
+                    Détails
+                </div>
+                <div onclick="edit_procedureResult({{procedureResult.id}});" class="edit_procedureResult_btn item">
+                    <i class="edit icon"></i>
+                    Modifier
+                </div>
+                <div onclick="delete_procedureResult({{procedureResult.id}});" class="delete_procedureResult_btn item">
+                    <i class="trash icon"></i>
+                    Supprimer
+                </div>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <div onclick="enable_procedureResult({{procedureResult.id}});" class="enable_procedureResult_btn item" {% if procedureResult.state == 1 %} style="display: none" {% endif %}>
+                        <i class="unlock icon"></i>
+                        Activer
+                    </div>
+                    <div onclick="disable_procedureResult({{procedureResult.id}});" class="disable_procedureResult_btn item" {% if procedureResult.state != 1 %} style="display: none" {% endif %}>
+                        <i class="lock icon"></i>
+                        Désactiver
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </td>
+</tr>
