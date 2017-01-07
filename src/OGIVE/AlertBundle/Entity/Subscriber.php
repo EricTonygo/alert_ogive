@@ -111,6 +111,8 @@ class Subscriber
      */
     public function __construct() {
         $this->state = 0;
+        $this->specialFollowUps = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->historicalAlertSubscribers = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
     /**

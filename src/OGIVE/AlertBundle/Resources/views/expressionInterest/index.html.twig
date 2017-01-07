@@ -1,5 +1,5 @@
 {% extends "OGIVEAlertBundle::layout.html.twig" %}
-{% block title %}Les additifs{% endblock %}
+{% block title %}Les manifestations d'intérêt{% endblock %}
 
 {% block sub_header %}
     {{parent()}}
@@ -8,7 +8,7 @@
         <div class="ui container">
             <div class="ui left inverted secondary menu">
                 <a id="document_title" class="item">
-                    <h3>Liste des additifs</h3>
+                    <h3>Liste des manifestations d'intérêt</h3>
                 </a>
             </div>
 
@@ -27,20 +27,20 @@
     </div>
 {% endblock %}
 {% block content %}
-    {% include('OGIVEAlertBundle:additive:grid.html.twig') %} 
-    {% include('OGIVEAlertBundle:additive:list.html.twig') %}
+    {% include('OGIVEAlertBundle:expressionInterest:grid.html.twig') %} 
+    {% include('OGIVEAlertBundle:expressionInterest:list.html.twig') %}
 {% endblock %}
 {% block block_add_new %}
-    {% include('OGIVEAlertBundle:additive:new.html.twig') %}
+    {% include('OGIVEAlertBundle:expressionInterest:new.html.twig') %}
 {% endblock %}
 
 {% block block_edit %}
-    <div id="edit_additive_content">
+    <div id="edit_expressionInterest_content">
 
     </div>
 {% endblock %}
 {% block block_delete_modal %}
-    <div id="confirm_delete_additive" class="ui modal">
+    <div id="confirm_delete_expressionInterest" class="ui modal">
         <i class="close icon"></i>
         <div class="header">
             Confirmation de la suppression
@@ -64,5 +64,5 @@
 
 {% block javascripts %}
     {{ parent()}}
-    <script type="text/javascript" src="{{ asset('bundles/ogivealert/js/additive.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/ogivealert/js/expressionInterest.js')}}"></script>
 {% endblock %}

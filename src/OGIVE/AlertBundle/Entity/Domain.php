@@ -81,6 +81,7 @@ class Domain
      */
     public function __construct() {
         $this->state = 0;
+        $this->entreprises = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**

@@ -1,25 +1,25 @@
 $(function () {
-    $('#ogive_alertbundle_calloffer_domain.ui.dropdown').dropdown({
+    $('#ogive_alertbundle_expressionInterest_domain.ui.dropdown').dropdown({
         on: 'click'
     });
-    $('#add_callOffer_btn').click(function () {
-        $('#add_callOffer.ui.modal').modal('setting', {
+    $('#add_expressionInterest_btn').click(function () {
+        $('#add_expressionInterest.ui.modal').modal('setting', {
             autofocus: false,
             inverted: true,
             closable: false
         });
-        $('#add_callOffer.ui.modal').modal('show');
+        $('#add_expressionInterest.ui.modal').modal('show');
     });
 
-    $('#submit_callOffer').click(function (e) {
+    $('#submit_expressionInterest').click(function (e) {
         e.preventDefault();
         $('#server_error_message').hide();
         $('#message_error').hide();
         $('#message_success').hide();
         $('#error_name_message').hide();
-        $('#add_callOffer_form.ui.form').submit();
+        $('#add_expressionInterest_form.ui.form').submit();
     });
-    $('#add_callOffer_form.ui.form')
+    $('#add_expressionInterest_form.ui.form')
             .form({
                 fields: {
                     reference: {
@@ -128,13 +128,13 @@ $(function () {
                 onSuccess: function (event, fields) {
                     $.ajax({
                         type: 'post',
-                        url: Routing.generate('call_offer_add'),
+                        url: Routing.generate('expressionInterest_add'),
                         data: fields,
                         dataType: 'json',
                         beforeSend: function () {
-                            $('#submit_callOffer').addClass('disabled');
-                            $('#cancel_add_callOffer').addClass('disabled');
-                            $('#add_callOffer_form.ui.form').addClass('loading');
+                            $('#submit_expressionInterest').addClass('disabled');
+                            $('#cancel_add_expressionInterest').addClass('disabled');
+                            $('#add_expressionInterest_form.ui.form').addClass('loading');
                         },
                         statusCode: {
                             500: function (xhr) {
@@ -153,16 +153,16 @@ $(function () {
                         },
                         success: function (response, textStatus, jqXHR) {
                             if (response.code === 200) {
-                                $('#cancel_add_callOffer').removeClass('disabled');
-                                $('#submit_callOffer').removeClass('disabled');
-                                $('#add_callOffer_form.ui.form').removeClass('loading');
-                                $('#list_as_grid_content').prepend(response.callOffer_content_grid);
-                                $('#list_as_table_content').prepend(response.callOffer_content_list);
+                                $('#cancel_add_expressionInterest').removeClass('disabled');
+                                $('#submit_expressionInterest').removeClass('disabled');
+                                $('#add_expressionInterest_form.ui.form').removeClass('loading');
+                                $('#list_as_grid_content').prepend(response.expressionInterest_content_grid);
+                                $('#list_as_table_content').prepend(response.expressionInterest_content_list);
                                 $('.ui.dropdown').dropdown({
                                     on: 'hover'
                                 });
-                                $('#add_callOffer.ui.modal').modal('hide');
-                                $('#message_success>div.header').html("Appel d'offre ajouté avec succès !");
+                                $('#add_expressionInterest.ui.modal').modal('hide');
+                                $('#message_success>div.header').html("Manifestation d'intérêt ajoutée avec succès !");
                                 $('#message_success').show();
                                 setTimeout(function () {
                                     $('#message_success').hide();
@@ -171,9 +171,9 @@ $(function () {
 
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
-                            $('#cancel_add_callOffer').removeClass('disabled');
-                            $('#submit_callOffer').removeClass('disabled');
-                            $('#add_callOffer_form.ui.form').removeClass('loading');
+                            $('#cancel_add_expressionInterest').removeClass('disabled');
+                            $('#submit_expressionInterest').removeClass('disabled');
+                            $('#add_expressionInterest_form.ui.form').removeClass('loading');
                             /*alertify.error("Internal Server Error");*/
                         }
                     });
@@ -183,12 +183,12 @@ $(function () {
             );
 });
 
-function edit_callOffer(id) {
+function edit_expressionInterest(id) {
     $('#message_error').hide();
     $('#message_success').hide();
     $.ajax({
         type: 'PUT',
-        url: Routing.generate('call_offer_update', {id: id}),
+        url: Routing.generate('expressionInterest_update', {id: id}),
         dataType: 'json',
         beforeSend: function () {
             $('#message_loading').show();
@@ -204,17 +204,17 @@ function edit_callOffer(id) {
         },
         success: function (response, textStatus, jqXHR) {
             if (response.code === 200) {
-                $('#edit_callOffer').remove();
-                $('#edit_callOffer_content').html(response.edit_callOffer_form);
-                $('#edit_callOffer.ui.modal').modal('setting', {
+                $('#edit_expressionInterest').remove();
+                $('#edit_expressionInterest_content').html(response.edit_expressionInterest_form);
+                $('#edit_expressionInterest.ui.modal').modal('setting', {
                     autofocus: false,
                     inverted: true,
                     closable: false
                 });
-                $('#ogive_alertbundle_calloffer_domain.ui.dropdown').dropdown({
+                $('#ogive_alertbundle_expressionInterest_domain.ui.dropdown').dropdown({
                     on: 'click'
                 });
-                $('#edit_callOffer.ui.modal').modal('show');
+                $('#edit_expressionInterest.ui.modal').modal('show');
                 execute_edit(id);
             }
             $('#message_loading').hide();
@@ -227,15 +227,15 @@ function edit_callOffer(id) {
 }
 
 function execute_edit(id) {
-    $('#submit_edit_callOffer').click(function (e) {
+    $('#submit_edit_expressionInterest').click(function (e) {
         e.preventDefault();
         $('#server_error_message').hide();
         $('#message_error').hide();
         $('#message_success').hide();
         $('#error_name_message').hide();
-        $('#edit_callOffer_form.ui.form').submit();
+        $('#edit_expressionInterest_form.ui.form').submit();
     });
-    $('#edit_callOffer_form.ui.form')
+    $('#edit_expressionInterest_form.ui.form')
             .form({
                 fields: {
                     reference: {
@@ -343,16 +343,16 @@ function execute_edit(id) {
                 onSuccess: function (event, fields) {
                     $.ajax({
                         type: 'PUT',
-                        url: Routing.generate('call_offer_update', {id: id}),
+                        url: Routing.generate('expressionInterest_update', {id: id}),
                         data: fields,
                         dataType: 'json',
                         beforeSend: function () {
-                            $('#submit_edit_callOffer').addClass('disabled');
-                            $('#cancel_edit_callOffer').addClass('disabled');
-                            $('#edit_callOffer_form.ui.form').addClass('loading');
-                            $('#cancel_details_callOffer').addClass('disabled');
-                            $('#disable_callOffer').addClass('disabled');
-                            $('#enable_callOffer').addClass('disabled');
+                            $('#submit_edit_expressionInterest').addClass('disabled');
+                            $('#cancel_edit_expressionInterest').addClass('disabled');
+                            $('#edit_expressionInterest_form.ui.form').addClass('loading');
+                            $('#cancel_details_expressionInterest').addClass('disabled');
+                            $('#disable_expressionInterest').addClass('disabled');
+                            $('#enable_expressionInterest').addClass('disabled');
                         },
                         statusCode: {
                             500: function (xhr) {
@@ -370,31 +370,31 @@ function execute_edit(id) {
                         },
                         success: function (response, textStatus, jqXHR) {
                             if (response.code === 200) {
-                                $('#submit_edit_callOffer').removeClass('disabled');
-                                $('#cancel_edit_callOffer').removeClass('disabled');
-                                $('#edit_callOffer_form.ui.form').removeClass('loading');
-                                $('#cancel_details_callOffer').removeClass('disabled');
-                                $('#disable_callOffer').removeClass('disabled');
-                                $('#enable_callOffer').removeClass('disabled');
-                                $('#callOffer_grid' + id).html(response.callOffer_content_grid);
-                                $('#callOffer_list' + id).html(response.callOffer_content_list);
+                                $('#submit_edit_expressionInterest').removeClass('disabled');
+                                $('#cancel_edit_expressionInterest').removeClass('disabled');
+                                $('#edit_expressionInterest_form.ui.form').removeClass('loading');
+                                $('#cancel_details_expressionInterest').removeClass('disabled');
+                                $('#disable_expressionInterest').removeClass('disabled');
+                                $('#enable_expressionInterest').removeClass('disabled');
+                                $('#expressionInterest_grid' + id).html(response.expressionInterest_content_grid);
+                                $('#expressionInterest_list' + id).html(response.expressionInterest_content_list);
                                 $('.ui.dropdown').dropdown({
                                     on: 'hover'
                                 });
-                                $('#edit_callOffer.ui.modal').modal('hide');
-                                $('#message_success>div.header').html("Appel d'offre modifié avec succès !");
+                                $('#edit_expressionInterest.ui.modal').modal('hide');
+                                $('#message_success>div.header').html("Manifestation d'intérêt modifiée avec succès !");
                                 $('#message_success').show();
                                 setTimeout(function () {
                                     $('#message_success').hide();
                                 }, 4000);
-                                $('#edit_callOffer').remove();
+                                $('#edit_expressionInterest').remove();
                             }
 
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
-                            $('#submit_edit_callOffer').removeClass('disabled');
-                            $('#cancel_edit_callOffer').removeClass('disabled');
-                            $('#edit_callOffer_form.ui.form').removeClass('loading');
+                            $('#submit_edit_expressionInterest').removeClass('disabled');
+                            $('#cancel_edit_expressionInterest').removeClass('disabled');
+                            $('#edit_expressionInterest_form.ui.form').removeClass('loading');
                             /*alertify.error("Internal Server Error");*/
                         }
                     });
@@ -404,12 +404,12 @@ function execute_edit(id) {
             );
 }
 
-function delete_callOffer(id) {
+function delete_expressionInterest(id) {
     $('#message_error').hide();
     $('#message_success').hide();
     $.ajax({
         type: 'DELETE',
-        url: Routing.generate('call_offer_delete', {id: id}),
+        url: Routing.generate('expressionInterest_delete', {id: id}),
         dataType: 'json',
         beforeSend: function () {
             $('#message_loading').show();
@@ -432,8 +432,8 @@ function delete_callOffer(id) {
         },
         success: function (response, textStatus, jqXHR) {
             console.log(response);
-            $('#callOffer_grid' + id).remove();
-            $('#callOffer_list' + id).remove();
+            $('#expressionInterest_grid' + id).remove();
+            $('#expressionInterest_list' + id).remove();
             $('#message_loading').hide();
             $('#message_success>div.header').html(response.message);
             $('#message_success').show();
@@ -448,12 +448,12 @@ function delete_callOffer(id) {
     });
 }
 
-function show_callOffer(id) {
+function show_expressionInterest(id) {
     $('#message_error').hide();
     $('#message_success').hide();
     $.ajax({
         type: 'GET',
-        url: Routing.generate('call_offer_get_one', {id: id}),
+        url: Routing.generate('expressionInterest_get_one', {id: id}),
         dataType: 'json',
         beforeSend: function () {
             $('#message_loading').show();
@@ -469,30 +469,30 @@ function show_callOffer(id) {
         },
         success: function (response, textStatus, jqXHR) {
             if (response.code === 200) {
-                $('#edit_callOffer').remove();
-                $('#edit_callOffer_content').html(response.callOffer_details);
-                $('#edit_callOffer.ui.modal').modal('setting', {
+                $('#edit_expressionInterest').remove();
+                $('#edit_expressionInterest_content').html(response.expressionInterest_details);
+                $('#edit_expressionInterest.ui.modal').modal('setting', {
                     autofocus: false,
                     inverted: true,
                     closable: false
                 });
-                $('#ogive_alertbundle_calloffer_domain.ui.dropdown').dropdown({
+                $('#ogive_alertbundle_expressionInterest_domain.ui.dropdown').dropdown({
                     on: 'click'
                 });
-                $('#edit_callOffer.ui.modal').modal('show');
+                $('#edit_expressionInterest.ui.modal').modal('show');
                 execute_edit(id);
-                $('#edit_callOffer_btn').click(function () {
+                $('#edit_expressionInterest_btn').click(function () {
                     $('#block_details').hide();
                     $('#block_form_edit').show();
-                    $('#cancel_edit_callOffer').show();
-                    $('#submit_edit_callOffer').show();
+                    $('#cancel_edit_expressionInterest').show();
+                    $('#submit_edit_expressionInterest').show();
                     $(this).hide();
                 });
-                $('#cancel_edit_callOffer').click(function () {
+                $('#cancel_edit_expressionInterest').click(function () {
                     $('#block_details').show();
                     $('#block_form_edit').hide();
-                    $('#edit_callOffer_btn').show();
-                    $('#submit_edit_callOffer').hide();
+                    $('#edit_expressionInterest_btn').show();
+                    $('#submit_edit_expressionInterest').hide();
                     $(this).hide();
                 });
             }
@@ -505,14 +505,14 @@ function show_callOffer(id) {
     });
 }
 
-function enable_callOffer(id) {
+function enable_expressionInterest(id) {
     $('#message_error').hide();
     $('#message_success').hide();
-    $('#edit_callOffer.ui.modal').modal('hide');
-    $('#edit_callOffer').remove();
+    $('#edit_expressionInterest.ui.modal').modal('hide');
+    $('#edit_expressionInterest').remove();
     $.ajax({
         type: 'PUT',
-        url: Routing.generate('call_offer_update', {id: id}),
+        url: Routing.generate('expressionInterest_update', {id: id}),
         data: {'action': 'enable'},
         dataType: 'json',
         beforeSend: function () {
@@ -527,7 +527,7 @@ function enable_callOffer(id) {
                 }, 4000);
             },
             400: function (response, textStatus, jqXHR) {
-                $('#message_error>div.header').html("Echec d'activation de l'appel d'offre");
+                $('#message_error>div.header').html("Echec d'activation de la manifestation");
                 $('#message_error').show();
                 setTimeout(function () {
                     $('#message_error').hide();
@@ -537,8 +537,8 @@ function enable_callOffer(id) {
         success: function (response, textStatus, jqXHR) {
             console.log(response);
             $('#message_loading').hide();
-            $('#enable_callOffer_grid' + id).hide();
-            $('#disable_callOffer_grid' + id).show();
+            $('#enable_expressionInterest_grid' + id).hide();
+            $('#disable_expressionInterest_grid' + id).show();
             $('#message_success>div.header').html(response.message);
             $('#message_success').show();
             setTimeout(function () {
@@ -552,14 +552,14 @@ function enable_callOffer(id) {
     });
 }
 
-function disable_callOffer(id) {
+function disable_expressionInterest(id) {
     $('#message_error').hide();
     $('#message_success').hide();
-    $('#edit_callOffer.ui.modal').modal('hide');
-    $('#edit_callOffer').remove();
+    $('#edit_expressionInterest.ui.modal').modal('hide');
+    $('#edit_expressionInterest').remove();
     $.ajax({
         type: 'PUT',
-        url: Routing.generate('call_offer_update', {id: id}),
+        url: Routing.generate('expressionInterest_update', {id: id}),
         data: {'action': 'disable'},
         dataType: 'json',
         beforeSend: function () {
@@ -574,7 +574,7 @@ function disable_callOffer(id) {
                 }, 4000);
             },
             400: function (response, textStatus, jqXHR) {
-                $('#message_error>div.header').html("Echec de la désactivation de l'appel d'offre");
+                $('#message_error>div.header').html("Echec de la désactivation de la manifestition");
                 $('#message_error').show();
                 setTimeout(function () {
                     $('#message_error').hide();
@@ -584,8 +584,8 @@ function disable_callOffer(id) {
         success: function (response, textStatus, jqXHR) {
             console.log(response);
             $('#message_loading').hide();
-            $('#disable_callOffer_grid' + id).hide();
-            $('#enable_callOffer_grid' + id).show();
+            $('#disable_expressionInterest_grid' + id).hide();
+            $('#enable_expressionInterest_grid' + id).show();
             $('#message_success>div.header').html(response.message);
             $('#message_success').show();
             setTimeout(function () {

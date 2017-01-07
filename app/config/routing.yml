@@ -10,8 +10,14 @@ ogive_alert_additive:
     resource: "@OGIVEAlertBundle/Controller/AdditiveController.php"
     type:     rest
 
-
-
+ogive_alert_expressionInterest:
+    resource: "@OGIVEAlertBundle/Controller/ExpressionInterestController.php"
+    type:     rest
+    
+ogive_alert_procedureResult:
+    resource: "@OGIVEAlertBundle/Controller/ProcedureResultController.php"
+    type:     rest
+    
 ogive_alert:
     resource: "@OGIVEAlertBundle/Resources/config/routing.yml"
     prefix:   /

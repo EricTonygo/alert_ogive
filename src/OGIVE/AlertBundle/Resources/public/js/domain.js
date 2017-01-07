@@ -35,7 +35,7 @@ $(function () {
                 onSuccess: function (event, fields) {
                     $.ajax({
                         type: 'post',
-                        url: $('#add_domain_form.ui.form').attr('action'),
+                        url: Routing.generate('domain_add'),
                         data: fields,
                         dataType: 'json',
                         beforeSend: function () {
@@ -95,7 +95,7 @@ function edit_domain(id) {
     $('#message_success').hide();
     $.ajax({
         type: 'PUT',
-        url: '/domains/' + id,
+        url: Routing.generate('domain_update', { id: id }),
         dataType: 'json',
         beforeSend: function () {
             $('#message_loading').show();
@@ -123,7 +123,7 @@ function edit_domain(id) {
             $('#message_loading').hide();
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            $('#message_loading').hide()();
+            $('#message_loading').hide();
             /*alertify.error("Internal Server Error");*/
         }
     });
@@ -157,7 +157,7 @@ function execute_edit(id) {
                 onSuccess: function (event, fields) {
                     $.ajax({
                         type: 'PUT',
-                        url: $('#edit_domain_form.ui.form').attr('action'),
+                        url: Routing.generate('domain_update', { id: id }),
                         data: fields,
                         dataType: 'json',
                         beforeSend: function () {
@@ -223,7 +223,7 @@ function delete_domain(id) {
     $('#message_success').hide();
     $.ajax({
         type: 'DELETE',
-        url: '/domains/' + id,
+        url: Routing.generate('domain_delete', { id: id }),
         dataType: 'json',
         beforeSend: function () {
             $('#message_loading').show();
@@ -267,7 +267,7 @@ function show_domain(id) {
     $('#message_success').hide();
     $.ajax({
         type: 'GET',
-        url: '/domains/' + id,
+        url: Routing.generate('domain_get_one', { id: id }),
         dataType: 'json',
         beforeSend: function () {
             $('#message_loading').show();
@@ -309,7 +309,7 @@ function show_domain(id) {
             $('#message_loading').hide();
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            $('#message_loading').hide()();
+            $('#message_loading').hide();
             /*alertify.error("Internal Server Error");*/
         }
     });
@@ -322,7 +322,7 @@ function enable_domain(id) {
     $('#edit_domain').remove();
     $.ajax({
         type: 'PUT',
-        url: '/domains/' + id,
+        url: Routing.generate('domain_update', { id: id }),
         data: {'action': 'enable'},
         dataType: 'json',
         beforeSend: function () {
@@ -369,7 +369,7 @@ function disable_domain(id) {
     $('#edit_domain').remove();
     $.ajax({
         type: 'PUT',
-        url: '/domains/' + id,
+        url: Routing.generate('domain_update', { id: id }),
         data: {'action': 'disable'},
         dataType: 'json',
         beforeSend: function () {

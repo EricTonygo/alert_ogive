@@ -46,14 +46,14 @@ class AlertProcedure {
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="deadline", type="datetime")
+     * @ORM\Column(name="deadline", type="datetime", nullable=true)
      */
     protected $deadline;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="opening_date", type="datetime")
+     * @ORM\Column(name="opening_date", type="datetime", nullable=true)
      */
     protected $openingDate;
 
@@ -67,7 +67,7 @@ class AlertProcedure {
     /**
      * @var string
      *
-     * @ORM\Column(name="owner", type="string", length=255)
+     * @ORM\Column(name="owner", type="string", length=255, nullable=true)
      */
     protected $owner;
 
@@ -136,7 +136,7 @@ class AlertProcedure {
     /**
      * @var array
      */
-    protected $uploadedFiles;
+    public $uploadedFiles;
 
     public function __construct() {
         $this->state = 0;

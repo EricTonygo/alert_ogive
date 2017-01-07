@@ -8,7 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 
-class AdditiveType extends AbstractType
+class ExpressionInterestType extends AbstractType
 {
 
     /**
@@ -74,7 +74,7 @@ class AdditiveType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'OGIVE\AlertBundle\Entity\Additive'
+            'data_class' => 'OGIVE\AlertBundle\Entity\ExpressionInterest'
         ));
     }
 
@@ -83,7 +83,7 @@ class AdditiveType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'ogive_alertbundle_additive';
+        return 'ogive_alertbundle_expressionInterest';
     }
 
 

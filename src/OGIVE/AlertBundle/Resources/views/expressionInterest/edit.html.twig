@@ -1,20 +1,20 @@
-<div id="add_callOffer" class="ui small modal">
+<div id="edit_expressionInterest" class="ui small modal">
     <i class="close icon"></i>
     <div class="header">
-        Ajout d'un appel d'offre
+        Modification de la manifestation d'intérêt << {{expressionInterest.reference}} >>
     </div>
     <div class="content">
-        {{ form_start(form, {'method': 'POST', 'action': '/calls-offer', 'attr': {'class': 'ui form', 'id': 'add_callOffer_form'} }) }}
+        {{ form_start(form, {'method': 'PUT', 'action': path('expessionInterest_update', {'id': expressionInterest.id}), 'attr': {'class': 'ui form', 'id': 'edit_expressionInterest_form'} })}}
 
-        <div class="field">
+       <div class="field">
             {{ form_label(form.reference,"Référence") }}
-            {{ form_widget(form.reference,{'attr':{'placeholder':"Référence de l'appel d'offre", 'data-validate': 'reference'}})}}
+            {{ form_widget(form.reference,{'attr':{'placeholder':"Référence de la manifestation d'intérêt", 'data-validate': 'reference'}})}}
         </div>
 
         <div class="field">
             {{ form_label(form.object,"Objet") }}
             {{ form_errors(form.object, {'attr': {'class': 'ui error message'}})}}
-            {{ form_widget(form.object,{'attr':{'placeholder':"Objet de l'appel d'offre", 'data-validate': 'object'}})}}
+            {{ form_widget(form.object,{'attr':{'placeholder':"Objet de la manifestation d'intérêt", 'data-validate': 'object'}})}}
         </div>
 
         <div class="field">
@@ -26,7 +26,7 @@
         <div class="field">
             {{ form_label(form.domain,"Domaine") }}
             {{ form_errors(form.domain, {'attr': {'class': 'ui error message'}})}}
-            {{ form_widget(form.domain,{'attr':{'id': 'select_domain_edit', 'data-validate': 'domain', 'class': 'ui search dropdown'}})}}
+            {{ form_widget(form.domain,{'attr':{'data-validate': 'domain', 'class': 'ui search dropdown'}})}}
         </div>
 
         <div class="field">
@@ -77,14 +77,14 @@
 
         <div class="field">
             {{form_rest(form)}}
-            <div id="server_error_message" class="ui negative message" style="display:none">
+            <div id="server_error_message_edit" class="ui negative message" style="display:none">
                 <i class="close icon"></i>
-                <div id="server_error_content" class="header">Internal server error</div>
+                <div id="server_error_content_edit" class="header">Internal server error</div>
             </div>
-            <div id="error_name_message" class="ui error message" style="display: none">
+            <div id="error_name_message_edit" class="ui error message" style="display: none">
                 <i class="close icon"></i>
-                <div id="error_name_header" class="header"></div>
-                <ul id="error_name_list" class="list">
+                <div id="error_name_header_edit" class="header"></div>
+                <ul id="error_name_list_edit" class="list">
 
                 </ul>
             </div>
@@ -93,15 +93,12 @@
         {{ form_end(form) }}
     </div>
     <div class="actions">
-        <div id="cancel_add_callOffer" class="ui black deny button">
+        <div id="cancel_edit_expressionInterest" class="ui black deny button">
             Annuler
         </div>
-        <div id='submit_callOffer' class="ui primary icon button">
+        <div id='submit_edit_expressionInterest' class="ui primary icon button">
             <i class="save icon"></i>
             Sauvegarder
         </div>
     </div>
 </div>
-<button id="add_callOffer_btn" class="float_button circular ui huge red icon button" data-tooltip="Nouvel AAO" data-position="top center" data-inverted="">
-    <i class="icon plus"></i>
-</button>

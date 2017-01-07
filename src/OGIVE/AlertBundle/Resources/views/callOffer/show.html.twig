@@ -11,7 +11,7 @@
         <div id="block_form_edit" style="display: none">
             <div class="field">
                 {{ form_label(form.reference,"Référence") }}
-                {{ form_widget(form.reference,{'attr':{'placeholder':"Référence de l'appel", 'data-validate': 'reference'}})}}
+                {{ form_widget(form.reference,{'attr':{'placeholder':"Référence de l'appel d'offre", 'data-validate': 'reference'}})}}
             </div>
 
             <div class="field">
@@ -72,11 +72,11 @@
                     </div>
                 </div>
             </div>
-            <div class="field">
+            {#<div class="field">
                 {{ form_label(form.uploadedFiles, "Fichiers attachés")}}           
-                {{ form_errors(form.uploadedFiles, {'attr': {'class': 'list'}})}}           
-                {{ form_widget(form.uploadedFiles, { 'attr' : {'class' : 'inputfile' }}) }}
-            </div>
+                    {{ form_errors(form.uploadedFiles, {'attr': {'class': 'list'}})}}           
+                {{ form_widget(form.uploadedFiles) }}
+            </div>#}
 
             <div class="field">
                 {{form_rest(form)}}
@@ -94,28 +94,113 @@
             </div>
         </div>
         <div id="block_details">
-            <div class="inline field">
-                <label>Référence : </label> <span> {{ callOffer.reference}}</span>
+            <div class="two fields">
+                <div class="field">
+                    <label>Référence : </label> 
+                </div>
+                <div class="field">
+                    <span> {{ callOffer.reference}}</span>
+                </div>
             </div>
 
-            <div class="inline field">
-                <label>Objet : </label> <p> {{ callOffer.object}}</p>
+            <div class="two fields">
+                <div class="field">
+                    <label>Objet : </label> 
+                </div>
+                <div class="field">
+                    {{ callOffer.object}}
+                </div>
             </div>
 
-            <div class="inline field">
-                <label>Date de création : </label> <span> {{ callOffer.createDate is empty ? "" : callOffer.createDate|date('d-m-Y H:i:s')}}</span>
+            <div class="two fields">
+                <div class="field">
+                    <label>Maître d'ouvrage : </label> 
+                </div>
+                <div class="field">
+                    <span> {{ callOffer.owner}}</span>
+                </div>
             </div>
 
-            <div class="inline field">
-                <label>Date de la dernière modification : </label> <span> {{ callOffer.createDate is empty ? "" : callOffer.createDate|date('d-m-Y H:i:s')}}</span>
+            <div class="two fields">
+                <div class="field">
+                    <label>Domaine : </label> 
+                </div>
+                <div class="field">
+                    <span> {{ callOffer.domain.name}}</span>
+                </div>
             </div>
 
-            <div id="field_state_enable" class="inline field" {% if callOffer.state != 1 %} style="display: none" {% endif %}>
-                <label>Etat : </label> <span> Activé </span>
+            <div class="two fields">
+                <div class="field">
+                    <label>Date de publication : </label> 
+                </div>
+                <div class="field">
+                    <span> {{ callOffer.publicationDate is empty ? "" : callOffer.publicationDate|date('d-m-Y')}}</span>
+                </div>
             </div>
 
-            <div id="field_state_disable" class="inline field" {% if callOffer.state == 1 %} style="display: none" {% endif %}>
-                <label>Etat : </label> <span> Désactivé </span>
+            <div class="two fields">
+                <div class="field">
+                    <label>Date de début de dépôt des offres : </label> 
+                </div>
+                <div class="field">
+                    <span> {{ callOffer.openingDate is empty ? "" : callOffer.openingDate|date('d-m-Y H:i:s')}}</span>
+                </div>
+            </div>
+
+            <div class="two fields">
+                <div class="field">
+                    <label>Date de fermeture de dépôt des offres : </label> 
+                </div>
+                <div class="field">
+                    <span> {{ callOffer.deadline is empty ? "" : callOffer.deadline|date('d-m-Y H:i:s')}}</span>
+                </div>
+            </div>
+
+            <div class="two fields">
+                <div class="field">
+                    <label>Date de notification aux abonnés : </label>
+                </div>
+                <div class="field">
+                    <span> {{ callOffer.sendingDate is empty ? "" : callOffer.sendingDate|date('d-m-Y H:i:s')}}</span>
+                </div>
+            </div>
+
+            <div class="two fields">
+                <div class="field">
+                    <label>Date de création : </label>
+                </div>
+                <div class="field">
+                    <span> {{ callOffer.createDate is empty ? "" : callOffer.createDate|date('d-m-Y H:i:s')}}</span>
+                </div>
+            </div>
+
+            <div class="two fields">
+                <div class="field">
+                    <label>Date de la dernière modification : </label> 
+                </div>
+                <div class="field">
+                    <span> {{ callOffer.createDate is empty ? "" : callOffer.createDate|date('d-m-Y H:i:s')}}</span>
+                </div>
+            </div>
+
+            <div id="field_state_enable" class="two fields" {% if callOffer.state != 1 %} style="display: none" {% endif %}>
+                <div class="field">
+                     <label>Etat : </label>
+                </div>
+                <div class="field">
+                     <span> Activé </span>
+                </div>             
+            </div>
+
+            <div id="field_state_disable" class="two fields" {% if callOffer.state == 1 %} style="display: none" {% endif %}>
+                <div class="field">
+                     <label>Etat : </label>
+                </div>
+                <div class="field">
+                     <span> Désactivé </span>
+                </div>
+                 
             </div>
 
         </div>

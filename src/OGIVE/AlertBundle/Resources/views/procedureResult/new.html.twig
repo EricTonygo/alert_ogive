@@ -1,0 +1,106 @@
+<div id="add_procedureResult" class="ui small modal">
+    <i class="close icon"></i>
+    <div class="header">
+        Ajout d'un attribution
+    </div>
+    <div class="content">
+        {{ form_start(form, {'method': 'POST', 'action': '/results', 'attr': {'class': 'ui form', 'id': 'add_procedureResult_form'} }) }}
+
+        <div class="inline fields">
+            <label>Type d'attribution: </label>
+            <div class="field">
+                <div class="ui radio checkbox">
+                    <input id='checkbox_aao_add' type="radio" name="role" value="ATTRIBUTION_AAO" checked="checked">
+                    <label>D'un AAO</label>
+                </div>
+            </div>
+            <div class="field">
+                <div class="ui radio checkbox">
+                    <input id='checkbox_asmi_add' type="radio" name="role" value="ATTRIBUTION_ASMI">
+                    <label>D'un ASMI</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="field">
+            {{ form_label(form.reference,"Référence") }}
+            {{ form_widget(form.reference,{'attr':{'placeholder':"Référence de l'attribution", 'data-validate': 'reference'}})}}
+        </div>
+
+        <div div="field_aao_add" class="field">
+            {{ form_label(form.callOffer,"L'appel d'offre conserné") }}
+            {{ form_errors(form.callOffer, {'attr': {'class': 'ui error message'}})}}
+            {{ form_widget(form.callOffer,{'attr':{'data-validate': 'callOffer', 'class': 'ui search dropdown'}})}}
+        </div>
+
+        <div div="field_asmi_add" class="field">
+            {{ form_label(form.expressionInterest,"La manifestation d'intérêt consernée") }}
+            {{ form_errors(form.expressionInterest, {'attr': {'class': 'ui error message'}})}}
+            {{ form_widget(form.expressionInterest,{'attr':{'data-validate': 'expressionInterest', 'class': 'ui search dropdown'}})}}
+        </div>
+
+        <div class="field">
+            {{ form_label(form.object,"Contenu") }}
+            {{ form_errors(form.object, {'attr': {'class': 'ui error message'}})}}
+            {{ form_widget(form.object,{'attr':{'placeholder':"Contenu de l'attribution", 'data-validate': 'object'}})}}
+        </div>
+
+        <div class="field">
+            {{ form_label(form.publicationDate,"Date de publication") }}
+            <div class="two fields">
+                <div class="field">
+                    {{ form_widget(form.publicationDate.date,{'attr':{'data-validate': 'publication_date_date'}})}}
+                </div>
+                <div class="field">
+                    {{ form_widget(form.publicationDate.time,{'attr':{'data-validate': 'publication_date_time'}})}}
+                </div>
+            </div>
+        </div>
+
+        <div class="field">
+            {{ form_label(form.sendingDate,"Date de notification aux abonnés") }}
+            <div class="two fields">
+                <div class="field">
+                    {{ form_widget(form.sendingDate.date,{'attr':{'data-validate': 'sending_date_date'}})}}
+                </div>
+                <div class="field">
+                    {{ form_widget(form.sendingDate.time,{'attr':{'data-validate': 'sending_date_time'}})}}
+                </div>
+            </div>
+        </div>
+        {#<div class="field">
+            {{ form_label(form.uploadedFiles, "Fichiers attachés")}}           
+                {{ form_errors(form.uploadedFiles, {'attr': {'class': 'list'}})}}           
+            {{ form_widget(form.uploadedFiles) }}
+        </div>#}
+
+        <div class="field">
+            {{form_rest(form)}}
+            <div id="server_error_message" class="ui negative message" style="display:none">
+                <i class="close icon"></i>
+                <div id="server_error_content" class="header">Internal server error</div>
+            </div>
+            <div id="error_name_message" class="ui error message" style="display: none">
+                <i class="close icon"></i>
+                <div id="error_name_header" class="header"></div>
+                <ul id="error_name_list" class="list">
+
+                </ul>
+            </div>
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+    <div class="actions">
+        <div id="cancel_add_procedureResult" class="ui black deny button">
+            Annuler
+        </div>
+        <div id='submit_procedureResult' class="ui primary icon button">
+            <i class="save icon"></i>
+            Sauvegarder
+        </div>
+    </div>
+</div>
+<button id="add_procedureResult_btn" class="float_button circular ui huge red icon button" data-tooltip="Nouvelle attribution" data-position="top center" data-inverted="">
+    <i class="icon plus"></i>
+</button>
