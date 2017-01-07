@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class CallOfferType extends AbstractType {
 
@@ -47,11 +48,11 @@ class CallOfferType extends AbstractType {
                 ->add('object', null, array('required' => false))
                 ->add('owner', null, array('required' => false))
                 //->add('abstract')
-               /* ->add('uploadedFiles', 'file', array(
+                ->add('uploadedFiles', FileType::class, array(
                     'multiple' => true,
                     'data_class' => null,
                     'required' => false
-                ))*/
+                ))
                 ->add('domain', 'entity', array(
                     'class' => 'OGIVEAlertBundle:Domain',
                     'property' => 'name',

@@ -122,13 +122,6 @@ class AlertProcedure {
      * })
      */
     protected $domain;
-    protected $path;
-
-    /**
-     * @Assert\File(maxSize="6000000") 
-     */
-    protected $file;
-    protected $temp;
 
     /**
      * @ORM\Column(type="array", nullable=true)
@@ -469,27 +462,6 @@ class AlertProcedure {
     }
 
     /**
-     * Set path
-     *
-     * @param string $path
-     * @return Ressource
-     */
-    public function setPath($path) {
-        $this->path = $path;
-
-        return $this;
-    }
-
-    /**
-     * Get path
-     *
-     * @return string 
-     */
-    public function getPath() {
-        return $this->path;
-    }
-
-    /**
      * Set piecesjointes
      *
      * @param string $piecesjointes
@@ -510,112 +482,8 @@ class AlertProcedure {
         return $this->piecesjointes;
     }
 
-    /**
-     * Set originalpiecesjointes
-     *
-     * @param string $originalpiecesjointes
-     * @return Ressource
-     */
-    public function setOriginalpiecesjointes($originalpiecesjointes) {
-        $this->originalpiecesjointes = $originalpiecesjointes;
-
-        return $this;
-    }
-
-    /**
-     * Get originalpiecesjointes
-     *
-     * @return array 
-     */
-    public function getOriginalpiecesjointes() {
-        return $this->originalpiecesjointes;
-    }
-
-    /**
-     * @param UploadedFile $file
-     * @return object
-     */
-    public function setFile(UploadedFile $file = null) {
-        $this->file = $file;
-        // check if we have an old image path
-        if (isset($this->path)) {
-            // store the old name to delete after the update
-            $this->temp = $this->path;
-            $this->path = null;
-        } else {
-            $this->path = 'initial';
-        }
-    }
-
-    /**
-     * Get the file used for profile picture uploads
-     * 
-     * @return UploadedFile
-     */
-    public function getFile() {
-
-        return $this->file;
-    }
-
     protected function getUploadRootDir() {
         return __DIR__ . '/../../../web/uploads/procedures';
-    }
-
-    /**
-     * @ORM\PrePersist() 
-     * @ORM\PreUpdate() 
-     */
-    public function preUpload() {
-        if (null !== $this->getFile()) {
-            // do whatever you want to generate a unique name
-            $filename = sha1(uniqid(mt_rand(), true));
-            $this->path = $filename . '.' . $this->getFile()->guessExtension();
-        }
-    }
-
-    /**
-     * Generates a 32 char long random filename
-     * 
-     * @return string
-     */
-    public function generateRandomProfilePictureFilename() {
-        $count = 0;
-        do {
-            $generator = new SecureRandom();
-            $random = $generator->nextBytes(16);
-            $randomString = bin2hex($random);
-            $count++;
-        } while (file_exists($this->getUploadRootDir() . '/' . $randomString . '.' . $this->getFile()->guessExtension()) && $count < 50);
-
-        return $randomString;
-    }
-
-    /**
-     * @ORM\PostPersist() 
-     * @ORM\PostUpdate() 
-     */
-    public function upload() {
-        if (null === $this->getFile()) {
-            return;
-        }
-
-        // if there is an error when moving the file, an exception will
-        // be automatically thrown by move(). This will properly prevent
-        // the entity from being persisted to the database on error
-        $this->getFile()->move($this->getUploadRootDir(), $this->path);
-        $info = pathinfo($this->getFile()->getClientOriginalName());
-        $file_name = basename($this->getFile()->getClientOriginalName(), '.' . $info['extension']);
-        $this->setReference($file_name);
-        // check if we have an old image
-        if (isset($this->temp)) {
-            // delete the old image
-            //unlink($this->getUploadRootDir().'/'.$this->temp);
-            //ou je renomme
-            rename($this->getUploadRootDir() . '/' . $this->temp, $this->getUploadRootDir() . '/old' . $this->temp);
-            // clear the temp image path
-            $this->temp = null;
-        }
-        $this->file = null;
     }
 
     /**

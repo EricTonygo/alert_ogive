@@ -229,18 +229,107 @@ function execute_edit(id) {
         $('#edit_callOffer_form.ui.form').submit();
     });
     $('#edit_callOffer_form.ui.form')
-            .form({
+                .form({
                 fields: {
-                    name: {
-                        identifier: 'name',
+                    reference: {
+                        identifier: 'reference',
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: 'Veuillez saisir le nom du callOffere'
+                                prompt: 'Veuillez saisir la reférence'
+                            }
+                        ]
+                    },
+                    object: {
+                        identifier: 'object',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Veuillez saisir l'objet"
+                            }
+                        ]
+                    },
+                    owner: {
+                        identifier: 'owner',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Veuillez renseigner le maître d'ouvrage"
+                            }
+                        ]
+                    },
+                    domain: {
+                        identifier: 'domain',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Veuillez selectionner le domaine"
+                            }
+                        ]
+                    },
+                    publication_date: {
+                        identifier: 'publication_date',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Veuillez renseigner la date de publication de l'offre"
+                            }
+                        ]
+                    },
+                    opening_date_date: {
+                        identifier: 'opening_date_date',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Veuillez renseigner la date d'ouverture de dépôt"
+                            }
+                        ]
+                    },
+                    opening_date_time: {
+                        identifier: 'opening_date_time',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Veuillez renseigner l'heure d'ouverture de dépôt"
+                            }
+                        ]
+                    },
+                    deadline_date: {
+                        identifier: 'deadline_date',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Veuillez renseigner la date limite de dépôt"
+                            }
+                        ]
+                    },
+                    deadline_time: {
+                        identifier: 'deadline_time',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Veuillez renseigner l'heure limite de dépôt"
+                            }
+                        ]
+                    },                    
+                    sending_date_date: {
+                        identifier: 'sending_date_date',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Veuillez renseigner la date de notification aux abonnés"
+                            }
+                        ]
+                    },
+                    sending_date_time: {
+                        identifier: 'sending_date_time',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Veuillez renseigner l'heure de notification aux abonnés"
                             }
                         ]
                     }
-
                 },
                 inline: true,
                 on: 'blur',

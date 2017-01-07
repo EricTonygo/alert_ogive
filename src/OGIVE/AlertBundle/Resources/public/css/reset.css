@@ -356,7 +356,7 @@ canvas{
     border-radius: 0;
 }
 
-.ui.form input[type=email], .ui.form input[type=text], .ui.form input[type=email], .ui.form input[type=password], .ui.form textarea{
+.ui.form input[type=email], .ui.form input[type=text], .ui.form input[type=email], .ui.form input[type=password], .ui.form input[type=date], .ui.form input[type=time], select, .ui.form textarea{
     border-radius: 0;
 }
 

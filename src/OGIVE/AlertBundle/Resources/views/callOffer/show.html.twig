@@ -11,13 +11,86 @@
         <div id="block_form_edit" style="display: none">
             <div class="field">
                 {{ form_label(form.reference,"Référence") }}
-                {{ form_widget(form.reference,{'attr':{'placeholder':"Référence de l'appel d'offre", 'data-validate': 'reference'}})}}
+                {{ form_widget(form.reference,{'attr':{'placeholder':"Référence de l'appel", 'data-validate': 'reference'}})}}
             </div>
 
             <div class="field">
                 {{ form_label(form.object,"Objet") }}
                 {{ form_errors(form.object, {'attr': {'class': 'ui error message'}})}}
                 {{ form_widget(form.object,{'attr':{'placeholder':"Objet de l'appel d'offre", 'data-validate': 'object'}})}}
+            </div>
+
+            <div class="field">
+                {{ form_label(form.owner,"Maître d'ouvrage") }}
+                {{ form_errors(form.owner, {'attr': {'class': 'ui error message'}})}}
+                {{ form_widget(form.owner,{'attr':{'placeholder':"Maître d'ouvrage", 'data-validate': 'owner'}})}}
+            </div>
+
+            <div class="field">
+                {{ form_label(form.domain,"Domaine") }}
+                {{ form_errors(form.domain, {'attr': {'class': 'ui error message'}})}}
+                {{ form_widget(form.domain,{'attr':{'data-validate': 'domain', 'class': 'ui dropdown'}})}}
+            </div>
+
+            <div class="field">
+                {{ form_label(form.publicationDate,"Date de publication") }}
+                {{ form_widget(form.publicationDate,{'attr':{'data-validate': 'publication_date'}})}}
+            </div>
+
+            <div class="field">
+                {{ form_label(form.openingDate,"Date d'ouverture de dépôt") }}
+                <div class="two fields">
+                    <div class="field">
+                        {{ form_widget(form.openingDate.date,{'attr':{'data-validate': 'opening_date_date'}})}}
+                    </div>
+                    <div class="field">
+                        {{ form_widget(form.openingDate.time,{'attr':{'data-validate': 'opening_date_time'}})}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="field">
+                {{ form_label(form.deadline,"Date limite de dépôt") }}
+                <div class="two fields">
+                    <div class="field">
+                        {{ form_widget(form.deadline.date,{'attr':{'data-validate': 'deadline_date'}})}}
+                    </div>
+                    <div class="field">
+                        {{ form_widget(form.deadline.time,{'attr':{'data-validate': 'deadline_time'}})}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="field">
+                {{ form_label(form.sendingDate,"Date de notification aux abonnés") }}
+                <div class="two fields">
+                    <div class="field">
+                        {{ form_widget(form.sendingDate.date,{'attr':{'data-validate': 'sending_date_date'}})}}
+                    </div>
+                    <div class="field">
+                        {{ form_widget(form.sendingDate.time,{'attr':{'data-validate': 'sending_date_time'}})}}
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                {{ form_label(form.uploadedFiles, "Fichiers attachés")}}           
+                {{ form_errors(form.uploadedFiles, {'attr': {'class': 'list'}})}}           
+                {{ form_widget(form.uploadedFiles, { 'attr' : {'class' : 'inputfile' }}) }}
+            </div>
+
+            <div class="field">
+                {{form_rest(form)}}
+                <div id="server_error_message" class="ui negative message" style="display:none">
+                    <i class="close icon"></i>
+                    <div id="server_error_content" class="header">Internal server error</div>
+                </div>
+                <div id="error_name_message" class="ui error message" style="display: none">
+                    <i class="close icon"></i>
+                    <div id="error_name_header" class="header"></div>
+                    <ul id="error_name_list" class="list">
+
+                    </ul>
+                </div>
             </div>
         </div>
         <div id="block_details">
@@ -40,7 +113,7 @@
             <div id="field_state_enable" class="inline field" {% if callOffer.state != 1 %} style="display: none" {% endif %}>
                 <label>Etat : </label> <span> Activé </span>
             </div>
-            
+
             <div id="field_state_disable" class="inline field" {% if callOffer.state == 1 %} style="display: none" {% endif %}>
                 <label>Etat : </label> <span> Désactivé </span>
             </div>
