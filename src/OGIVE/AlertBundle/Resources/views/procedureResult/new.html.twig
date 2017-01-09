@@ -1,7 +1,7 @@
 <div id="add_procedureResult" class="ui small modal">
     <i class="close icon"></i>
     <div class="header">
-        Ajout d'un attribution
+        Ajout d'une attribution
     </div>
     <div class="content">
         {{ form_start(form, {'method': 'POST', 'action': '/results', 'attr': {'class': 'ui form', 'id': 'add_procedureResult_form'} }) }}
@@ -10,13 +10,13 @@
             <label>Type d'attribution: </label>
             <div class="field">
                 <div class="ui radio checkbox">
-                    <input id='checkbox_aao_add' type="radio" name="role" value="ATTRIBUTION_AAO" checked="checked">
+                    <input id='checkbox_aao_add' type="radio" name="attribution_type" value="ATTRIBUTION_AAO" checked="checked">
                     <label>D'un AAO</label>
                 </div>
             </div>
             <div class="field">
                 <div class="ui radio checkbox">
-                    <input id='checkbox_asmi_add' type="radio" name="role" value="ATTRIBUTION_ASMI">
+                    <input id='checkbox_asmi_add' type="radio" name="attribution_type" value="ATTRIBUTION_ASMI">
                     <label>D'un ASMI</label>
                 </div>
             </div>
@@ -27,13 +27,13 @@
             {{ form_widget(form.reference,{'attr':{'placeholder':"Référence de l'attribution", 'data-validate': 'reference'}})}}
         </div>
 
-        <div div="field_aao_add" class="field">
+        <div id="field_aao_add" class="field">
             {{ form_label(form.callOffer,"L'appel d'offre conserné") }}
             {{ form_errors(form.callOffer, {'attr': {'class': 'ui error message'}})}}
             {{ form_widget(form.callOffer,{'attr':{'data-validate': 'callOffer', 'class': 'ui search dropdown'}})}}
         </div>
 
-        <div div="field_asmi_add" class="field">
+        <div id="field_asmi_add" class="field" style="display: none;">
             {{ form_label(form.expressionInterest,"La manifestation d'intérêt consernée") }}
             {{ form_errors(form.expressionInterest, {'attr': {'class': 'ui error message'}})}}
             {{ form_widget(form.expressionInterest,{'attr':{'data-validate': 'expressionInterest', 'class': 'ui search dropdown'}})}}

@@ -17,32 +17,63 @@
             <div class="field">
                 {{ form_label(form.description,"Description") }}
                 {{ form_errors(form.description, {'attr': {'class': 'ui error message'}})}}
-                {{ form_widget(form.description,{'attr':{'placeholder':'Description du domain', 'data-validate': 'description'}})}}
+                {{ form_widget(form.description,{'attr':{'placeholder':'Description du domaine', 'data-validate': 'description'}})}}
             </div>
         </div>
         <div id="block_details">
-            <div class="inline field">
-                <label>Nom : </label> <span> {{ domain.name}}</span>
+            <div class="two fields">
+                <div class="field">
+                    <label>Nom : </label> 
+                </div>
+                <div class="field">
+                    <span> {{ domain.name}}</span>
+                </div>
             </div>
 
-            <div class="inline field">
-                <label>Description : </label> <p> {{ domain.description}}</p>
+            <div class="two fields">
+                <div class="field">
+                    <label>Description : </label> 
+                </div>
+                <div class="field">
+                    {{ domain.description}}
+                </div>
             </div>
 
-            <div class="inline field">
-                <label>Date de création : </label> <span> {{ domain.createDate is empty ? "" : domain.createDate|date('d-m-Y H:i:s')}}</span>
+            <div class="two fields">
+                <div class="field">
+                    <label>Date de création : </label>
+                </div>
+                <div class="field">
+                    <span> {{ domain.createDate is empty ? "" : domain.createDate|date('d-m-Y H:i:s')}}</span>
+                </div>
             </div>
 
-            <div class="inline field">
-                <label>Date de la dernière modification : </label> <span> {{ domain.createDate is empty ? "" : domain.createDate|date('d-m-Y H:i:s')}}</span>
+            <div class="two fields">
+                <div class="field">
+                    <label>Date de la dernière modification : </label> 
+                </div>
+                <div class="field">
+                    <span> {{ domain.createDate is empty ? "" : domain.createDate|date('d-m-Y H:i:s')}}</span>
+                </div>
             </div>
 
-            <div id="field_state_enable" class="inline field" {% if domain.state != 1 %} style="display: none" {% endif %}>
-                <label>Etat : </label> <span> Activé </span>
+            <div id="field_state_enable" class="two fields" {% if domain.state != 1 %} style="display: none" {% endif %}>
+                <div class="field">
+                     <label>Etat : </label>
+                </div>
+                <div class="field">
+                     <span> Activé </span>
+                </div>             
             </div>
-            
-            <div id="field_state_disable" class="inline field" {% if domain.state == 1 %} style="display: none" {% endif %}>
-                <label>Etat : </label> <span> Désactivé </span>
+
+            <div id="field_state_disable" class="two fields" {% if domain.state == 1 %} style="display: none" {% endif %}>
+                <div class="field">
+                     <label>Etat : </label>
+                </div>
+                <div class="field">
+                     <span> Désactivé </span>
+                </div>
+                 
             </div>
 
         </div>

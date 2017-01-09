@@ -1,0 +1,36 @@
+<tr id="subscription_list{{subscription.id}}">
+    <td>
+        <div class="ui ribbon label">{{subscription.name}}</div>
+    </td>
+    <td>{{subscription.periodicity|periodicity}}</td>
+    <td>{{subscription.price}}{{ subscription.currency}}</td>
+    <td class="right aligned">
+        <div class="ui dropdown item">
+            <i class="ellipsis vertical icon"></i>
+            <div class="menu">
+                <div onclick="show_subscription({{subscription.id}});" class="show_subscription_btn item">
+                    <i class="unhide icon"></i>
+                    Détails
+                </div>
+                <div onclick="edit_subscription({{subscription.id}});" class="edit_subscription_btn item">
+                    <i class="edit icon"></i>
+                    Modifier
+                </div>
+                <div onclick="delete_subscription({{subscription.id}});" class="delete_subscription_btn item">
+                    <i class="trash icon"></i>
+                    Supprimer
+                </div>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <div onclick="enable_subscription({{subscription.id}});" class="enable_subscription_btn item" {% if subscription.state == 1 %} style="display: none" {% endif %}>
+                        <i class="unlock icon"></i>
+                        Activer
+                    </div>
+                    <div onclick="disable_subscription({{subscription.id}});" class="disable_subscription_btn item" {% if subscription.state != 1 %} style="display: none" {% endif %}>
+                        <i class="lock icon"></i>
+                        Désactiver
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </td>
+</tr>

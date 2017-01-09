@@ -26,7 +26,7 @@ class ProcedureResultController extends Controller {
      * @param Request $request
      */
     public function getProcedureResultsAction(Request $request) {
-        if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED') || $this->get('security.authorization_checker')->isGranted('FACTURIER')) {
             return $this->redirect($this->generateUrl('fos_user_security_login'));
         }
         $em = $this->getDoctrine()->getManager();
@@ -44,7 +44,7 @@ class ProcedureResultController extends Controller {
      * @Rest\Get("/attributions/{id}" , name="procedureResult_get_one", options={ "method_prefix" = false, "expose" = true })
      */
     public function getProcedureResultByIdAction(ProcedureResult $procedureResult) {
-        if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED') || $this->get('security.authorization_checker')->isGranted('FACTURIER')) {
             return $this->redirect($this->generateUrl('fos_user_security_login'));
         }
         if (empty($procedureResult)) {
@@ -65,7 +65,7 @@ class ProcedureResultController extends Controller {
      * @Rest\Post("/attributions", name="procedureResult_add", options={ "method_prefix" = false, "expose" = true })
      */
     public function postProcedureResultsAction(Request $request) {
-        if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED') || $this->get('security.authorization_checker')->isGranted('FACTURIER')) {
             return $this->redirect($this->generateUrl('fos_user_security_login'));
         }
         $procedureResult = new ProcedureResult();
@@ -80,7 +80,8 @@ class ProcedureResultController extends Controller {
             if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
                 $procedureResult->setState(1);
             }
-            $abstract = $procedureResult->getType()." : "."N°".$procedureResult->getReference()." du ".date_format($procedureResult->getPublicationDate(), "d/m/Y")." pour ".$procedureResult->getObject().". Dépôt des offres du ".date_format($procedureResult->getOpeningDate(), "d/m/Y")." à ".date_format($procedureResult->getOpeningDate(), "H:i")." au ".date_format($procedureResult->getDeadline(), "d/m/Y")." à ".date_format($procedureResult->getOpeningDate(), "H:i"); 
+            $procedureResult->setType($request->get('attribution_type'));
+            $abstract = $procedureResult->getType()." : "."N°".$procedureResult->getReference()." du ".date_format($procedureResult->getPublicationDate(), "d/m/Y")." pour ".$procedureResult->getObject(); 
             $procedureResult->setAbstract($abstract);
             $procedureResult = $repositoryProcedureResult->saveProcedureResult($procedureResult);
             $procedureResult_content_grid = $this->renderView('OGIVEAlertBundle:procedureResult:procedureResult-grid.html.twig', array('procedureResult' => $procedureResult));
@@ -100,7 +101,7 @@ class ProcedureResultController extends Controller {
      * @Rest\Delete("/attributions/{id}", name="procedureResult_delete", options={ "method_prefix" = false, "expose" = true })
      */
     public function removeProcedureResultAction(ProcedureResult $procedureResult) {
-        if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED') || $this->get('security.authorization_checker')->isGranted('FACTURIER')) {
             return $this->redirect($this->generateUrl('fos_user_security_login'));
         }
         $repositoryProcedureResult = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:ProcedureResult');
@@ -120,7 +121,7 @@ class ProcedureResultController extends Controller {
      * @param Request $request
      */
     public function putProcedureResultAction(Request $request, ProcedureResult $procedureResult) {
-        if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED') || $this->get('security.authorization_checker')->isGranted('FACTURIER')) {
             return $this->redirect($this->generateUrl('fos_user_security_login'));
         }
         return $this->updateProcedureResultAction($request, $procedureResult);
@@ -156,8 +157,9 @@ class ProcedureResultController extends Controller {
             if ($procedureResultUnique && $procedureResultUnique->getId() != $procedureResult->getId()) {
                 return new JsonResponse(["success" => false, 'message' => "Une attribution avec cette référence existe dejà"], Response::HTTP_NOT_FOUND);
             }
-            $abstract = $procedureResult->getType()." : "."N°".$procedureResult->getReference()." du ".date_format($procedureResult->getPublicationDate(), "d/m/Y")." pour ".$procedureResult->getObject().". Dépôt des offres du ".date_format($procedureResult->getOpeningDate(), "d/m/Y")." à ".date_format($procedureResult->getOpeningDate(), "H:i")." au ".date_format($procedureResult->getDeadline(), "d/m/Y")." à ".date_format($procedureResult->getOpeningDate(), "H:i"); 
+            $abstract = $procedureResult->getType()." : "."N°".$procedureResult->getReference()." du ".date_format($procedureResult->getPublicationDate(), "d/m/Y")." pour ".$procedureResult->getObject(); 
             $procedureResult->setAbstract($abstract);
+            $procedureResult->setType($request->get('attribution_type'));
             $procedureResult = $repositoryProcedureResult->updateProcedureResult($procedureResult);
             $procedureResult_content_grid = $this->renderView('OGIVEAlertBundle:procedureResult:procedureResult-grid-edit.html.twig', array('procedureResult' => $procedureResult));
             $procedureResult_content_list = $this->renderView('OGIVEAlertBundle:procedureResult:procedureResult-list-edit.html.twig', array('procedureResult' => $procedureResult));

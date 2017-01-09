@@ -30,18 +30,11 @@ class Entreprise
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
-    
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="phone_number", type="string", length=255)
-     */
-    private $phoneNumber;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="logo", type="string", length=255)
+     * @ORM\Column(name="logo", type="string", length=255, nullable=true)
      */
     private $logo;
     
@@ -51,13 +44,6 @@ class Entreprise
     private $file;
     
     private $temp;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="email", type="string", length=255)
-     */
-    private $email;
 
     /**
      * @var integer
@@ -113,11 +99,11 @@ class Entreprise
     
     
     /**
-     * @var \Adress 
-     * @ORM\OneToOne(targetEntity="Adress",cascade={"persist"})
-     * @ORM\JoinColumn(name="adress", referencedColumnName="id")
+     * @var \Address 
+     * @ORM\OneToOne(targetEntity="Address",cascade={"persist"})
+     * @ORM\JoinColumn(name="address", referencedColumnName="id")
      */
-    private $adress;
+    private $address;
 
     /** 
      * Constructor
@@ -161,30 +147,6 @@ class Entreprise
     {
         return $this->name;
     }
-    
-    /**
-     * Set phoneNumber
-     *
-     * @param string $phoneNumber
-     *
-     * @return Entreprise
-     */
-    public function setPhoneNumber($phoneNumber)
-    {
-        $this->phoneNumber = $phoneNumber;
-
-        return $this;
-    }
-
-    /**
-     * Get phoneNumber
-     *
-     * @return string
-     */
-    public function getPhoneNumber()
-    {
-        return $this->phoneNumber;
-    }
 
     /**
      * Set logo
@@ -208,30 +170,6 @@ class Entreprise
     public function getLogo()
     {
         return $this->logo;
-    }
-
-    /**
-     * Set email
-     *
-     * @param string $email
-     *
-     * @return Entreprise
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    /**
-     * Get email
-     *
-     * @return string
-     */
-    public function getEmail()
-    {
-        return $this->email;
     }
 
     /**
@@ -291,7 +229,7 @@ class Entreprise
         return $this->file;
     }
     protected function getUploadRootDir() {
-        return __DIR__ . '/../../../../web/uploads/Materiels';
+        return __DIR__ . '/../../../../web/uploads/logos_entreprises';
     }
     /**
      * @ORM\PrePersist() 
@@ -503,26 +441,26 @@ class Entreprise
     }
     
     /**
-     * Set adress
+     * Set address
      *
-     * @param OGIVE\AlertBundle\Entity\Adress $adress
+     * @param OGIVE\AlertBundle\Entity\Address $address
      * @return Entreprise
      */
-    public function setAdress(\OGIVE\AlertBundle\Entity\Adress $adress = null)
+    public function setAddress(\OGIVE\AlertBundle\Entity\Address $address = null)
     {
-        $this->adress = $adress;
+        $this->address = $address;
 
         return $this;
     }
 
     /**
-     * Get adress
+     * Get address
      *
-     * @return OGIVE\AlertBundle\Entity\Adress 
+     * @return OGIVE\AlertBundle\Entity\Address 
      */
-    public function getAdress()
+    public function getAddress()
     {
-        return $this->adress;
+        return $this->address;
     }
     
     /**

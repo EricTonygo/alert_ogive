@@ -7,13 +7,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
- * Adress
+ * Address
  *
- * @ORM\Table(name="adresse")
- * @ORM\Entity(repositoryClass="OGIVEAlertBundle\Repository\AdressRepository")
+ * @ORM\Table(name="address")
+ * @ORM\Entity()
  * @ORM\HasLifecycleCallbacks
  */
-class Adress {
+class Address {
 
     /**
      * @var integer
@@ -129,7 +129,7 @@ class Adress {
      * Set phone
      *
      * @param string $phone
-     * @return Adress
+     * @return Address
      */
     public function setPhone($phone) {
         $this->phone = $phone;
@@ -150,7 +150,7 @@ class Adress {
      * Set email
      *
      * @param string $email
-     * @return Adress
+     * @return Address
      */
     public function setEmail($email) {
         $this->email = $email;
@@ -171,7 +171,7 @@ class Adress {
      * Set latitude
      *
      * @param float $latitude
-     * @return Adress
+     * @return Address
      */
     public function setLatitude($latitude) {
         $this->latitude = $latitude;
@@ -192,7 +192,7 @@ class Adress {
      * Set longitude
      *
      * @param float $longitude
-     * @return Adress
+     * @return Address
      */
     public function setLongitude($longitude) {
         $this->longitude = $longitude;
@@ -213,7 +213,7 @@ class Adress {
      * Set mailBox
      *
      * @param string $mailBox
-     * @return Adress
+     * @return Address
      */
     public function setMailBox($mailBox) {
         $this->mailBox = $mailBox;
@@ -234,7 +234,7 @@ class Adress {
      * Set place
      *
      * @param string $place
-     * @return Adress
+     * @return Address
      */
     public function setPlace($place) {
         $this->place = $place;
@@ -255,7 +255,7 @@ class Adress {
      * Set status
      *
      * @param integer $status
-     * @return Adress
+     * @return Address
      */
     public function setStatus($status) {
         $this->status = $status;
@@ -276,7 +276,7 @@ class Adress {
      * Set path
      *
      * @param string $path
-     * @return Adress
+     * @return Address
      */
     public function setPath($path) {
         $this->path = $path;
@@ -382,7 +382,7 @@ class Adress {
      * Set country
      *
      * @param string $country
-     * @return Adress
+     * @return Address
      */
     public function setCountry($country) {
         $this->country = $country;
@@ -403,7 +403,7 @@ class Adress {
      * Set street
      *
      * @param string $street
-     * @return Adress
+     * @return Address
      */
     public function setStreet($street) {
         $this->street = $street;

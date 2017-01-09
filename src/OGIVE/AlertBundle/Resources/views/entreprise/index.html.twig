@@ -1,0 +1,140 @@
+{% extends "OGIVEAlertBundle::layout.html.twig" %}
+{% block title %}Les entreprises{% endblock %}
+
+{% block sub_header %}
+    {{parent()}}
+    <div id="second_computer_top_nav" class="ui computer_top_nav inverted main menu" style="background-color: #eeeeee; position: fixed;
+         top: 70px; left: 0; right: 0; height:4em;">
+        <div class="ui container">
+            <div class="ui left inverted secondary menu">
+                <a id="document_title" class="item">
+                    <h3>Liste des entreprises</h3>
+                </a>
+            </div>
+
+            <div class="ui right inverted secondary menu">
+                <div id='show_list_table' class="ui circular icon button item" data-tooltip="Afficher sous forme de liste" data-position="bottom center" data-inverted="">
+                    <i class="large list layout icon"></i>
+                </div>
+                <a class="ui circular icon button item">
+                    <i class="large trash icon"></i>
+                </a>
+                <a class="ui circular icon button item">
+                    <i class="large folder icon"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block content %}
+    {% include('OGIVEAlertBundle:entreprise:grid.html.twig') %} 
+    {% include('OGIVEAlertBundle:entreprise:list.html.twig') %}
+{% endblock %}
+{% block block_add_new %}
+    {% include('OGIVEAlertBundle:entreprise:new.html.twig') %}
+{% endblock %}
+
+{% block block_edit %}
+    <div id="edit_entreprise_content">
+
+    </div>
+{% endblock %}
+{% block block_delete_modal %}
+    <div id="confirm_delete_entreprise" class="ui modal">
+        <i class="close icon"></i>
+        <div class="header">
+            Confirmation de la suppression
+        </div>
+        <div class="content">
+            <div class="description">
+                <p>Voulez-vous vraiment supprimé ce entreprisee ?</p>
+            </div>
+        </div>
+        <div class="actions">
+            <div class="ui black deny button">
+                Non
+            </div>
+            <div i class="ui green right labeled icon button">
+                Oui
+                <i class="checkmark icon"></i>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent()}}
+    <script type="text/javascript" src="{{ asset('bundles/ogivealert/js/entreprise.js')}}"></script>
+    <script>
+        function addSubscriberForm($collectionHolder, $newLinkTr) {
+            // Get the data-prototype explained earlier
+            var prototype = $collectionHolder.data('prototype');
+
+            // get the new index
+            var index = $collectionHolder.data('index');
+
+            // Replace '__name__' in the prototype's HTML to
+            // instead be a number based on how many items we have
+            var $newForm = prototype.replace(/__name__/g, index);
+
+            // increase the index with one for the next item
+            $collectionHolder.data('index', index + 1);
+
+            // Display the form in the page in an li, before the "Add a subscriber" link li
+            var $newFormTr = $('<tr></tr>').append($newForm);
+            $newLinkTr.before($newFormTr);
+
+            addSubscriberFormDeleteLink($newFormTr);
+        }
+
+        function addSubscriberFormDeleteLink($subscriberFormTr) {
+            var $removeFormA = $('<td class="right aligned"><button class="ui red compact icon button" data-tooltip="Supprimer" data-position="bottom center" data-inverted="" data-variation="mini"><i class="trash icon"></i></button></td>');
+            $subscriberFormTr.append($removeFormA);
+            $removeFormA.on('click', function (e) {
+                // prevent the link from creating a "#" on the URL
+                e.preventDefault();
+
+                // remove the li for the subscriber form
+                $subscriberFormTr.remove();
+            });
+        }
+        
+        var $collectionHolder;
+
+        // setup an "add a subscriber" link
+        var $addSubscriberLink = $('<button class="ui primary button" ><i class="add user icon"></i> Ajouter</button>');
+        var $newLinkTr = $('<tr></tr>').append($addSubscriberLink);
+
+        jQuery(document).ready(function () {
+            /******** suppression des subscribers *********/
+            // Get the ul that holds the collection of subscribers
+            $collectionHolder = $('tbody.subscribers');
+
+            // add a delete link to all of the existing subscriber form li elements
+            $collectionHolder.find('tr').each(function () {
+                addSubscriberFormDeleteLink($(this));
+            });
+
+
+            /******** Ajout des subscribers *********/
+
+            // Get the ul that holds the collection of subscribers
+            $collectionHolder = $('tbody.subscribers');
+
+            // add the "add a subscriber" anchor and li to the subscribers ul
+            $collectionHolder.append($newLinkTr);
+
+            // count the current form inputs we have (e.g. 2), use that as the new
+            // index when inserting a new item (e.g. 2)
+            $collectionHolder.data('index', $collectionHolder.find(':input').length);
+
+            $addSubscriberLink.on('click', function (e) {
+                // prevent the link from creating a "#" on the URL
+                e.preventDefault();
+
+                // add a new subscriber form (see next code block)
+                addSubscriberForm($collectionHolder, $newLinkTr);
+            });
+        });
+    </script>
+{% endblock %}

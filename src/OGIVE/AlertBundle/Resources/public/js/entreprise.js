@@ -1,22 +1,25 @@
 $(function () {
-    $('#add_domain_btn').click(function () {
-        $('#add_domain.ui.modal').modal('setting', {
+    $('#ogive_alertbundle_entreprise_domain.ui.dropdown').dropdown({
+        on: 'click'
+    });
+    $('#add_entreprise_btn').click(function () {
+        $('#add_entreprise.ui.modal').modal('setting', {
             autofocus: false,
             inverted: true,
             closable: false
         });
-        $('#add_domain.ui.modal').modal('show');
+        $('#add_entreprise.ui.modal').modal('show');
     });
 
-    $('#submit_domain').click(function (e) {
+    $('#submit_entreprise').click(function (e) {
         e.preventDefault();
         $('#server_error_message').hide();
         $('#message_error').hide();
         $('#message_success').hide();
         $('#error_name_message').hide();
-        $('#add_domain_form.ui.form').submit();
+        $('#add_entreprise_form.ui.form').submit();
     });
-    $('#add_domain_form.ui.form')
+    $('#add_entreprise_form.ui.form')
             .form({
                 fields: {
                     name: {
@@ -24,7 +27,20 @@ $(function () {
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: 'Veuillez saisir le nom du domaine'
+                                prompt: "Veuillez saisir le nom de l'entreprise"
+                            }
+                        ]
+                    },
+                    phone: {
+                        identifier: 'phone',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Veuillez saisir le numéro de téléphone de l'entreprise"
+                            },
+                            {
+                                type: 'regExp[/^+[0-9]*$/]',
+                                prompt: "Veuillez saisir le numéro de téléphone valide"
                             }
                         ]
                     }
@@ -35,13 +51,13 @@ $(function () {
                 onSuccess: function (event, fields) {
                     $.ajax({
                         type: 'post',
-                        url: Routing.generate('domain_add'),
+                        url: Routing.generate('entreprise_add'),
                         data: fields,
                         dataType: 'json',
                         beforeSend: function () {
-                            $('#submit_domain').addClass('disabled');
-                            $('#cancel_add_domain').addClass('disabled');
-                            $('#add_domain_form.ui.form').addClass('loading');
+                            $('#submit_entreprise').addClass('disabled');
+                            $('#cancel_add_entreprise').addClass('disabled');
+                            $('#add_entreprise_form.ui.form').addClass('loading');
                         },
                         statusCode: {
                             500: function (xhr) {
@@ -60,16 +76,16 @@ $(function () {
                         },
                         success: function (response, textStatus, jqXHR) {
                             if (response.code === 200) {
-                                $('#cancel_add_domain').removeClass('disabled');
-                                $('#submit_domain').removeClass('disabled');
-                                $('#add_domain_form.ui.form').removeClass('loading');
-                                $('#list_as_grid_content').prepend(response.domain_content_grid);
-                                $('#list_as_table_content').prepend(response.domain_content_list);
+                                $('#cancel_add_entreprise').removeClass('disabled');
+                                $('#submit_entreprise').removeClass('disabled');
+                                $('#add_entreprise_form.ui.form').removeClass('loading');
+                                $('#list_as_grid_content').prepend(response.entreprise_content_grid);
+                                $('#list_as_table_content').prepend(response.entreprise_content_list);
                                 $('.ui.dropdown').dropdown({
                                     on: 'hover'
                                 });
-                                $('#add_domain.ui.modal').modal('hide');
-                                $('#message_success>div.header').html('Domaine ajouté avec succès !');
+                                $('#add_entreprise.ui.modal').modal('hide');
+                                $('#message_success>div.header').html('Entreprise ajoutée avec succès !');
                                 $('#message_success').show();
                                 setTimeout(function () {
                                     $('#message_success').hide();
@@ -78,9 +94,9 @@ $(function () {
 
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
-                            $('#cancel_add_domain').removeClass('disabled');
-                            $('#submit_domain').removeClass('disabled');
-                            $('#add_domain_form.ui.form').removeClass('loading');
+                            $('#cancel_add_entreprise').removeClass('disabled');
+                            $('#submit_entreprise').removeClass('disabled');
+                            $('#add_entreprise_form.ui.form').removeClass('loading');
                             /*alertify.error("Internal Server Error");*/
                         }
                     });
@@ -90,12 +106,12 @@ $(function () {
             );
 });
 
-function edit_domain(id) {
+function edit_entreprise(id) {
     $('#message_error').hide();
     $('#message_success').hide();
     $.ajax({
         type: 'PUT',
-        url: Routing.generate('domain_update', { id: id }),
+        url: Routing.generate('entreprise_update', {id: id}),
         dataType: 'json',
         beforeSend: function () {
             $('#message_loading').show();
@@ -111,14 +127,16 @@ function edit_domain(id) {
         },
         success: function (response, textStatus, jqXHR) {
             if (response.code === 200) {
-                $('#edit_domain').remove();
-                $('#edit_domain_content').html(response.edit_domain_form);
-                $('#edit_domain.ui.modal').modal('setting', {
+                $('#edit_entreprise').remove();
+                $('#edit_entreprise_content').html(response.edit_entreprise_form);
+
+                manage_subscriber();
+                $('#edit_entreprise.ui.modal').modal('setting', {
                     autofocus: false,
                     inverted: true,
                     closable: false
                 });
-                $('#edit_domain.ui.modal').modal('show');
+                $('#edit_entreprise.ui.modal').modal('show');
                 execute_edit(id);
             }
             $('#message_loading').hide();
@@ -131,15 +149,15 @@ function edit_domain(id) {
 }
 
 function execute_edit(id) {
-    $('#submit_edit_domain').click(function (e) {
+    $('#submit_edit_entreprise').click(function (e) {
         e.preventDefault();
         $('#server_error_message').hide();
         $('#message_error').hide();
         $('#message_success').hide();
         $('#error_name_message').hide();
-        $('#edit_domain_form.ui.form').submit();
+        $('#edit_entreprise_form.ui.form').submit();
     });
-    $('#edit_domain_form.ui.form')
+    $('#edit_entreprise_form.ui.form')
             .form({
                 fields: {
                     name: {
@@ -147,7 +165,7 @@ function execute_edit(id) {
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: 'Veuillez saisir le nom du domaine'
+                                prompt: "Veuillez saisir le nom de l'entreprise"
                             }
                         ]
                     }
@@ -158,16 +176,16 @@ function execute_edit(id) {
                 onSuccess: function (event, fields) {
                     $.ajax({
                         type: 'PUT',
-                        url: Routing.generate('domain_update', { id: id }),
+                        url: Routing.generate('entreprise_update', {id: id}),
                         data: fields,
                         dataType: 'json',
                         beforeSend: function () {
-                            $('#submit_edit_domain').addClass('disabled');
-                            $('#cancel_edit_domain').addClass('disabled');
-                            $('#edit_domain_form.ui.form').addClass('loading');
-                            $('#cancel_details_domain').addClass('disabled');
-                            $('#disable_domain').addClass('disabled');
-                            $('#enable_domain').addClass('disabled');
+                            $('#submit_edit_entreprise').addClass('disabled');
+                            $('#cancel_edit_entreprise').addClass('disabled');
+                            $('#edit_entreprise_form.ui.form').addClass('loading');
+                            $('#cancel_details_entreprise').addClass('disabled');
+                            $('#disable_entreprise').addClass('disabled');
+                            $('#enable_entreprise').addClass('disabled');
                         },
                         statusCode: {
                             500: function (xhr) {
@@ -185,31 +203,31 @@ function execute_edit(id) {
                         },
                         success: function (response, textStatus, jqXHR) {
                             if (response.code === 200) {
-                                $('#submit_edit_domain').removeClass('disabled');
-                                $('#cancel_edit_domain').removeClass('disabled');
-                                $('#edit_domain_form.ui.form').removeClass('loading');
-                                $('#cancel_details_domain').removeClass('disabled');
-                                $('#disable_domain').removeClass('disabled');
-                                $('#enable_domain').removeClass('disabled');
-                                $('#domain_grid' + id).html(response.domain_content_grid);
-                                $('#domain_list' + id).html(response.domain_content_list);
+                                $('#submit_edit_entreprise').removeClass('disabled');
+                                $('#cancel_edit_entreprise').removeClass('disabled');
+                                $('#edit_entreprise_form.ui.form').removeClass('loading');
+                                $('#cancel_details_entreprise').removeClass('disabled');
+                                $('#disable_entreprise').removeClass('disabled');
+                                $('#enable_entreprise').removeClass('disabled');
+                                $('#entreprise_grid' + id).html(response.entreprise_content_grid);
+                                $('#entreprise_list' + id).html(response.entreprise_content_list);
                                 $('.ui.dropdown').dropdown({
                                     on: 'hover'
                                 });
-                                $('#edit_domain.ui.modal').modal('hide');
-                                $('#message_success>div.header').html('Domaine modifié avec succès !');
+                                $('#edit_entreprise.ui.modal').modal('hide');
+                                $('#message_success>div.header').html('Entreprise modifiée avec succès !');
                                 $('#message_success').show();
                                 setTimeout(function () {
                                     $('#message_success').hide();
                                 }, 4000);
-                                $('#edit_domain').remove();
+                                $('#edit_entreprise').remove();
                             }
 
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
-                            $('#submit_edit_domain').removeClass('disabled');
-                            $('#cancel_edit_domain').removeClass('disabled');
-                            $('#edit_domain_form.ui.form').removeClass('loading');
+                            $('#submit_edit_entreprise').removeClass('disabled');
+                            $('#cancel_edit_entreprise').removeClass('disabled');
+                            $('#edit_entreprise_form.ui.form').removeClass('loading');
                             /*alertify.error("Internal Server Error");*/
                         }
                     });
@@ -219,12 +237,12 @@ function execute_edit(id) {
             );
 }
 
-function delete_domain(id) {
+function delete_entreprise(id) {
     $('#message_error').hide();
     $('#message_success').hide();
     $.ajax({
         type: 'DELETE',
-        url: Routing.generate('domain_delete', { id: id }),
+        url: Routing.generate('entreprise_delete', {id: id}),
         dataType: 'json',
         beforeSend: function () {
             $('#message_loading').show();
@@ -247,8 +265,8 @@ function delete_domain(id) {
         },
         success: function (response, textStatus, jqXHR) {
             console.log(response);
-            $('#domain_grid' + id).remove();
-            $('#domain_list' + id).remove();
+            $('#entreprise_grid' + id).remove();
+            $('#entreprise_list' + id).remove();
             $('#message_loading').hide();
             $('#message_success>div.header').html(response.message);
             $('#message_success').show();
@@ -263,12 +281,12 @@ function delete_domain(id) {
     });
 }
 
-function show_domain(id) {
+function show_entreprise(id) {
     $('#message_error').hide();
     $('#message_success').hide();
     $.ajax({
         type: 'GET',
-        url: Routing.generate('domain_get_one', { id: id }),
+        url: Routing.generate('entreprise_get_one', {id: id}),
         dataType: 'json',
         beforeSend: function () {
             $('#message_loading').show();
@@ -284,27 +302,28 @@ function show_domain(id) {
         },
         success: function (response, textStatus, jqXHR) {
             if (response.code === 200) {
-                $('#edit_domain').remove();
-                $('#edit_domain_content').html(response.domain_details);
-                $('#edit_domain.ui.modal').modal('setting', {
+                $('#edit_entreprise').remove();
+                $('#edit_entreprise_content').html(response.entreprise_details);
+                manage_subscriber();
+                $('#edit_entreprise.ui.modal').modal('setting', {
                     autofocus: false,
                     inverted: true,
                     closable: false
                 });
-                $('#edit_domain.ui.modal').modal('show');
+                $('#edit_entreprise.ui.modal').modal('show');
                 execute_edit(id);
-                $('#edit_domain_btn').click(function () {
+                $('#edit_entreprise_btn').click(function () {
                     $('#block_details').hide();
                     $('#block_form_edit').show();
-                    $('#cancel_edit_domain').show();
-                    $('#submit_edit_domain').show();
+                    $('#cancel_edit_entreprise').show();
+                    $('#submit_edit_entreprise').show();
                     $(this).hide();
                 });
-                $('#cancel_edit_domain').click(function () {
+                $('#cancel_edit_entreprise').click(function () {
                     $('#block_details').show();
                     $('#block_form_edit').hide();
-                    $('#edit_domain_btn').show();
-                    $('#submit_edit_domain').hide();
+                    $('#edit_entreprise_btn').show();
+                    $('#submit_edit_entreprise').hide();
                     $(this).hide();
                 });
             }
@@ -317,14 +336,14 @@ function show_domain(id) {
     });
 }
 
-function enable_domain(id) {
+function enable_entreprise(id) {
     $('#message_error').hide();
     $('#message_success').hide();
-    $('#edit_domain.ui.modal').modal('hide');
-    $('#edit_domain').remove();
+    $('#edit_entreprise.ui.modal').modal('hide');
+    $('#edit_entreprise').remove();
     $.ajax({
         type: 'PUT',
-        url: Routing.generate('domain_update', { id: id }),
+        url: Routing.generate('entreprise_update', {id: id}),
         data: {'action': 'enable'},
         dataType: 'json',
         beforeSend: function () {
@@ -339,7 +358,7 @@ function enable_domain(id) {
                 }, 4000);
             },
             400: function (response, textStatus, jqXHR) {
-                $('#message_error>div.header').html("Echec d'activation du domaine");
+                $('#message_error>div.header').html("Echec d'activation de l'entreprise");
                 $('#message_error').show();
                 setTimeout(function () {
                     $('#message_error').hide();
@@ -349,8 +368,8 @@ function enable_domain(id) {
         success: function (response, textStatus, jqXHR) {
             console.log(response);
             $('#message_loading').hide();
-            $('#enable_domain_grid' + id).hide();
-            $('#disable_domain_grid' + id).show();
+            $('#enable_entreprise_grid' + id).hide();
+            $('#disable_entreprise_grid' + id).show();
             $('#message_success>div.header').html(response.message);
             $('#message_success').show();
             setTimeout(function () {
@@ -364,14 +383,14 @@ function enable_domain(id) {
     });
 }
 
-function disable_domain(id) {
+function disable_entreprise(id) {
     $('#message_error').hide();
     $('#message_success').hide();
-    $('#edit_domain.ui.modal').modal('hide');
-    $('#edit_domain').remove();
+    $('#edit_entreprise.ui.modal').modal('hide');
+    $('#edit_entreprise').remove();
     $.ajax({
         type: 'PUT',
-        url: Routing.generate('domain_update', { id: id }),
+        url: Routing.generate('entreprise_update', {id: id}),
         data: {'action': 'disable'},
         dataType: 'json',
         beforeSend: function () {
@@ -386,7 +405,7 @@ function disable_domain(id) {
                 }, 4000);
             },
             400: function (response, textStatus, jqXHR) {
-                $('#message_error>div.header').html("Echec de la désactivation du domaine");
+                $('#message_error>div.header').html("Echec de la désactivation de l'entreprise");
                 $('#message_error').show();
                 setTimeout(function () {
                     $('#message_error').hide();
@@ -396,8 +415,8 @@ function disable_domain(id) {
         success: function (response, textStatus, jqXHR) {
             console.log(response);
             $('#message_loading').hide();
-            $('#disable_domain_grid' + id).hide();
-            $('#enable_domain_grid' + id).show();
+            $('#disable_entreprise_grid' + id).hide();
+            $('#enable_entreprise_grid' + id).show();
             $('#message_success>div.header').html(response.message);
             $('#message_success').show();
             setTimeout(function () {
@@ -408,5 +427,73 @@ function disable_domain(id) {
             $('#message_loading').hide();
             /*alertify.error("Internal Server Error");*/
         }
+    });
+}
+
+function addSubscriberForm($collectionHolder, $newLinkTr) {
+    // Get the data-prototype explained earlier
+    var prototype = $collectionHolder.data('prototype');
+
+    // get the new index
+    var index = $collectionHolder.data('index');
+
+    // Replace '__name__' in the prototype's HTML to
+    // instead be a number based on how many items we have
+    var $newForm = prototype.replace(/__name__/g, index);
+
+    // increase the index with one for the next item
+    $collectionHolder.data('index', index + 1);
+
+    // Display the form in the page in an li, before the "Add a subscriber" link li
+    var $newFormTr = $('<tr></tr>').append($newForm);
+    $newLinkTr.before($newFormTr);
+
+    addSubscriberFormDeleteLink($newFormTr);
+}
+
+function addSubscriberFormDeleteLink($subscriberFormTr) {
+    var $removeFormA = $('<td class="right aligned"><button class="ui red compact icon button" data-tooltip="Supprimer" data-position="bottom center" data-inverted="" data-variation="mini"><i class="trash icon"></i></button></td>');
+    $subscriberFormTr.append($removeFormA);
+    $removeFormA.on('click', function (e) {
+        // prevent the link from creating a "#" on the URL
+        e.preventDefault();
+
+        // remove the li for the subscriber form
+        $subscriberFormTr.remove();
+    });
+}
+
+var $addSubscriberLink = $('<button class="ui primary button" ><i class="add user icon"></i> Ajouter</button>');
+var $newLinkTr = $('<tr></tr>').append($addSubscriberLink);
+
+function manage_subscriber() {
+    /******** suppression des subscribers *********/
+    // Get the ul that holds the collection of subscribers
+    $collectionHolder = $('tbody.subscribers');
+
+    // add a delete link to all of the existing subscriber form li elements
+    $collectionHolder.find('tr').each(function () {
+        addSubscriberFormDeleteLink($(this));
+    });
+
+
+    /******** Ajout des subscribers *********/
+
+    // Get the ul that holds the collection of subscribers
+    $collectionHolder = $('tbody.subscribers');
+
+    // add the "add a subscriber" anchor and li to the subscribers ul
+    $collectionHolder.append($newLinkTr);
+
+    // count the current form inputs we have (e.g. 2), use that as the new
+    // index when inserting a new item (e.g. 2)
+    $collectionHolder.data('index', $collectionHolder.find(':input').length);
+
+    $addSubscriberLink.on('click', function (e) {
+        // prevent the link from creating a "#" on the URL
+        e.preventDefault();
+
+        // add a new subscriber form (see next code block)
+        addSubscriberForm($collectionHolder, $newLinkTr);
     });
 }

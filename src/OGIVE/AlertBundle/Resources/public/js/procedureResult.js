@@ -58,24 +58,24 @@ $(function () {
                         ]
                     },
 
-                    callOffer: {
-                        identifier: 'callOffer',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: "Veuillez selectionner l'appel d'offre"
-                            }
-                        ]
-                    },
-                    expressionInterest: {
-                        identifier: 'expressionInterest',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: "Veuillez selectionner la manisfestation d'intérêt"
-                            }
-                        ]
-                    },
+//                    callOffer: {
+//                        identifier: 'callOffer',
+//                        rules: [
+//                            {
+//                                type: 'empty',
+//                                prompt: "Veuillez selectionner l'appel d'offre"
+//                            }
+//                        ]
+//                    },
+//                    expressionInterest: {
+//                        identifier: 'expressionInterest',
+//                        rules: [
+//                            {
+//                                type: 'empty',
+//                                prompt: "Veuillez selectionner la manisfestation d'intérêt"
+//                            }
+//                        ]
+//                    },
                     publication_date_date: {
                         identifier: 'publication_date_date',
                         rules: [
@@ -267,24 +267,24 @@ function execute_edit(id) {
                         ]
                     },
 
-                    callOffer: {
-                        identifier: 'callOffer',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: "Veuillez selectionner l'appel d'offre"
-                            }
-                        ]
-                    },
-                    expressionInterest: {
-                        identifier: 'expressionInterest',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: "Veuillez selectionner la manisfestation d'intérêt"
-                            }
-                        ]
-                    },
+//                    callOffer: {
+//                        identifier: 'callOffer',
+//                        rules: [
+//                            {
+//                                type: 'empty',
+//                                prompt: "Veuillez selectionner l'appel d'offre"
+//                            }
+//                        ]
+//                    },
+//                    expressionInterest: {
+//                        identifier: 'expressionInterest',
+//                        rules: [
+//                            {
+//                                type: 'empty',
+//                                prompt: "Veuillez selectionner la manisfestation d'intérêt"
+//                            }
+//                        ]
+//                    },
                     publication_date_date: {
                         identifier: 'publication_date_date',
                         rules: [

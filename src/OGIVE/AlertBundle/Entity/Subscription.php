@@ -21,6 +21,13 @@ class Subscription
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=255)
+     */
+    private $name;
 
     /**
      * @var int
@@ -30,11 +37,18 @@ class Subscription
     private $periodicity;
 
     /**
-     * @var int
+     * @var float
      *
-     * @ORM\Column(name="price", type="bigint")
+     * @ORM\Column(name="evolutionAttendu", type="float", precision=10, scale=0, nullable=true)
      */
     private $price;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="currency", type="string", length=255, nullable=false, options={"default" : "XAF"})
+     */
+    private $currency;
     
     /**
      * @var string
@@ -53,7 +67,7 @@ class Subscription
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="OGIVE\AlertBundle\Entity\Subscriber", mappedBy="subscriber", cascade={"remove", "persist"})
+     * @ORM\OneToMany(targetEntity="OGIVE\AlertBundle\Entity\Subscriber", mappedBy="subscription", cascade={"remove", "persist"})
      */
     private $subscribers;
     
@@ -87,6 +101,30 @@ class Subscription
     public function getId()
     {
         return $this->id;
+    }
+    
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return Subscription
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 
     /**
@@ -135,6 +173,30 @@ class Subscription
     public function getPrice()
     {
         return $this->price;
+    }
+    
+    /**
+     * Set currency
+     *
+     * @param string $currency
+     *
+     * @return Subscription
+     */
+    public function setCurrency($currency)
+    {
+        $this->currency = $currency;
+
+        return $this;
+    }
+
+    /**
+     * Get currency
+     *
+     * @return string
+     */
+    public function getCurrency()
+    {
+        return $this->currency;
     }
     
     /**

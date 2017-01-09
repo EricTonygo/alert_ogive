@@ -1,0 +1,125 @@
+<div id="add_entreprise" class="ui modal">
+    <i class="close icon"></i>
+    <div class="header">
+        Ajout d'une entreprise
+    </div>
+    <div class="content">
+        <form id='add_entreprise_form' class="ui form" method="POST" action="/entreprises" {{ form_enctype(form) }}>
+            <div class="field">
+                {{ form_label(form.name,"Nom") }}
+                {{ form_widget(form.name,{'attr':{'placeholder':"Nom de l'entreprise", 'data-validate': 'name'}})}}
+            </div>
+            
+            <div class="field">
+                {{ form_label(form.file, "Logo")}}
+                {{ form_errors(form.file, {'attr': {'class': 'list'}})}}
+                {{ form_widget(form.file, { 'attr' : {'class' : 'inputfile' }}) }}
+            </div>
+
+            <div class="field">
+                {{ form_label(form.domain,"Domaine d'activité") }}
+                {{ form_errors(form.domain, {'attr': {'class': 'ui error message'}})}}
+                {{ form_widget(form.domain,{'attr':{'data-validate': 'domain', 'class': 'ui search dropdown'}})}}
+            </div>
+
+            <div class="field">
+                {{ form_label(form.address.email,"Email") }}
+                {{ form_widget(form.address.email,{'attr':{'placeholder':"Email de l'entreprise", 'data-validate': 'email'}})}}
+            </div>
+
+            <div class="field">
+                {{ form_label(form.address.phone,"Téléphone") }}
+                {{ form_widget(form.address.phone,{'attr':{'placeholder':"Numero de téléphone", 'data-validate': 'phone'}})}}
+            </div>
+
+            <div class="field">
+                {{ form_label(form.address.mailBox,"Boîte postale") }}
+                {{ form_widget(form.address.mailBox,{'attr':{'placeholder':"Boîte postale", 'data-validate': 'mailBox'}})}}
+            </div>
+
+            <div class="field">
+                {{ form_label(form.address.country,"Pays") }}
+                {{ form_errors(form.address.country, {'attr': {'class': 'ui error message'}})}}
+                {{ form_widget(form.address.country,{'attr':{'data-validate': 'domain', 'class': 'ui search dropdown'}})}}
+            </div>
+
+            <div class="field">
+                {{ form_label(form.address.street,"Ville") }}
+                {{ form_widget(form.address.street,{'attr':{'placeholder':"Ville de localisation", 'data-validate': 'mailBox'}})}}
+            </div>
+
+            <div class="field">
+                {{ form_label(form.address.place,"Lieu de localisation") }}
+                {{ form_widget(form.address.place,{'attr':{'placeholder':"Lieu de localisation", 'data-validate': 'mailBox'}})}}
+            </div>
+
+            <div class="field">
+                {{ form_label(form.address.file, "Plan de localisation")}}
+                {{ form_errors(form.address.file, {'attr': {'class': 'list'}})}}
+                {{ form_widget(form.address.file, { 'attr' : {'class' : 'inputfile' }}) }}
+            </div>
+
+            <div class="field">
+                <div class="ui fluid card">
+                    <div class="content">
+                        <div class="header">Ajout des abonnés</div>
+                    </div>
+                    <div class="content">
+                        <table class="ui very basic table">
+                            <thead>
+                                <tr><th>Nom</th>
+                                    <th>Téléphone</th>
+                                    <th>Email</th>
+                                    <th>Abonnement</th>
+                                    <th class="right aligned">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="subscribers" data-prototype="{{ _self.subscriber_prototype(form.subscribers.vars.prototype)|e }}">
+                                {% for subscriber in form.subscribers %}
+                                    <tr>
+                                        {{ _self.subscriber_prototype(subscriber) }}
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                            {% macro subscriber_prototype(childForm) %}
+                                <td>{{ form_widget(childForm.name,{'attr':{'data-validate': 'name_subscriber'}}) }}</td>
+                                <td>{{ form_widget(childForm.phoneNumber,{'attr':{'data-validate': 'phone_subscriber'}}) }}</td>
+                                <td>{{ form_widget(childForm.email,{'attr':{'data-validate': 'email_subscriber'}}) }}</td>
+                                <td>{{ form_widget(childForm.subscription,{'attr':{'data-validate': 'subscription_subscriber'}}) }}</td>
+                            {% endmacro %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="field">
+                {{ form_widget(form._token) }}
+                <div id="server_error_message" class="ui negative message" style="display:none">
+                    <i class="close icon"></i>
+                    <div id="server_error_content" class="header">Internal server error</div>
+                </div>
+                <div id="error_name_message" class="ui error message" style="display: none">
+                    <i class="close icon"></i>
+                    <div id="error_name_header" class="header"></div>
+                    <ul id="error_name_list" class="list">
+
+                    </ul>
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <div class="actions">
+        <div id="cancel_add_entreprise" class="ui black deny button">
+            Annuler
+        </div>
+        <div id='submit_entreprise' class="ui primary icon button">
+            <i class="save icon"></i>
+            Sauvegarder
+        </div>
+    </div>
+</div>
+<button id="add_entreprise_btn" class="float_button circular ui huge red icon button" data-tooltip="Nouvelle entreprise" data-position="top center" data-inverted="">
+    <i class="icon plus"></i>
+</button>

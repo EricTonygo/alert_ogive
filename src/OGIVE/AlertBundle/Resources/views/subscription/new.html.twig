@@ -1,0 +1,58 @@
+<div id="add_subscription" class="ui small modal">
+    <i class="close icon"></i>
+    <div class="header">
+        Ajout d'un abonnement
+    </div>
+    <div class="content">
+        {{ form_start(form, {'method': 'POST', 'action': '/subscriptions', 'attr': {'class': 'ui form', 'id': 'add_subscription_form'} }) }}
+
+        <div class="field">
+            {{ form_label(form.name,"Nom") }}
+            {{ form_widget(form.name,{'attr':{'placeholder':"Nom de l'abonnement", 'data-validate': 'name'}})}}
+        </div>
+
+        <div class="field">
+            {{ form_label(form.periodicity,"Périodicité") }}
+            {{ form_widget(form.periodicity,{'attr':{'data-validate': 'periodicity', 'class': 'ui search dropdown'}})}}
+        </div>
+
+        <div class="field">
+            {{ form_label(form.price,"Coût") }}
+            {{ form_widget(form.price,{'attr':{'placeholder':"Coût de l'abonnement", 'data-validate': 'price'}})}}
+        </div>
+        
+        <div class="field">
+            {{ form_label(form.currency,"Dévise") }}
+            {{ form_widget(form.currency,{'attr':{'data-validate': 'currency', 'class': 'ui search dropdown'}})}}
+        </div>
+
+        <div class="field">
+            {{form_rest(form)}}
+            <div id="server_error_message" class="ui negative message" style="display:none">
+                <i class="close icon"></i>
+                <div id="server_error_content" class="header">Internal server error</div>
+            </div>
+            <div id="error_name_message" class="ui error message" style="display: none">
+                <i class="close icon"></i>
+                <div id="error_name_header" class="header"></div>
+                <ul id="error_name_list" class="list">
+
+                </ul>
+            </div>
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+    <div class="actions">
+        <div id="cancel_add_subscription" class="ui black deny button">
+            Annuler
+        </div>
+        <div id='submit_subscription' class="ui primary icon button">
+            <i class="save icon"></i>
+            Sauvegarder
+        </div>
+    </div>
+</div>
+<button id="add_subscription_btn" class="float_button circular ui huge red icon button" data-tooltip="Nouveau abonnement" data-position="top center" data-inverted="">
+    <i class="icon plus"></i>
+</button>

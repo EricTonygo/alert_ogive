@@ -18,6 +18,14 @@ ogive_alert_procedureResult:
     resource: "@OGIVEAlertBundle/Controller/ProcedureResultController.php"
     type:     rest
     
+ogive_alert_entreprise:
+    resource: "@OGIVEAlertBundle/Controller/EntrepriseController.php"
+    type:     rest
+    
+ogive_alert_subscription:
+    resource: "@OGIVEAlertBundle/Controller/SubscriptionController.php"
+    type:     rest
+    
 ogive_alert:
     resource: "@OGIVEAlertBundle/Resources/config/routing.yml"
     prefix:   /

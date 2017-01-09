@@ -1,0 +1,46 @@
+<div id='list_as_grid' class="ui basic segment container">
+    <div id='list_as_grid_content' class="ui four column doubling stackable grid">
+        {%if entreprises%}
+            {%for entreprise in entreprises%}            
+                <div id="entreprise_grid{{entreprise.id}}" class="column">
+                    <div class="ui fluid card">
+                        <div class="image">
+                            <img src="{{asset('uploads/logos_entreprises/'~entreprise.logo)}}" alt="{{entreprise.name}}"/>
+                        </div>
+                        <div class="content">
+                            <div class="header">{{entreprise.name}}</div>
+                            <div class="description">
+                                {{entreprise.address.phone}}
+                            </div>
+                        </div>
+                        <div class="extra content">
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <a id="enable_entreprise_grid{{entreprise.id}}" onclick="enable_entreprise({{entreprise.id}});" {% if entreprise.state == 1 %} style="display: none" {% endif %}  data-tooltip="Activer" data-position="bottom center" data-inverted=""><i class="unlock red icon"></i></a>
+                                <a id="disable_entreprise_grid{{entreprise.id}}" onclick="disable_entreprise({{entreprise.id}});" {% if entreprise.state != 1 %} style="display: none" {% endif %}  data-tooltip="Désactiver" data-position="bottom center" data-inverted=""><i class="lock green icon"></i></a>
+                                {% endif %}
+                            <div class="right floated">
+                                <div class="ui dropdown item">
+                                    <i class="ellipsis vertical icon"></i>
+                                    <div class="menu">
+                                        <div onclick="show_entreprise({{entreprise.id}});" class="show_entreprise_btn item">
+                                            <i class="unhide icon"></i>
+                                            Détails
+                                        </div>
+                                        <div onclick="edit_entreprise({{entreprise.id}});" class="edit_entreprise_btn item">
+                                            <i class="edit icon"></i>
+                                            Modifier
+                                        </div>
+                                        <div onclick="delete_entreprise({{entreprise.id}});" class="delete_entreprise_btn item">
+                                            <i class="trash icon"></i>
+                                            Supprimer
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {%endfor%} 
+        {%endif%}         
+    </div>
+</div>

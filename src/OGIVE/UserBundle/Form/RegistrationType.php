@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class RegistrationType extends AbstractType
 {
@@ -23,7 +24,7 @@ class RegistrationType extends AbstractType
             ->add('firstname', null, array(
                 'required' => false
             ))
-            ->add('file',null,array(
+            ->add('file', FileType::class ,array(
                 'attr' => array('class'=>'inputfile'),
                 'required' => false
             ))

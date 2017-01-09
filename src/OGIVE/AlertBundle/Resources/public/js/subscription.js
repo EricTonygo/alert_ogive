@@ -1,22 +1,28 @@
 $(function () {
-    $('#add_domain_btn').click(function () {
-        $('#add_domain.ui.modal').modal('setting', {
+    $('#ogive_alertbundle_subscription_periodicity.ui.dropdown').dropdown({
+        on: 'click'
+    });
+    $('#ogive_alertbundle_subscription_currency.ui.dropdown').dropdown({
+        on: 'click'
+    });
+    $('#add_subscription_btn').click(function () {
+        $('#add_subscription.ui.modal').modal('setting', {
             autofocus: false,
             inverted: true,
             closable: false
         });
-        $('#add_domain.ui.modal').modal('show');
+        $('#add_subscription.ui.modal').modal('show');
     });
 
-    $('#submit_domain').click(function (e) {
+    $('#submit_subscription').click(function (e) {
         e.preventDefault();
         $('#server_error_message').hide();
         $('#message_error').hide();
         $('#message_success').hide();
         $('#error_name_message').hide();
-        $('#add_domain_form.ui.form').submit();
+        $('#add_subscription_form.ui.form').submit();
     });
-    $('#add_domain_form.ui.form')
+    $('#add_subscription_form.ui.form')
             .form({
                 fields: {
                     name: {
@@ -24,24 +30,41 @@ $(function () {
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: 'Veuillez saisir le nom du domaine'
+                                prompt: "Veuillez saisir le nom de l'abonnement"
+                            }
+                        ]
+                    },
+                    periodicity: {
+                        identifier: 'periodicity',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Veuillez selectionner la périodicité de l'abonnement"
+                            }
+                        ]
+                    },
+                    price: {
+                        identifier: 'price',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Veuillez spécifier le coût de l'abonnement"
                             }
                         ]
                     }
-
                 },
                 inline: true,
                 on: 'blur',
                 onSuccess: function (event, fields) {
                     $.ajax({
                         type: 'post',
-                        url: Routing.generate('domain_add'),
+                        url: Routing.generate('subscription_add'),
                         data: fields,
                         dataType: 'json',
                         beforeSend: function () {
-                            $('#submit_domain').addClass('disabled');
-                            $('#cancel_add_domain').addClass('disabled');
-                            $('#add_domain_form.ui.form').addClass('loading');
+                            $('#submit_subscription').addClass('disabled');
+                            $('#cancel_add_subscription').addClass('disabled');
+                            $('#add_subscription_form.ui.form').addClass('loading');
                         },
                         statusCode: {
                             500: function (xhr) {
@@ -60,16 +83,16 @@ $(function () {
                         },
                         success: function (response, textStatus, jqXHR) {
                             if (response.code === 200) {
-                                $('#cancel_add_domain').removeClass('disabled');
-                                $('#submit_domain').removeClass('disabled');
-                                $('#add_domain_form.ui.form').removeClass('loading');
-                                $('#list_as_grid_content').prepend(response.domain_content_grid);
-                                $('#list_as_table_content').prepend(response.domain_content_list);
+                                $('#cancel_add_subscription').removeClass('disabled');
+                                $('#submit_subscription').removeClass('disabled');
+                                $('#add_subscription_form.ui.form').removeClass('loading');
+                                $('#list_as_grid_content').prepend(response.subscription_content_grid);
+                                $('#list_as_table_content').prepend(response.subscription_content_list);
                                 $('.ui.dropdown').dropdown({
                                     on: 'hover'
                                 });
-                                $('#add_domain.ui.modal').modal('hide');
-                                $('#message_success>div.header').html('Domaine ajouté avec succès !');
+                                $('#add_subscription.ui.modal').modal('hide');
+                                $('#message_success>div.header').html('Abonnement ajouté avec succès !');
                                 $('#message_success').show();
                                 setTimeout(function () {
                                     $('#message_success').hide();
@@ -78,9 +101,9 @@ $(function () {
 
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
-                            $('#cancel_add_domain').removeClass('disabled');
-                            $('#submit_domain').removeClass('disabled');
-                            $('#add_domain_form.ui.form').removeClass('loading');
+                            $('#cancel_add_subscription').removeClass('disabled');
+                            $('#submit_subscription').removeClass('disabled');
+                            $('#add_subscription_form.ui.form').removeClass('loading');
                             /*alertify.error("Internal Server Error");*/
                         }
                     });
@@ -90,12 +113,12 @@ $(function () {
             );
 });
 
-function edit_domain(id) {
+function edit_subscription(id) {
     $('#message_error').hide();
     $('#message_success').hide();
     $.ajax({
         type: 'PUT',
-        url: Routing.generate('domain_update', { id: id }),
+        url: Routing.generate('subscription_update', {id: id}),
         dataType: 'json',
         beforeSend: function () {
             $('#message_loading').show();
@@ -111,14 +134,20 @@ function edit_domain(id) {
         },
         success: function (response, textStatus, jqXHR) {
             if (response.code === 200) {
-                $('#edit_domain').remove();
-                $('#edit_domain_content').html(response.edit_domain_form);
-                $('#edit_domain.ui.modal').modal('setting', {
+                $('#edit_subscription').remove();
+                $('#edit_subscription_content').html(response.edit_subscription_form);
+                $('#ogive_alertbundle_subscription_periodicity.ui.dropdown').dropdown({
+                    on: 'click'
+                });
+                $('#ogive_alertbundle_subscription_currency.ui.dropdown').dropdown({
+                    on: 'click'
+                });
+                $('#edit_subscription.ui.modal').modal('setting', {
                     autofocus: false,
                     inverted: true,
                     closable: false
                 });
-                $('#edit_domain.ui.modal').modal('show');
+                $('#edit_subscription.ui.modal').modal('show');
                 execute_edit(id);
             }
             $('#message_loading').hide();
@@ -131,15 +160,15 @@ function edit_domain(id) {
 }
 
 function execute_edit(id) {
-    $('#submit_edit_domain').click(function (e) {
+    $('#submit_edit_subscription').click(function (e) {
         e.preventDefault();
         $('#server_error_message').hide();
         $('#message_error').hide();
         $('#message_success').hide();
         $('#error_name_message').hide();
-        $('#edit_domain_form.ui.form').submit();
+        $('#edit_subscription_form.ui.form').submit();
     });
-    $('#edit_domain_form.ui.form')
+    $('#edit_subscription_form.ui.form')
             .form({
                 fields: {
                     name: {
@@ -147,27 +176,48 @@ function execute_edit(id) {
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: 'Veuillez saisir le nom du domaine'
+                                prompt: "Veuillez saisir le nom de l'abonnement"
+                            }
+                        ]
+                    },
+                    periodicity: {
+                        identifier: 'periodicity',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Veuillez selectionner la périodicité de l'abonnement"
+                            }
+                        ]
+                    },
+                    price: {
+                        identifier: 'price',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Veuillez spécifier le coût de l'abonnement"
+                            },
+                            {
+                                type: 'number',
+                                prompt: "coût de l'abonnement doit être un nombre"
                             }
                         ]
                     }
-
                 },
                 inline: true,
                 on: 'blur',
                 onSuccess: function (event, fields) {
                     $.ajax({
                         type: 'PUT',
-                        url: Routing.generate('domain_update', { id: id }),
+                        url: Routing.generate('subscription_update', {id: id}),
                         data: fields,
                         dataType: 'json',
                         beforeSend: function () {
-                            $('#submit_edit_domain').addClass('disabled');
-                            $('#cancel_edit_domain').addClass('disabled');
-                            $('#edit_domain_form.ui.form').addClass('loading');
-                            $('#cancel_details_domain').addClass('disabled');
-                            $('#disable_domain').addClass('disabled');
-                            $('#enable_domain').addClass('disabled');
+                            $('#submit_edit_subscription').addClass('disabled');
+                            $('#cancel_edit_subscription').addClass('disabled');
+                            $('#edit_subscription_form.ui.form').addClass('loading');
+                            $('#cancel_details_subscription').addClass('disabled');
+                            $('#disable_subscription').addClass('disabled');
+                            $('#enable_subscription').addClass('disabled');
                         },
                         statusCode: {
                             500: function (xhr) {
@@ -185,31 +235,31 @@ function execute_edit(id) {
                         },
                         success: function (response, textStatus, jqXHR) {
                             if (response.code === 200) {
-                                $('#submit_edit_domain').removeClass('disabled');
-                                $('#cancel_edit_domain').removeClass('disabled');
-                                $('#edit_domain_form.ui.form').removeClass('loading');
-                                $('#cancel_details_domain').removeClass('disabled');
-                                $('#disable_domain').removeClass('disabled');
-                                $('#enable_domain').removeClass('disabled');
-                                $('#domain_grid' + id).html(response.domain_content_grid);
-                                $('#domain_list' + id).html(response.domain_content_list);
+                                $('#submit_edit_subscription').removeClass('disabled');
+                                $('#cancel_edit_subscription').removeClass('disabled');
+                                $('#edit_subscription_form.ui.form').removeClass('loading');
+                                $('#cancel_details_subscription').removeClass('disabled');
+                                $('#disable_subscription').removeClass('disabled');
+                                $('#enable_subscription').removeClass('disabled');
+                                $('#subscription_grid' + id).html(response.subscription_content_grid);
+                                $('#subscription_list' + id).html(response.subscription_content_list);
                                 $('.ui.dropdown').dropdown({
                                     on: 'hover'
                                 });
-                                $('#edit_domain.ui.modal').modal('hide');
-                                $('#message_success>div.header').html('Domaine modifié avec succès !');
+                                $('#edit_subscription.ui.modal').modal('hide');
+                                $('#message_success>div.header').html('Abonnement modifié avec succès !');
                                 $('#message_success').show();
                                 setTimeout(function () {
                                     $('#message_success').hide();
                                 }, 4000);
-                                $('#edit_domain').remove();
+                                $('#edit_subscription').remove();
                             }
 
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
-                            $('#submit_edit_domain').removeClass('disabled');
-                            $('#cancel_edit_domain').removeClass('disabled');
-                            $('#edit_domain_form.ui.form').removeClass('loading');
+                            $('#submit_edit_subscription').removeClass('disabled');
+                            $('#cancel_edit_subscription').removeClass('disabled');
+                            $('#edit_subscription_form.ui.form').removeClass('loading');
                             /*alertify.error("Internal Server Error");*/
                         }
                     });
@@ -219,12 +269,12 @@ function execute_edit(id) {
             );
 }
 
-function delete_domain(id) {
+function delete_subscription(id) {
     $('#message_error').hide();
     $('#message_success').hide();
     $.ajax({
         type: 'DELETE',
-        url: Routing.generate('domain_delete', { id: id }),
+        url: Routing.generate('subscription_delete', {id: id}),
         dataType: 'json',
         beforeSend: function () {
             $('#message_loading').show();
@@ -247,8 +297,8 @@ function delete_domain(id) {
         },
         success: function (response, textStatus, jqXHR) {
             console.log(response);
-            $('#domain_grid' + id).remove();
-            $('#domain_list' + id).remove();
+            $('#subscription_grid' + id).remove();
+            $('#subscription_list' + id).remove();
             $('#message_loading').hide();
             $('#message_success>div.header').html(response.message);
             $('#message_success').show();
@@ -263,12 +313,12 @@ function delete_domain(id) {
     });
 }
 
-function show_domain(id) {
+function show_subscription(id) {
     $('#message_error').hide();
     $('#message_success').hide();
     $.ajax({
         type: 'GET',
-        url: Routing.generate('domain_get_one', { id: id }),
+        url: Routing.generate('subscription_get_one', {id: id}),
         dataType: 'json',
         beforeSend: function () {
             $('#message_loading').show();
@@ -284,27 +334,33 @@ function show_domain(id) {
         },
         success: function (response, textStatus, jqXHR) {
             if (response.code === 200) {
-                $('#edit_domain').remove();
-                $('#edit_domain_content').html(response.domain_details);
-                $('#edit_domain.ui.modal').modal('setting', {
+                $('#edit_subscription').remove();
+                $('#edit_subscription_content').html(response.subscription_details);
+                $('#ogive_alertbundle_subscription_periodicity.ui.dropdown').dropdown({
+                    on: 'click'
+                });
+                $('#ogive_alertbundle_subscription_currency.ui.dropdown').dropdown({
+                    on: 'click'
+                });
+                $('#edit_subscription.ui.modal').modal('setting', {
                     autofocus: false,
                     inverted: true,
                     closable: false
                 });
-                $('#edit_domain.ui.modal').modal('show');
+                $('#edit_subscription.ui.modal').modal('show');
                 execute_edit(id);
-                $('#edit_domain_btn').click(function () {
+                $('#edit_subscription_btn').click(function () {
                     $('#block_details').hide();
                     $('#block_form_edit').show();
-                    $('#cancel_edit_domain').show();
-                    $('#submit_edit_domain').show();
+                    $('#cancel_edit_subscription').show();
+                    $('#submit_edit_subscription').show();
                     $(this).hide();
                 });
-                $('#cancel_edit_domain').click(function () {
+                $('#cancel_edit_subscription').click(function () {
                     $('#block_details').show();
                     $('#block_form_edit').hide();
-                    $('#edit_domain_btn').show();
-                    $('#submit_edit_domain').hide();
+                    $('#edit_subscription_btn').show();
+                    $('#submit_edit_subscription').hide();
                     $(this).hide();
                 });
             }
@@ -317,14 +373,14 @@ function show_domain(id) {
     });
 }
 
-function enable_domain(id) {
+function enable_subscription(id) {
     $('#message_error').hide();
     $('#message_success').hide();
-    $('#edit_domain.ui.modal').modal('hide');
-    $('#edit_domain').remove();
+    $('#edit_subscription.ui.modal').modal('hide');
+    $('#edit_subscription').remove();
     $.ajax({
         type: 'PUT',
-        url: Routing.generate('domain_update', { id: id }),
+        url: Routing.generate('subscription_update', {id: id}),
         data: {'action': 'enable'},
         dataType: 'json',
         beforeSend: function () {
@@ -339,7 +395,7 @@ function enable_domain(id) {
                 }, 4000);
             },
             400: function (response, textStatus, jqXHR) {
-                $('#message_error>div.header').html("Echec d'activation du domaine");
+                $('#message_error>div.header').html("Echec d'activation de l'abonnement");
                 $('#message_error').show();
                 setTimeout(function () {
                     $('#message_error').hide();
@@ -349,8 +405,8 @@ function enable_domain(id) {
         success: function (response, textStatus, jqXHR) {
             console.log(response);
             $('#message_loading').hide();
-            $('#enable_domain_grid' + id).hide();
-            $('#disable_domain_grid' + id).show();
+            $('#enable_subscription_grid' + id).hide();
+            $('#disable_subscription_grid' + id).show();
             $('#message_success>div.header').html(response.message);
             $('#message_success').show();
             setTimeout(function () {
@@ -364,14 +420,14 @@ function enable_domain(id) {
     });
 }
 
-function disable_domain(id) {
+function disable_subscription(id) {
     $('#message_error').hide();
     $('#message_success').hide();
-    $('#edit_domain.ui.modal').modal('hide');
-    $('#edit_domain').remove();
+    $('#edit_subscription.ui.modal').modal('hide');
+    $('#edit_subscription').remove();
     $.ajax({
         type: 'PUT',
-        url: Routing.generate('domain_update', { id: id }),
+        url: Routing.generate('subscription_update', {id: id}),
         data: {'action': 'disable'},
         dataType: 'json',
         beforeSend: function () {
@@ -386,7 +442,7 @@ function disable_domain(id) {
                 }, 4000);
             },
             400: function (response, textStatus, jqXHR) {
-                $('#message_error>div.header').html("Echec de la désactivation du domaine");
+                $('#message_error>div.header').html("Echec de la désactivation de l'abonnement");
                 $('#message_error').show();
                 setTimeout(function () {
                     $('#message_error').hide();
@@ -396,8 +452,8 @@ function disable_domain(id) {
         success: function (response, textStatus, jqXHR) {
             console.log(response);
             $('#message_loading').hide();
-            $('#disable_domain_grid' + id).hide();
-            $('#enable_domain_grid' + id).show();
+            $('#disable_subscription_grid' + id).hide();
+            $('#enable_subscription_grid' + id).show();
             $('#message_success>div.header').html(response.message);
             $('#message_success').show();
             setTimeout(function () {
