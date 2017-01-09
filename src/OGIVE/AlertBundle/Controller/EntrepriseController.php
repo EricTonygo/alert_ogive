@@ -83,6 +83,7 @@ class EntrepriseController extends Controller {
                 $entreprise->setState(1);
                 $subscribers = $entreprise->getSubscribers();
                 foreach ($subscribers as $subscriber) {
+                    $subscriber->setEntreprise($entreprise);
                     $subscriber->setState(1);
                 }
             }
@@ -136,17 +137,17 @@ class EntrepriseController extends Controller {
 
         $repositoryEntreprise = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Entreprise');
         $repositorySubscriber = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Subscriber');
-
+        $originalSubscribers = new \Doctrine\Common\Collections\ArrayCollection();
+        $serializer = $this->container->get('jms_serializer');
         if (empty($entreprise)) {
             return new JsonResponse(['message' => 'Entreprise introuvable'], Response::HTTP_NOT_FOUND);
         }
-
         if ($request->get('action') == 'enable') {
             $entreprise->setState(1);
             $subscribers = $entreprise->getSubscribers();
             foreach ($subscribers as $subscriber) {
                 $subscriber->setState(1);
-                $repositorySubscriber->updateSubscriber($subscriber);
+                $subscriber->setEntreprise($entreprise);
             }
             $entreprise = $repositoryEntreprise->updateEntreprise($entreprise);
             return new JsonResponse(['message' => 'Entreprise activée avec succcès !'], Response::HTTP_OK
@@ -173,15 +174,34 @@ class EntrepriseController extends Controller {
             if ($entrepriseUnique && $entrepriseUnique->getId() != $entreprise->getId()) {
                 return new JsonResponse(["success" => false, 'message' => 'Une entreprise avec ce nom existe dejà'], Response::HTTP_NOT_FOUND);
             }
+            // remove the relationship between the Entreprise and the Subscribers
+            foreach ($originalSubscribers as $subscriber) {
+                if (false === $entreprise->getSubscribers()->contains($subscriber)) {
+                    // remove the panne from the piece
+                    $entreprise->getSubscribers()->removeElement($subscriber);
+                    // if it was a many-to-one relationship, remove the relationship like this
+                    $subscriber->setEntreprise(null);
+                    $subscriber->setStatus(0);
+                    $repositorySubscriber->updateSubscriber($subscriber);
+                    // if you wanted to delete the Piece entirely, you can also do that
+                    // $em->remove($piece);
+                }
+            }
             $entreprise = $repositoryEntreprise->updateEntreprise($entreprise);
             $entreprise_content_grid = $this->renderView('OGIVEAlertBundle:entreprise:entreprise-grid-edit.html.twig', array('entreprise' => $entreprise));
             $entreprise_content_list = $this->renderView('OGIVEAlertBundle:entreprise:entreprise-list-edit.html.twig', array('entreprise' => $entreprise));
-            $view = View::create(["code" => 200, 'entreprise' => $entreprise, 'entreprise_content_grid' => $entreprise_content_grid, 'entreprise_content_list' => $entreprise_content_list]);
+     
+            $entreprise_json = $serializer->serialize($entreprise, 'json');
+            $view = View::create(["code" => 200, 'entreprise' => $entreprise_json, 'entreprise_content_grid' => $entreprise_content_grid, 'entreprise_content_list' => $entreprise_content_list]);
             $view->setFormat('json');
             return $view;
         } elseif ($form->isSubmitted() && !$form->isValid()) {
             return $form;
         } else {
+            foreach ($entreprise->getSubscribers() as $subscriber) {
+                $originalSubscribers->add($subscriber);
+            }
+            $entreprise_json = $serializer->serialize($entreprise, 'json');
             $edit_entreprise_form = $this->renderView('OGIVEAlertBundle:entreprise:edit.html.twig', array('form' => $form->createView(), 'entreprise' => $entreprise));
             $view = View::create(["code" => 200, 'entreprise' => $entreprise, 'edit_entreprise_form' => $edit_entreprise_form]);
             $view->setFormat('json');

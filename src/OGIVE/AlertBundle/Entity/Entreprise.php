@@ -72,14 +72,14 @@ class Entreprise
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="OGIVE\AlertBundle\Entity\HistoricalAlertEntreprise", mappedBy="subscriber", cascade={"remove", "persist"})
+     * @ORM\OneToMany(targetEntity="\OGIVE\AlertBundle\Entity\HistoricalAlertEntreprise", mappedBy="entreprise", cascade={"remove", "persist"})
      */
     private $historicalAlertEntreprises;
     
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="OGIVE\AlertBundle\Entity\Subscriber", mappedBy="subscriber", cascade={"remove", "persist"})
+     * @ORM\OneToMany(targetEntity="\OGIVE\AlertBundle\Entity\Subscriber", mappedBy="entreprise", cascade={"remove", "persist"})
      */
     private $subscribers;
     
@@ -355,7 +355,7 @@ class Entreprise
      * @param OGIVE\AlertBundle\Entity\Subscriber $subscriber 
      * @return Entreprise
      */
-    public function addSubscriber(OGIVE\AlertBundle\Entity\Subscriber $subscriber) {
+    public function addSubscriber(\OGIVE\AlertBundle\Entity\Subscriber $subscriber) {
         $this->subscribers[] = $subscriber;
         return $this;
     }
@@ -387,7 +387,7 @@ class Entreprise
      * @param OGIVE\AlertBundle\Entity\Subscriber $subscriber
      * @return Entreprise
      */
-    public function removeSubscriber(OGIVE\AlertBundle\Entity\Subscriber $subscriber) {
+    public function removeSubscriber(\OGIVE\AlertBundle\Entity\Subscriber $subscriber) {
         $this->subscribers->removeElement($subscriber);
         return $this;
     }

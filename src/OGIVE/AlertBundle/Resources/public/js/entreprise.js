@@ -1,4 +1,5 @@
-$(function () {
+
+function add_entreprise() {
     $('#ogive_alertbundle_entreprise_domain.ui.dropdown').dropdown({
         on: 'click'
     });
@@ -31,6 +32,15 @@ $(function () {
                             }
                         ]
                     },
+                    domain: {
+                        identifier: 'domain',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Veuillez selectionner le domaine d'activité"
+                            }
+                        ]
+                    },
                     phone: {
                         identifier: 'phone',
                         rules: [
@@ -39,12 +49,42 @@ $(function () {
                                 prompt: "Veuillez saisir le numéro de téléphone de l'entreprise"
                             },
                             {
-                                type: 'regExp[/^+[0-9]*$/]',
+                                type: 'regExp[/^([\+][0-9]{4,}?)$/]',
+                                prompt: "Veuillez saisir le numéro de téléphone valide"
+                            }
+                        ]
+                    },
+                    name_subscriber: {
+                        identifier: 'name_subscriber',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Veuillez saisir le nom de l'abonné"
+                            }
+                        ]
+                    },
+                    subscription_subscriber: {
+                        identifier: 'subscription_subscriber',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Veuillez selectionner l'abonnement de l'abonné"
+                            }
+                        ]
+                    },
+                    phone_subscriber: {
+                        identifier: 'phone_subscriber',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Veuillez saisir le numéro de téléphone de l'abonné"
+                            },
+                            {
+                                type: 'regExp[/^([\+][0-9]{4,}?)$/]',
                                 prompt: "Veuillez saisir le numéro de téléphone valide"
                             }
                         ]
                     }
-
                 },
                 inline: true,
                 on: 'blur',
@@ -69,7 +109,7 @@ $(function () {
                                 if (myerrors.success === false) {
                                     $('#error_name_header').html("Echec de la validation");
                                     $('#error_name_list').html('<li>' + myerrors.message + '</li>');
-                                    $('#error_name_message').hide();
+                                    $('#error_name_message').show();
                                 }
 
                             }
@@ -104,6 +144,11 @@ $(function () {
                 }
             }
             );
+}
+
+
+$(function () {
+    add_entreprise();
 });
 
 function edit_entreprise(id) {
@@ -130,7 +175,6 @@ function edit_entreprise(id) {
                 $('#edit_entreprise').remove();
                 $('#edit_entreprise_content').html(response.edit_entreprise_form);
 
-                manage_subscriber();
                 $('#edit_entreprise.ui.modal').modal('setting', {
                     autofocus: false,
                     inverted: true,
@@ -168,8 +212,60 @@ function execute_edit(id) {
                                 prompt: "Veuillez saisir le nom de l'entreprise"
                             }
                         ]
+                    },
+                    domain: {
+                        identifier: 'domain',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Veuillez selectionner le domaine d'activité"
+                            }
+                        ]
+                    },
+                    phone: {
+                        identifier: 'phone',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Veuillez saisir le numéro de téléphone de l'entreprise"
+                            },
+                            {
+                                type: 'regExp[/^([\+][0-9]{4,}?)$/]',
+                                prompt: "Veuillez saisir le numéro de téléphone valide"
+                            }
+                        ]
+                    },
+                    name_subscriber: {
+                        identifier: 'name_subscriber',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Veuillez saisir le nom de l'abonné"
+                            }
+                        ]
+                    },
+                    subscription_subscriber: {
+                        identifier: 'subscription_subscriber',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Veuillez selectionner l'abonnement de l'abonné"
+                            }
+                        ]
+                    },
+                    phone_subscriber: {
+                        identifier: 'phone_subscriber',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Veuillez saisir le numéro de téléphone de l'abonné"
+                            },
+                            {
+                                type: 'regExp[/^([\+][0-9]{4,}?)$/]',
+                                prompt: "Veuillez saisir le numéro de téléphone valide"
+                            }
+                        ]
                     }
-
                 },
                 inline: true,
                 on: 'blur',
@@ -304,7 +400,6 @@ function show_entreprise(id) {
             if (response.code === 200) {
                 $('#edit_entreprise').remove();
                 $('#edit_entreprise_content').html(response.entreprise_details);
-                manage_subscriber();
                 $('#edit_entreprise.ui.modal').modal('setting', {
                     autofocus: false,
                     inverted: true,
@@ -427,73 +522,5 @@ function disable_entreprise(id) {
             $('#message_loading').hide();
             /*alertify.error("Internal Server Error");*/
         }
-    });
-}
-
-function addSubscriberForm($collectionHolder, $newLinkTr) {
-    // Get the data-prototype explained earlier
-    var prototype = $collectionHolder.data('prototype');
-
-    // get the new index
-    var index = $collectionHolder.data('index');
-
-    // Replace '__name__' in the prototype's HTML to
-    // instead be a number based on how many items we have
-    var $newForm = prototype.replace(/__name__/g, index);
-
-    // increase the index with one for the next item
-    $collectionHolder.data('index', index + 1);
-
-    // Display the form in the page in an li, before the "Add a subscriber" link li
-    var $newFormTr = $('<tr></tr>').append($newForm);
-    $newLinkTr.before($newFormTr);
-
-    addSubscriberFormDeleteLink($newFormTr);
-}
-
-function addSubscriberFormDeleteLink($subscriberFormTr) {
-    var $removeFormA = $('<td class="right aligned"><button class="ui red compact icon button" data-tooltip="Supprimer" data-position="bottom center" data-inverted="" data-variation="mini"><i class="trash icon"></i></button></td>');
-    $subscriberFormTr.append($removeFormA);
-    $removeFormA.on('click', function (e) {
-        // prevent the link from creating a "#" on the URL
-        e.preventDefault();
-
-        // remove the li for the subscriber form
-        $subscriberFormTr.remove();
-    });
-}
-
-var $addSubscriberLink = $('<button class="ui primary button" ><i class="add user icon"></i> Ajouter</button>');
-var $newLinkTr = $('<tr></tr>').append($addSubscriberLink);
-
-function manage_subscriber() {
-    /******** suppression des subscribers *********/
-    // Get the ul that holds the collection of subscribers
-    $collectionHolder = $('tbody.subscribers');
-
-    // add a delete link to all of the existing subscriber form li elements
-    $collectionHolder.find('tr').each(function () {
-        addSubscriberFormDeleteLink($(this));
-    });
-
-
-    /******** Ajout des subscribers *********/
-
-    // Get the ul that holds the collection of subscribers
-    $collectionHolder = $('tbody.subscribers');
-
-    // add the "add a subscriber" anchor and li to the subscribers ul
-    $collectionHolder.append($newLinkTr);
-
-    // count the current form inputs we have (e.g. 2), use that as the new
-    // index when inserting a new item (e.g. 2)
-    $collectionHolder.data('index', $collectionHolder.find(':input').length);
-
-    $addSubscriberLink.on('click', function (e) {
-        // prevent the link from creating a "#" on the URL
-        e.preventDefault();
-
-        // add a new subscriber form (see next code block)
-        addSubscriberForm($collectionHolder, $newLinkTr);
     });
 }

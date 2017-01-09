@@ -1,8 +1,10 @@
 {#<div id="entreprise_grid{{entreprise.id}}" class="column">#}
 <div class="ui fluid card">
-    <div class="image">
-        <img src="{{asset('uploads/logos_entreprises/'~entreprise.logo)}}" alt="{{entreprise.name}}"/>
-    </div>
+    {% if entreprise.logo %}
+        <div class="image">
+            <img src="{{asset('uploads/logos_entreprises/'~entreprise.logo)}}" alt="{{entreprise.name}}"/>
+        </div>
+    {% endif %}
     <div class="content">
         <div class="header">{{entreprise.name}}</div>
         <div class="description">

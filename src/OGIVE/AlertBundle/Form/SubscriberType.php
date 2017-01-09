@@ -19,7 +19,7 @@ class SubscriberType extends AbstractType
                 ->add('entreprise', 'entity', array(
                     'class' => 'OGIVEAlertBundle:Entreprise',
                     'property' => 'name',
-                    'empty_value' => "Selectionner une entreprise",
+                    'empty_value' => "Select une entreprise",
                     'multiple' => false,
                     'required' => false,
                     'query_builder' => function(\OGIVE\AlertBundle\Repository\EntrepriseRepository $repo) {
@@ -29,7 +29,7 @@ class SubscriberType extends AbstractType
                 ->add('subscription', 'entity', array(
                     'class' => 'OGIVEAlertBundle:Subscription',
                     'property' => 'name',
-                    'empty_value' => "Selectionner un abonnement",
+                    'empty_value' => "Select un abonnement",
                     'multiple' => false,
                     'required' => false,
                     'query_builder' => function(\OGIVE\AlertBundle\Repository\SubscriptionRepository $repo) {

@@ -76,7 +76,7 @@ $(function () {
                                 if (myerrors.success === false) {
                                     $('#error_name_header').html("Echec de la validation");
                                     $('#error_name_list').html('<li>' + myerrors.message + '</li>');
-                                    $('#error_name_message').hide();
+                                    $('#error_name_message').show();
                                 }
 
                             }

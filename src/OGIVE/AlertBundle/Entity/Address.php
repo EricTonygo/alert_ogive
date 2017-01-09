@@ -105,7 +105,7 @@ class Address {
     /**
      * @Assert\File(maxSize="6000000") 
      */
-    private $url;
+    private $file;
     private $temp;
 
     /**
@@ -294,11 +294,11 @@ class Address {
     }
 
     /**
-     * @param UploadedFile $url
+     * @param UploadedFile $file
      * @return object
      */
-    public function setUrl(UploadedFile $url = null) {
-        $this->url = $url;
+    public function setFile(UploadedFile $file = null) {
+        $this->file = $file;
         // check if we have an old image path
         if (isset($this->path)) {
             // store the old name to delete after the update
@@ -310,13 +310,13 @@ class Address {
     }
 
     /**
-     * Get the url used for prourl picture uploads
+     * Get the file used for profile picture uploads
      * 
      * @return UploadedFile
      */
-    public function getUrl() {
+    public function getFile() {
 
-        return $this->url;
+        return $this->file;
     }
 
     protected function getUploadRootDir() {
@@ -328,10 +328,10 @@ class Address {
      * @ORM\PreUpdate() 
      */
     public function preUpload() {
-        if (null !== $this->getUrl()) {
+        if (null !== $this->getFile()) {
             // do whatever you want to generate a unique name
             $filename = sha1(uniqid(mt_rand(), true));
-            $this->path = $filename . '.' . $this->getUrl()->guessExtension();
+            $this->path = $filename . '.' . $this->getFile()->guessExtension();
         }
     }
 
@@ -347,7 +347,7 @@ class Address {
             $random = $generator->nextBytes(16);
             $randomString = bin2hex($random);
             $count++;
-        } while (file_exists($this->getUploadRootDir() . '/' . $randomString . '.' . $this->getUrl()->guessExtension()) && $count < 50);
+        } while (file_exists($this->getUploadRootDir() . '/' . $randomString . '.' . $this->getFile()->guessExtension()) && $count < 50);
 
         return $randomString;
     }
@@ -357,14 +357,14 @@ class Address {
      * @ORM\PostUpdate() 
      */
     public function upload() {
-        if (null === $this->getUrl()) {
+        if (null === $this->getFile()) {
             return;
         }
 
         // if there is an error when moving the file, an exception will
         // be automatically thrown by move(). This will properly prevent
         // the entity from being persisted to the database on error
-        $this->getUrl()->move($this->getUploadRootDir(), $this->path);
+        $this->getFile()->move($this->getUploadRootDir(), $this->path);
 
         // check if we have an old image
         if (isset($this->temp)) {
@@ -375,7 +375,7 @@ class Address {
             // clear the temp image path
             $this->temp = null;
         }
-        $this->url = null;
+        $this->file = null;
     }
 
     /**
@@ -395,7 +395,7 @@ class Address {
      *
      * @return string 
      */
-    public function get() {
+    public function getCountry() {
         return $this->country;
     }
 

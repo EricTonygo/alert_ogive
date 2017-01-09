@@ -83,7 +83,9 @@
             // Display the form in the page in an li, before the "Add a subscriber" link li
             var $newFormTr = $('<tr></tr>').append($newForm);
             $newLinkTr.before($newFormTr);
-
+            $('.ui.subscriber_ent_subscription.search.dropdown').dropdown({
+                on: 'click'
+            });
             addSubscriberFormDeleteLink($newFormTr);
         }
 
@@ -98,7 +100,7 @@
                 $subscriberFormTr.remove();
             });
         }
-        
+
         var $collectionHolder;
 
         // setup an "add a subscriber" link

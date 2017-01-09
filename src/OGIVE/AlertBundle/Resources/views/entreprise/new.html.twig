@@ -85,7 +85,7 @@
                                 <td>{{ form_widget(childForm.name,{'attr':{'data-validate': 'name_subscriber'}}) }}</td>
                                 <td>{{ form_widget(childForm.phoneNumber,{'attr':{'data-validate': 'phone_subscriber'}}) }}</td>
                                 <td>{{ form_widget(childForm.email,{'attr':{'data-validate': 'email_subscriber'}}) }}</td>
-                                <td>{{ form_widget(childForm.subscription,{'attr':{'data-validate': 'subscription_subscriber'}}) }}</td>
+                                <td>{{ form_widget(childForm.subscription,{'attr':{'data-validate': 'subscription_subscriber', 'class': 'ui subscriber_ent_subscription search dropdown'}}) }}</td>
                             {% endmacro %}
                         </table>
                     </div>
