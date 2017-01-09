@@ -1,0 +1,46 @@
+<div id='list_as_grid' class="ui basic segment container">
+    <div id='list_as_grid_content' class="ui four column doubling stackable grid">
+        {%if subscriber%}
+            {%for subscriber in subscribers%}            
+                <div id="subscriber_grid{{subscriber.id}}" class="column">
+                    <div class="ui fluid card">
+                        <div class="image">
+                            <img src="{{asset('uploads/logos_subscribers/'~subscriber.logo)}}" alt="{{subscriber.name}}"/>
+                        </div>
+                        <div class="content">
+                            <div class="header">{{subscriber.name}}</div>
+                            <div class="description">
+                                {{subscriber.address.phoneNumber}}
+                            </div>
+                        </div>
+                        <div class="extra content">
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <a id="enable_subscriber_grid{{subscriber.id}}" onclick="enable_subscriber({{subscriber.id}});" {% if subscriber.state == 1 %} style="display: none" {% endif %}  data-tooltip="Activer" data-position="bottom center" data-inverted=""><i class="unlock red icon"></i></a>
+                                <a id="disable_subscriber_grid{{subscriber.id}}" onclick="disable_subscriber({{subscriber.id}});" {% if subscriber.state != 1 %} style="display: none" {% endif %}  data-tooltip="Désactiver" data-position="bottom center" data-inverted=""><i class="lock green icon"></i></a>
+                                {% endif %}
+                            <div class="right floated">
+                                <div class="ui dropdown item">
+                                    <i class="ellipsis vertical icon"></i>
+                                    <div class="menu">
+                                        <div onclick="show_subscriber({{subscriber.id}});" class="show_subscriber_btn item">
+                                            <i class="unhide icon"></i>
+                                            Détails
+                                        </div>
+                                        <div onclick="edit_subscriber({{subscriber.id}});" class="edit_subscriber_btn item">
+                                            <i class="edit icon"></i>
+                                            Modifier
+                                        </div>
+                                        <div onclick="delete_subscriber({{subscriber.id}});" class="delete_subscriber_btn item">
+                                            <i class="trash icon"></i>
+                                            Supprimer
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {%endfor%} 
+        {%endif%}         
+    </div>
+</div>
