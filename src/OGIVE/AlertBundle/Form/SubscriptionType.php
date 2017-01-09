@@ -28,7 +28,7 @@ class SubscriptionType extends AbstractType {
                     'empty_data' => null
                 ))
                 ->add('price', null , array('required' => false))
-                ->add('currency', CurrencyType::class , array('required' => false))
+                ->add('currency', CurrencyType::class , array('placeholder' => 'Selectionner la dévise','required' => false))
         ;
     }
 
