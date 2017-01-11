@@ -72,6 +72,7 @@ class EntrepriseController extends Controller {
         }
         $entreprise = new Entreprise();
         $repositoryEntreprise = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Entreprise');
+        $repositorySubscriber = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Subscriber');
         $form = $this->createForm('OGIVE\AlertBundle\Form\EntrepriseType', $entreprise);
         $form->handleRequest($request);
 
@@ -85,6 +86,9 @@ class EntrepriseController extends Controller {
                 foreach ($subscribers as $subscriber) {
                     $subscriber->setEntreprise($entreprise);
                     $subscriber->setState(1);
+                    if ($repositorySubscriber->findOneBy(array('phoneNumber' => $subscriber->getPhoneNumber(), 'status' => 1)) == null) {
+                        $repositorySubscriber->saveSubscriber($subscriber);
+                    }
                 }
             }
             $entreprise = $repositoryEntreprise->saveEntreprise($entreprise);

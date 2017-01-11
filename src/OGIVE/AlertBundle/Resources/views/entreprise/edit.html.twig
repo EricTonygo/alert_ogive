@@ -1,10 +1,10 @@
-<div id="edit_entreprise" class="ui small modal">
+<div id="edit_entreprise" class="ui modal">
     <i class="close icon"></i>
     <div class="header">
         Modification de l'entreprise << {{entreprise.name}} >>
     </div>
     <div class="content">
-        <form id='edit_entreprise_form' class="ui form" method="PUT" action="{{ path('entreprise_update', {'id': entreprise.id})}}" {{ form_enctype(form) }}>
+        {{ form_start(form, {'method': 'PUT', 'action': path('entreprise_update', {'id': entreprise.id}), 'attr': {'class': 'ui form', 'id': 'edit_entreprise_form'} }) }}
 
             <div class="field">
                 {{ form_label(form.name,"Nom") }}
@@ -61,7 +61,6 @@
             </div>
 
             <div class="field">
-                {{ form_widget(form._token) }}
                 <div id="server_error_message_edit" class="ui negative message" style="display:none">
                     <i class="close icon"></i>
                     <div id="server_error_content_edit" class="header">Internal server error</div>
@@ -108,7 +107,7 @@
                 </div>
             </div>
 
-        </form>
+        {{ form_end(form) }}
     </div>
     <div class="actions">
         <div id="cancel_edit_entreprise" class="ui black deny button">

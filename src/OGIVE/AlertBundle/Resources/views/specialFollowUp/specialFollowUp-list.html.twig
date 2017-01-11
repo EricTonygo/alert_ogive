@@ -1,0 +1,35 @@
+<tr id="specialFollowUp_list{{specialFollowUp.id}}">
+    <td>
+        <div class="ui ribbon label">{{specialFollowUp.name}}</div>
+    </td>
+    <td>{{specialFollowUp.description}}</td>
+    <td class="right aligned">
+        <div class="ui dropdown item">
+            <i class="ellipsis vertical icon"></i>
+            <div class="menu">
+                <div onclick="show_specialFollowUp({{specialFollowUp.id}});" class="show_specialFollowUp_btn item">
+                    <i class="unhide icon"></i>
+                    Détails
+                </div>
+                <div onclick="edit_specialFollowUp({{specialFollowUp.id}});" class="edit_specialFollowUp_btn item">
+                    <i class="edit icon"></i>
+                    Modifier
+                </div>
+                <div onclick="delete_specialFollowUp({{specialFollowUp.id}});" class="delete_specialFollowUp_btn item">
+                    <i class="trash icon"></i>
+                    Supprimer
+                </div>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <div onclick="enable_specialFollowUp({{specialFollowUp.id}});" class="enable_specialFollowUp_btn item" {% if specialFollowUp.state == 1 %} style="display: none" {% endif %}>
+                        <i class="unlock icon"></i>
+                        Activer
+                    </div>
+                    <div onclick="disable_specialFollowUp({{specialFollowUp.id}});" class="disable_specialFollowUp_btn item" {% if specialFollowUp.state != 1 %} style="display: none" {% endif %}>
+                        <i class="lock icon"></i>
+                        Désactiver
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </td>
+</tr>

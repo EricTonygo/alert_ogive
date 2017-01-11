@@ -1,0 +1,49 @@
+<div id="add_specialFollowUp" class="ui small modal">
+    <i class="close icon"></i>
+    <div class="header">
+        Ajout d'un suivi spécialisé
+    </div>
+    <div class="content">
+        {{ form_start(form, {'method': 'POST', 'action': '/special-follow-ups', 'attr': {'class': 'ui form', 'id': 'add_specialFollowUp_form'} }) }}
+
+        <div class="field">
+            {{ form_label(form.name,"Nom") }}
+            {{ form_widget(form.name,{'attr':{'placeholder':'Nom du suivi spécialisé', 'data-validate': 'name'}})}}
+        </div>
+
+        <div class="field">
+            {{ form_label(form.description,"Description") }}
+            {{ form_errors(form.description, {'attr': {'class': 'ui error message'}})}}
+            {{ form_widget(form.description,{'attr':{'placeholder':'Description du suivi spécialisé', 'data-validate': 'description'}})}}
+        </div>
+
+        <div class="field">
+            {{form_rest(form)}}
+            <div id="server_error_message" class="ui negative message" style="display:none">
+                <i class="close icon"></i>
+                <div id="server_error_content" class="header">Internal server error</div>
+            </div>
+            <div id="error_name_message" class="ui error message" style="display: none">
+                <i class="close icon"></i>
+                <div id="error_name_header" class="header"></div>
+                <ul id="error_name_list" class="list">
+
+                </ul>
+            </div>
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+    <div class="actions">
+        <div id="cancel_add_specialFollowUp" class="ui black deny button">
+            Annuler
+        </div>
+        <div id='submit_specialFollowUp' class="ui primary icon button">
+            <i class="save icon"></i>
+            Sauvegarder
+        </div>
+    </div>
+</div>
+<button id="add_specialFollowUp_btn" class="float_button circular ui huge red icon button" data-tooltip="Nouveau suivi spécialisé" data-position="top center" data-inverted="">
+    <i class="icon plus"></i>
+</button>
