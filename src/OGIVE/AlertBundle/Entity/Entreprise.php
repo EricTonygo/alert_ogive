@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  * Entreprise
  *
  * @ORM\Table(name="entreprise")
- * @ORM\Entity(repositoryClass="OGIVE\AlertBundle\Repository\EntrepriseRepository")
+ * @ORM\Entity(repositoryClass="\OGIVE\AlertBundle\Repository\EntrepriseRepository")
  * @ORM\HasLifecycleCallbacks
  */
 class Entreprise {
@@ -301,10 +301,10 @@ class Entreprise {
     /**
      * Add historicalAlertEntreprise
      *
-     * @param OGIVE\AlertBundle\Entity\HistoricalAlertEntreprise $historicalAlertEntreprise
+     * @param \OGIVE\AlertBundle\Entity\HistoricalAlertEntreprise $historicalAlertEntreprise
      * @return Entrprise
      */
-    public function addHistoricalAlertEntreprise(OGIVE\AlertBundle\Entity\HistoricalAlertEntreprise $historicalAlertEntreprise) {
+    public function addHistoricalAlertEntreprise(\OGIVE\AlertBundle\Entity\HistoricalAlertEntreprise $historicalAlertEntreprise) {
         $this->historicalAlertEntreprises[] = $historicalAlertEntreprise;
         return $this;
     }
@@ -333,10 +333,10 @@ class Entreprise {
     /**
      * Remove historicalAlertEntreprises
      *
-     * @param OGIVE\AlertBundle\Entity\HistoricalAlertEntreprise $historicalAlertEntreprise
+     * @param \OGIVE\AlertBundle\Entity\HistoricalAlertEntreprise $historicalAlertEntreprise
      * @return Entreprise
      */
-    public function removeHistoricalAlertEntreprise(OGIVE\AlertBundle\Entity\HistoricalAlertEntreprise $historicalAlertEntreprise) {
+    public function removeHistoricalAlertEntreprise(\OGIVE\AlertBundle\Entity\HistoricalAlertEntreprise $historicalAlertEntreprise) {
         $this->historicalAlertEntreprises->removeElement($historicalAlertEntreprise);
         return $this;
     }
@@ -344,7 +344,7 @@ class Entreprise {
     /**
      * Add subscriber
      *
-     * @param OGIVE\AlertBundle\Entity\Subscriber $subscriber 
+     * @param \OGIVE\AlertBundle\Entity\Subscriber $subscriber 
      * @return Entreprise
      */
     public function addSubscriber(\OGIVE\AlertBundle\Entity\Subscriber $subscriber) {
@@ -382,7 +382,7 @@ class Entreprise {
     /**
      * Remove subscriber
      *
-     * @param OGIVE\AlertBundle\Entity\Subscriber $subscriber
+     * @param \OGIVE\AlertBundle\Entity\Subscriber $subscriber
      * @return Entreprise
      */
     public function removeSubscriber(\OGIVE\AlertBundle\Entity\Subscriber $subscriber) {
@@ -437,7 +437,7 @@ class Entreprise {
     /**
      * Set address
      *
-     * @param OGIVE\AlertBundle\Entity\Address $address
+     * @param \OGIVE\AlertBundle\Entity\Address $address
      * @return Entreprise
      */
     public function setAddress(\OGIVE\AlertBundle\Entity\Address $address = null) {
@@ -449,7 +449,7 @@ class Entreprise {
     /**
      * Get address
      *
-     * @return OGIVE\AlertBundle\Entity\Address 
+     * @return \OGIVE\AlertBundle\Entity\Address 
      */
     public function getAddress() {
         return $this->address;

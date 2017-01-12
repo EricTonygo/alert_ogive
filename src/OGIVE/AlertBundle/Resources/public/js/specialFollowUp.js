@@ -150,6 +150,15 @@ function execute_edit(id) {
                                 prompt: 'Veuillez saisir le nom du suivi spécialisé'
                             }
                         ]
+                    },
+                    description: {
+                        identifier: 'description',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: 'Veuillez saisir la description du suivi spécialisé'
+                            }
+                        ]
                     }
 
                 },

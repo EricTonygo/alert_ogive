@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Domain
  *
  * @ORM\Table(name="domain")
- * @ORM\Entity(repositoryClass="OGIVE\AlertBundle\Repository\DomainRepository")
+ * @ORM\Entity(repositoryClass="\OGIVE\AlertBundle\Repository\DomainRepository")
  * @ORM\HasLifecycleCallbacks
  */
 class Domain

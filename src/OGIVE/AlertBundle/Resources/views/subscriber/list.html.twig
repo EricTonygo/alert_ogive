@@ -1,41 +1,46 @@
 <div id='list_as_table' class="ui basic segment container" style="display: none;">
     <table class="ui very basic table">
         <thead>
-            <tr><th>Nom</th>
+            <tr>
+                <th>Nom</th>
                 <th>Téléphone</th>
+                <th>Entreprise</th>
+                <th>Abonnement</th>
                 <th class="right aligned"></th>
             </tr>
         </thead>
         <tbody id='list_as_table_content'>
-            {%if entreprises%}
-                {%for entreprise in entreprises%}
-                    <tr id="entreprise_list{{entreprise.id}}">
+            {%if subscribers%}
+                {%for subscriber in subscribers%}
+                    <tr id="subscriber_list{{subscriber.id}}">
                         <td>
-                            <div class="ui ribbon label">{{entreprise.name}}</div>
+                            <div class="ui ribbon label">{{subscriber.name}}</div>
                         </td>
-                        <td>{{entreprise.address.phone}}</td>
+                        <td>{{subscriber.phoneNumber}}</td>
+                        <td>{{subscriber.entreprise.name}}</td>
+                        <td>{{subscriber.subscription.name}}</td>
                         <td class="right aligned">
                             <div class="ui dropdown item">
                                 <i class="ellipsis vertical icon"></i>
                                 <div class="menu">
-                                    <div onclick="show_entreprise({{entreprise.id}});" class="show_entreprise_btn item">
+                                    <div onclick="show_subscriber({{subscriber.id}});" class="show_subscriber_btn item">
                                         <i class="unhide icon"></i>
                                         Détails
                                     </div>
-                                    <div onclick="edit_entreprise({{entreprise.id}});" class="edit_entreprise_btn item">
+                                    <div onclick="edit_subscriber({{subscriber.id}});" class="edit_subscriber_btn item">
                                         <i class="edit icon"></i>
                                         Modifier
                                     </div>
-                                    <div onclick="delete_entreprise({{entreprise.id}});" class="delete_entreprise_btn item">
+                                    <div onclick="delete_subscriber({{subscriber.id}});" class="delete_subscriber_btn item">
                                         <i class="trash icon"></i>
                                         Supprimer
                                     </div>
                                     {% if is_granted('ROLE_ADMIN') %}
-                                        <div onclick="enable_entreprise({{entreprise.id}});" class="enable_entreprise_btn item" {% if entreprise.state == 1 %} style="display: none" {% endif %}>
+                                        <div onclick="enable_subscriber({{subscriber.id}});" class="enable_subscriber_btn item" {% if subscriber.state == 1 %} style="display: none" {% endif %}>
                                             <i class="unlock icon"></i>
                                             Activer
                                         </div>
-                                        <div onclick="disable_entreprise({{entreprise.id}});" class="disable_entreprise_btn item" {% if entreprise.state != 1 %} style="display: none" {% endif %}>
+                                        <div onclick="disable_subscriber({{subscriber.id}});" class="disable_subscriber_btn item" {% if subscriber.state != 1 %} style="display: none" {% endif %}>
                                             <i class="lock icon"></i>
                                             Désactiver
                                         </div>
@@ -63,6 +68,7 @@
                         </a>
                     </div>
                 </th>
-            </tr--></tfoot>
+            </tr-->
+        </tfoot>
     </table>
 </div> 

@@ -34,25 +34,51 @@ $(function () {
                             }
                         ]
                     },
-                    
-                     phoneNumber: {
-                        identifier: 'phone',
+
+                    phoneNumber: {
+                        identifier: 'phoneNumber',
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: "Veuillez saisir le numéro de téléphone de l'entreprise"
+                                prompt: "Veuillez saisir le numéro de téléphone de l'abonné"
                             },
                             {
-                                type: 'regExp[/^+[0-9]*$/]',
+                                type: 'regExp[/^([\+][0-9]{4,}?)$/]',
                                 prompt: "Veuillez saisir le numéro de téléphone valide"
                             }
                         ]
+                    },
+
+                    subscription: {
+                        identifier: 'subscription',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Veuillez selectionner son abonnement"
+                            }
+                        ]
+                    },
+
+                    enterprise: {
+                        identifier: 'enterprise',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Veuillez selectionner son entreprise"
+                            }
+                        ]
+                    },
+
+                    email: {
+                        identifier: 'email',
+                        optional: true,
+                        rules: [
+                            {
+                                type: 'email',
+                                prompt: "Veuillez saisir une adresse email valide"
+                            }
+                        ]
                     }
-                    
-                    
-                    
-                    
-                    
                 },
                 inline: true,
                 on: 'blur',
@@ -93,7 +119,7 @@ $(function () {
                                     on: 'hover'
                                 });
                                 $('#add_subscriber.ui.modal').modal('hide');
-                                $('#message_success>div.header').html('Abonnement ajouté avec succès !');
+                                $('#message_success>div.header').html('Abonné ajouté avec succès !');
                                 $('#message_success').show();
                                 setTimeout(function () {
                                     $('#message_success').hide();
@@ -137,10 +163,10 @@ function edit_subscriber(id) {
             if (response.code === 200) {
                 $('#edit_subscriber').remove();
                 $('#edit_subscriber_content').html(response.edit_subscriber_form);
-                $('#ogive_alertbundle_subscriber_periodicity.ui.dropdown').dropdown({
+                $('#ogive_alertbundle_subscriber_entreprise.ui.dropdown').dropdown({
                     on: 'click'
                 });
-                $('#ogive_alertbundle_subscriber_currency.ui.dropdown').dropdown({
+                $('#ogive_alertbundle_subscriber_subscription.ui.dropdown').dropdown({
                     on: 'click'
                 });
                 $('#edit_subscriber.ui.modal').modal('setting', {
@@ -177,29 +203,52 @@ function execute_edit(id) {
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: "Veuillez saisir le nom de l'abonnement"
+                                prompt: "Veuillez saisir le nom de l'abonné"
                             }
                         ]
                     },
-                    periodicity: {
-                        identifier: 'periodicity',
+
+                    phoneNumber: {
+                        identifier: 'phoneNumber',
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: "Veuillez selectionner la périodicité de l'abonnement"
-                            }
-                        ]
-                    },
-                    price: {
-                        identifier: 'price',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: "Veuillez spécifier le coût de l'abonnement"
+                                prompt: "Veuillez saisir le numéro de téléphone de l'abonné"
                             },
                             {
-                                type: 'number',
-                                prompt: "coût de l'abonnement doit être un nombre"
+                                type: 'regExp[/^([\+][0-9]{4,}?)$/]',
+                                prompt: "Veuillez saisir le numéro de téléphone valide"
+                            }
+                        ]
+                    },
+
+                    subscription: {
+                        identifier: 'subscription',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Veuillez selectionner son abonnement"
+                            }
+                        ]
+                    },
+
+                    enterprise: {
+                        identifier: 'enterprise',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Veuillez selectionner son entreprise"
+                            }
+                        ]
+                    },
+
+                    email: {
+                        identifier: 'email',
+                        optional: true,
+                        rules: [
+                            {
+                                type: 'email',
+                                prompt: "Veuillez saisir une adresse email valide"
                             }
                         ]
                     }
@@ -248,7 +297,7 @@ function execute_edit(id) {
                                     on: 'hover'
                                 });
                                 $('#edit_subscriber.ui.modal').modal('hide');
-                                $('#message_success>div.header').html('Abonnement modifié avec succès !');
+                                $('#message_success>div.header').html('Abonné modifié avec succès !');
                                 $('#message_success').show();
                                 setTimeout(function () {
                                     $('#message_success').hide();
@@ -396,7 +445,7 @@ function enable_subscriber(id) {
                 }, 4000);
             },
             400: function (response, textStatus, jqXHR) {
-                $('#message_error>div.header').html("Echec d'activation de l'abonnement");
+                $('#message_error>div.header').html("Echec d'activation de l'abonné");
                 $('#message_error').show();
                 setTimeout(function () {
                     $('#message_error').hide();
@@ -443,7 +492,7 @@ function disable_subscriber(id) {
                 }, 4000);
             },
             400: function (response, textStatus, jqXHR) {
-                $('#message_error>div.header').html("Echec de la désactivation de l'abonnement");
+                $('#message_error>div.header').html("Echec de la désactivation de l'abonné");
                 $('#message_error').show();
                 setTimeout(function () {
                     $('#message_error').hide();

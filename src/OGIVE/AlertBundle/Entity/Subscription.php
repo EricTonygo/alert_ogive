@@ -253,7 +253,7 @@ class Subscription
      * @param OGIVE\AlertBundle\Entity\Subscriber $subscriber 
      * @return Subscription
      */
-    public function addSubscriber(OGIVE\AlertBundle\Entity\Subscriber $subscriber) {
+    public function addSubscriber(\OGIVE\AlertBundle\Entity\Subscriber $subscriber) {
         $this->subscribers[] = $subscriber;
         return $this;
     }
@@ -285,7 +285,7 @@ class Subscription
      * @param OGIVE\AlertBundle\Entity\Subscriber $subscriber
      * @return Subscription
      */
-    public function removeSubscriber(OGIVE\AlertBundle\Entity\Subscriber $subscriber) {
+    public function removeSubscriber(\OGIVE\AlertBundle\Entity\Subscriber $subscriber) {
         $this->subscribers->removeElement($subscriber);
         return $this;
     }

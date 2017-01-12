@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Additive
  *
  * @ORM\Table(name="additive")
- * @ORM\Entity(repositoryClass="OGIVE\AlertBundle\Repository\AdditiveRepository")
+ * @ORM\Entity(repositoryClass="\OGIVE\AlertBundle\Repository\AdditiveRepository")
  * @ORM\HasLifecycleCallbacks
  */
 class Additive extends AlertProcedure

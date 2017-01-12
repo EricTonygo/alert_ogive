@@ -26,6 +26,10 @@ ogive_alert_subscription:
     resource: "@OGIVEAlertBundle/Controller/SubscriptionController.php"
     type:     rest
     
+ogive_alert_subscriber:
+    resource: "@OGIVEAlertBundle/Controller/SubscriberController.php"
+    type:     rest
+    
 ogive_alert_specialFollowUp:
     resource: "@OGIVEAlertBundle/Controller/SpecialFollowUpController.php"
     type:     rest

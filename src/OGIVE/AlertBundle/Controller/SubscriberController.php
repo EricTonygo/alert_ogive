@@ -22,7 +22,7 @@ class SubscriberController extends Controller {
 
     /**
      * @Rest\View()
-     * @Rest\Get("/Subscribers" , name="subscriber_index", options={ "method_prefix" = false, "expose" = true })
+     * @Rest\Get("/subscribers" , name="subscriber_index", options={ "method_prefix" = false, "expose" = true })
      * @param Request $request
      */
     public function getSubscribersAction(Request $request) {
@@ -34,16 +34,16 @@ class SubscriberController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $subscriber = new Subscriber();
         $form = $this->createForm('OGIVE\AlertBundle\Form\SubscriberType', $subscriber);
-        $Subscribers = $em->getRepository('OGIVEAlertBundle:Subscriber')->getAll();
+        $subscribers = $em->getRepository('OGIVEAlertBundle:Subscriber')->getAll();
         return $this->render('OGIVEAlertBundle:subscriber:index.html.twig', array(
-                    'Subscribers' => $Subscribers,
+                    'subscribers' => $subscribers,
                     'form' => $form->createView()
         ));
     }
 
     /**
      * @Rest\View()
-     * @Rest\Get("/Subscribers/{id}" , name="subscriber_get_one", options={ "method_prefix" = false, "expose" = true })
+     * @Rest\Get("/subscribers/{id}" , name="subscriber_get_one", options={ "method_prefix" = false, "expose" = true })
      */
     public function getSubscriberByIdAction(Subscriber $subscriber) {
         if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
@@ -64,7 +64,7 @@ class SubscriberController extends Controller {
 
     /**
      * @Rest\View(statusCode=Response::HTTP_CREATED)
-     * @Rest\Post("/Subscribers", name="subscriber_add", options={ "method_prefix" = false, "expose" = true  })
+     * @Rest\Post("/subscribers", name="subscriber_add", options={ "method_prefix" = false, "expose" = true  })
      */
     public function postSubscribersAction(Request $request) {
         if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
@@ -76,8 +76,8 @@ class SubscriberController extends Controller {
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($repositorySubscriber->findOneBy(array('name' => $subscriber->getName(),'periodicity' => $subscriber->getPeriodicity(), 'status' => 1))) {
-                return new JsonResponse(["success" => false, 'message' => 'Un abonné avec ce nom et cette périodicité existe dejà'], Response::HTTP_BAD_REQUEST);
+            if ($repositorySubscriber->findOneBy(array('phoneNumber' => $subscriber->getPhoneNumber(), 'status' => 1))) {
+                return new JsonResponse(["success" => false, 'message' => 'Un abonné avec ce numero existe dejà'], Response::HTTP_BAD_REQUEST);
             }
             if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
                 $subscriber->setState(1);
@@ -98,7 +98,7 @@ class SubscriberController extends Controller {
 
     /**
      * @Rest\View(statusCode=Response::HTTP_OK)
-     * @Rest\Delete("/Subscribers/{id}", name="subscriber_delete", options={ "method_prefix" = false, "expose" = true  })
+     * @Rest\Delete("/subscribers/{id}", name="subscriber_delete", options={ "method_prefix" = false, "expose" = true  })
      */
     public function removeSubscriberAction(Subscriber $subscriber) {
 
@@ -112,13 +112,13 @@ class SubscriberController extends Controller {
             $view->setFormat('json');
             return $view;
         } else {
-            return new JsonResponse(["message" => 'Subscriber introuvable'], Response::HTTP_NOT_FOUND);
+            return new JsonResponse(["message" => 'Abonné introuvable'], Response::HTTP_NOT_FOUND);
         }
     }
 
     /**
      * @Rest\View()
-     * @Rest\Put("/Subscribers/{id}", name="subscriber_update", options={ "method_prefix" = false, "expose" = true  })
+     * @Rest\Put("/subscribers/{id}", name="subscriber_update", options={ "method_prefix" = false, "expose" = true  })
      * @param Request $request
      */
     public function putSubscriberAction(Request $request, Subscriber $subscriber) {
@@ -154,9 +154,9 @@ class SubscriberController extends Controller {
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $subscriberUnique = $repositorySubscriber->findOneBy(array('name' => $subscriber->getName(),'periodicity' => $subscriber->getPeriodicity(), 'status' => 1));
+            $subscriberUnique = $repositorySubscriber->findOneBy(array('phoneNumber' => $subscriber->getPhoneNumber(), 'status' => 1));
             if ($subscriberUnique && $subscriberUnique->getId() != $subscriber->getId()) {
-                return new JsonResponse(["success" => false, 'message' => 'Un abonné avec ce nom et cette périodicité existe dejà'], Response::HTTP_NOT_FOUND);
+                return new JsonResponse(["success" => false, 'message' => 'Un abonné avec ce numero existe dejà'], Response::HTTP_NOT_FOUND);
             }
             $subscriber = $repositorySubscriber->updateSubscriber($subscriber);
             $subscriber_content_grid = $this->renderView('OGIVEAlertBundle:subscriber:subscriber-grid-edit.html.twig', array('subscriber' => $subscriber));
