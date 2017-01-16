@@ -356,6 +356,7 @@ class Entreprise
      * @return Entreprise
      */
     public function addSubscriber(\OGIVE\AlertBundle\Entity\Subscriber $subscriber) {
+        $subscriber->setEntreprise($this);
         $this->subscribers[] = $subscriber;
         return $this;
     }
@@ -376,6 +377,9 @@ class Entreprise
      * @return Entreprise
      */
     public function setSubscribers(\Doctrine\Common\Collections\Collection $subscribers = null) {
+        foreach ($subscribers as $subscriber) {
+            $subscriber->setEntreprise($this);
+        }
         $this->subscribers = $subscribers;
 
         return $this;
@@ -388,6 +392,8 @@ class Entreprise
      * @return Entreprise
      */
     public function removeSubscriber(\OGIVE\AlertBundle\Entity\Subscriber $subscriber) {
+        $subscriber->setEntreprise(null);
+        $subscriber->setStatus(0);
         $this->subscribers->removeElement($subscriber);
         return $this;
     }
