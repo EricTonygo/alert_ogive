@@ -49,7 +49,7 @@ class HistoricalAlertSubscriber
     /**
      * @var string
      *
-     * @ORM\Column(name="procedureType", type="string", length=255)
+     * @ORM\Column(name="procedureType", type="string", length=255, nullable=true)
      */
     private $procedureType;
     
