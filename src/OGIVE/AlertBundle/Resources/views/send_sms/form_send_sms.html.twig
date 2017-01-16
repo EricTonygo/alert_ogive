@@ -1,0 +1,39 @@
+<div id="send_sms_subscriber" class="ui small modal">
+    <i class="close icon"></i>
+    <div class="header">
+        Envoi d'un sms à << {{subscriber.name}}({{subscriber.phoneNumber}}) >>
+    </div>
+    <div class="content">
+        {{ form_start(form, {'method': 'POST', 'action': path('send_sms_subscriber', {'id': subscriber.id), 'attr': {'class': 'ui form', 'id': 'send_sms_subscriber_form'} }) }}
+            <div class="field">
+                {{ form_label(form.message,"Message") }}
+                {{ form_widget(form.message,{'attr':{'placeholder':"Le message à envoyer", 'data-validate': 'name'}})}}
+            </div>
+            
+            <div class="field">
+                 {{form_rest(form)}}
+                <div id="server_error_message_send_sms" class="ui negative message" style="display:none">
+                    <i class="close icon"></i>
+                    <div id="server_error_content_send_sms" class="header">Internal server error</div>
+                </div>
+                <div id="error_name_message_send_sms" class="ui error message" style="display: none">
+                    <i class="close icon"></i>
+                    <div id="error_name_header_send_sms" class="header"></div>
+                    <ul id="error_name_list_send_sms" class="list">
+
+                    </ul>
+                </div>
+            </div>
+
+        {{ form_end(form) }}
+    </div>
+    <div class="actions">
+        <div id="cancel_send_sms_subscriber" class="ui black deny button">
+            Annuler
+        </div>
+        <div id='submit_send_sms_subscriber' class="ui primary icon button">
+            <i class="save icon"></i>
+            Sauvegarder
+        </div>
+    </div>
+</div>

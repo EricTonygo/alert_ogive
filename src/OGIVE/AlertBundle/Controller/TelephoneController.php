@@ -1,6 +1,7 @@
 <?php
 
 use OGIVE\AlertBundle\Entity\HistoricalAlertSubscriber;
+use OGIVE\AlertBundle\Entity\Subscriber;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -16,20 +17,40 @@ class TelephoneController extends Controller {
 
     /**
      * @Rest\View()
-     * @Rest\Get("/send-sms" , name="send_sms", options={ "method_prefix" = false, "expose" = true })
+     * @Rest\Post("/send-sms-subscriber/{id}" , name="send_sms_subscriber", options={ "method_prefix" = false, "expose" = true })
      * @param Request $request
      */
-    public function getSendSMSAction(Request $request) {
+    public function getSendSmsSubscriberAction(Request $request, Subscriber $subscriber) {
         if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             return $this->redirect($this->generateUrl('fos_user_security_login'));
         }
-        $em = $this->getDoctrine()->getManager();
         $historiqueAlertSubscriber = new HistoricalAlertSubscriber();
+        $repositoryHistorique = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:HistoricalAlertSubscriber');
         $form = $this->createForm('OGIVE\AlertBundle\Form\HistoricalAlertSubscriberType', $historiqueAlertSubscriber);
-        return $this->render('OGIVEAlertBundle:send_sms:form_send_sms.html.twig', array(
-                    'subscribers' => $subscribers,
-                    'form' => $form->createView()
-        ));
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $twilio = $this->get('twilio.api');
+            $message = $twilio->account->messages->sendMessage(
+                    '+237697704889', // From a Twilio number in your account
+                    '+237698918085', // Text any number
+                    $historiqueAlertSubscriber->getMessage()
+            );
+            $historiqueAlertSubscriber->setSubscriber($subscriber);
+            $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
+            $view = View::create(["code" => 200, 'message_sid' => $message->sid, 'message' => "SMS envoyé avec succès" ]);
+            $view->setFormat('json');
+            return $view;
+        } elseif ($form->isSubmitted() && !$form->isValid()) {
+            return $form;
+        } else {
+            $send_sms_subscriber_form = $this->renderView('OGIVEAlertBundle:send_sms:form_send_sms.html.twig', array(
+                'subscriber' => $subscriber,
+                'form' => $form->createView()
+            ));
+            $view = View::create(["code" => 200, 'subscriber' => $subscriber, 'send_sms_subscriber_form' => $send_sms_subscriber_form]);
+            $view->setFormat('json');
+            return $view;
+        }
     }
 
     public function callAction($me, $maybee) {

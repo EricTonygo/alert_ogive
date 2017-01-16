@@ -39,6 +39,11 @@
 
     </div>
 {% endblock %}
+{% block block_sms %}
+    <div id="send_sms_subscriber_content">
+
+    </div>
+{% endblock %}
 {% block block_delete_modal %}
     <div id="confirm_delete_subscriber" class="ui modal">
         <i class="close icon"></i>
@@ -65,4 +70,5 @@
 {% block javascripts %}
     {{ parent()}}
     <script type="text/javascript" src="{{ asset('bundles/ogivealert/js/subscriber.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/ogivealert/js/send_sms.js')}}"></script>
 {% endblock %}

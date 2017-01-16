@@ -1,5 +1,5 @@
 <div id='list_as_grid' class="ui basic segment container">
-    <div id='list_as_grid_content' class="ui four column doubling stackable grid">
+    <div id='list_as_grid_content' class="ui five column doubling stackable grid">
         {%if subscribers %}
             {%for subscriber in subscribers%}            
                 <div id="subscriber_grid{{subscriber.id}}" class="column">
@@ -22,6 +22,10 @@
                                 <div class="ui dropdown item">
                                     <i class="ellipsis vertical icon"></i>
                                     <div class="menu">
+                                        <div onclick="send_sms_subscriber({{subscriber.id}});" class="send_sms_subscriber_btn item">
+                                            <i class="talk icon"></i>
+                                            Envoyer un SMS
+                                        </div>
                                         <div onclick="show_subscriber({{subscriber.id}});" class="show_subscriber_btn item">
                                             <i class="unhide icon"></i>
                                             Détails

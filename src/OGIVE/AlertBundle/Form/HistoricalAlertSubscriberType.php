@@ -14,16 +14,16 @@ class HistoricalAlertSubscriberType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('message', null, array('required' => false))
-                ->add('subscriber', 'entity', array(
-                    'class' => 'OGIVEAlertBundle:Subscriber',
-                    'property' => 'phoneNumber',
-                    'empty_value' => "Selectionner l'abonné",
-                    'multiple' => false,
-                    'required' => false,
-                    'query_builder' => function(\OGIVE\AlertBundle\Repository\SubscriberRepository $repo) {
-                        return $repo->getSubscriberQueryBuilder();
-                    }
-                ))
+//                ->add('subscriber', 'entity', array(
+//                    'class' => 'OGIVEAlertBundle:Subscriber',
+//                    'property' => 'phoneNumber',
+//                    'empty_value' => "Selectionner l'abonné",
+//                    'multiple' => false,
+//                    'required' => false,
+//                    'query_builder' => function(\OGIVE\AlertBundle\Repository\SubscriberRepository $repo) {
+//                        return $repo->getSubscriberQueryBuilder();
+//                    }
+//                ))
                     ;
     }
     

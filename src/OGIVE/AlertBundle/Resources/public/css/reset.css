@@ -13,7 +13,7 @@ body, a, p, h1, div, h2, h3, h4, h5, h6 {
 .pushable>.pusher{
     background-color: #fafafa;
     padding-bottom: 3em;
-    min-height: 28em;
+    min-height: 40em;
 }
 
 .computer_top_nav.menu.main{
