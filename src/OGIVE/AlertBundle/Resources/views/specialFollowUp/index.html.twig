@@ -1,5 +1,5 @@
 {% extends "OGIVEAlertBundle::layout.html.twig" %}
-{% block title %}Les abonnés{% endblock %}
+{% block title %}Les suivis spécialisés{% endblock %}
 
 {% block sub_header %}
     {{parent()}}
@@ -8,7 +8,7 @@
         <div class="ui container">
             <div class="ui left inverted secondary menu">
                 <a id="document_title" class="item">
-                    <h3>Liste des abonnés</h3>
+                    <h3>Liste des suivis spécialisés</h3>
                 </a>
             </div>
 
@@ -27,27 +27,27 @@
     </div>
 {% endblock %}
 {% block content %}
-    {% include('OGIVEAlertBundle:subscriber:grid.html.twig') %} 
-    {% include('OGIVEAlertBundle:subscriber:list.html.twig') %}
+    {% include('OGIVEAlertBundle:specialFollowUp:grid.html.twig') %} 
+    {% include('OGIVEAlertBundle:specialFollowUp:list.html.twig') %}
 {% endblock %}
 {% block block_add_new %}
-    {% include('OGIVEAlertBundle:subscriber:new.html.twig') %}
+    {% include('OGIVEAlertBundle:specialFollowUp:new.html.twig') %}
 {% endblock %}
 
 {% block block_edit %}
-    <div id="edit_subscriber_content">
+    <div id="edit_specialFollowUp_content">
 
     </div>
 {% endblock %}
 {% block block_delete_modal %}
-    <div id="confirm_delete_subscriber" class="ui modal">
+    <div id="confirm_delete_specialFollowUp" class="ui modal">
         <i class="close icon"></i>
         <div class="header">
             Confirmation de la suppression
         </div>
         <div class="content">
             <div class="description">
-                <p>Voulez-vous vraiment supprimer cet abonné ?</p>
+                <p>Voulez-vous vraiment supprimé ce suivi spécialisé ?</p>
             </div>
         </div>
         <div class="actions">
@@ -64,5 +64,5 @@
 
 {% block javascripts %}
     {{ parent()}}
-    <script type="text/javascript" src="{{ asset('bundles/ogivealert/js/subscriber.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/ogivealert/js/specialFollowUp.js')}}"></script>
 {% endblock %}

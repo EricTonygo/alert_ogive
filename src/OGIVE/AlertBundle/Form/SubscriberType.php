@@ -13,9 +13,9 @@ class SubscriberType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name')
-                ->add('email')
-                ->add('phoneNumber')
+        $builder->add('name', null, array('required' => false))
+                ->add('email', null, array('required' => false))
+                ->add('phoneNumber', null, array('required' => false))
                 ->add('entreprise', 'entity', array(
                     'class' => 'OGIVEAlertBundle:Entreprise',
                     'property' => 'name',

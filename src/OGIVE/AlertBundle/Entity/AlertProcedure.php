@@ -5,6 +5,7 @@ namespace OGIVE\AlertBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * AlertProcedure
@@ -134,7 +135,7 @@ class AlertProcedure {
     protected $originalpiecesjointes;
 
     /**
-     * @var array
+     * @var ArrayCollection
      */
     public $uploadedFiles;
 
@@ -511,14 +512,15 @@ class AlertProcedure {
         if ($this->uploadedFiles) {
             $this->piecesjointes = array();
             $this->originalpiecesjointes = array();
-            foreach ($this->uploadedFiles as $file) {
+            foreach ($this->uploadedFiles as $updloadedFile) {
+                $file = new \Symfony\Component\HttpFoundation\File\File($updloadedFile);
                 $info = pathinfo($file->getClientOriginalName());
                 $file_name = basename($file->getClientOriginalName(), '.' . $info['extension']);
                 array_push($this->originalpiecesjointes, $file_name);
                 $path = sha1(uniqid(mt_rand(), true)) . '.' . $file->guessExtension();
                 array_push($this->piecesjointes, $path);
                 $file->move($this->getUploadRootDir(), $path);
-                unset($file);
+                unset($updloadedFile);
             }
         }
 

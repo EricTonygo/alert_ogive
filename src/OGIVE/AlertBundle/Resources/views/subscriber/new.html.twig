@@ -1,74 +1,38 @@
-<div id="add_subscriber" class="ui modal">
+<div id="add_subscriber" class="ui small modal">
     <i class="close icon"></i>
     <div class="header">
         Ajout d'un abonné
     </div>
     <div class="content">
-        <form id='add_subscriber_form' class="ui form" method="POST" action="/subscribers" {{ form_enctype(form) }}>
+        {{ form_start(form, {'method': 'POST', 'action': '/subscribers', 'attr': {'class': 'ui form', 'id': 'add_subscriber_form'} }) }}
             <div class="field">
                 {{ form_label(form.name,"Nom") }}
                 {{ form_widget(form.name,{'attr':{'placeholder':"Nom de l'abonné", 'data-validate': 'name'}})}}
             </div>
-    
-            <div class="field">
-                {{ form_label(form.subscriber,"Entreprise de l'abonné") }}
-                {{ form_errors(form.subscriber, {'attr': {'class': 'ui error message'}})}}
-                {{ form_widget(form.subscriber,{'attr':{'data-validate': 'domain', 'class': 'ui search dropdown'}})}}
-            </div>
             
             <div class="field">
+                {{ form_label(form.email,"Email") }}
+                {{ form_widget(form.email,{'attr':{'placeholder':"Email de l'abonné", 'data-validate': 'email'}})}}
+            </div>
+
+            <div class="field">
+                {{ form_label(form.phoneNumber,"Téléphone") }}
+                {{ form_widget(form.phoneNumber,{'attr':{'placeholder':"Numero de téléphone", 'data-validate': 'phoneNumber'}})}}
+            </div>
+
+            <div class="field">
                 {{ form_label(form.subscription,"Abonnement") }}
-                {{ form_errors(form.subcription, {'attr': {'class': 'ui error message'}})}}
-                {{ form_widget(form.subcription,{'attr':{'data-validate': 'domain', 'class': 'ui search dropdown'}})}}
+                {{ form_widget(form.subscription,{'attr':{'data-validate': 'subscriber', 'class': 'ui search dropdown'}})}}
+            </div>
+            
+             <div class="field">
+                {{ form_label(form.entreprise,"Entreprise") }}
+                {{ form_errors(form.entreprise, {'attr': {'class': 'ui error message'}})}}
+                {{ form_widget(form.entreprise,{'attr':{'data-validate': 'enterprise', 'class': 'ui search dropdown'}})}}
             </div>
 
             <div class="field">
-                {{ form_label(form.address.email,"Email") }}
-                {{ form_widget(form.address.email,{'attr':{'placeholder':"Email de l'abonné", 'data-validate': 'email'}})}}
-            </div>
-
-            <div class="field">
-                {{ form_label(form.address.phoneNumber,"TéléphoneNumber") }}
-                {{ form_widget(form.address.phoneNumber,{'attr':{'placeholder':"Numero de téléphoneNumber", 'data-validate': 'phoneNumber'}})}}
-            </div>
-
-            <div class="field">
-                <div class="ui fluid card">
-                    <div class="content">
-                        <div class="header">Ajout des abonnés</div>
-                    </div>
-                    <div class="content">
-                        <table class="ui very basic table">
-                            <thead>
-                                <tr><th>Nom</th>
-                                    <th>Entreprise</th>
-                                    <th>Abonnement</th>
-                                    <th>Email</th>
-                                    <th>TéléphoneNumber</th>
-                                    <th class="right aligned">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody class="subscribers" data-prototype="{{ _self.subscriber_prototype(form.subscribers.vars.prototype)|e }}">
-                                {% for subscriber in form.subscribers %}
-                                    <tr>
-                                        {{ _self.subscriber_prototype(subscriber) }}
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                            {% macro subscriber_prototype(childForm) %}
-                                <td>{{ form_widget(childForm.name,{'attr':{'data-validate': 'name_subscriber'}}) }}</td>
-                                <td>{{ form_widget(childForm.phoneNumberNumber,{'attr':{'data-validate': 'phoneNumber_subscriber'}}) }}</td>
-                                <td>{{ form_widget(childForm.email,{'attr':{'data-validate': 'email_subscriber'}}) }}</td>
-                                <td>{{ form_widget(childForm.subscription,{'attr':{'data-validate': 'subscription_subscriber'}}) }}</td>
-                            {% endmacro %}
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="field">
-                {{ form_widget(form._token) }}
+                {{form_rest(form)}}
                 <div id="server_error_message" class="ui negative message" style="display:none">
                     <i class="close icon"></i>
                     <div id="server_error_content" class="header">Internal server error</div>
@@ -82,7 +46,7 @@
                 </div>
             </div>
 
-        </form>
+        {{ form_end(form) }}
     </div>
     <div class="actions">
         <div id="cancel_add_subscriber" class="ui black deny button">
@@ -94,6 +58,6 @@
         </div>
     </div>
 </div>
-<button id="add_subscriber_btn" class="float_button circular ui huge red icon button" data-tooltip="Nouvelle subscriber" data-position="top center" data-inverted="">
+<button id="add_subscriber_btn" class="float_button circular ui huge red icon button" data-tooltip="Nouvel abonné" data-position="top center" data-inverted="">
     <i class="icon plus"></i>
 </button>

@@ -7,7 +7,7 @@
         Modification de l'abonné << {{subscriber.name}} >>
     </div>
     <div class="content">
-        <form id='edit_subscriber_form' class="ui form" method="PUT" action="{{ path('subscriber_update', {'id': subscriber.id})}}" {{ form_enctype(form) }}>
+        {{ form_start(form, {'method': 'PUT', 'action': path('subscriber_update', {'id': subscriber.id}), 'attr': {'class': 'ui form', 'id': 'edit_subscriber_form'} }) }}
         <div id="block_form_edit" style="display: none">            
 
             <div class="field">
@@ -16,25 +16,23 @@
             </div>
 
             <div class="field">
-                {{ form_label(form.subscriber,"Entreprise de l'abonné") }}
-                {{ form_errors(form.subscriber, {'attr': {'class': 'ui error message'}})}}
-                {{ form_widget(form.subscriber,{'attr':{'data-validate': 'domain', 'class': 'ui search dropdown'}})}}
+                {{ form_label(form.email,"Email") }}
+                {{ form_widget(form.email,{'attr':{'placeholder':"Email de l'abonné", 'data-validate': 'email'}})}}
+            </div>
+
+            <div class="field">
+                {{ form_label(form.phoneNumber,"Téléphone") }}
+                {{ form_widget(form.phoneNumber,{'attr':{'placeholder':"Numero de téléphone", 'data-validate': 'phoneNumber'}})}}
             </div>
 
             <div class="field">
                 {{ form_label(form.subscription,"Abonnement") }}
-                {{ form_errors(form.subcription, {'attr': {'class': 'ui error message'}})}}
-                {{ form_widget(form.subcription,{'attr':{'data-validate': 'domain', 'class': 'ui search dropdown'}})}}
+                {{ form_widget(form.subcription,{'attr':{'data-validate': 'subscription', 'class': 'ui search dropdown'}})}}
             </div>
 
             <div class="field">
-                {{ form_label(form.address.email,"Email") }}
-                {{ form_widget(form.address.email,{'attr':{'placeholder':"Email de l'abonné", 'data-validate': 'email'}})}}
-            </div>
-
-            <div class="field">
-                {{ form_label(form.address.phoneNumber,"TéléphoneNumber") }}
-                {{ form_widget(form.address.phoneNumber,{'attr':{'placeholder':"Numero de téléphoneNumber", 'data-validate': 'phoneNumber'}})}}
+                {{ form_label(form.entreprise,"Entreprise") }}
+                {{ form_widget(form.entreprise,{'attr':{'data-validate': 'entreprise', 'class': 'ui search dropdown'}})}}
             </div>
 
             <div class="field">
@@ -51,21 +49,8 @@
                     </ul>
                 </div>
             </div>
-
-       
         </div>
         <div id="block_details">
-            <div class="two fields">
-                <div class="field">
-                    <label>Logo : </label> 
-                </div>
-                <div class="field">
-                    <div class="image">
-                        <img src="{{asset('uploads/logos_subscribers/'~subscriber.logo)}}" alt="{{subscriber.name}}"/>
-                    </div>
-                </div>
-            </div>
-
             <div class="two fields">
                 <div class="field">
                     <label>Nom : </label> 
@@ -77,73 +62,28 @@
 
             <div class="two fields">
                 <div class="field">
-                    <label>Domaine d'activité : </label> 
-                </div>
-                <div class="field">
-                    {{ subscriber.domain.name}}
-                </div>
-            </div>
-
-            <div class="two fields">
-                <div class="field">
-                    <label>Numéro de téléphoneNumber : </label> 
-                </div>
-                <div class="field">
-                    <span> {{ subscriber.address.phoneNumber}}</span>
-                </div>
-            </div>
-
-            <div class="two fields">
-                <div class="field">
                     <label>Email : </label> 
                 </div>
                 <div class="field">
-                    {{ subscriber.address.email}}
+                    <span> {{ subscriber.email}}</span>
                 </div>
             </div>
 
             <div class="two fields">
                 <div class="field">
-                    <label>Boîte poste : </label> 
+                    <label>Téléphone : </label> 
                 </div>
                 <div class="field">
-                    <span> {{ subscriber.address.mailBox}}</span>
-                </div>
-            </div>
-
-            <div class="two fields">
-                <div class="field">
-                    <label>Pays : </label> 
-                </div>
-                <div class="field">
-                    {{ subscriber.address.country|country_name}}
+                    <span> {{ subscriber.phoneNumber}}</span>
                 </div>
             </div>
 
             <div class="two fields">
                 <div class="field">
-                    <label>Ville : </label> 
+                    <label>Entreprise : </label> 
                 </div>
                 <div class="field">
-                    {{ subscriber.address.street}}
-                </div>
-            </div>
-
-            <div class="two fields">
-                <div class="field">
-                    <label>Lieu de localisation : </label> 
-                </div>
-                <div class="field">
-                    <span> {{ subscriber.address.place}}</span>
-                </div>
-            </div>
-
-            <div class="two fields">
-                <div class="field">
-                    <label>Plan de localisation : </label> 
-                </div>
-                <div class="field">
-                    <a  href="{{asset('uploads/planslocalisation/'~subscriber.address.path)}}" target="_blank" alt="{{subscriber.name}}"/>Lien vers le plan de localisation</a>
+                    {{ subscriber.entreprise.name}}
                 </div>
             </div>
 
@@ -152,7 +92,7 @@
                     <label>Date de création : </label>
                 </div>
                 <div class="field">
-                    <span> {{ callOffer.createDate is empty ? "" : callOffer.createDate|date('d-m-Y H:i:s')}}</span>
+                    <span> {{ subscriber.createDate is empty ? "" : subscriber.createDate|date('d-m-Y H:i:s')}}</span>
                 </div>
             </div>
 
@@ -161,11 +101,11 @@
                     <label>Date de la dernière modification : </label> 
                 </div>
                 <div class="field">
-                    <span> {{ callOffer.createDate is empty ? "" : callOffer.createDate|date('d-m-Y H:i:s')}}</span>
+                    <span> {{ subscriber.createDate is empty ? "" : subscriber.createDate|date('d-m-Y H:i:s')}}</span>
                 </div>
             </div>
 
-            <div id="field_state_enable" class="two fields" {% if callOffer.state != 1 %} style="display: none" {% endif %}>
+            <div id="field_state_enable" class="two fields" {% if subscriber.state != 1 %} style="display: none" {% endif %}>
                 <div class="field">
                     <label>Etat : </label>
                 </div>
@@ -174,7 +114,7 @@
                 </div>             
             </div>
 
-            <div id="field_state_disable" class="two fields" {% if callOffer.state == 1 %} style="display: none" {% endif %}>
+            <div id="field_state_disable" class="two fields" {% if subscriber.state == 1 %} style="display: none" {% endif %}>
                 <div class="field">
                     <label>Etat : </label>
                 </div>
@@ -186,7 +126,7 @@
 
         </div>
         <div class="field">
-            {{ form_widget(form._token) }}
+            {{form_rest(form)}}
             <div id="server_error_message_edit" class="ui negative message" style="display:none">
                 <i class="close icon"></i>
                 <div id="server_error_content_edit" class="header">Internal server error</div>
@@ -199,8 +139,7 @@
                 </ul>
             </div>
         </div>
-
-         </form>
+        {{ form_end(form) }}
     </div>
     <div class="actions">
         <div id="cancel_details_subscriber" class="ui black deny button">

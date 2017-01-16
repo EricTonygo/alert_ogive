@@ -10,11 +10,11 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  * Entreprise
  *
  * @ORM\Table(name="entreprise")
- * @ORM\Entity(repositoryClass="OGIVE\AlertBundle\Repository\EntrepriseRepository")
+ * @ORM\Entity(repositoryClass="\OGIVE\AlertBundle\Repository\EntrepriseRepository")
  * @ORM\HasLifecycleCallbacks
  */
-class Entreprise
-{
+class Entreprise {
+
     /**
      * @var integer
      *
@@ -37,12 +37,11 @@ class Entreprise
      * @ORM\Column(name="logo", type="string", length=255, nullable=true)
      */
     private $logo;
-    
+
     /**
      * @Assert\File(maxSize="6000000") 
-    */
+     */
     private $file;
-    
     private $temp;
 
     /**
@@ -51,14 +50,14 @@ class Entreprise
      * @ORM\Column(name="status", type="integer")
      */
     private $status;
-    
+
     /**
      * @var integer
      *
      * @ORM\Column(name="state", type="integer")
      */
     private $state;
-    
+
     /**
      * @var \Domain
      *
@@ -68,36 +67,35 @@ class Entreprise
      * })
      */
     private $domain;
-    
+
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\OneToMany(targetEntity="\OGIVE\AlertBundle\Entity\HistoricalAlertEntreprise", mappedBy="entreprise", cascade={"remove", "persist"})
      */
     private $historicalAlertEntreprises;
-    
+
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\OneToMany(targetEntity="\OGIVE\AlertBundle\Entity\Subscriber", mappedBy="entreprise", cascade={"remove", "persist"})
      */
     private $subscribers;
-    
+
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="create_date", type="datetime")
      */
     private $createDate;
-    
+
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="last_update_date", type="datetime")
      */
     private $lastUpdateDate;
-    
-    
+
     /**
      * @var \Address 
      * @ORM\OneToOne(targetEntity="Address",cascade={"persist"})
@@ -105,7 +103,7 @@ class Entreprise
      */
     private $address;
 
-    /** 
+    /**
      * Constructor
      */
     public function __construct() {
@@ -119,8 +117,7 @@ class Entreprise
      *
      * @return int
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -131,8 +128,7 @@ class Entreprise
      *
      * @return Entreprise
      */
-    public function setName($name)
-    {
+    public function setName($name) {
         $this->name = $name;
 
         return $this;
@@ -143,8 +139,7 @@ class Entreprise
      *
      * @return string
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
@@ -155,8 +150,7 @@ class Entreprise
      *
      * @return Entreprise
      */
-    public function setLogo($logo)
-    {
+    public function setLogo($logo) {
         $this->logo = $logo;
 
         return $this;
@@ -167,8 +161,7 @@ class Entreprise
      *
      * @return string
      */
-    public function getLogo()
-    {
+    public function getLogo() {
         return $this->logo;
     }
 
@@ -179,8 +172,7 @@ class Entreprise
      *
      * @return Entreprise
      */
-    public function setStatus($status)
-    {
+    public function setStatus($status) {
         $this->status = $status;
 
         return $this;
@@ -191,19 +183,17 @@ class Entreprise
      *
      * @return int
      */
-    public function getStatus()
-    {
+    public function getStatus() {
         return $this->status;
     }
-    
+
     function getState() {
         return $this->state;
     }
-    
+
     function setState($state) {
         $this->state = $state;
     }
-
 
     /**
      * @param UploadedFile $file
@@ -220,6 +210,7 @@ class Entreprise
             $this->logo = 'initial';
         }
     }
+
     /**
      * Get the file used for profile picture uploads
      * 
@@ -228,9 +219,11 @@ class Entreprise
     public function getFile() {
         return $this->file;
     }
+
     protected function getUploadRootDir() {
         return __DIR__ . '/../../../../web/uploads/logos_entreprises';
     }
+
     /**
      * @ORM\PrePersist() 
      * @ORM\PreUpdate() 
@@ -242,6 +235,7 @@ class Entreprise
             $this->logo = $filename . '.' . $this->getFile()->guessExtension();
         }
     }
+
     /**
      * Generates a 32 char long random filename
      * 
@@ -257,6 +251,7 @@ class Entreprise
         } while (file_exists($this->getUploadRootDir() . '/' . $randomString . '.' . $this->getFile()->guessExtension()) && $count < 50);
         return $randomString;
     }
+
     /**
      * @ORM\PostPersist() 
      * @ORM\PostUpdate() 
@@ -288,8 +283,7 @@ class Entreprise
      *
      * @return Entreprise
      */
-    public function setDomain($domain)
-    {
+    public function setDomain($domain) {
         $this->domain = $domain;
 
         return $this;
@@ -300,18 +294,17 @@ class Entreprise
      *
      * @return OGIVE\AlertBundle\Entity\Domain
      */
-    public function getDomain()
-    {
+    public function getDomain() {
         return $this->domain;
     }
-    
+
     /**
      * Add historicalAlertEntreprise
      *
-     * @param OGIVE\AlertBundle\Entity\HistoricalAlertEntreprise $historicalAlertEntreprise
+     * @param \OGIVE\AlertBundle\Entity\HistoricalAlertEntreprise $historicalAlertEntreprise
      * @return Entrprise
      */
-    public function addHistoricalAlertEntreprise(OGIVE\AlertBundle\Entity\HistoricalAlertEntreprise $historicalAlertEntreprise) {
+    public function addHistoricalAlertEntreprise(\OGIVE\AlertBundle\Entity\HistoricalAlertEntreprise $historicalAlertEntreprise) {
         $this->historicalAlertEntreprises[] = $historicalAlertEntreprise;
         return $this;
     }
@@ -340,24 +333,26 @@ class Entreprise
     /**
      * Remove historicalAlertEntreprises
      *
-     * @param OGIVE\AlertBundle\Entity\HistoricalAlertEntreprise $historicalAlertEntreprise
+     * @param \OGIVE\AlertBundle\Entity\HistoricalAlertEntreprise $historicalAlertEntreprise
      * @return Entreprise
      */
-    public function removeHistoricalAlertEntreprise(OGIVE\AlertBundle\Entity\HistoricalAlertEntreprise $historicalAlertEntreprise) {
+    public function removeHistoricalAlertEntreprise(\OGIVE\AlertBundle\Entity\HistoricalAlertEntreprise $historicalAlertEntreprise) {
         $this->historicalAlertEntreprises->removeElement($historicalAlertEntreprise);
         return $this;
     }
-    
-    
+
     /**
      * Add subscriber
      *
-     * @param OGIVE\AlertBundle\Entity\Subscriber $subscriber 
+     * @param \OGIVE\AlertBundle\Entity\Subscriber $subscriber 
      * @return Entreprise
      */
     public function addSubscriber(\OGIVE\AlertBundle\Entity\Subscriber $subscriber) {
-        $subscriber->setEntreprise($this);
-        $this->subscribers[] = $subscriber;
+
+        if (!$this->subscribers->contains($subscriber)) {
+            $this->subscriber->setEntreprise($this);
+            $this->subscribers->add($subscriber);
+        }
         return $this;
     }
 
@@ -388,7 +383,7 @@ class Entreprise
     /**
      * Remove subscriber
      *
-     * @param OGIVE\AlertBundle\Entity\Subscriber $subscriber
+     * @param \OGIVE\AlertBundle\Entity\Subscriber $subscriber
      * @return Entreprise
      */
     public function removeSubscriber(\OGIVE\AlertBundle\Entity\Subscriber $subscriber) {
@@ -397,7 +392,7 @@ class Entreprise
         $this->subscribers->removeElement($subscriber);
         return $this;
     }
-    
+
     /**
      * Set createDate
      *
@@ -405,8 +400,7 @@ class Entreprise
      *
      * @return Entreprise
      */
-    public function setCreateDate($createDate)
-    {
+    public function setCreateDate($createDate) {
         $this->createDate = $createDate;
 
         return $this;
@@ -417,11 +411,10 @@ class Entreprise
      *
      * @return \DateTime
      */
-    public function getCreateDate()
-    {
+    public function getCreateDate() {
         return $this->createDate;
     }
-    
+
     /**
      * Set lastUpdateDate
      *
@@ -429,8 +422,7 @@ class Entreprise
      *
      * @return Entreprise
      */
-    public function setLastUpdateDate($lastUpdateDate)
-    {
+    public function setLastUpdateDate($lastUpdateDate) {
         $this->lastUpdateDate = $lastUpdateDate;
 
         return $this;
@@ -441,19 +433,17 @@ class Entreprise
      *
      * @return \DateTime
      */
-    public function getLastUpdateDate()
-    {
+    public function getLastUpdateDate() {
         return $this->lastUpdateDate;
     }
-    
+
     /**
      * Set address
      *
-     * @param OGIVE\AlertBundle\Entity\Address $address
+     * @param \OGIVE\AlertBundle\Entity\Address $address
      * @return Entreprise
      */
-    public function setAddress(\OGIVE\AlertBundle\Entity\Address $address = null)
-    {
+    public function setAddress(\OGIVE\AlertBundle\Entity\Address $address = null) {
         $this->address = $address;
 
         return $this;
@@ -462,29 +452,26 @@ class Entreprise
     /**
      * Get address
      *
-     * @return OGIVE\AlertBundle\Entity\Address 
+     * @return \OGIVE\AlertBundle\Entity\Address 
      */
-    public function getAddress()
-    {
+    public function getAddress() {
         return $this->address;
     }
-    
+
     /**
      * @ORM\PreUpdate() 
      */
-    public function preUpdate()
-    {
+    public function preUpdate() {
         $this->lastUpdateDate = new \DateTime();
     }
 
     /**
      * @ORM\PrePersist() 
      */
-    public function prePersist()
-    {
+    public function prePersist() {
         $this->createDate = new \DateTime();
         $this->lastUpdateDate = new \DateTime();
         $this->status = 1;
     }
-}
 
+}

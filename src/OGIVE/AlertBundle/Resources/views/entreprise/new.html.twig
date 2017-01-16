@@ -4,7 +4,7 @@
         Ajout d'une entreprise
     </div>
     <div class="content">
-        <form id='add_entreprise_form' class="ui form" method="POST" action="/entreprises" {{ form_enctype(form) }}>
+            {{ form_start(form, {'method': 'POST', 'action': '/entreprises', 'attr': {'class': 'ui form', 'id': 'add_entreprise_form'} }) }}
             <div class="field">
                 {{ form_label(form.name,"Nom") }}
                 {{ form_widget(form.name,{'attr':{'placeholder':"Nom de l'entreprise", 'data-validate': 'name'}})}}
@@ -94,7 +94,6 @@
 
 
             <div class="field">
-                {{ form_widget(form._token) }}
                 <div id="server_error_message" class="ui negative message" style="display:none">
                     <i class="close icon"></i>
                     <div id="server_error_content" class="header">Internal server error</div>
@@ -108,7 +107,7 @@
                 </div>
             </div>
 
-        </form>
+        {{ form_end(form) }}
     </div>
     <div class="actions">
         <div id="cancel_add_entreprise" class="ui black deny button">
