@@ -32,7 +32,7 @@ class TelephoneController extends Controller {
             $twilio = $this->get('twilio.api');
             $message = $twilio->account->messages->sendMessage(
                     '+237697704889', // From a Twilio number in your account
-                    '+237698918085', // Text any number
+                    $subscriber->getPhoneNumber(), // Text any number
                     $historiqueAlertSubscriber->getMessage()
             );
             $historiqueAlertSubscriber->setSubscriber($subscriber);
