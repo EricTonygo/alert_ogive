@@ -546,3 +546,7 @@ body.pushable>.pusher {
 .ui.message{
     border-radius: 0;
 }
+
+a.ui.dropdown{
+    color: #999999;
+}

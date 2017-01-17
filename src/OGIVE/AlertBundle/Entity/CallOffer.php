@@ -14,11 +14,21 @@ use Doctrine\ORM\Mapping as ORM;
 class CallOffer extends AlertProcedure
 {
     /**
+     * @var \ExpressionInterest
+     *
+     * @ORM\ManyToOne(targetEntity="ExpressionInterest")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="domain", referencedColumnName="id")
+     * })
+     */
+    protected $expressionInterest;
+    
+    /**
      * Constructor
      */
     public function __construct() {
         parent::__construct();
-        $this->setType("AAO");
+        //$this->setType("AAO");
     }   
 }
 

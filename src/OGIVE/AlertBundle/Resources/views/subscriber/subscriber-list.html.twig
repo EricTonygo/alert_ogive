@@ -6,7 +6,13 @@
     <td>{{subscriber.entreprise.name}}</td>
     <td>{{subscriber.subscription.name}}</td>
     <td class="right aligned">
-        <div class="ui dropdown item">
+        <a onclick="send_procedure_subscriber({{subscriber.id}});" class="send_sms_subscriber_btn item" data-tooltip="Notifier d'une procédure" data-position="top center" data-inverted="">
+            <i class="alarm icon"></i>
+        </a>
+        <a onclick="send_sms_subscriber({{subscriber.id}});" class="send_sms_subscriber_btn item" data-tooltip="Envoyer un SMS" data-position="top center" data-inverted="">
+            <i class="talk icon"></i>
+        </a>
+        <a class="ui dropdown item">
             <i class="ellipsis vertical icon"></i>
             <div class="menu">
                 <div onclick="show_subscriber({{subscriber.id}});" class="show_subscriber_btn item">
@@ -32,6 +38,6 @@
                     </div>
                 {% endif %}
             </div>
-        </div>
+        </a>
     </td>
 </tr>

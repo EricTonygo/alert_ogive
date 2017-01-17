@@ -61,6 +61,15 @@ class CallOfferType extends AbstractType {
                     'required' => false,
                     'query_builder' => function(\OGIVE\AlertBundle\Repository\DomainRepository $repo) {
                         return $repo->getDomainQueryBuilder();
+                    }))
+                ->add('expressionInterest', 'entity', array(
+                    'class' => 'OGIVEAlertBundle:ExpressionInterest',
+                    'property' => 'name',
+                    'empty_value' => "Selectionner l'ASMI",
+                    'multiple' => false,
+                    'required' => false,
+                    'query_builder' => function(\OGIVE\AlertBundle\Repository\ExpressionInterestRepository $repo) {
+                        return $repo->getExpressionInterestQueryBuilder();
                     }
         ));
     }
