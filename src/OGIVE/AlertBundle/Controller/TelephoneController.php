@@ -1,5 +1,7 @@
 <?php
 
+namespace OGIVE\AlertBundle\Controller;
+
 use OGIVE\AlertBundle\Entity\HistoricalAlertSubscriber;
 use OGIVE\AlertBundle\Entity\Subscriber;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -30,14 +32,16 @@ class TelephoneController extends Controller {
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $twilio = $this->get('twilio.api');
+            //$messages = $twilio->account->messages->read();
             $message = $twilio->account->messages->sendMessage(
-                    '+237697704889', // From a Twilio number in your account
+                    'MG8e369c4e5ea49ce989834c5355a1f02f', // From a Twilio number in your account
                     $subscriber->getPhoneNumber(), // Text any number
                     $historiqueAlertSubscriber->getMessage()
             );
             $historiqueAlertSubscriber->setSubscriber($subscriber);
+            $historiqueAlertSubscriber->setAlertType("SMS");
             $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
-            $view = View::create(["code" => 200, 'message_sid' => $message->sid, 'message' => "SMS envoyé avec succès" ]);
+            $view = View::create(["code" => 200, 'messages_twilio' =>$message , 'message' => "SMS envoyé avec succès" ]);
             $view->setFormat('json');
             return $view;
         } elseif ($form->isSubmitted() && !$form->isValid()) {

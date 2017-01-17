@@ -117,10 +117,10 @@ class HistoricalAlertSubscriber
     /**
      * Set subscriber
      *
-     * @param \NNGenie\InfosMatBundle\Entity\Subscriber $subscriber
+     * @param \OGIVE\AlertBundle\Entity\Subscriber $subscriber
      * @return HistoricalAlertSubscriber
      */
-    public function setSubscriber(\NNGenie\InfosMatBundle\Entity\Subscriber $subscriber = null)
+    public function setSubscriber(\OGIVE\AlertBundle\Entity\Subscriber $subscriber = null)
     {
         $this->subscriber = $subscriber;
         return $this;
@@ -129,7 +129,7 @@ class HistoricalAlertSubscriber
     /**
     * Get subscriber
     *
-    * @return \NNGenie\InfosMatBundle\Entity\Subscriber 
+    * @return \OGIVE\AlertBundle\Entity\Subscriber 
     */
     public function getSubscriber()
     {

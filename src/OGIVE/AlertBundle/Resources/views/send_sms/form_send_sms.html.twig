@@ -4,7 +4,7 @@
         Envoi d'un sms à << {{subscriber.name}}({{subscriber.phoneNumber}}) >>
     </div>
     <div class="content">
-        {{ form_start(form, {'method': 'POST', 'action': path('send_sms_subscriber', {'id': subscriber.id), 'attr': {'class': 'ui form', 'id': 'send_sms_subscriber_form'} }) }}
+        {{ form_start(form, {'method': 'POST', 'action': path('send_sms_subscriber', {'id': subscriber.id}), 'attr': {'class': 'ui form', 'id': 'send_sms_subscriber_form'} }) }}
             <div class="field">
                 {{ form_label(form.message,"Message") }}
                 {{ form_widget(form.message,{'attr':{'placeholder':"Le message à envoyer", 'data-validate': 'name'}})}}

@@ -23,7 +23,7 @@ class HistoricalAlertEntreprise
     private $id;
     
     /**
-     * @var int
+     * @var int 
      *
      * @ORM\Column(name="status", type="integer")
      */
@@ -191,10 +191,10 @@ class HistoricalAlertEntreprise
     /**
      * Set entreprise
      *
-     * @param \NNGenie\InfosMatBundle\Entity\Entreprise $entreprise
+     * @param \OGIVE\AlertBundle\Entity\Entreprise $entreprise
      * @return HistoricalAlertEntreprise
      */
-    public function setEntreprise(\NNGenie\InfosMatBundle\Entity\Entreprise $entreprise= null)
+    public function setEntreprise(\OGIVE\AlertBundle\Entity\Entreprise $entreprise= null)
     {
         $this->entreprise= $entreprise;
         return $this;
@@ -203,7 +203,7 @@ class HistoricalAlertEntreprise
     /**
     * Get entreprise
     *
-    * @return \NNGenie\InfosMatBundle\Entity\Entreprise 
+    * @return \OGIVE\AlertBundle\Entity\Entreprise 
     */
     public function getEntreprise()
     {

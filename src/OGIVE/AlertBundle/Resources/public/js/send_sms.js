@@ -2,7 +2,7 @@ function send_sms_subscriber(id) {
     $('#message_error').hide();
     $('#message_success').hide();
     $.ajax({
-        type: 'PUT',
+        type: 'POST',
         url: Routing.generate('send_sms_subscriber', {id: id}),
         dataType: 'json',
         beforeSend: function () {
@@ -66,7 +66,7 @@ function execute_send_sms_subscriber(id) {
                 on: 'blur',
                 onSuccess: function (event, fields) {
                     $.ajax({
-                        type: 'PUT',
+                        type: 'POST',
                         url: Routing.generate('send_sms_subscriber', {id: id}),
                         data: fields,
                         dataType: 'json',

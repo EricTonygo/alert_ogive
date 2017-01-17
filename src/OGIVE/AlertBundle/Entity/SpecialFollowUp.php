@@ -172,10 +172,10 @@ class SpecialFollowUp
     /**
      * Add subscriber
      *
-     * @param OGIVE\AlertBundle\Entity\Subscriber $subscriber
+     * @param \OGIVE\AlertBundle\Entity\Subscriber $subscriber
      * @return SpecialFollowUp
      */
-    public function addSubscriber(OGIVE\AlertBundle\Entity\Subscriber $subscriber) {
+    public function addSubscriber(\OGIVE\AlertBundle\Entity\Subscriber $subscriber) {
         $this->subscribers[] = $subscriber;
         return $this;
     }
@@ -204,10 +204,10 @@ class SpecialFollowUp
     /**
      * Remove subscribers
      *
-     * @param OGIVE\AlertBundle\Entity\Subscriber $subscriber
+     * @param \OGIVE\AlertBundle\Entity\Subscriber $subscriber
      * @return SpecialFollowUp
      */
-    public function removeSubscriber(OGIVE\AlertBundle\Entity\Subscriber $subscriber) {
+    public function removeSubscriber(\OGIVE\AlertBundle\Entity\Subscriber $subscriber) {
         $this->entreprises->removeElement($subscriber);
         return $this;
     }

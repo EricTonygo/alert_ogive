@@ -34,6 +34,10 @@ ogive_alert_specialFollowUp:
     resource: "@OGIVEAlertBundle/Controller/SpecialFollowUpController.php"
     type:     rest
     
+ogive_alert_telephone:
+    resource: "@OGIVEAlertBundle/Controller/TelephoneController.php"
+    type:     rest
+    
 ogive_alert:
     resource: "@OGIVEAlertBundle/Resources/config/routing.yml"
     prefix:   /

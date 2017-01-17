@@ -1,7 +1,7 @@
 <div id="subscriber_grid{{subscriber.id}}" class="column">
     <div class="ui fluid card">
         <div class="image">
-            <img src="{{asset('image/avatar_1.png/')}}" alt="{{subscriber.name}}"/>
+            <img src="{{asset('bundles/ogivealert/images/avatar_1.png')}}" alt="{{subscriber.name}}"/>
         </div>
         <div class="content">
             <div class="header">{{subscriber.name}}</div>
@@ -18,6 +18,10 @@
                 <div class="ui dropdown item">
                     <i class="ellipsis vertical icon"></i>
                     <div class="menu">
+                        <div onclick="send_sms_subscriber({{subscriber.id}});" class="send_sms_subscriber_btn item">
+                            <i class="talk icon"></i>
+                            Envoyer un SMS
+                        </div>
                         <div onclick="show_subscriber({{subscriber.id}});" class="show_subscriber_btn item">
                             <i class="unhide icon"></i>
                             Détails
