@@ -30,6 +30,7 @@ function send_procedure_additive(id) {
                 $('#checkbox_all_subscribers').change(function () {
                     if ($(this).is(':checked')) {
                         $('#field_select_subscribers').hide();
+                        $('#field_select_subscribers>.ui.dropdown').dropdown('clear');
                     } else {
                         $('#field_select_subscribers').show();
                     }

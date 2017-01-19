@@ -26,8 +26,8 @@
             </div>
 
             <div class="field">
-                {{ form_label(form.reference,"Référence") }}
-                {{ form_widget(form.reference,{'attr':{'placeholder':"Référence de l'attribution", 'data-validate': 'reference'}})}}
+                {{ form_label(form.reference,"Numero") }}
+                {{ form_widget(form.reference,{'attr':{'placeholder':"Numero de l'attribution", 'data-validate': 'reference'}})}}
             </div>
 
             <div id="field_aao_edit" class="field" {% if procedureResult.type != "ATTRIBUTION_AAO" %} style="display: none" {% endif %}>

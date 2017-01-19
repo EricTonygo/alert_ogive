@@ -12,7 +12,7 @@
                 {% if error %}
                     <div class="ui negative message">
                         <i class="close icon"></i>
-                        <div class="header">{{ error|trans({}, 'FOSUserBundle') }} </div>
+                        <span class="">{{ error|trans({}, 'FOSUserBundle') }} </span>
                     </div>
                 {% endif %}
                 <form id="login_form" class="ui form" action="{{ path("fos_user_security_check") }}" method="post">

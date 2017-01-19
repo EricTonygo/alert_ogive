@@ -4,11 +4,11 @@
         Modification de la manifestation d'intérêt << {{expressionInterest.reference}} >>
     </div>
     <div class="content">
-        {{ form_start(form, {'method': 'PUT', 'action': path('expessionInterest_update', {'id': expressionInterest.id}), 'attr': {'class': 'ui form', 'id': 'edit_expressionInterest_form'} })}}
+        {{ form_start(form, {'method': 'PUT', 'action': path('expressionInterest_update', {'id': expressionInterest.id}), 'attr': {'class': 'ui form', 'id': 'edit_expressionInterest_form'} })}}
 
        <div class="field">
-            {{ form_label(form.reference,"Référence") }}
-            {{ form_widget(form.reference,{'attr':{'placeholder':"Référence de la manifestation d'intérêt", 'data-validate': 'reference'}})}}
+            {{ form_label(form.reference,"Numero") }}
+            {{ form_widget(form.reference,{'attr':{'placeholder':"Numero de la manifestation d'intérêt", 'data-validate': 'reference'}})}}
         </div>
 
         <div class="field">

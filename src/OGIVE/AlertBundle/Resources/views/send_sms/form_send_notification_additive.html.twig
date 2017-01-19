@@ -1,16 +1,16 @@
-<div id="send_notification_procedureResult" class="ui small modal">
+<div id="send_notification_additive" class="ui small modal">
     <i class="close icon"></i>
     <div class="header">
-        Notifier les abonnés de l'attribution N°{{procedureResult.reference}}
+        Notifier les abonnés de l'attribution N°{{additive.reference}}
     </div>
     <div class="content">
-        <form method = 'POST' action= '{{path('send_notification_procedureResult', {'id': procedureResult.id})}}' class = 'ui form' id ='send_notification_procedureResult_form' name='send_notification_procedureResult_form'>
+        <form method = 'POST' action= '{{path('send_notification_additive', {'id': additive.id})}}' class = 'ui form' id ='send_notification_additive_form' name='send_notification_additive_form'>
             <div class="field">
                 <label>Le resumé à envoyer</label>
-                <textarea name='abstract'>{{procedureResult.abstract}}</textarea>
+                <textarea name='abstract'>{{additive.abstract}}</textarea>
             </div>
 
-            <div class="field" {%if procedureResult.callOffer %} {% if procedureResult.callOffer.type == "AONR" or procedureResult.callOffer.type== "AOIR" %} style="display: none" {% endif %}{% endif %}>
+            <div class="field" >
                 <div class="ui checkbox">
                     <input id='checkbox_all_subscribers' type="checkbox" name="all_subscribers" value="yes">
                     <label> Notifier tous les abonnés du domaine</label>
@@ -43,10 +43,10 @@
         </form>
     </div>
     <div class="actions">
-        <div id="cancel_send_notification_procedureResult" class="ui black deny button">
+        <div id="cancel_send_notification_additive" class="ui black deny button">
             Annuler
         </div>
-        <div id='submit_send_notification_procedureResult' class="ui primary icon button">
+        <div id='submit_send_notification_additive' class="ui primary icon button">
             <i class="send icon"></i>
             Envoyer
         </div>

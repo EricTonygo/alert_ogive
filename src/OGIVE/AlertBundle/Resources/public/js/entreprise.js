@@ -154,6 +154,8 @@ $(function () {
 function edit_entreprise(id) {
     $('#message_error').hide();
     $('#message_success').hide();
+    $('.ui.dropdown').dropdown('remove active');
+    $('.ui.dropdown').dropdown('remove visible');
     $.ajax({
         type: 'PUT',
         url: Routing.generate('entreprise_update', {id: id}),
@@ -336,6 +338,8 @@ function execute_edit(id) {
 function delete_entreprise(id) {
     $('#message_error').hide();
     $('#message_success').hide();
+    $('.ui.dropdown').dropdown('remove active');
+    $('.ui.dropdown').dropdown('remove visible');
     $.ajax({
         type: 'DELETE',
         url: Routing.generate('entreprise_delete', {id: id}),
@@ -380,6 +384,8 @@ function delete_entreprise(id) {
 function show_entreprise(id) {
     $('#message_error').hide();
     $('#message_success').hide();
+    $('.ui.dropdown').dropdown('remove active');
+    $('.ui.dropdown').dropdown('remove visible');
     $.ajax({
         type: 'GET',
         url: Routing.generate('entreprise_get_one', {id: id}),
@@ -436,6 +442,8 @@ function enable_entreprise(id) {
     $('#message_success').hide();
     $('#edit_entreprise.ui.modal').modal('hide');
     $('#edit_entreprise').remove();
+    $('.ui.dropdown').dropdown('remove active');
+    $('.ui.dropdown').dropdown('remove visible');
     $.ajax({
         type: 'PUT',
         url: Routing.generate('entreprise_update', {id: id}),
@@ -483,6 +491,8 @@ function disable_entreprise(id) {
     $('#message_success').hide();
     $('#edit_entreprise.ui.modal').modal('hide');
     $('#edit_entreprise').remove();
+    $('.ui.dropdown').dropdown('remove active');
+    $('.ui.dropdown').dropdown('remove visible');
     $.ajax({
         type: 'PUT',
         url: Routing.generate('entreprise_update', {id: id}),

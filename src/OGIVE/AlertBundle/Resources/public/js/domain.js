@@ -93,6 +93,8 @@ $(function () {
 function edit_domain(id) {
     $('#message_error').hide();
     $('#message_success').hide();
+    $('.ui.dropdown').dropdown('remove active');
+    $('.ui.dropdown').dropdown('remove visible');
     $.ajax({
         type: 'PUT',
         url: Routing.generate('domain_update', { id: id }),
@@ -222,6 +224,8 @@ function execute_edit(id) {
 function delete_domain(id) {
     $('#message_error').hide();
     $('#message_success').hide();
+    $('.ui.dropdown').dropdown('remove active');
+    $('.ui.dropdown').dropdown('remove visible');
     $.ajax({
         type: 'DELETE',
         url: Routing.generate('domain_delete', { id: id }),
@@ -266,6 +270,8 @@ function delete_domain(id) {
 function show_domain(id) {
     $('#message_error').hide();
     $('#message_success').hide();
+    $('.ui.dropdown').dropdown('remove active');
+    $('.ui.dropdown').dropdown('remove visible');
     $.ajax({
         type: 'GET',
         url: Routing.generate('domain_get_one', { id: id }),
@@ -322,6 +328,8 @@ function enable_domain(id) {
     $('#message_success').hide();
     $('#edit_domain.ui.modal').modal('hide');
     $('#edit_domain').remove();
+    $('.ui.dropdown').dropdown('remove active');
+    $('.ui.dropdown').dropdown('remove visible');
     $.ajax({
         type: 'PUT',
         url: Routing.generate('domain_update', { id: id }),
@@ -369,6 +377,8 @@ function disable_domain(id) {
     $('#message_success').hide();
     $('#edit_domain.ui.modal').modal('hide');
     $('#edit_domain').remove();
+    $('.ui.dropdown').dropdown('remove active');
+    $('.ui.dropdown').dropdown('remove visible');
     $.ajax({
         type: 'PUT',
         url: Routing.generate('domain_update', { id: id }),

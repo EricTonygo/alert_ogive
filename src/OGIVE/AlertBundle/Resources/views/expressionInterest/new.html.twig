@@ -1,14 +1,14 @@
 <div id="add_expressionInterest" class="ui small modal">
     <i class="close icon"></i>
     <div class="header">
-        Ajout d'un additif
+        Ajout d'un ASMI
     </div>
     <div class="content">
         {{ form_start(form, {'method': 'POST', 'action': '/expressions-interest', 'attr': {'class': 'ui form', 'id': 'add_expressionInterest_form'} }) }}
 
         <div class="field">
-            {{ form_label(form.reference,"Référence") }}
-            {{ form_widget(form.reference,{'attr':{'placeholder':"Référence de la manifestation d'intérêt", 'data-validate': 'reference'}})}}
+            {{ form_label(form.reference,"Numero") }}
+            {{ form_widget(form.reference,{'attr':{'placeholder':"Numero de l'ASMI", 'data-validate': 'reference'}})}}
         </div>
 
         <div class="field">

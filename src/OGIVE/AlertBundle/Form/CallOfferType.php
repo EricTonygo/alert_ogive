@@ -64,7 +64,7 @@ class CallOfferType extends AbstractType {
                     }))
                 ->add('expressionInterest', 'entity', array(
                     'class' => 'OGIVEAlertBundle:ExpressionInterest',
-                    'property' => 'name',
+                    'property' => 'reference',
                     'empty_value' => "Selectionner l'ASMI",
                     'multiple' => false,
                     'required' => false,

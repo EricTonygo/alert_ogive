@@ -1,9 +1,9 @@
-function send_procedure_procedureResult(id) {
+function send_procedure_expressionInterest(id) {
     $('#message_error').hide();
     $('#message_success').hide();
     $.ajax({
         type: 'POST',
-        url: Routing.generate('send_notification_procedureResult', {id: id}),
+        url: Routing.generate('send_notification_expressionInterest', {id: id}),
         dataType: 'json',
         beforeSend: function () {
             $('#message_loading').show();
@@ -19,10 +19,10 @@ function send_procedure_procedureResult(id) {
         },
         success: function (response, textStatus, jqXHR) {
             if (response.code === 200) {
-                $('#send_notification_procedureResult').remove();
-                $('#send_notification_procedureResult_content').html(response.send_notification_procedureResult_form);
+                $('#send_notification_expressionInterest').remove();
+                $('#send_notification_expressionInterest_content').html(response.send_notification_expressionInterest_form);
 
-                $('#send_notification_procedureResult.ui.modal').modal('setting', {
+                $('#send_notification_expressionInterest.ui.modal').modal('setting', {
                     autofocus: false,
                     inverted: true,
                     closable: false
@@ -38,8 +38,8 @@ function send_procedure_procedureResult(id) {
                 $('#subscribers.ui.dropdown').dropdown({
                     on: 'click'
                 });
-                $('#send_notification_procedureResult.ui.modal').modal('show');
-                execute_send_notification_procedureResult(id);
+                $('#send_notification_expressionInterest.ui.modal').modal('show');
+                execute_send_notification_expressionInterest(id);
             }
             $('#message_loading').hide();
         },
@@ -51,16 +51,16 @@ function send_procedure_procedureResult(id) {
 }
 
 
-function execute_send_notification_procedureResult(id) {
-    $('#submit_send_notification_procedureResult').click(function (e) {
+function execute_send_notification_expressionInterest(id) {
+    $('#submit_send_notification_expressionInterest').click(function (e) {
         e.preventDefault();
         $('#server_error_message').hide();
         $('#message_error').hide();
         $('#message_success').hide();
         $('#error_name_message').hide();
-        $('#send_notification_procedureResult_form.ui.form').submit();
+        $('#send_notification_expressionInterest_form.ui.form').submit();
     });
-    $('#send_notification_procedureResult_form.ui.form')
+    $('#send_notification_expressionInterest_form.ui.form')
             .form({
                 fields: {
                     abstract: {
@@ -78,13 +78,13 @@ function execute_send_notification_procedureResult(id) {
                 onSuccess: function (event, fields) {
                     $.ajax({
                         type: 'POST',
-                        url: Routing.generate('send_notification_procedureResult', {id: id}),
+                        url: Routing.generate('send_notification_expressionInterest', {id: id}),
                         data: fields,
                         dataType: 'json',
                         beforeSend: function () {
-                            $('#submit_send_notification_procedureResult').addClass('disabled');
-                            $('#cancel_send_notification_procedureResult').addClass('disabled');
-                            $('#send_notification_procedureResult_form.ui.form').addClass('loading');
+                            $('#submit_send_notification_expressionInterest').addClass('disabled');
+                            $('#cancel_send_notification_expressionInterest').addClass('disabled');
+                            $('#send_notification_expressionInterest_form.ui.form').addClass('loading');
 
                         },
                         statusCode: {
@@ -103,23 +103,23 @@ function execute_send_notification_procedureResult(id) {
                         },
                         success: function (response, textStatus, jqXHR) {
                             if (response.code === 200) {
-                                $('#submit_send_notification_procedureResult').removeClass('disabled');
-                                $('#cancel_send_notification_procedureResult').removeClass('disabled');
-                                $('#send_notification_procedureResult_form.ui.form').removeClass('loading');
-                                $('#send_notification_procedureResult.ui.modal').modal('hide');
+                                $('#submit_send_notification_expressionInterest').removeClass('disabled');
+                                $('#cancel_send_notification_expressionInterest').removeClass('disabled');
+                                $('#send_notification_expressionInterest_form.ui.form').removeClass('loading');
+                                $('#send_notification_expressionInterest.ui.modal').modal('hide');
                                 $('#message_success>div.header').html('Message envoyé avec succès !');
                                 $('#message_success').show();
                                 setTimeout(function () {
                                     $('#message_success').hide();
                                 }, 4000);
-                                $('#send_notification_procedureResult').remove();
+                                $('#send_notification_expressionInterest').remove();
                             }
 
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
-                            $('#submit_send_notification_procedureResult').removeClass('disabled');
-                            $('#cancel_send_notification_procedureResult').removeClass('disabled');
-                            $('#send_notification_procedureResult_form.ui.form').removeClass('loading');
+                            $('#submit_send_notification_expressionInterest').removeClass('disabled');
+                            $('#cancel_send_notification_expressionInterest').removeClass('disabled');
+                            $('#send_notification_expressionInterest_form.ui.form').removeClass('loading');
                             /*alertify.error("Internal Server Error");*/
                         }
                     });

@@ -27,7 +27,7 @@ $(function () {
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: 'Veuillez saisir la reférence'
+                                prompt: 'Veuillez saisir le numero'
                             }
                         ]
                     },
@@ -186,6 +186,8 @@ $(function () {
 function edit_additive(id) {
     $('#message_error').hide();
     $('#message_success').hide();
+    $('.ui.dropdown').dropdown('remove active');
+    $('.ui.dropdown').dropdown('remove visible');
     $.ajax({
         type: 'PUT',
         url: Routing.generate('additive_update', {id: id}),
@@ -243,7 +245,7 @@ function execute_edit(id) {
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: 'Veuillez saisir la reférence'
+                                prompt: 'Veuillez saisir le numero'
                             }
                         ]
                     },
@@ -407,6 +409,8 @@ function execute_edit(id) {
 function delete_additive(id) {
     $('#message_error').hide();
     $('#message_success').hide();
+    $('.ui.dropdown').dropdown('remove active');
+    $('.ui.dropdown').dropdown('remove visible');
     $.ajax({
         type: 'DELETE',
         url: Routing.generate('additive_delete', {id: id}),
@@ -451,6 +455,8 @@ function delete_additive(id) {
 function show_additive(id) {
     $('#message_error').hide();
     $('#message_success').hide();
+    $('.ui.dropdown').dropdown('remove active');
+    $('.ui.dropdown').dropdown('remove visible');
     $.ajax({
         type: 'GET',
         url: Routing.generate('additive_get_one', {id: id}),
@@ -510,6 +516,8 @@ function enable_additive(id) {
     $('#message_success').hide();
     $('#edit_additive.ui.modal').modal('hide');
     $('#edit_additive').remove();
+    $('.ui.dropdown').dropdown('remove active');
+    $('.ui.dropdown').dropdown('remove visible');
     $.ajax({
         type: 'PUT',
         url: Routing.generate('additive_update', {id: id}),
@@ -557,6 +565,8 @@ function disable_additive(id) {
     $('#message_success').hide();
     $('#edit_additive.ui.modal').modal('hide');
     $('#edit_additive').remove();
+    $('.ui.dropdown').dropdown('remove active');
+    $('.ui.dropdown').dropdown('remove visible');
     $.ajax({
         type: 'PUT',
         url: Routing.generate('additive_update', {id: id}),

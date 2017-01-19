@@ -2,6 +2,7 @@ $(function () {
     $('#checkbox_aono_add').change(function () {
         if ($(this).is(':checked')) {
             $('#field_asmi_add').hide();
+            $('#field_asmi_add>.ui.dropdown').dropdown('clear');
         }
     });
 
@@ -14,6 +15,7 @@ $(function () {
     $('#checkbox_aoio_add').change(function () {
         if ($(this).is(':checked')) {
             $('#field_asmi_add').hide();
+            $('##field_asmi_add>.ui.dropdown').dropdown('clear');
         }
     });
 
@@ -50,7 +52,7 @@ $(function () {
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: 'Veuillez saisir la reférence'
+                                prompt: 'Veuillez saisir le numero'
                             }
                         ]
                     },
@@ -209,6 +211,8 @@ $(function () {
 function edit_callOffer(id) {
     $('#message_error').hide();
     $('#message_success').hide();
+    $('.ui.dropdown').dropdown('remove active');
+    $('.ui.dropdown').dropdown('remove visible');
     $.ajax({
         type: 'PUT',
         url: Routing.generate('call_offer_update', {id: id}),
@@ -237,9 +241,13 @@ function edit_callOffer(id) {
                 $('#ogive_alertbundle_calloffer_domain.ui.dropdown').dropdown({
                     on: 'click'
                 });
+                $('#ogive_alertbundle_calloffer_expressionInterest.ui.dropdown').dropdown({
+                    on: 'click'
+                });
                 $('#checkbox_aono_edit').change(function () {
                     if ($(this).is(':checked')) {
                         $('#field_asmi_edit').hide();
+                        $('#field_asmi_edit>.ui.dropdown').dropdown('clear');
                     }
                 });
 
@@ -252,6 +260,7 @@ function edit_callOffer(id) {
                 $('#checkbox_aoio_edit').change(function () {
                     if ($(this).is(':checked')) {
                         $('#field_asmi_edit').hide();
+                        $('#field_asmi_edit>.ui.dropdown').dropdown('clear');
                     }
                 });
 
@@ -290,7 +299,7 @@ function execute_edit(id) {
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: 'Veuillez saisir la reférence'
+                                prompt: 'Veuillez saisir le numero'
                             }
                         ]
                     },
@@ -454,6 +463,8 @@ function execute_edit(id) {
 function delete_callOffer(id) {
     $('#message_error').hide();
     $('#message_success').hide();
+    $('.ui.dropdown').dropdown('remove active');
+    $('.ui.dropdown').dropdown('remove visible');
     $.ajax({
         type: 'DELETE',
         url: Routing.generate('call_offer_delete', {id: id}),
@@ -498,6 +509,8 @@ function delete_callOffer(id) {
 function show_callOffer(id) {
     $('#message_error').hide();
     $('#message_success').hide();
+    $('.ui.dropdown').dropdown('remove active');
+    $('.ui.dropdown').dropdown('remove visible');
     $.ajax({
         type: 'GET',
         url: Routing.generate('call_offer_get_one', {id: id}),
@@ -529,6 +542,7 @@ function show_callOffer(id) {
                 $('#checkbox_aono_edit').change(function () {
                     if ($(this).is(':checked')) {
                         $('#field_asmi_edit').hide();
+                        $('#field_asmi_edit>.ui.dropdown').dropdown('clear');
                     }
                 });
 
@@ -541,6 +555,7 @@ function show_callOffer(id) {
                 $('#checkbox_aoio_edit').change(function () {
                     if ($(this).is(':checked')) {
                         $('#field_asmi_edit').hide();
+                        $('#field_asmi_edit>.ui.dropdown').dropdown('clear');
                     }
                 });
 
@@ -580,6 +595,8 @@ function enable_callOffer(id) {
     $('#message_success').hide();
     $('#edit_callOffer.ui.modal').modal('hide');
     $('#edit_callOffer').remove();
+    $('.ui.dropdown').dropdown('remove active');
+    $('.ui.dropdown').dropdown('remove visible');
     $.ajax({
         type: 'PUT',
         url: Routing.generate('call_offer_update', {id: id}),
@@ -627,6 +644,8 @@ function disable_callOffer(id) {
     $('#message_success').hide();
     $('#edit_callOffer.ui.modal').modal('hide');
     $('#edit_callOffer').remove();
+    $('.ui.dropdown').dropdown('remove active');
+    $('.ui.dropdown').dropdown('remove visible');
     $.ajax({
         type: 'PUT',
         url: Routing.generate('call_offer_update', {id: id}),

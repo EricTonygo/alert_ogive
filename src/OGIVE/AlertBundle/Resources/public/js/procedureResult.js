@@ -3,6 +3,7 @@ $(function () {
         if ($(this).is(':checked')) {
             $('#field_aao_add').show();
             $('#field_asmi_add').hide();
+            $('#field_asmi_add>.ui.dropdown').dropdown('clear');
         }
     });
 
@@ -10,6 +11,7 @@ $(function () {
         if ($(this).is(':checked')) {
             $('#field_asmi_add').show();
             $('#field_aao_add').hide();
+            $('#field_aao_add>.ui.dropdown').dropdown('clear');
         }
     });
 
@@ -44,7 +46,7 @@ $(function () {
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: 'Veuillez saisir la reférence'
+                                prompt: 'Veuillez saisir le numero'
                             }
                         ]
                     },
@@ -179,6 +181,8 @@ $(function () {
 function edit_procedureResult(id) {
     $('#message_error').hide();
     $('#message_success').hide();
+    $('.ui.dropdown').dropdown('remove active');
+    $('.ui.dropdown').dropdown('remove visible');
     $.ajax({
         type: 'PUT',
         url: Routing.generate('procedureResult_update', {id: id}),
@@ -214,6 +218,7 @@ function edit_procedureResult(id) {
                     if ($(this).is(':checked')) {
                         $('#field_aao_edit').show();
                         $('#field_asmi_edit').hide();
+                        $('#field_asmi_edit>.ui.dropdown').dropdown('clear');
                     }
                 });
 
@@ -221,6 +226,7 @@ function edit_procedureResult(id) {
                     if ($(this).is(':checked')) {
                         $('#field_asmi_edit').show();
                         $('#field_aao_edit').hide();
+                        $('#field_aao_edit>.ui.dropdown').dropdown('clear');
                     }
                 });
                 $('#edit_procedureResult.ui.modal').modal('show');
@@ -253,7 +259,7 @@ function execute_edit(id) {
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: 'Veuillez saisir la reférence'
+                                prompt: 'Veuillez saisir le numero'
                             }
                         ]
                     },
@@ -394,6 +400,8 @@ function execute_edit(id) {
 function delete_procedureResult(id) {
     $('#message_error').hide();
     $('#message_success').hide();
+    $('.ui.dropdown').dropdown('remove active');
+    $('.ui.dropdown').dropdown('remove visible');
     $.ajax({
         type: 'DELETE',
         url: Routing.generate('procedureResult_delete', {id: id}),
@@ -438,6 +446,8 @@ function delete_procedureResult(id) {
 function show_procedureResult(id) {
     $('#message_error').hide();
     $('#message_success').hide();
+    $('.ui.dropdown').dropdown('remove active');
+    $('.ui.dropdown').dropdown('remove visible');
     $.ajax({
         type: 'GET',
         url: Routing.generate('procedureResult_get_one', {id: id}),
@@ -465,6 +475,27 @@ function show_procedureResult(id) {
                 });
                 $('#ogive_alertbundle_procedureResult_domain.ui.dropdown').dropdown({
                     on: 'click'
+                });
+                $('#ogive_alertbundle_procedureResult_callOffer.ui.dropdown').dropdown({
+                    on: 'click'
+                });
+                $('#ogive_alertbundle_procedureResult_expressionInterest.ui.dropdown').dropdown({
+                    on: 'click'
+                });
+                $('#checkbox_aao_edit').change(function () {
+                    if ($(this).is(':checked')) {
+                        $('#field_aao_edit').show();
+                        $('#field_asmi_edit').hide();
+                        $('#field_asmi_edit>.ui.dropdown').dropdown('clear');
+                    }
+                });
+
+                $('#checkbox_asmi_edit').change(function () {
+                    if ($(this).is(':checked')) {
+                        $('#field_asmi_edit').show();
+                        $('#field_aao_edit').hide();
+                        $('#field_aao_edit>.ui.dropdown').dropdown('clear');
+                    }
                 });
                 $('#edit_procedureResult.ui.modal').modal('show');
                 execute_edit(id);
@@ -497,6 +528,8 @@ function enable_procedureResult(id) {
     $('#message_success').hide();
     $('#edit_procedureResult.ui.modal').modal('hide');
     $('#edit_procedureResult').remove();
+    $('.ui.dropdown').dropdown('remove active');
+    $('.ui.dropdown').dropdown('remove visible');
     $.ajax({
         type: 'PUT',
         url: Routing.generate('procedureResult_update', {id: id}),
@@ -544,6 +577,8 @@ function disable_procedureResult(id) {
     $('#message_success').hide();
     $('#edit_procedureResult.ui.modal').modal('hide');
     $('#edit_procedureResult').remove();
+    $('.ui.dropdown').dropdown('remove active');
+    $('.ui.dropdown').dropdown('remove visible');
     $.ajax({
         type: 'PUT',
         url: Routing.generate('procedureResult_update', {id: id}),

@@ -93,6 +93,8 @@ $(function () {
 function edit_specialFollowUp(id) {
     $('#message_error').hide();
     $('#message_success').hide();
+    $('.ui.dropdown').dropdown('remove active');
+    $('.ui.dropdown').dropdown('remove visible');
     $.ajax({
         type: 'PUT',
         url: Routing.generate('specialFollowUp_update', { id: id }),
@@ -231,6 +233,8 @@ function execute_edit(id) {
 function delete_specialFollowUp(id) {
     $('#message_error').hide();
     $('#message_success').hide();
+    $('.ui.dropdown').dropdown('remove active');
+    $('.ui.dropdown').dropdown('remove visible');
     $.ajax({
         type: 'DELETE',
         url: Routing.generate('specialFollowUp_delete', { id: id }),
@@ -275,6 +279,8 @@ function delete_specialFollowUp(id) {
 function show_specialFollowUp(id) {
     $('#message_error').hide();
     $('#message_success').hide();
+    $('.ui.dropdown').dropdown('remove active');
+    $('.ui.dropdown').dropdown('remove visible');
     $.ajax({
         type: 'GET',
         url: Routing.generate('specialFollowUp_get_one', { id: id }),
@@ -331,6 +337,8 @@ function enable_specialFollowUp(id) {
     $('#message_success').hide();
     $('#edit_specialFollowUp.ui.modal').modal('hide');
     $('#edit_specialFollowUp').remove();
+    $('.ui.dropdown').dropdown('remove active');
+    $('.ui.dropdown').dropdown('remove visible');
     $.ajax({
         type: 'PUT',
         url: Routing.generate('specialFollowUp_update', { id: id }),
@@ -378,6 +386,8 @@ function disable_specialFollowUp(id) {
     $('#message_success').hide();
     $('#edit_specialFollowUp.ui.modal').modal('hide');
     $('#edit_specialFollowUp').remove();
+    $('.ui.dropdown').dropdown('remove active');
+    $('.ui.dropdown').dropdown('remove visible');
     $.ajax({
         type: 'PUT',
         url: Routing.generate('specialFollowUp_update', { id: id }),

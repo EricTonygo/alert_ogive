@@ -27,7 +27,7 @@ $(function () {
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: 'Veuillez saisir la reférence'
+                                prompt: 'Veuillez saisir le numero'
                             }
                         ]
                     },
@@ -186,6 +186,8 @@ $(function () {
 function edit_expressionInterest(id) {
     $('#message_error').hide();
     $('#message_success').hide();
+    $('.ui.dropdown').dropdown('remove active');
+    $('.ui.dropdown').dropdown('remove visible');
     $.ajax({
         type: 'PUT',
         url: Routing.generate('expressionInterest_update', {id: id}),
@@ -243,7 +245,7 @@ function execute_edit(id) {
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: 'Veuillez saisir la reférence'
+                                prompt: 'Veuillez saisir le numero'
                             }
                         ]
                     },
@@ -407,6 +409,8 @@ function execute_edit(id) {
 function delete_expressionInterest(id) {
     $('#message_error').hide();
     $('#message_success').hide();
+    $('.ui.dropdown').dropdown('remove active');
+    $('.ui.dropdown').dropdown('remove visible');
     $.ajax({
         type: 'DELETE',
         url: Routing.generate('expressionInterest_delete', {id: id}),
@@ -451,6 +455,8 @@ function delete_expressionInterest(id) {
 function show_expressionInterest(id) {
     $('#message_error').hide();
     $('#message_success').hide();
+    $('.ui.dropdown').dropdown('remove active');
+    $('.ui.dropdown').dropdown('remove visible');
     $.ajax({
         type: 'GET',
         url: Routing.generate('expressionInterest_get_one', {id: id}),
@@ -510,6 +516,8 @@ function enable_expressionInterest(id) {
     $('#message_success').hide();
     $('#edit_expressionInterest.ui.modal').modal('hide');
     $('#edit_expressionInterest').remove();
+    $('.ui.dropdown').dropdown('remove active');
+    $('.ui.dropdown').dropdown('remove visible');
     $.ajax({
         type: 'PUT',
         url: Routing.generate('expressionInterest_update', {id: id}),
@@ -557,6 +565,8 @@ function disable_expressionInterest(id) {
     $('#message_success').hide();
     $('#edit_expressionInterest.ui.modal').modal('hide');
     $('#edit_expressionInterest').remove();
+    $('.ui.dropdown').dropdown('remove active');
+    $('.ui.dropdown').dropdown('remove visible');
     $.ajax({
         type: 'PUT',
         url: Routing.generate('expressionInterest_update', {id: id}),
