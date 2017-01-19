@@ -18,7 +18,7 @@ class CallOffer extends AlertProcedure
      *
      * @ORM\ManyToOne(targetEntity="ExpressionInterest")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="domain", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="expressionInterest", referencedColumnName="id", nullable=true)
      * })
      */
     protected $expressionInterest;
@@ -29,6 +29,28 @@ class CallOffer extends AlertProcedure
     public function __construct() {
         parent::__construct();
         //$this->setType("AAO");
-    }   
+    }
+    
+    /**
+     * Set expressionInterest
+     *
+     * @param OGIVE\AlertBundle\Entity\ExpressionInterest $expressionInterest
+     *
+     * @return CallOffer
+     */
+    public function setExpressionInterest($expressionInterest) {
+        $this->expressionInterest = $expressionInterest;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return OGIVE\AlertBundle\Entity\ExpressionInterest
+     */
+    public function getExpressionInterest() {
+        return $this->expressionInterest;
+    }
 }
 

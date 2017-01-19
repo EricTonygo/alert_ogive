@@ -80,6 +80,7 @@ class CallOfferController extends Controller {
             if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
                 $callOffer->setState(1);
             }
+            $callOffer->setType($request->get('call_offer_type'));
             $abstract = $callOffer->getType()." : "."N°".$callOffer->getReference()." du ".date_format($callOffer->getPublicationDate(), "d/m/Y")." pour ".$callOffer->getObject().". Dépôt des offres du ".date_format($callOffer->getOpeningDate(), "d/m/Y")." à ".date_format($callOffer->getOpeningDate(), "H:i")." au ".date_format($callOffer->getDeadline(), "d/m/Y")." à ".date_format($callOffer->getOpeningDate(), "H:i"); 
             $callOffer->setAbstract($abstract);
             $callOffer = $repositoryCallOffer->saveCallOffer($callOffer);
@@ -156,6 +157,7 @@ class CallOfferController extends Controller {
             if ($callOfferUnique && $callOfferUnique->getId() != $callOffer->getId()) {
                 return new JsonResponse(["success" => false, 'message' => "Un appel d'offre avec cette référence existe dejà"], Response::HTTP_NOT_FOUND);
             }
+            $callOffer->setType($request->get('call_offer_type'));
             $abstract = $callOffer->getType()." : "."N°".$callOffer->getReference()." du ".date_format($callOffer->getPublicationDate(), "d/m/Y")." pour ".$callOffer->getObject().". Dépôt des offres du ".date_format($callOffer->getOpeningDate(), "d/m/Y")." à ".date_format($callOffer->getOpeningDate(), "H:i")." au ".date_format($callOffer->getDeadline(), "d/m/Y")." à ".date_format($callOffer->getOpeningDate(), "H:i"); 
             $callOffer->setAbstract($abstract);
             $callOffer = $repositoryCallOffer->updateCallOffer($callOffer);

@@ -4,6 +4,9 @@ namespace OGIVE\AlertBundle\Controller;
 
 use OGIVE\AlertBundle\Entity\HistoricalAlertSubscriber;
 use OGIVE\AlertBundle\Entity\Subscriber;
+use OGIVE\AlertBundle\Entity\CallOffer;
+use OGIVE\AlertBundle\Entity\ProcedureResult;
+use OGIVE\AlertBundle\Entity\Additive;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -56,7 +59,140 @@ class TelephoneController extends Controller {
             return $view;
         }
     }
+    
+    
+    /**
+     * @Rest\View()
+     * @Rest\Post("/send-notification-call-offer/{id}" , name="send_notification_callOffer", options={ "method_prefix" = false, "expose" = true })
+     * @param Request $request
+     */
+    public function getSendNotificationCallOfferAction(Request $request, CallOffer $callOffer) {
+        if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            return $this->redirect($this->generateUrl('fos_user_security_login'));
+        }
+        $historiqueAlertSubscriber = new HistoricalAlertSubscriber();
+        $repositoryHistorique = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:HistoricalAlertSubscriber');
+        $repositorySubscriber = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Subscriber');
+        $subscribers = null;
+        
+        if (isset($_POST['send_notification_callOffer_form'])) {
+            $twilio = $this->get('twilio.api');
+            //$messages = $twilio->account->messages->read();
+            $message = $twilio->account->messages->sendMessage(
+                    'MG8e369c4e5ea49ce989834c5355a1f02f', // From a Twilio number in your account
+                    $subscriber->getPhoneNumber(), // Text any number
+                    $historiqueAlertSubscriber->getMessage()
+            );
+            $historiqueAlertSubscriber->setSubscriber($subscriber);
+            $historiqueAlertSubscriber->setAlertType("SMS");
+            $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
+            $view = View::create(["code" => 200, 'messages_twilio' =>$message , 'message' => "SMS envoyé avec succès" ]);
+            $view->setFormat('json');
+            return $view;
+//        } elseif ($form->isSubmitted() && !$form->isValid()) {
+//            return $form;
+        } else {
+            if($callOffer->getType()== "AONR" || $callOffer->getType() == "AOIR"){
+                $subscribers = $repositorySubscriber->findBy(array("state"=>1, "status"=>1));
+            }
+            $send_notification_callOffer_form = $this->renderView('OGIVEAlertBundle:send_sms:form_send_notification_callOffer.html.twig', array(
+                'subscribers' => $subscribers,
+                'callOffer' => $callOffer,
+            ));
+            $view = View::create(["code" => 200, 'send_notification_callOffer_form' => $send_notification_callOffer_form]);
+            $view->setFormat('json');
+            return $view;
+        }
+    }
 
+    /**
+     * @Rest\View()
+     * @Rest\Post("/send-notification-procedure-result/{id}" , name="send_notification_procedureResult", options={ "method_prefix" = false, "expose" = true })
+     * @param Request $request
+     */
+    public function getSendNotificationProcedureResultAction(Request $request, ProcedureResult $procedureResult) {
+        if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            return $this->redirect($this->generateUrl('fos_user_security_login'));
+        }
+        $historiqueAlertSubscriber = new HistoricalAlertSubscriber();
+        $repositoryHistorique = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:HistoricalAlertSubscriber');
+        $repositorySubscriber = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Subscriber');
+        $subscribers = null;
+        
+        if (isset($_POST['send_notification_procedureResult_form'])) {
+            $twilio = $this->get('twilio.api');
+            //$messages = $twilio->account->messages->read();
+            $message = $twilio->account->messages->sendMessage(
+                    'MG8e369c4e5ea49ce989834c5355a1f02f', // From a Twilio number in your account
+                    $subscriber->getPhoneNumber(), // Text any number
+                    $historiqueAlertSubscriber->getMessage()
+            );
+            $historiqueAlertSubscriber->setSubscriber($subscriber);
+            $historiqueAlertSubscriber->setAlertType("SMS");
+            $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
+            $view = View::create(["code" => 200, 'messages_twilio' =>$message , 'message' => "SMS envoyé avec succès" ]);
+            $view->setFormat('json');
+            return $view;
+//        } elseif ($form->isSubmitted() && !$form->isValid()) {
+//            return $form;
+        } else {
+
+            $subscribers = $repositorySubscriber->findBy(array("state"=>1, "status"=>1));
+            
+            $send_notification_procedureResult_form = $this->renderView('OGIVEAlertBundle:send_sms:form_send_notification_procedureResult.html.twig', array(
+                'subscribers' => $subscribers,
+                'procedureResult' => $procedureResult,
+            ));
+            $view = View::create(["code" => 200, 'send_notification_procedureResult_form' => $send_notification_procedureResult_form]);
+            $view->setFormat('json');
+            return $view;
+        }
+    }
+    
+    /**
+     * @Rest\View()
+     * @Rest\Post("/send-notification-additive/{id}" , name="send_notification_additive", options={ "method_prefix" = false, "expose" = true })
+     * @param Request $request
+     */
+    public function getSendNotificationAdditiveAction(Request $request, Additive $additive) {
+        if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            return $this->redirect($this->generateUrl('fos_user_security_login'));
+        }
+        $historiqueAlertSubscriber = new HistoricalAlertSubscriber();
+        $repositoryHistorique = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:HistoricalAlertSubscriber');
+        $repositorySubscriber = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Subscriber');
+        $subscribers = null;
+        
+        if (isset($_POST['send_notification_additive_form'])) {
+            $twilio = $this->get('twilio.api');
+            //$messages = $twilio->account->messages->read();
+            $message = $twilio->account->messages->sendMessage(
+                    'MG8e369c4e5ea49ce989834c5355a1f02f', // From a Twilio number in your account
+                    $subscriber->getPhoneNumber(), // Text any number
+                    $historiqueAlertSubscriber->getMessage()
+            );
+            $historiqueAlertSubscriber->setSubscriber($subscriber);
+            $historiqueAlertSubscriber->setAlertType("SMS");
+            $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
+            $view = View::create(["code" => 200, 'messages_twilio' =>$message , 'message' => "SMS envoyé avec succès" ]);
+            $view->setFormat('json');
+            return $view;
+//        } elseif ($form->isSubmitted() && !$form->isValid()) {
+//            return $form;
+        } else {
+
+            $subscribers = $repositorySubscriber->findBy(array("state"=>1, "status"=>1));
+            
+            $send_notification_additive_form = $this->renderView('OGIVEAlertBundle:send_sms:form_send_notification_additive.html.twig', array(
+                'subscribers' => $subscribers,
+                'additive' => $additive,
+            ));
+            $view = View::create(["code" => 200, 'send_notification_additive_form' => $send_notification_additive_form]);
+            $view->setFormat('json');
+            return $view;
+        }
+    }
+    
     public function callAction($me, $maybee) {
         //returns an instance of Vresh\TwilioBundle\Service\TwilioWrapper
         $twilio = $this->get('twilio.api');

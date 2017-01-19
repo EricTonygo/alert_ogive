@@ -9,9 +9,43 @@
     <div class="content">
         {{ form_start(form, {'method': 'PUT', 'action': path('call_offer_update', {'id': callOffer.id}), 'attr': {'class': 'ui form', 'id': 'edit_callOffer_form'} }) }}
         <div id="block_form_edit" style="display: none">
+
+            <div class="inline fields">
+                <label>Type d'appel d'offre: </label>
+                <div class="field">
+                    <div class="ui radio checkbox">
+                        <input id='checkbox_aono_edit' type="radio" name="call_offer_type" value="AONO" {% if callOffer.type == "AONO" %} checked="checked" {% endif %}>
+                        <label>AONO</label>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="ui radio checkbox">
+                        <input id='checkbox_aonr_edit' type="radio" name="call_offer_type" value="AONR" {% if callOffer.type == "AONR" %} checked="checked" {% endif %}>
+                        <label>AONR</label>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="ui radio checkbox">
+                        <input id='checkbox_aoio_edit' type="radio" name="call_offer_type" value="AOIO" {% if callOffer.type == "AOIO" %} checked="checked" {% endif %}>
+                        <label>AOIO</label>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="ui radio checkbox">
+                        <input id='checkbox_aoir_edit' type="radio" name="call_offer_type" value="AOIR" {% if callOffer.type == "AOIR" %} checked="checked" {% endif %}>
+                        <label>AOIR</label>
+                    </div>
+                </div>
+            </div>
+            <div id="field_asmi_edit" class="field" {% if callOffer.type != "AONR" or callOffer.type != "AOIR" %} style="display: none" {% endif %}>
+                {{ form_label(form.expressionInterest,"expressionInterest") }}
+                {{ form_errors(form.expressionInterest, {'attr': {'class': 'ui error message'}})}}
+                {{ form_widget(form.expressionInterest,{'attr':{'data-validate': 'expressionInterest', 'class': 'ui search dropdown'}})}}
+            </div>
+
             <div class="field">
-                {{ form_label(form.reference,"Référence") }}
-                {{ form_widget(form.reference,{'attr':{'placeholder':"Référence de l'appel d'offre", 'data-validate': 'reference'}})}}
+                {{ form_label(form.reference,"Numero") }}
+                {{ form_widget(form.reference,{'attr':{'placeholder':"Numero de l'appel d'offre", 'data-validate': 'reference'}})}}
             </div>
 
             <div class="field">
@@ -186,21 +220,21 @@
 
             <div id="field_state_enable" class="two fields" {% if callOffer.state != 1 %} style="display: none" {% endif %}>
                 <div class="field">
-                     <label>Etat : </label>
+                    <label>Etat : </label>
                 </div>
                 <div class="field">
-                     <span> Activé </span>
+                    <span> Activé </span>
                 </div>             
             </div>
 
             <div id="field_state_disable" class="two fields" {% if callOffer.state == 1 %} style="display: none" {% endif %}>
                 <div class="field">
-                     <label>Etat : </label>
+                    <label>Etat : </label>
                 </div>
                 <div class="field">
-                     <span> Désactivé </span>
+                    <span> Désactivé </span>
                 </div>
-                 
+
             </div>
 
         </div>
