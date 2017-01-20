@@ -54,6 +54,26 @@ class AdditiveType extends AbstractType
 //                    'data_class' => null,
 //                    'required' => false
 //                ))
+                ->add('callOffer', 'entity', array(
+                    'class' => 'OGIVEAlertBundle:CallOffer',
+                    'property' => 'reference',
+                    //'empty_value' => "Selectionner un appel d'offre concerné",
+                    'multiple' => false,
+                    'required' => false,
+                    'query_builder' => function(\OGIVE\AlertBundle\Repository\CallOfferRepository $repo) {
+                        return $repo->getCallOfferQueryBuilder();
+                    }
+                ))
+                ->add('expressionInterest', 'entity', array(
+                    'class' => 'OGIVEAlertBundle:ExpressionInterest',
+                    'property' => 'reference',
+                    //'empty_value' => "Selectionner la manifestation d'intérêt concernée",
+                    'multiple' => false,
+                    'required' => false,
+                    'query_builder' => function(\OGIVE\AlertBundle\Repository\ExpressionInterestRepository $repo) {
+                        return $repo->getExpressionInterestQueryBuilder();
+                    }
+                ))
                 ->add('domain', 'entity', array(
                     'class' => 'OGIVEAlertBundle:Domain',
                     'property' => 'name',
