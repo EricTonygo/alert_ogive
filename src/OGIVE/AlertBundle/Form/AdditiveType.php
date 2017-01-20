@@ -57,7 +57,7 @@ class AdditiveType extends AbstractType
                 ->add('callOffer', 'entity', array(
                     'class' => 'OGIVEAlertBundle:CallOffer',
                     'property' => 'reference',
-                    //'empty_value' => "Selectionner un appel d'offre concerné",
+                    'empty_value' => "Selectionner l'AAO",
                     'multiple' => false,
                     'required' => false,
                     'query_builder' => function(\OGIVE\AlertBundle\Repository\CallOfferRepository $repo) {
@@ -67,7 +67,7 @@ class AdditiveType extends AbstractType
                 ->add('expressionInterest', 'entity', array(
                     'class' => 'OGIVEAlertBundle:ExpressionInterest',
                     'property' => 'reference',
-                    //'empty_value' => "Selectionner la manifestation d'intérêt concernée",
+                    'empty_value' => "Selectionner l'ASMI",
                     'multiple' => false,
                     'required' => false,
                     'query_builder' => function(\OGIVE\AlertBundle\Repository\ExpressionInterestRepository $repo) {
