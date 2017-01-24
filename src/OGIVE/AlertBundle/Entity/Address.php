@@ -352,10 +352,7 @@ class Address {
         return $randomString;
     }
 
-    /**
-     * @ORM\PostPersist() 
-     * @ORM\PostUpdate() 
-     */
+    
     public function upload() {
         if (null === $this->getFile()) {
             return;
@@ -426,6 +423,7 @@ class Address {
     public function preUpdate()
     {
         $this->lastUpdateDate = new \DateTime();
+        $this->preUpload();
     }
 
     /**
@@ -436,5 +434,6 @@ class Address {
         $this->createDate = new \DateTime();
         $this->lastUpdateDate = new \DateTime();
         $this->status = 1;
+        $this->preUpload();
     }
 }

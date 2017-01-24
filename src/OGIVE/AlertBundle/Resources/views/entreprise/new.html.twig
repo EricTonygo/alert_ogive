@@ -4,23 +4,24 @@
         Ajout d'une entreprise
     </div>
     <div class="content">
-            {{ form_start(form, {'method': 'POST', 'action': '/entreprises', 'attr': {'class': 'ui form', 'id': 'add_entreprise_form'} }) }}
+        <form id="add_entreprise_form" class="ui form" name="ogive_alertbundle_entreprise" method="POST" action="{{ path('entreprise_add') }}" {{ form_enctype(form) }} novalidate="novalidate">
+            {#{ form_start(form, {'method': 'POST', 'action': '/entreprises', 'attr': {'class': 'ui form', 'id': 'add_entreprise_form'} }) }#}
             <div class="field">
                 {{ form_label(form.name,"Nom") }}
                 {{ form_widget(form.name,{'attr':{'placeholder':"Nom de l'entreprise", 'data-validate': 'name'}})}}
             </div>
-            
-            <div class="field">
+
+            {#<div class="field">
                 {{ form_label(form.file, "Logo")}}
                 {{ form_errors(form.file, {'attr': {'class': 'list'}})}}
                 {{ form_widget(form.file, { 'attr' : {'class' : 'inputfile' }}) }}
-            </div>
+            </div>#}
 
-            <div class="field">
-                {{ form_label(form.domain,"Domaine d'activité") }}
-                {{ form_errors(form.domain, {'attr': {'class': 'ui error message'}})}}
-                {{ form_widget(form.domain,{'attr':{'data-validate': 'domain', 'class': 'ui search dropdown'}})}}
-            </div>
+            {#<div class="field">
+                {{ form_label(form.domains,"Domaines d'activité") }}
+                {{ form_errors(form.domains, {'attr': {'class': 'ui error message'}})}}
+                {{ form_widget(form.domains,{'attr':{'data-validate': 'domain', 'class': 'ui search dropdown'}})}}
+            </div>#}
 
             <div class="field">
                 {{ form_label(form.address.email,"Email") }}
@@ -53,11 +54,11 @@
                 {{ form_widget(form.address.place,{'attr':{'placeholder':"Lieu de localisation", 'data-validate': 'mailBox'}})}}
             </div>
 
-            <div class="field">
+            {#<div class="field">
                 {{ form_label(form.address.file, "Plan de localisation")}}
                 {{ form_errors(form.address.file, {'attr': {'class': 'list'}})}}
                 {{ form_widget(form.address.file, { 'attr' : {'class' : 'inputfile' }}) }}
-            </div>
+            </div>#}
 
             <div class="field">
                 <div class="ui fluid card">
@@ -106,8 +107,9 @@
                     </ul>
                 </div>
             </div>
-
-        {{ form_end(form) }}
+            {{form_widget(form._token)}}
+            {#{ form_end(form) }#}
+        </form>
     </div>
     <div class="actions">
         <div id="cancel_add_entreprise" class="ui black deny button">

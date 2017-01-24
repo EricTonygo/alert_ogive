@@ -123,6 +123,16 @@ class AlertProcedure {
      * })
      */
     protected $domain;
+    
+    /**
+     * @var \SubDomain
+     *
+     * @ORM\ManyToOne(targetEntity="SubDomain")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="subDomain", referencedColumnName="id")
+     * })
+     */
+    protected $subDomain;
 
     /**
      * @ORM\Column(type="array", nullable=true)
@@ -394,6 +404,28 @@ class AlertProcedure {
      */
     public function getDomain() {
         return $this->domain;
+    }
+    
+    /**
+     * Set domain
+     *
+     * @param OGIVE\AlertBundle\Entity\SubDomain $subDomain
+     *
+     * @return AlertProcedure
+     */
+    public function setSubDomain($subDomain) {
+        $this->subDomain = $subDomain;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return OGIVE\AlertBundle\Entity\SubDomain
+     */
+    public function getSubDomain() {
+        return $this->subDomain;
     }
 
     /**

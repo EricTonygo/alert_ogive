@@ -82,13 +82,13 @@ class EntrepriseController extends Controller {
             }
             if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
                 $entreprise->setState(1);
-                $subscribers = $entreprise->getSubscribers();
-                foreach ($subscribers as $subscriber) {
-                    $subscriber->setEntreprise($entreprise);
+            }
+            $subscribers = $entreprise->getSubscribers();
+            foreach ($subscribers as $subscriber) {
+                if ($repositorySubscriber->findOneBy(array('phoneNumber' => $subscriber->getPhoneNumber(), 'status' => 1))) {
+                    $entreprise->removeSubscriber($subscriber);
+                } elseif ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
                     $subscriber->setState(1);
-                    if ($repositorySubscriber->findOneBy(array('phoneNumber' => $subscriber->getPhoneNumber(), 'status' => 1)) == null) {
-                        $repositorySubscriber->saveSubscriber($subscriber);
-                    }
                 }
             }
             $entreprise = $repositoryEntreprise->saveEntreprise($entreprise);
@@ -191,16 +191,22 @@ class EntrepriseController extends Controller {
                     // $em->remove($piece);
                 }
             }
+            $subscribers = $entreprise->getSubscribers();
+            foreach ($subscribers as $subscriber) {
+                $subscriberUnique = $repositorySubscriber->findOneBy(array('phoneNumber' => $subscriber->getPhoneNumber(), 'status' => 1));
+                if ($subscriberUnique && $subscriberUnique->getId() != $subscriber->getId()) {
+                    $entreprise->removeSubscriber($subscriber);
+                }
+            }
             $entreprise = $repositoryEntreprise->updateEntreprise($entreprise);
+            //$entreprise->upload();
             $entreprise_content_grid = $this->renderView('OGIVEAlertBundle:entreprise:entreprise-grid-edit.html.twig', array('entreprise' => $entreprise));
             $entreprise_content_list = $this->renderView('OGIVEAlertBundle:entreprise:entreprise-list-edit.html.twig', array('entreprise' => $entreprise));
-     
+
             $entreprise_json = $serializer->serialize($entreprise, 'json');
             $view = View::create(["code" => 200, 'entreprise' => $entreprise_json, 'entreprise_content_grid' => $entreprise_content_grid, 'entreprise_content_list' => $entreprise_content_list]);
             $view->setFormat('json');
             return $view;
-        } elseif ($form->isSubmitted() && !$form->isValid()) {
-            return $form;
         } else {
             foreach ($entreprise->getSubscribers() as $subscriber) {
                 $originalSubscribers->add($subscriber);

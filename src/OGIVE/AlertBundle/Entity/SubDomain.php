@@ -6,13 +6,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Domain
+ * SubDomain
  *
- * @ORM\Table(name="domain")
- * @ORM\Entity(repositoryClass="\OGIVE\AlertBundle\Repository\DomainRepository")
+ * @ORM\Table(name="sub_domain")
+ * @ORM\Entity(repositoryClass="\OGIVE\AlertBundle\Repository\SubDomainRepository")
  * @ORM\HasLifecycleCallbacks
  */
-class Domain
+class SubDomain
 {
     /**
      * @var integer
@@ -69,19 +69,25 @@ class Domain
      */
     private $state;
     
-     /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="\OGIVE\AlertBundle\Entity\Entreprise", inversedBy="subDomains", cascade={"persist"})
-     */
-    private $entreprises;
     
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="\OGIVE\AlertBundle\Entity\SubDomain", mappedBy="domain", cascade={"remove", "persist"})
+     * @ORM\ManyToMany(targetEntity="\OGIVE\AlertBundle\Entity\Entreprise", inversedBy="subDomains", cascade={"persist"})
+     * 
      */
-    private $subDomains;
+    
+    private $entreprises;
+    
+    /**
+     * @var \Domain
+     *
+     * @ORM\ManyToOne(targetEntity="Domain")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="domain", referencedColumnName="id")
+     * })
+     */
+    private $domain;
 
     /**
      * Constructor
@@ -106,7 +112,7 @@ class Domain
      *
      * @param string $name
      *
-     * @return Domain
+     * @return SubDomain
      */
     public function setName($name)
     {
@@ -131,7 +137,7 @@ class Domain
      *
      * @param string $description
      *
-     * @return Domain
+     * @return SubDomain
      */
     public function setDescription($description)
     {
@@ -155,7 +161,7 @@ class Domain
      *
      * @param \DateTime $createDate
      *
-     * @return Domain
+     * @return SubDomain
      */
     public function setCreateDate($createDate)
     {
@@ -179,7 +185,7 @@ class Domain
      *
      * @param \DateTime $lastUpdateDate
      *
-     * @return Domain
+     * @return SubDomain
      */
     public function setLastUpdateDate($lastUpdateDate)
     {
@@ -203,7 +209,7 @@ class Domain
      *
      * @param integer $status
      *
-     * @return Domain
+     * @return SubDomain
      */
     public function setStatus($status)
     {
@@ -227,7 +233,7 @@ class Domain
      *
      * @param integer $state
      *
-     * @return Domain
+     * @return SubDomain
      */
     public function setState($state)
     {
@@ -250,7 +256,7 @@ class Domain
      * Add entreprise
      *
      * @param \OGIVE\AlertBundle\Entity\Entreprise $entreprise 
-     * @return Domain
+     * @return SubDomain
      */
     public function addEntreprise(\OGIVE\AlertBundle\Entity\Entreprise $entreprise) {
         $this->entreprises[] = $entreprise;
@@ -270,7 +276,7 @@ class Domain
      * Set entreprises
      *
      * @param \Doctrine\Common\Collections\Collection $entreprises
-     * @return Domain
+     * @return SubDomain
      */
     public function setEntreprises(\Doctrine\Common\Collections\Collection $entreprises = null) {
         $this->entreprises = $entreprises;
@@ -282,53 +288,10 @@ class Domain
      * Remove entreprise
      *
      * @param \OGIVE\AlertBundle\Entity\Entreprise $entreprise
-     * @return Domain
+     * @return SubDomain
      */
     public function removeEntreprise(\OGIVE\AlertBundle\Entity\Entreprise $entreprise) {
         $this->entreprises->removeElement($entreprise);
-        return $this;
-    }
-    
-    /**
-     * Add subDomain
-     *
-     * @param \OGIVE\AlertBundle\Entity\SubDomain $subDomain 
-     * @return Domain
-     */
-    public function addSubDomain(\OGIVE\AlertBundle\Entity\SubDomain $subDomain) {
-        $this->subDomains[] = $subDomain;
-        return $this;
-    }
-
-    /**
-     * Get subDomains
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getSubDomains() {
-        return $this->subDomains;
-    }
-
-    /**
-     * Set subDomains
-     *
-     * @param \Doctrine\Common\Collections\Collection $subDomains
-     * @return Domain
-     */
-    public function setSubDomains(\Doctrine\Common\Collections\Collection $subDomains = null) {
-        $this->subDomains = $subDomains;
-
-        return $this;
-    }
-
-    /**
-     * Remove subDomain
-     *
-     * @param \OGIVE\AlertBundle\Entity\SubDomain $subDomain
-     * @return Domain
-     */
-    public function removeSubDomain(\OGIVE\AlertBundle\Entity\SubDomain $subDomain) {
-        $this->subDomains->removeElement($subDomain);
         return $this;
     }
     
@@ -350,5 +313,27 @@ class Domain
         $this->status = 1;
     }
     
+    
+    /**
+     * Set domain
+     *
+     * @param OGIVE\AlertBundle\Entity\Domain $domain
+     *
+     * @return SubDomain
+     */
+    public function setDomain($domain) {
+        $this->domain = $domain;
+
+        return $this;
+    }
+
+    /**
+     * Get domain
+     *
+     * @return OGIVE\AlertBundle\Entity\Domain
+     */
+    public function getDomain() {
+        return $this->domain;
+    }
 }
 

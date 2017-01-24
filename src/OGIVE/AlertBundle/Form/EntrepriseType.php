@@ -15,20 +15,20 @@ class EntrepriseType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
                 ->add('name', null, array('required' => false))
-                ->add('file', null, array(
-                    'attr' => array('class' => 'inputfile'),
-                    'required' => false
-                ))
-                ->add('domain', 'entity', array(
-                    'class' => 'OGIVEAlertBundle:Domain',
-                    'property' => 'name',
-                    'empty_value' => "Selectionner un domaine",
-                    'multiple' => false,
-                    'required' => false,
-                    'query_builder' => function(\OGIVE\AlertBundle\Repository\DomainRepository $repo) {
-                        return $repo->getDomainQueryBuilder();
-                    }
-                ))
+//                ->add('file', null, array(
+//                    'attr' => array('class' => 'inputfile'),
+//                    'required' => false
+//                ))
+//                ->add('domains', 'entity', array(
+//                    'class' => 'OGIVEAlertBundle:Domain',
+//                    'property' => 'name',
+//                    'empty_value' => "Selectionner un domaine",
+//                    'multiple' => true,
+//                    'required' => false,
+//                    'query_builder' => function(\OGIVE\AlertBundle\Repository\DomainRepository $repo) {
+//                        return $repo->getDomainQueryBuilder();
+//                    }
+//                ))
                 ->add('address', new AddressType())
                 ->add('subscribers', CollectionType::class, array(
                 'entry_type' => SubscriberType::class,

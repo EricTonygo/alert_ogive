@@ -24,10 +24,11 @@ class AddressType extends AbstractType
                 //->add('status')
                 ->add('country', CountryType::class, array('placeholder' => 'Selectionner le pays', 'empty_data'=>'CM', 'required' => false))
                 ->add('street', null, array('required' => false))
-                ->add('file', FileType::class, array(
-                    'attr' => array('class' => 'inputfile'),
-                    'required' => false
-                ));
+//                ->add('file', FileType::class, array(
+//                    'attr' => array('class' => 'inputfile'),
+//                    'required' => false
+//                ))
+               ;
     }
     
     /**

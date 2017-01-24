@@ -4,24 +4,25 @@
         Modification de l'entreprise << {{entreprise.name}} >>
     </div>
     <div class="content">
-        {{ form_start(form, {'method': 'PUT', 'action': path('entreprise_update', {'id': entreprise.id}), 'attr': {'class': 'ui form', 'id': 'edit_entreprise_form'} }) }}
+        <form id="edit_entreprise_form" class="ui form" name="ogive_alertbundle_entreprise" method="PUT" action="{{ path('entreprise_update', {'id': entreprise.id}) }}" {{ form_enctype(form) }} novalidate="novalidate">
+        {#{ form_start(form, {'method': 'PUT', 'action': path('entreprise_update', {'id': entreprise.id}), 'attr': {'class': 'ui form', 'id': 'edit_entreprise_form'} }) }#}
 
             <div class="field">
                 {{ form_label(form.name,"Nom") }}
                 {{ form_widget(form.name,{'attr':{'placeholder':"Nom de l'entreprise", 'data-validate': 'name'}})}}
             </div>
 
-            <div class="field">
+            {#<div class="field">
                 {{ form_label(form.file, "Logo")}}
                 {{ form_errors(form.file, {'attr': {'class': 'list'}})}}
                 {{ form_widget(form.file, { 'attr' : {'class' : 'inputfile' }}) }}
-            </div>
+            </div>#}
 
-            <div class="field">
+            {#<div class="field">
                 {{ form_label(form.domain,"Domaine d'activité") }}
                 {{ form_errors(form.domain, {'attr': {'class': 'ui error message'}})}}
                 {{ form_widget(form.domain,{'attr':{'data-validate': 'domain', 'class': 'ui search dropdown'}})}}
-            </div>
+            </div>#}
 
             <div class="field">
                 {{ form_label(form.address.email,"Email") }}
@@ -54,11 +55,11 @@
                 {{ form_widget(form.address.place,{'attr':{'placeholder':"Lieu de localisation", 'data-validate': 'mailBox'}})}}
             </div>
 
-            <div class="field">
+            {#<div class="field">
                 {{ form_label(form.address.file, "Plan de localisation")}}
                 {{ form_errors(form.address.file, {'attr': {'class': 'list'}})}}
                 {{ form_widget(form.address.file, { 'attr' : {'class' : 'inputfile' }}) }}
-            </div>
+            </div>#}
 
             <div class="field">
                 <div id="server_error_message_edit" class="ui negative message" style="display:none">
@@ -89,7 +90,7 @@
                                     <th class="right aligned">Action</th>
                                 </tr>
                             </thead>
-                            <tbody class="subscribers" data-prototype="{{ _self.subscriber_prototype(form.subscribers.vars.prototype)|e }}">
+                            <tbody class="subscribers_edit" data-prototype="{{ _self.subscriber_prototype(form.subscribers.vars.prototype)|e }}">
                                 {% for subscriber in form.subscribers %}
                                     <tr>
                                         {{ _self.subscriber_prototype(subscriber) }}
@@ -106,8 +107,9 @@
                     </div>
                 </div>
             </div>
-
-        {{ form_end(form) }}
+            {{form_widget(form._token)}}
+        {#{ form_end(form) }#}
+        </form>
     </div>
     <div class="actions">
         <div id="cancel_edit_entreprise" class="ui black deny button">
@@ -164,7 +166,7 @@
     jQuery(document).ready(function () {
         /******** suppression des subscribers *********/
         // Get the ul that holds the collection of subscribers
-        $collectionHolder = $('tbody.subscribers');
+        $collectionHolder = $('tbody.subscribers_edit');
 
         // add a delete link to all of the existing subscriber form li elements
         $collectionHolder.find('tr').each(function () {
@@ -175,7 +177,7 @@
         /******** Ajout des subscribers *********/
 
         // Get the ul that holds the collection of subscribers
-        $collectionHolder = $('tbody.subscribers');
+        $collectionHolder = $('tbody.subscribers_edit');
 
         // add the "add a subscriber" anchor and li to the subscribers ul
         $collectionHolder.append($newLinkTr);

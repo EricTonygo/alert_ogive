@@ -32,15 +32,15 @@ function add_entreprise() {
                             }
                         ]
                     },
-                    domain: {
-                        identifier: 'domain',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: "Veuillez selectionner le domaine d'activité"
-                            }
-                        ]
-                    },
+//                    domain: {
+//                        identifier: 'domain',
+//                        rules: [
+//                            {
+//                                type: 'empty',
+//                                prompt: "Veuillez selectionner le domaine d'activité"
+//                            }
+//                        ]
+//                    },
                     phone: {
                         identifier: 'phone',
                         rules: [
@@ -92,8 +92,11 @@ function add_entreprise() {
                     $.ajax({
                         type: 'post',
                         url: Routing.generate('entreprise_add'),
-                        data: fields,
+                        data: $('#add_entreprise_form.ui.form').serialize(),
                         dataType: 'json',
+                        processData: false,
+                        //contentType: false,
+                        cache: false,
                         beforeSend: function () {
                             $('#submit_entreprise').addClass('disabled');
                             $('#cancel_add_entreprise').addClass('disabled');
@@ -130,6 +133,11 @@ function add_entreprise() {
                                 setTimeout(function () {
                                     $('#message_success').hide();
                                 }, 4000);
+                            } else {
+                                $('#cancel_add_entreprise').removeClass('disabled');
+                                $('#submit_entreprise').removeClass('disabled');
+                                $('#add_entreprise_form.ui.form').removeClass('loading');
+                                $('#add_entreprise.ui.modal').modal('hide');
                             }
 
                         },
@@ -162,6 +170,8 @@ function edit_entreprise(id) {
         dataType: 'json',
         beforeSend: function () {
             $('#message_loading').show();
+            $('.ui.dropdown').dropdown('remove active');
+            $('.ui.dropdown').dropdown('remove visible');
         },
         statusCode: {
             500: function (xhr) {
@@ -275,8 +285,11 @@ function execute_edit(id) {
                     $.ajax({
                         type: 'PUT',
                         url: Routing.generate('entreprise_update', {id: id}),
-                        data: fields,
+                        data: $('#edit_entreprise_form.ui.form').serialize(),
                         dataType: 'json',
+                        processData: false,
+                        //contentType: false,
+                        cache: false,
                         beforeSend: function () {
                             $('#submit_edit_entreprise').addClass('disabled');
                             $('#cancel_edit_entreprise').addClass('disabled');
@@ -346,6 +359,8 @@ function delete_entreprise(id) {
         dataType: 'json',
         beforeSend: function () {
             $('#message_loading').show();
+            $('.ui.dropdown').dropdown('remove active');
+            $('.ui.dropdown').dropdown('remove visible');
         },
         statusCode: {
             500: function (xhr) {
@@ -392,6 +407,8 @@ function show_entreprise(id) {
         dataType: 'json',
         beforeSend: function () {
             $('#message_loading').show();
+            $('.ui.dropdown').dropdown('remove active');
+            $('.ui.dropdown').dropdown('remove visible');
         },
         statusCode: {
             500: function (xhr) {

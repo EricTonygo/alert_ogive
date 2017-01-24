@@ -59,14 +59,20 @@ class Entreprise {
     private $state;
 
     /**
-     * @var \Domain
+     * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToOne(targetEntity="Domain")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="domain", referencedColumnName="id")
-     * })
+     * @ORM\ManyToMany(targetEntity="\OGIVE\AlertBundle\Entity\SubDomain", inversedBy="entreprises", cascade={"persist"})
+     * 
      */
-    private $domain;
+    private $subDomains;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="\OGIVE\AlertBundle\Entity\Domain", inversedBy="entreprises", cascade={"persist"})
+     * 
+     */
+    private $domains;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -224,10 +230,7 @@ class Entreprise {
         return __DIR__ . '/../../../../web/uploads/logos_entreprises';
     }
 
-    /**
-     * @ORM\PrePersist() 
-     * @ORM\PreUpdate() 
-     */
+    
     public function preUpload() {
         if (null !== $this->getFile()) {
             // do whatever you want to generate a unique name
@@ -277,25 +280,96 @@ class Entreprise {
     }
 
     /**
-     * Set domain
+     * Add subDomain
      *
-     * @param OGIVE\AlertBundle\Entity\Domain $domain
-     *
+     * @param \OGIVE\AlertBundle\Entity\SubDomain $subDomain 
      * @return Entreprise
      */
-    public function setDomain($domain) {
-        $this->domain = $domain;
+    public function addSubDomain(\OGIVE\AlertBundle\Entity\SubDomain $subDomain) {
+        $this->subDomains[] = $subDomain;
+        return $this;
+    }
+
+    /**
+     * Get subDomains
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSubDomains() {
+        return $this->subDomains;
+    }
+
+    /**
+     * Set subDomains
+     *
+     * @param \Doctrine\Common\Collections\Collection $subDomains
+     * @return Entreprise
+     */
+    public function setSubDomains(\Doctrine\Common\Collections\Collection $subDomains = null) {
+        $this->subDomains = $subDomains;
 
         return $this;
     }
 
     /**
-     * Get domain
+     * Remove subDomain
      *
-     * @return OGIVE\AlertBundle\Entity\Domain
+     * @param \OGIVE\AlertBundle\Entity\SubDomain $subDomain
+     * @return Entreprise
      */
-    public function getDomain() {
-        return $this->domain;
+    public function removeSubDomain(\OGIVE\AlertBundle\Entity\SubDomain $subDomain) {
+        $this->subDomains->removeElement($subDomain);
+        return $this;
+    }
+
+    /**
+     * Add domain
+     *
+     * @param \OGIVE\AlertBundle\Entity\Domain $domain 
+     * @return Entreprise
+     */
+    public function addDomain(\OGIVE\AlertBundle\Entity\Domain $domain) {
+        $this->domains[] = $domain;
+//        if (!$domain->entreprises->contains($this)) {
+//            $domain->entreprises->add($this);
+//        }
+        return $this;
+    }
+
+    /**
+     * Get domains
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getDomains() {
+        return $this->domains;
+    }
+
+    /**
+     * Set subDomains
+     *
+     * @param \Doctrine\Common\Collections\Collection $domains
+     * @return Entreprise
+     */
+    public function setDomains(\Doctrine\Common\Collections\Collection $domains = null) {
+        $this->domains = $domains;
+//        foreach (domains as $domain) {
+//            if (!$domain->entreprises->contains($this)) {
+//                $domain->entreprises->add($this);
+//            }
+//        }
+        return $this;
+    }
+
+    /**
+     * Remove Domain
+     *
+     * @param \OGIVE\AlertBundle\Entity\Domain $domain
+     * @return Entreprise
+     */
+    public function removeDomain(\OGIVE\AlertBundle\Entity\Domain $domain) {
+        $this->domains->removeElement($domain);
+        return $this;
     }
 
     /**
@@ -350,7 +424,7 @@ class Entreprise {
     public function addSubscriber(\OGIVE\AlertBundle\Entity\Subscriber $subscriber) {
 
         if (!$this->subscribers->contains($subscriber)) {
-            $this->subscriber->setEntreprise($this);
+            $subscriber->setEntreprise($this);
             $this->subscribers->add($subscriber);
         }
         return $this;
@@ -387,8 +461,6 @@ class Entreprise {
      * @return Entreprise
      */
     public function removeSubscriber(\OGIVE\AlertBundle\Entity\Subscriber $subscriber) {
-        $subscriber->setEntreprise(null);
-        $subscriber->setStatus(0);
         $this->subscribers->removeElement($subscriber);
         return $this;
     }
@@ -463,6 +535,7 @@ class Entreprise {
      */
     public function preUpdate() {
         $this->lastUpdateDate = new \DateTime();
+        $this->preUpload();
     }
 
     /**
@@ -472,6 +545,7 @@ class Entreprise {
         $this->createDate = new \DateTime();
         $this->lastUpdateDate = new \DateTime();
         $this->status = 1;
+        $this->preUpload();
     }
 
 }
