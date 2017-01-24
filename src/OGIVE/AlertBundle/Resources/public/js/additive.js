@@ -1,4 +1,27 @@
 $(function () {
+    $('#checkbox_aao_add').change(function () {
+        if ($(this).is(':checked')) {
+            $('#field_aao_add').show();
+            $('#field_asmi_add').hide();
+            $('#field_asmi_add>.ui.dropdown').dropdown('clear');
+        }
+    });
+
+    $('#checkbox_asmi_add').change(function () {
+        if ($(this).is(':checked')) {
+            $('#field_asmi_add').show();
+            $('#field_aao_add').hide();
+            $('#field_aao_add>.ui.dropdown').dropdown('clear');
+        }
+    });
+
+    $('#ogive_alertbundle_additive_callOffer.ui.dropdown').dropdown({
+        on: 'click'
+    });
+    $('#ogive_alertbundle_additive_expressionInterest.ui.dropdown').dropdown({
+        on: 'click'
+    });
+
     $('#ogive_alertbundle_additive_domain.ui.dropdown').dropdown({
         on: 'click'
     });
@@ -216,6 +239,27 @@ function edit_additive(id) {
                 $('#ogive_alertbundle_additive_domain.ui.dropdown').dropdown({
                     on: 'click'
                 });
+                $('#ogive_alertbundle_additive_callOffer.ui.dropdown').dropdown({
+                    on: 'click'
+                });
+                $('#ogive_alertbundle_additive_expressionInterest.ui.dropdown').dropdown({
+                    on: 'click'
+                });
+                $('#checkbox_aao_edit').change(function () {
+                    if ($(this).is(':checked')) {
+                        $('#field_aao_edit').show();
+                        $('#field_asmi_edit').hide();
+                        $('#field_asmi_edit>.ui.dropdown').dropdown('clear');
+                    }
+                });
+
+                $('#checkbox_asmi_edit').change(function () {
+                    if ($(this).is(':checked')) {
+                        $('#field_asmi_edit').show();
+                        $('#field_aao_edit').hide();
+                        $('#field_aao_edit>.ui.dropdown').dropdown('clear');
+                    }
+                });
                 $('#edit_additive.ui.modal').modal('show');
                 execute_edit(id);
             }
@@ -382,6 +426,27 @@ function execute_edit(id) {
                                 $('#additive_list' + id).html(response.additive_content_list);
                                 $('.ui.dropdown').dropdown({
                                     on: 'hover'
+                                });
+                                $('#ogive_alertbundle_additive_callOffer.ui.dropdown').dropdown({
+                                    on: 'click'
+                                });
+                                $('#ogive_alertbundle_additive_expressionInterest.ui.dropdown').dropdown({
+                                    on: 'click'
+                                });
+                                $('#checkbox_aao_edit').change(function () {
+                                    if ($(this).is(':checked')) {
+                                        $('#field_aao_edit').show();
+                                        $('#field_asmi_edit').hide();
+                                        $('#field_asmi_edit>.ui.dropdown').dropdown('clear');
+                                    }
+                                });
+
+                                $('#checkbox_asmi_edit').change(function () {
+                                    if ($(this).is(':checked')) {
+                                        $('#field_asmi_edit').show();
+                                        $('#field_aao_edit').hide();
+                                        $('#field_aao_edit>.ui.dropdown').dropdown('clear');
+                                    }
                                 });
                                 $('#edit_additive.ui.modal').modal('hide');
                                 $('#message_success>div.header').html('Additif modifié avec succès !');

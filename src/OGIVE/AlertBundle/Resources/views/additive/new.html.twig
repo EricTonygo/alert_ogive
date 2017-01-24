@@ -6,9 +6,37 @@
     <div class="content">
         {{ form_start(form, {'method': 'POST', 'action': '/additives', 'attr': {'class': 'ui form', 'id': 'add_additive_form'} }) }}
 
+        <div class="inline fields">
+            <label>De quel type de procédure ? : </label>
+            <div class="field">
+                <div class="ui radio checkbox">
+                    <input id='checkbox_aao_add' type="radio" name="procedure_type" value="AAO" checked="checked">
+                    <label>D'un AAO</label>
+                </div>
+            </div>
+            <div class="field">
+                <div class="ui radio checkbox">
+                    <input id='checkbox_asmi_add' type="radio" name="procedure_type" value="ASMI">
+                    <label>D'un ASMI</label>
+                </div>
+            </div>
+        </div>
+        
         <div class="field">
             {{ form_label(form.reference,"Numero") }}
             {{ form_widget(form.reference,{'attr':{'placeholder':"Référence du numero", 'data-validate': 'reference'}})}}
+        </div>
+        
+        <div id="field_aao_add" class="field">
+            {{ form_label(form.callOffer,"L'AAO concerné") }}
+            {{ form_errors(form.callOffer, {'attr': {'class': 'ui error message'}})}}
+            {{ form_widget(form.callOffer,{'attr':{'data-validate': 'callOffer', 'class': 'ui search dropdown'}})}}
+        </div>
+
+        <div id="field_asmi_add" class="field" style="display: none;">
+            {{ form_label(form.expressionInterest,"L'ASMI consernée") }}
+            {{ form_errors(form.expressionInterest, {'attr': {'class': 'ui error message'}})}}
+            {{ form_widget(form.expressionInterest,{'attr':{'data-validate': 'expressionInterest', 'class': 'ui search dropdown'}})}}
         </div>
 
         <div class="field">

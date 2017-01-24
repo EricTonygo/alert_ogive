@@ -6,9 +6,35 @@
     <div class="content">
         {{ form_start(form, {'method': 'PUT', 'action': path('additive_update', {'id': additive.id}), 'attr': {'class': 'ui form', 'id': 'edit_additive_form'} })}}
 
+        <div class="inline fields">
+            <label>De quel type de procedure ? : </label>
+            <div class="field">
+                <div class="ui radio checkbox">
+                    <input id='checkbox_aao_edit' type="radio" name="procedure_type" value="AAO" {% if additive.callOffer %} checked="checked" {% endif %}>
+                    <label>D'un AAO</label>
+                </div>
+            </div>
+            <div class="field">
+                <div class="ui radio checkbox">
+                    <input id='checkbox_asmi_edit' type="radio" name="procedure_type" value="ASMI" {% if additive.expressionInterest %} checked="checked" {% endif %}>
+                    <label>D'un ASMI</label>
+                </div>
+            </div>
+        </div>
+        
        <div class="field">
             {{ form_label(form.reference,"Numero") }}
             {{ form_widget(form.reference,{'attr':{'placeholder':"Numero de l'additif", 'data-validate': 'reference'}})}}
+        </div>
+        
+        <div id="field_aao_edit" class="field" {% if not additive.callOffer %} style="display: none" {% endif %}>
+            {{ form_label(form.callOffer,"L'AAO") }}
+            {{ form_widget(form.callOffer,{'attr':{'data-validate': 'callOffer', 'class': 'ui search dropdown'}})}}
+        </div>
+
+        <div id="field_asmi_edit" class="field" {% if not additive.expressionInterest %} style="display: none" {% endif %}>
+            {{ form_label(form.expressionInterest,"L'ASMI") }}
+            {{ form_widget(form.expressionInterest,{'attr':{'data-validate': 'expressionInterest', 'class': 'ui search dropdown'}})}}
         </div>
 
         <div class="field">

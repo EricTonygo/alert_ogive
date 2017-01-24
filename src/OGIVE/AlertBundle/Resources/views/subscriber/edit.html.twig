@@ -5,46 +5,45 @@
     </div>
     <div class="content">
         {{ form_start(form, {'method': 'PUT', 'action': path('subscriber_update', {'id': subscriber.id}), 'attr': {'class': 'ui form', 'id': 'edit_subscriber_form'} }) }}
-            <div class="field">
-                {{ form_label(form.name,"Nom") }}
-                {{ form_widget(form.name,{'attr':{'placeholder':"Nom de l'abonné", 'data-validate': 'name'}})}}
-            </div>
-            
-            <div class="field">
-                {{ form_label(form.email,"Email") }}
-                {{ form_widget(form.email,{'attr':{'placeholder':"Email de l'abonné", 'data-validate': 'email'}})}}
-            </div>
+        <div class="field">
+            {{ form_label(form.name,"Nom") }}
+            {{ form_widget(form.name,{'attr':{'placeholder':"Nom de l'abonné", 'data-validate': 'name'}})}}
+        </div>
 
-            <div class="field">
-                {{ form_label(form.phoneNumber,"Téléphone") }}
-                {{ form_widget(form.phoneNumber,{'attr':{'placeholder':"Numero de téléphone", 'data-validate': 'phoneNumber'}})}}
-            </div>
+        <div class="field">
+            {{ form_label(form.email,"Email") }}
+            {{ form_widget(form.email,{'attr':{'placeholder':"Email de l'abonné", 'data-validate': 'email'}})}}
+        </div>
 
-            <div class="field">
-                {{ form_label(form.subscription,"Abonnement") }}
-                {{ form_widget(form.subscription,{'attr':{'data-validate': 'subscription', 'class': 'ui search dropdown'}})}}
-            </div>
-            
-             <div class="field">
-                {{ form_label(form.entreprise,"Entreprise") }}
-                {{ form_widget(form.entreprise,{'attr':{'data-validate': 'entreprise', 'class': 'ui search dropdown'}})}}
-            </div>
+        <div class="field">
+            {{ form_label(form.phoneNumber,"Téléphone") }}
+            {{ form_widget(form.phoneNumber,{'attr':{'placeholder':"Numero de téléphone", 'data-validate': 'phoneNumber'}})}}
+        </div>
 
+        <div class="field">
+            {{ form_label(form.subscription,"Abonnement") }}
+            {{ form_widget(form.subscription,{'attr':{'data-validate': 'subscription', 'class': 'ui search dropdown'}})}}
+        </div>
 
-            <div class="field">
-                 {{form_rest(form)}}
-                <div id="server_error_message_edit" class="ui negative message" style="display:none">
-                    <i class="close icon"></i>
-                    <div id="server_error_content_edit" class="header">Internal server error</div>
-                </div>
-                <div id="error_name_message_edit" class="ui error message" style="display: none">
-                    <i class="close icon"></i>
-                    <div id="error_name_header_edit" class="header"></div>
-                    <ul id="error_name_list_edit" class="list">
+        <div class="field">
+            {{ form_label(form.entreprise,"Entreprise") }}
+            {{ form_widget(form.entreprise,{'attr':{'data-validate': 'entreprise', 'class': 'ui search dropdown'}})}}
+        </div>
 
-                    </ul>
-                </div>
+        <div class="field">
+            {{form_rest(form)}}
+            <div id="server_error_message_edit" class="ui negative message" style="display:none">
+                <i class="close icon"></i>
+                <div id="server_error_content_edit" class="header">Internal server error</div>
             </div>
+            <div id="error_name_message_edit" class="ui error message" style="display: none">
+                <i class="close icon"></i>
+                <div id="error_name_header_edit" class="header"></div>
+                <ul id="error_name_list_edit" class="list">
+
+                </ul>
+            </div>
+        </div>
 
         {{ form_end(form) }}
     </div>
