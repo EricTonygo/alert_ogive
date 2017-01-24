@@ -65,4 +65,76 @@
 {% block javascripts %}
     {{ parent()}}
     <script type="text/javascript" src="{{ asset('bundles/ogivealert/js/domain.js')}}"></script>
+    <script>
+        function addSubDomainForm($collectionHolder, $newLinkTr) {
+            // Get the data-prototype explained earlier
+            var prototype = $collectionHolder.data('prototype');
+
+            // get the new index
+            var index = $collectionHolder.data('index');
+
+            // Replace '__name__' in the prototype's HTML to
+            // instead be a number based on how many items we have
+            var $newForm = prototype.replace(/__name__/g, index);
+
+            // increase the index with one for the next item
+            $collectionHolder.data('index', index + 1);
+
+            // Display the form in the page in an li, before the "Add a subDomain" link li
+            var $newFormTr = $('<tr></tr>').append($newForm);
+            $newLinkTr.before($newFormTr);
+            
+            addSubDomainFormDeleteLink($newFormTr);
+        }
+
+        function addSubDomainFormDeleteLink($subDomainFormTr) {
+            var $removeFormA = $('<td class="right aligned"><button class="ui red compact icon button" data-tooltip="Supprimer" data-position="bottom center" data-inverted="" data-variation="mini"><i class="trash icon"></i></button></td>');
+            $subDomainFormTr.append($removeFormA);
+            $removeFormA.on('click', function (e) {
+                // prevent the link from creating a "#" on the URL
+                e.preventDefault();
+
+                // remove the li for the subDomain form
+                $subDomainFormTr.remove();
+            });
+        }
+
+        var $collectionHolder;
+
+        // setup an "add a subDomain" link
+        var $addSubDomainLink = $('<button class="ui primary button" ><i class="add user icon"></i> Ajouter</button>');
+        var $newLinkTr = $('<tr></tr>').append($addSubDomainLink);
+
+        jQuery(document).ready(function () {
+            /******** suppression des subDomains *********/
+            // Get the ul that holds the collection of subDomains
+            $collectionHolder = $('tbody.subDomains');
+
+            // add a delete link to all of the existing subDomain form li elements
+            $collectionHolder.find('tr').each(function () {
+                addSubDomainFormDeleteLink($(this));
+            });
+
+
+            /******** Ajout des subDomains *********/
+
+            // Get the ul that holds the collection of subDomains
+            $collectionHolder = $('tbody.subDomains');
+
+            // add the "add a subDomain" anchor and li to the subDomains ul
+            $collectionHolder.append($newLinkTr);
+
+            // count the current form inputs we have (e.g. 2), use that as the new
+            // index when inserting a new item (e.g. 2)
+            $collectionHolder.data('index', $collectionHolder.find(':input').length);
+
+            $addSubDomainLink.on('click', function (e) {
+                // prevent the link from creating a "#" on the URL
+                e.preventDefault();
+
+                // add a new subDomain form (see next code block)
+                addSubDomainForm($collectionHolder, $newLinkTr);
+            });
+        });
+    </script>
 {% endblock %}

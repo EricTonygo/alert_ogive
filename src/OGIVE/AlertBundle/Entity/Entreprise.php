@@ -422,10 +422,9 @@ class Entreprise {
      * @return Entreprise
      */
     public function addSubscriber(\OGIVE\AlertBundle\Entity\Subscriber $subscriber) {
-
         if (!$this->subscribers->contains($subscriber)) {
             $subscriber->setEntreprise($this);
-            $this->subscribers->add($subscriber);
+            $this->subscribers[] = $subscriber;
         }
         return $this;
     }
@@ -447,10 +446,8 @@ class Entreprise {
      */
     public function setSubscribers(\Doctrine\Common\Collections\Collection $subscribers = null) {
         foreach ($subscribers as $subscriber) {
-            $subscriber->setEntreprise($this);
+            $this->addSubscriber($subscriber);
         }
-        $this->subscribers = $subscribers;
-
         return $this;
     }
 

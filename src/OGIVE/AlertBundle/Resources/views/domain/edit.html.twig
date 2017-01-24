@@ -32,6 +32,36 @@
             </div>
         </div>
 
+        <div class="field">
+            <div class="ui fluid card">
+                <div class="content">
+                    <div class="header">Ajout des sous-domaines</div>
+                </div>
+                <div class="content">
+                    <table class="ui very basic table">
+                        <thead>
+                            <tr><th>Nom</th>
+                                <th>Description</th>
+                                <th class="right aligned">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="subDomains_edit" data-prototype="{{ _self.subDomain_prototype(form.subDomains.vars.prototype)|e }}">
+                            {% for subDomain in form.subDomains %}
+                                <tr>
+                                    {{ _self.subDomain_prototype(subDomain) }}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                        {% macro subDomain_prototype(childForm) %}
+                            <td>{{ form_widget(childForm.name,{'attr':{'data-validate': 'name_subDomain'}}) }}</td>
+                            <td>{{ form_widget(childForm.description,{'attr':{'data-validate': 'description_subDomain'}}) }}</td>
+
+                        {% endmacro %}
+                    </table>
+                </div>
+            </div>
+        </div>
+
         {{ form_end(form) }}
     </div>
     <div class="actions">
@@ -44,3 +74,77 @@
         </div>
     </div>
 </div>
+<script>
+    function addSubDomainForm($collectionHolder, $newLinkTr) {
+        // Get the data-prototype explained earlier
+        var prototype = $collectionHolder.data('prototype');
+
+        // get the new index
+        var index = $collectionHolder.data('index');
+
+        // Replace '__name__' in the prototype's HTML to
+        // instead be a number based on how many items we have
+        var $newForm = prototype.replace(/__name__/g, index);
+
+        // increase the index with one for the next item
+        $collectionHolder.data('index', index + 1);
+
+        // Display the form in the page in an li, before the "Add a subDomain" link li
+        var $newFormTr = $('<tr></tr>').append($newForm);
+        $newLinkTr.before($newFormTr);
+        $('.ui.subDomain_ent_subscription.search.dropdown').dropdown({
+            on: 'click'
+        });
+        addSubDomainFormDeleteLink($newFormTr);
+    }
+
+    function addSubDomainFormDeleteLink($subDomainFormTr) {
+        var $removeFormA = $('<td class="right aligned"><button class="ui red compact icon button" data-tooltip="Supprimer" data-position="bottom center" data-inverted="" data-variation="mini"><i class="trash icon"></i></button></td>');
+        $subDomainFormTr.append($removeFormA);
+        $removeFormA.on('click', function (e) {
+            // prevent the link from creating a "#" on the URL
+            e.preventDefault();
+
+            // remove the li for the subDomain form
+            $subDomainFormTr.remove();
+        });
+    }
+
+    var $collectionHolder;
+
+    // setup an "add a subDomain" link
+    var $addSubDomainLink = $('<button class="ui primary button" ><i class="add user icon"></i> Ajouter</button>');
+    var $newLinkTr = $('<tr></tr>').append($addSubDomainLink);
+
+    jQuery(document).ready(function () {
+        /******** suppression des subDomains *********/
+        // Get the ul that holds the collection of subDomains
+        $collectionHolder = $('tbody.subDomains_edit');
+
+        // add a delete link to all of the existing subDomain form li elements
+        $collectionHolder.find('tr').each(function () {
+            addSubDomainFormDeleteLink($(this));
+        });
+
+
+        /******** Ajout des subDomains *********/
+
+        // Get the ul that holds the collection of subDomains
+        $collectionHolder = $('tbody.subDomains_edit');
+
+        // add the "add a subDomain" anchor and li to the subDomains ul
+        $collectionHolder.append($newLinkTr);
+
+        // count the current form inputs we have (e.g. 2), use that as the new
+        // index when inserting a new item (e.g. 2)
+        $collectionHolder.data('index', $collectionHolder.find(':input').length);
+
+        $addSubDomainLink.on('click', function (e) {
+            // prevent the link from creating a "#" on the URL
+            e.preventDefault();
+
+            // add a new subDomain form (see next code block)
+            addSubDomainForm($collectionHolder, $newLinkTr);
+        });
+    });
+</script>

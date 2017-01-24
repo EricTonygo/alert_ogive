@@ -30,7 +30,7 @@ class DomainController extends Controller {
         if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             return $this->redirect($this->generateUrl('fos_user_security_login'));
         }
-        
+
         $em = $this->getDoctrine()->getManager();
         $domain = new Domain();
         $form = $this->createForm('OGIVE\AlertBundle\Form\DomainType', $domain);
@@ -72,6 +72,7 @@ class DomainController extends Controller {
         }
         $domain = new Domain();
         $repositoryDomain = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Domain');
+        $repositorySubDomain = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:SubDomain');
         $form = $this->createForm('OGIVE\AlertBundle\Form\DomainType', $domain);
         $form->handleRequest($request);
 
@@ -82,6 +83,17 @@ class DomainController extends Controller {
             if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
                 $domain->setState(1);
             }
+            $subdomains = $domain->getSubDomains();
+            if (is_array($subdomains)) {
+                foreach ($subdomains as $subDomain) {
+                    if ($repositorySubDomain->findOneBy(array('name' => $subDomain->getName(), 'status' => 1))) {
+                        $domain->removeSubDomain($subDomain);
+                    } elseif ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+                        $subDomain->setState(1);
+                    }
+                }
+            }
+
             $domain = $repositoryDomain->saveDomain($domain);
             $domain_content_grid = $this->renderView('OGIVEAlertBundle:domain:domain-grid.html.twig', array('domain' => $domain));
             $domain_content_list = $this->renderView('OGIVEAlertBundle:domain:domain-list.html.twig', array('domain' => $domain));
@@ -131,23 +143,34 @@ class DomainController extends Controller {
     public function updateDomainAction(Request $request, Domain $domain) {
 
         $repositoryDomain = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Domain');
+        $repositorySubDomain = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:SubDomain');
 
         if (empty($domain)) {
             return new JsonResponse(['message' => 'Domaine introuvable'], Response::HTTP_NOT_FOUND);
         }
-        
-        if($request->get('action')== 'enable'){
+
+        if ($request->get('action') == 'enable') {
             $domain->setState(1);
+            $subDomains = $domain->getSubDomains();
+            foreach ($subDomains as $subDomain) {
+                $subDomain->setState(1);
+                $subDomain->setDomain($domain);
+            }
             $domain = $repositoryDomain->updateDomain($domain);
             return new JsonResponse(['message' => 'Domaine activé avec succcès !'], Response::HTTP_OK
-                    );
+            );
         }
-        
-        if($request->get('action')== 'disable'){
+
+        if ($request->get('action') == 'disable') {
             $domain->setState(0);
             $domain = $repositoryDomain->updateDomain($domain);
+            $subDomains = $domain->getSubDomains();
+            foreach ($subDomains as $subDomain) {
+                $subDomain->setState(0);
+                $subDomain->setDomain($domain);
+            }
             return new JsonResponse(['message' => 'Domaine désactivé avec succcès !'], Response::HTTP_OK
-                    );
+            );
         }
         $form = $this->createForm('OGIVE\AlertBundle\Form\DomainType', $domain, array('method' => 'PUT'));
 
@@ -157,6 +180,14 @@ class DomainController extends Controller {
             $domainUnique = $repositoryDomain->findOneBy(array('name' => $domain->getName(), 'status' => 1));
             if ($domainUnique && $domainUnique->getId() != $domain->getId()) {
                 return new JsonResponse(["success" => false, 'message' => 'Un domaine avec ce nom existe dejà'], Response::HTTP_NOT_FOUND);
+            }
+
+            $subDomains = $domain->getSubDomains();
+            foreach ($subDomains as $subDomain) {
+                $subDomainUnique = $repositorySubDomain->findOneBy(array('name' => $subDomain->getName(), 'status' => 1));
+                if ($subDomainUnique && $subDomainUnique->getId() != $subDomain->getId()) {
+                    $domain->removeSubDomain($subDomain);
+                }
             }
             $domain = $repositoryDomain->updateDomain($domain);
             $domain_content_grid = $this->renderView('OGIVEAlertBundle:domain:domain-grid-edit.html.twig', array('domain' => $domain));

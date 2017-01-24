@@ -89,6 +89,7 @@ class Domain
     public function __construct() {
         $this->state = 0;
         $this->entreprises = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->subDomains = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -297,6 +298,10 @@ class Domain
      */
     public function addSubDomain(\OGIVE\AlertBundle\Entity\SubDomain $subDomain) {
         $this->subDomains[] = $subDomain;
+        if (!$this->subDomains->contains($subDomain)) {
+            $subDomain->setDomain($this);
+            $this->subscribers[] = $subDomain;
+        }
         return $this;
     }
 
@@ -316,8 +321,9 @@ class Domain
      * @return Domain
      */
     public function setSubDomains(\Doctrine\Common\Collections\Collection $subDomains = null) {
-        $this->subDomains = $subDomains;
-
+        foreach ($subDomains as $subDomain) {
+            $this->addSubDomain($subDomain);
+        }
         return $this;
     }
 

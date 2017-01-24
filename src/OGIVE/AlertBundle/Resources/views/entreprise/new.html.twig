@@ -17,11 +17,11 @@
                 {{ form_widget(form.file, { 'attr' : {'class' : 'inputfile' }}) }}
             </div>#}
 
-            {#<div class="field">
+            <div class="field">
                 {{ form_label(form.domains,"Domaines d'activité") }}
                 {{ form_errors(form.domains, {'attr': {'class': 'ui error message'}})}}
                 {{ form_widget(form.domains,{'attr':{'data-validate': 'domain', 'class': 'ui search dropdown'}})}}
-            </div>#}
+            </div>
 
             <div class="field">
                 {{ form_label(form.address.email,"Email") }}
