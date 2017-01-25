@@ -8,14 +8,12 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 
-class ExpressionInterestType extends AbstractType
-{
+class ExpressionInterestType extends AbstractType {
 
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
+    public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
                 ->add('reference', null, array('required' => false))
                 //->add('publicationDate', 'date')
@@ -63,16 +61,22 @@ class ExpressionInterestType extends AbstractType
                     'query_builder' => function(\OGIVE\AlertBundle\Repository\DomainRepository $repo) {
                         return $repo->getDomainQueryBuilder();
                     }
-        ));
+                ))
+                ->add('subDomain', 'entity', array(
+                    'class' => 'OGIVEAlertBundle:SubDomain',
+                    'property' => 'name',
+                    'empty_value' => "Selectionner un sous-domaine",
+                    'multiple' => false,
+                    'required' => false,
+                    'query_builder' => function(\OGIVE\AlertBundle\Repository\SubDomainRepository $repo) {
+                        return $repo->getSubDomainQueryBuilder();
+                    }));
     }
-    
-    
-    
+
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
-    {
+    public function configureOptions(OptionsResolver $resolver) {
         $resolver->setDefaults(array(
             'data_class' => 'OGIVE\AlertBundle\Entity\ExpressionInterest'
         ));
@@ -81,10 +85,8 @@ class ExpressionInterestType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
-    {
+    public function getBlockPrefix() {
         return 'ogive_alertbundle_expressionInterest';
     }
-
 
 }

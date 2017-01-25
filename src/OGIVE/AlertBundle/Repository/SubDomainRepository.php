@@ -30,31 +30,31 @@ class SubDomainRepository extends \Doctrine\ORM\EntityRepository {
             $procedureResults = $repositoryProcedureResult->findBy(array('subDomain' => $subDomain, "status" => 1));
             $expressionInterests = $repositoryExpressionInterest->findBy(array('subDomain' => $subDomain, "status" => 1));
             $callOffers = $repositoryCallOffer->findBy(array('subDomain' => $subDomain, "status" => 1));
-            
-              foreach ($entreprises as $entreprise) {
-              $entreprise->removeSubDomain($subDomain);
-              $repositoryEntreprise->updateEntreprise($entreprise);
-              }
-              
-              foreach ($callOffers as $callOffer) {
-              $callOffer->setSubDomain(null);
-              $repositoryCallOffer->updateCallOffer($callOffer);
-              }
-              
-              foreach ($additives as $additive) {
-              $additive->setSubDomain(null);
-              $repositoryAdditive->updateAdditive($additive);
-              }
-              
-              foreach ($procedureResults as $procedureResult) {
-              $procedureResult->setSubDomain(null);
-              $repositoryProcedureResult->updateProcedureResult($procedureResult);
-              }
-              
-              foreach ($expressionInterests as $expressionInterest) {
-              $expressionInterest->setSubDomain(null);
-              $repositoryExpressionInterest->updateExpressionInterest($expressionInterest);
-              }             
+
+            foreach ($entreprises as $entreprise) {
+                $entreprise->removeSubDomain($subDomain);
+                $repositoryEntreprise->updateEntreprise($entreprise);
+            }
+
+            foreach ($callOffers as $callOffer) {
+                $callOffer->setSubDomain(null);
+                $repositoryCallOffer->updateCallOffer($callOffer);
+            }
+
+            foreach ($additives as $additive) {
+                $additive->setSubDomain(null);
+                $repositoryAdditive->updateAdditive($additive);
+            }
+
+            foreach ($procedureResults as $procedureResult) {
+                $procedureResult->setSubDomain(null);
+                $repositoryProcedureResult->updateProcedureResult($procedureResult);
+            }
+
+            foreach ($expressionInterests as $expressionInterest) {
+                $expressionInterest->setSubDomain(null);
+                $repositoryExpressionInterest->updateExpressionInterest($expressionInterest);
+            }
             $em->persist($subDomain);
             $em->flush();
             $em->getConnection()->commit();
@@ -106,12 +106,12 @@ class SubDomainRepository extends \Doctrine\ORM\EntityRepository {
 
     public function getSubDomainQueryBuilder() {
         return $this
-                        ->createQueryBuilder('e')
-                        ->where('e.status = :status')
-                        ->andWhere('e.state = :state')
-                        ->orderBy('e.name', 'ASC')
-                        ->setParameter('status', 1)
-                        ->setParameter('state', 1);
+            ->createQueryBuilder('e')
+            ->where('e.status = :status')
+            ->andWhere('e.state = :state')
+            ->orderBy('e.name', 'ASC')
+            ->setParameter('status', 1)
+            ->setParameter('state', 1);
     }
 
 }

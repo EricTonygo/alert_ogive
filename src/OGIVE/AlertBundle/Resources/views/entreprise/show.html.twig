@@ -15,11 +15,17 @@
                     {{ form_widget(form.name,{'attr':{'placeholder':"Nom de l'entreprise", 'data-validate': 'name'}})}}
                 </div>
 
-                {#<div class="field">
-                    {{ form_label(form.domain,"Domaine d'activité") }}
-                    {{ form_errors(form.domain, {'attr': {'class': 'ui error message'}})}}
-                    {{ form_widget(form.domain,{'attr':{'data-validate': 'domain', 'class': 'ui search dropdown'}})}}
-                </div>#}
+                <div class="field">
+                    {{ form_label(form.domains,"Domaines d'activité") }}
+                    {{ form_errors(form.domains, {'attr': {'class': 'ui error message'}})}}
+                    {{ form_widget(form.domains,{'attr':{'data-validate': 'domains', 'class': 'ui search dropdown'}})}}
+                </div>
+
+                <div class="field">
+                    {{ form_label(form.subDomains,"Ses sous-domaines d'activité") }}
+                    {{ form_errors(form.subDomains, {'attr': {'class': 'ui error message'}})}}
+                    {{ form_widget(form.subDomains,{'attr':{'data-validate': 'subDomains', 'class': 'ui search dropdown'}})}}
+                </div>
 
                 <div class="field">
                     {{ form_label(form.address.email,"Email") }}
@@ -52,50 +58,50 @@
                     {{ form_widget(form.address.place,{'attr':{'placeholder':"Lieu de localisation", 'data-validate': 'mailBox'}})}}
                 </div>
 
-               {# <div class="field">
-                    {{ form_label(form.file, "Logo")}}
-                    {{ form_errors(form.file, {'attr': {'class': 'list'}})}}
-                    {{ form_widget(form.file, { 'attr' : {'class' : 'inputfile' }}) }}
-                </div>#}
+                {# <div class="field">
+                     {{ form_label(form.file, "Logo")}}
+                     {{ form_errors(form.file, {'attr': {'class': 'list'}})}}
+                     {{ form_widget(form.file, { 'attr' : {'class' : 'inputfile' }}) }}
+                 </div>#}
 
                 {#<div class="field">
                     {{ form_label(form.address.file, "Plan de localisation")}}
                     {{ form_errors(form.address.file, {'attr': {'class': 'list'}})}}
                     {{ form_widget(form.address.file, { 'attr' : {'class' : 'inputfile' }}) }}
                 </div>#}
-                
+
                 <div class="field">
-                <div class="ui fluid card">
-                    <div class="content">
-                        <div class="header">Ajout des abonnés</div>
-                    </div>
-                    <div class="content">
-                        <table class="ui very basic table">
-                            <thead>
-                                <tr><th>Nom</th>
-                                    <th>Téléphone</th>
-                                    <th>Email</th>
-                                    <th>Abonnement</th>
-                                    <th class="right aligned">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody class="subscribers_edit" data-prototype="{{ _self.subscriber_prototype(form.subscribers.vars.prototype)|e }}">
-                                {% for subscriber in form.subscribers %}
-                                    <tr>
-                                        {{ _self.subscriber_prototype(subscriber) }}
+                    <div class="ui fluid card">
+                        <div class="content">
+                            <div class="header">Ajout des abonnés</div>
+                        </div>
+                        <div class="content">
+                            <table class="ui very basic table">
+                                <thead>
+                                    <tr><th>Nom</th>
+                                        <th>Téléphone</th>
+                                        <th>Email</th>
+                                        <th>Abonnement</th>
+                                        <th class="right aligned">Action</th>
                                     </tr>
-                                {% endfor %}
-                            </tbody>
-                            {% macro subscriber_prototype(childForm) %}
-                                <td>{{ form_widget(childForm.name,{'attr':{'data-validate': 'name_subscriber'}}) }}</td>
-                                <td>{{ form_widget(childForm.phoneNumber,{'attr':{'data-validate': 'phone_subscriber'}}) }}</td>
-                                <td>{{ form_widget(childForm.email,{'attr':{'data-validate': 'email_subscriber'}}) }}</td>
-                                <td>{{ form_widget(childForm.subscription,{'attr':{'data-validate': 'subscription_subscriber', 'class': 'ui subscriber_ent_subscription search dropdown'}}) }}</td>
-                            {% endmacro %}
-                        </table>
+                                </thead>
+                                <tbody class="subscribers_edit" data-prototype="{{ _self.subscriber_prototype(form.subscribers.vars.prototype)|e }}">
+                                    {% for subscriber in form.subscribers %}
+                                        <tr>
+                                            {{ _self.subscriber_prototype(subscriber) }}
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                                {% macro subscriber_prototype(childForm) %}
+                                    <td>{{ form_widget(childForm.name,{'attr':{'data-validate': 'name_subscriber'}}) }}</td>
+                                    <td>{{ form_widget(childForm.phoneNumber,{'attr':{'data-validate': 'phone_subscriber'}}) }}</td>
+                                    <td>{{ form_widget(childForm.email,{'attr':{'data-validate': 'email_subscriber'}}) }}</td>
+                                    <td>{{ form_widget(childForm.subscription,{'attr':{'data-validate': 'subscription_subscriber', 'class': 'ui subscriber_ent_subscription search dropdown'}}) }}</td>
+                                {% endmacro %}
+                            </table>
+                        </div>
                     </div>
                 </div>
-            </div>
 
                 <div class="field">
                     {{form_rest(form)}}

@@ -1,0 +1,6 @@
+<option value="">Selectionner le sous-domaine d'activité</option>
+{%if subDomains%}
+    {%for subDomain in subDomains %}
+        <option value="{{subDomain.id}}">{{subDomain.name}}</option>
+    {%endfor%} 
+{%endif%}

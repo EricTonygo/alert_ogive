@@ -8,14 +8,12 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 
-class AdditiveType extends AbstractType
-{
+class AdditiveType extends AbstractType {
 
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
+    public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
                 ->add('reference', null, array('required' => false))
                 //->add('publicationDate', 'date')
@@ -74,25 +72,13 @@ class AdditiveType extends AbstractType
                         return $repo->getExpressionInterestQueryBuilder();
                     }
                 ))
-                ->add('domain', 'entity', array(
-                    'class' => 'OGIVEAlertBundle:Domain',
-                    'property' => 'name',
-                    'empty_value' => "Selectionner un domaine",
-                    'multiple' => false,
-                    'required' => false,
-                    'query_builder' => function(\OGIVE\AlertBundle\Repository\DomainRepository $repo) {
-                        return $repo->getDomainQueryBuilder();
-                    }
-        ));
+                ;
     }
-    
-    
-    
+
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
-    {
+    public function configureOptions(OptionsResolver $resolver) {
         $resolver->setDefaults(array(
             'data_class' => 'OGIVE\AlertBundle\Entity\Additive'
         ));
@@ -101,10 +87,8 @@ class AdditiveType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
-    {
+    public function getBlockPrefix() {
         return 'ogive_alertbundle_additive';
     }
-
 
 }

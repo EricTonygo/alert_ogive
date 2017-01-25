@@ -36,8 +36,11 @@ $(function () {
                     $.ajax({
                         type: 'post',
                         url: Routing.generate('domain_add'),
-                        data: fields,
+                        data: $('#add_domain_form.ui.form').serialize(),
                         dataType: 'json',
+                        processData: false,
+                        //contentType: false,
+                        cache: false,
                         beforeSend: function () {
                             $('#submit_domain').addClass('disabled');
                             $('#cancel_add_domain').addClass('disabled');
@@ -97,10 +100,12 @@ function edit_domain(id) {
     $('.ui.dropdown').dropdown('remove visible');
     $.ajax({
         type: 'PUT',
-        url: Routing.generate('domain_update', { id: id }),
+        url: Routing.generate('domain_update', {id: id}),
         dataType: 'json',
         beforeSend: function () {
             $('#message_loading').show();
+            $('.ui.dropdown').dropdown('remove active');
+            $('.ui.dropdown').dropdown('remove visible');
         },
         statusCode: {
             500: function (xhr) {
@@ -160,9 +165,12 @@ function execute_edit(id) {
                 onSuccess: function (event, fields) {
                     $.ajax({
                         type: 'PUT',
-                        url: Routing.generate('domain_update', { id: id }),
-                        data: fields,
+                        url: Routing.generate('domain_update', {id: id}),
+                        data: $('#edit_domain_form.ui.form').serialize(),
                         dataType: 'json',
+                        processData: false,
+                        //contentType: false,
+                        cache: false,
                         beforeSend: function () {
                             $('#submit_edit_domain').addClass('disabled');
                             $('#cancel_edit_domain').addClass('disabled');
@@ -228,10 +236,12 @@ function delete_domain(id) {
     $('.ui.dropdown').dropdown('remove visible');
     $.ajax({
         type: 'DELETE',
-        url: Routing.generate('domain_delete', { id: id }),
+        url: Routing.generate('domain_delete', {id: id}),
         dataType: 'json',
         beforeSend: function () {
             $('#message_loading').show();
+            $('.ui.dropdown').dropdown('remove active');
+            $('.ui.dropdown').dropdown('remove visible');
         },
         statusCode: {
             500: function (xhr) {
@@ -274,10 +284,12 @@ function show_domain(id) {
     $('.ui.dropdown').dropdown('remove visible');
     $.ajax({
         type: 'GET',
-        url: Routing.generate('domain_get_one', { id: id }),
+        url: Routing.generate('domain_get_one', {id: id}),
         dataType: 'json',
         beforeSend: function () {
             $('#message_loading').show();
+            $('.ui.dropdown').dropdown('remove active');
+            $('.ui.dropdown').dropdown('remove visible');
         },
         statusCode: {
             500: function (xhr) {
@@ -332,11 +344,13 @@ function enable_domain(id) {
     $('.ui.dropdown').dropdown('remove visible');
     $.ajax({
         type: 'PUT',
-        url: Routing.generate('domain_update', { id: id }),
+        url: Routing.generate('domain_update', {id: id}),
         data: {'action': 'enable'},
         dataType: 'json',
         beforeSend: function () {
             $('#message_loading').show();
+            $('.ui.dropdown').dropdown('remove active');
+            $('.ui.dropdown').dropdown('remove visible');
         },
         statusCode: {
             500: function (xhr) {
@@ -381,11 +395,13 @@ function disable_domain(id) {
     $('.ui.dropdown').dropdown('remove visible');
     $.ajax({
         type: 'PUT',
-        url: Routing.generate('domain_update', { id: id }),
+        url: Routing.generate('domain_update', {id: id}),
         data: {'action': 'disable'},
         dataType: 'json',
         beforeSend: function () {
             $('#message_loading').show();
+            $('.ui.dropdown').dropdown('remove active');
+            $('.ui.dropdown').dropdown('remove visible');
         },
         statusCode: {
             500: function (xhr) {

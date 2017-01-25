@@ -81,8 +81,14 @@ class ProcedureResultController extends Controller {
                 $procedureResult->setState(1);
             }
             $procedureResult->setType($request->get('attribution_type'));
-            $abstract = $procedureResult->getType()." : "."N°".$procedureResult->getReference()." du ".date_format($procedureResult->getPublicationDate(), "d/m/Y")." pour ".$procedureResult->getObject(); 
-            $procedureResult->setAbstract($abstract);
+            $procedureResult->setAbstract($this->getAbstractOfProcedureResult($procedureResult));
+            if($procedureResult->getCallOffer()){
+                $procedureResult->setDomain($procedureResult->getCallOffer()->getDomain());
+                $procedureResult->setSubDomain($procedureResult->getCallOffer()->getSubDomain());
+            }elseif($procedureResult->getExpressionInterest()){
+                $procedureResult->setDomain($procedureResult->getExpressionInterest()->getDomain());
+                $procedureResult->setSubDomain($procedureResult->getExpressionInterest()->getSubDomain());
+            }
             $procedureResult = $repositoryProcedureResult->saveProcedureResult($procedureResult);
             $procedureResult_content_grid = $this->renderView('OGIVEAlertBundle:procedureResult:procedureResult-grid.html.twig', array('procedureResult' => $procedureResult));
             $procedureResult_content_list = $this->renderView('OGIVEAlertBundle:procedureResult:procedureResult-list.html.twig', array('procedureResult' => $procedureResult));
@@ -157,9 +163,15 @@ class ProcedureResultController extends Controller {
             if ($procedureResultUnique && $procedureResultUnique->getId() != $procedureResult->getId()) {
                 return new JsonResponse(["success" => false, 'message' => "Une attribution avec cette référence existe dejà"], Response::HTTP_NOT_FOUND);
             }
-            $abstract = $procedureResult->getType()." : "."N°".$procedureResult->getReference()." du ".date_format($procedureResult->getPublicationDate(), "d/m/Y")." pour ".$procedureResult->getObject(); 
-            $procedureResult->setAbstract($abstract);
+            $procedureResult->setAbstract($this->getAbstractOfProcedureResult($procedureResult));
             $procedureResult->setType($request->get('attribution_type'));
+            if($procedureResult->getCallOffer()){
+                $procedureResult->setDomain($procedureResult->getCallOffer()->getDomain());
+                $procedureResult->setSubDomain($procedureResult->getCallOffer()->getSubDomain());
+            }elseif($procedureResult->getExpressionInterest()){
+                $procedureResult->setDomain($procedureResult->getExpressionInterest()->getDomain());
+                $procedureResult->setSubDomain($procedureResult->getExpressionInterest()->getSubDomain());
+            }
             $procedureResult = $repositoryProcedureResult->updateProcedureResult($procedureResult);
             $procedureResult_content_grid = $this->renderView('OGIVEAlertBundle:procedureResult:procedureResult-grid-edit.html.twig', array('procedureResult' => $procedureResult));
             $procedureResult_content_list = $this->renderView('OGIVEAlertBundle:procedureResult:procedureResult-list-edit.html.twig', array('procedureResult' => $procedureResult));
@@ -173,6 +185,16 @@ class ProcedureResultController extends Controller {
             $view = View::create(["code" => 200, 'procedureResult' => $procedureResult, 'edit_procedureResult_form' => $edit_procedureResult_form]);
             $view->setFormat('json');
             return $view;
+        }
+    }
+    
+    public function getAbstractOfProcedureResult(ProcedureResult $procedureResult){
+        if($procedureResult && $procedureResult->getCallOffer()){
+            return  "Ref : ".$procedureResult->getType()." : "."N°".$procedureResult->getReference()."/D/".$procedureResult->getCallOffer()->getOwner()."/".date_format($procedureResult->getPublicationDate(), "Y")." portant ".$procedureResult->getObject()." de l'".$procedureResult->getCallOffer()->getType()." N°".$procedureResult->getCallOffer()->getReference()."/".$procedureResult->getCallOffer()->getType()."/".$procedureResult->getCallOffer()->getOwner()."/".date_format($procedureResult->getCallOffer()->getPublicationDate(), "Y")." du ".date_format($procedureResult->getCallOffer()->getPublicationDate(), "d/m/Y"); 
+        }elseif ($procedureResult && $procedureResult->getExpressionInterest()) {
+            return  "Ref : ".$procedureResult->getType()." : "."N°".$procedureResult->getReference()."/D/".$procedureResult->getCallOffer()->getOwner()."/".date_format($procedureResult->getPublicationDate(), "Y")." portant ".$procedureResult->getObject()." de l'".$procedureResult->getExpressionInterest()->getType()." N°".$procedureResult->getExpressionInterest()->getReference()."/".$procedureResult->getCallOffer()->getType()."/".$procedureResult->getExpressionInterest()->getOwner()."/".date_format($procedureResult->getExpressionInterest()->getPublicationDate(), "Y")." du ".date_format($procedureResult->getExpressionInterest()->getPublicationDate(), "d/m/Y"); 
+        }else{
+            return "";
         }
     }
 

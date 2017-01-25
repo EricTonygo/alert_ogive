@@ -1,8 +1,11 @@
 
 function add_entreprise() {
-    $('#ogive_alertbundle_entreprise_domain.ui.dropdown').dropdown({
+    $('#ogive_alertbundle_entreprise_domains.ui.dropdown').dropdown({
         on: 'click'
     });
+    $('#ogive_alertbundle_entreprise_subDomains.ui.dropdown').dropdown({
+                    on: 'click'
+                });
     $('#add_entreprise_btn').click(function () {
         $('#add_entreprise.ui.modal').modal('setting', {
             autofocus: false,
@@ -191,6 +194,12 @@ function edit_entreprise(id) {
                     autofocus: false,
                     inverted: true,
                     closable: false
+                });
+                $('#ogive_alertbundle_entreprise_domains.ui.dropdown').dropdown({
+                    on: 'click'
+                });
+                $('#ogive_alertbundle_entreprise_subDomains.ui.dropdown').dropdown({
+                    on: 'click'
                 });
                 $('#edit_entreprise.ui.modal').modal('show');
                 execute_edit(id);
@@ -427,6 +436,12 @@ function show_entreprise(id) {
                     autofocus: false,
                     inverted: true,
                     closable: false
+                });
+                $('#ogive_alertbundle_entreprise_domains.ui.dropdown').dropdown({
+                    on: 'click'
+                });
+                $('#ogive_alertbundle_entreprise_subDomains.ui.dropdown').dropdown({
+                    on: 'click'
                 });
                 $('#edit_entreprise.ui.modal').modal('show');
                 execute_edit(id);

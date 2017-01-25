@@ -22,11 +22,21 @@ class EntrepriseType extends AbstractType {
                 ->add('domains', 'entity', array(
                     'class' => 'OGIVEAlertBundle:Domain',
                     'property' => 'name',
-                    'empty_value' => "Selectionner un domaine",
+                    'empty_value' => "Selectionner ces domaines",
                     'multiple' => true,
                     'required' => false,
                     'query_builder' => function(\OGIVE\AlertBundle\Repository\DomainRepository $repo) {
                         return $repo->getDomainQueryBuilder();
+                    }
+                ))
+                ->add('subDomains', 'entity', array(
+                    'class' => 'OGIVEAlertBundle:SubDomain',
+                    'property' => 'name',
+                    'empty_value' => "Selectionner ces sous-domaines",
+                    'multiple' => true,
+                    'required' => false,
+                    'query_builder' => function(\OGIVE\AlertBundle\Repository\SubDomainRepository $repo) {
+                        return $repo->getSubDomainQueryBuilder();
                     }
                 ))
                 ->add('address', new AddressType())

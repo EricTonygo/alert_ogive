@@ -116,6 +116,8 @@ class Entreprise {
         $this->state = 0;
         $this->historicalAlertEntreprises = new \Doctrine\Common\Collections\ArrayCollection();
         $this->subscribers = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->domains = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->subDomains = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**

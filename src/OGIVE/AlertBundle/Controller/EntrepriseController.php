@@ -85,7 +85,7 @@ class EntrepriseController extends Controller {
             }
             $subscribers = $entreprise->getSubscribers();
             foreach ($subscribers as $subscriber) {
-                if ($repositorySubscriber->findOneBy(array('phoneNumber' => $subscriber->getPhoneNumber(), 'status' => 1))) {
+                if ($repositorySubscriber->findOneBy(array('phoneNumber' => $subscriber->getPhoneNumber(), 'status' => 1))!==null) {
                     $entreprise->removeSubscriber($subscriber);
                 } elseif ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
                     $subscriber->setState(1);
@@ -169,6 +169,11 @@ class EntrepriseController extends Controller {
             return new JsonResponse(['message' => 'Entreprise désactivée avec succcès !'], Response::HTTP_OK
             );
         }
+
+        foreach ($entreprise->getSubscribers() as $subscriber) {
+            $originalSubscribers->add($subscriber);
+        }
+        
         $form = $this->createForm('OGIVE\AlertBundle\Form\EntrepriseType', $entreprise, array('method' => 'PUT'));
 
         $form->handleRequest($request);
@@ -208,9 +213,6 @@ class EntrepriseController extends Controller {
             $view->setFormat('json');
             return $view;
         } else {
-            foreach ($entreprise->getSubscribers() as $subscriber) {
-                $originalSubscribers->add($subscriber);
-            }
             $entreprise_json = $serializer->serialize($entreprise, 'json');
             $edit_entreprise_form = $this->renderView('OGIVEAlertBundle:entreprise:edit.html.twig', array('form' => $form->createView(), 'entreprise' => $entreprise));
             $view = View::create(["code" => 200, 'entreprise' => $entreprise, 'edit_entreprise_form' => $edit_entreprise_form]);

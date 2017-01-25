@@ -4,65 +4,64 @@
         Modification du domaine << {{domain.name}} >>
     </div>
     <div class="content">
-        {{ form_start(form, {'method': 'PUT', 'action': path('domain_update', {'id': domain.id}), 'attr': {'class': 'ui form', 'id': 'edit_domain_form'} }) }}
-
-        <div class="field">
-            {{ form_label(form.name,"Nom") }}
-            {{ form_widget(form.name,{'attr':{'placeholder':'Nom du domaine', 'data-validate': 'name'}})}}
-        </div>
-
-        <div class="field">
-            {{ form_label(form.description,"Description") }}
-            {{ form_errors(form.description, {'attr': {'class': 'ui error message'}})}}
-            {{ form_widget(form.description,{'attr':{'placeholder':'Description du domaine', 'data-validate': 'description'}})}}
-        </div>
-
-        <div class="field">
-            {{form_rest(form)}}
-            <div id="server_error_message_edit" class="ui negative message" style="display:none">
-                <i class="close icon"></i>
-                <div id="server_error_content_edit" class="header">Internal server error</div>
+        <form id="edit_domain_form" class="ui form" name="ogive_alertbundle_domain" method="PUT" action="{{ path('domain_update', {'id': domain.id}) }}" {{ form_enctype(form) }} novalidate="novalidate">
+            <div class="field">
+                {{ form_label(form.name,"Nom") }}
+                {{ form_widget(form.name,{'attr':{'placeholder':'Nom du domaine', 'data-validate': 'name'}})}}
             </div>
-            <div id="error_name_message_edit" class="ui error message" style="display: none">
-                <i class="close icon"></i>
-                <div id="error_name_header_edit" class="header"></div>
-                <ul id="error_name_list_edit" class="list">
 
-                </ul>
+            <div class="field">
+                {{ form_label(form.description,"Description") }}
+                {{ form_errors(form.description, {'attr': {'class': 'ui error message'}})}}
+                {{ form_widget(form.description,{'attr':{'placeholder':'Description du domaine', 'data-validate': 'description'}})}}
             </div>
-        </div>
 
-        <div class="field">
-            <div class="ui fluid card">
-                <div class="content">
-                    <div class="header">Ajout des sous-domaines</div>
-                </div>
-                <div class="content">
-                    <table class="ui very basic table">
-                        <thead>
-                            <tr><th>Nom</th>
-                                <th>Description</th>
-                                <th class="right aligned">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody class="subDomains_edit" data-prototype="{{ _self.subDomain_prototype(form.subDomains.vars.prototype)|e }}">
-                            {% for subDomain in form.subDomains %}
-                                <tr>
-                                    {{ _self.subDomain_prototype(subDomain) }}
+            <div class="field">
+                <div class="ui fluid card">
+                    <div class="content">
+                        <div class="header">Ajout des sous-domaines</div>
+                    </div>
+                    <div class="content">
+                        <table class="ui very basic table">
+                            <thead>
+                                <tr><th>Nom</th>
+                                    <th>Description</th>
+                                    <th class="right aligned">Action</th>
                                 </tr>
-                            {% endfor %}
-                        </tbody>
-                        {% macro subDomain_prototype(childForm) %}
-                            <td>{{ form_widget(childForm.name,{'attr':{'data-validate': 'name_subDomain'}}) }}</td>
-                            <td>{{ form_widget(childForm.description,{'attr':{'data-validate': 'description_subDomain'}}) }}</td>
+                            </thead>
+                            <tbody class="subDomains_edit" data-prototype="{{ _self.subDomain_prototype(form.subDomains.vars.prototype)|e }}">
+                                {% for subDomain in form.subDomains %}
+                                    <tr>
+                                        {{ _self.subDomain_prototype(subDomain) }}
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                            {% macro subDomain_prototype(childForm) %}
+                                <td>{{ form_widget(childForm.name,{'attr':{'data-validate': 'name_subDomain'}}) }}</td>
+                                <td>{{ form_widget(childForm.description,{'attr':{'data-validate': 'description_subDomain'}}) }}</td>
 
-                        {% endmacro %}
-                    </table>
+                            {% endmacro %}
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        {{ form_end(form) }}
+            <div class="field">
+                <div id="server_error_message_edit" class="ui negative message" style="display:none">
+                    <i class="close icon"></i>
+                    <div id="server_error_content_edit" class="header">Internal server error</div>
+                </div>
+                <div id="error_name_message_edit" class="ui error message" style="display: none">
+                    <i class="close icon"></i>
+                    <div id="error_name_header_edit" class="header"></div>
+                    <ul id="error_name_list_edit" class="list">
+
+                    </ul>
+                </div>
+            </div>
+            {{form_widget(form._token)}}
+            {#{ form_end(form) }#}
+        </form>
     </div>
     <div class="actions">
         <div id="cancel_edit_domain" class="ui black deny button">
@@ -92,9 +91,6 @@
         // Display the form in the page in an li, before the "Add a subDomain" link li
         var $newFormTr = $('<tr></tr>').append($newForm);
         $newLinkTr.before($newFormTr);
-        $('.ui.subDomain_ent_subscription.search.dropdown').dropdown({
-            on: 'click'
-        });
         addSubDomainFormDeleteLink($newFormTr);
     }
 

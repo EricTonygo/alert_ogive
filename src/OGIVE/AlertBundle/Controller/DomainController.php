@@ -61,6 +61,21 @@ class DomainController extends Controller {
         $view->setFormat('json');
         return $view;
     }
+    
+    /**
+     * @Rest\View()
+     * @Rest\Get("/sub-domains-of-domain/{id}" , name="subDomains_of_domain", options={ "method_prefix" = false, "expose" = true })
+     */
+    public function getSubDomainsOfDomainAction(Domain $domain) {
+        if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            return $this->redirect($this->generateUrl('fos_user_security_login'));
+        }
+        $repositorySubDomain = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:SubDomain');
+        $subDomains = $repositorySubDomain->findBy(array('domain'=>$domain, 'status'=>1, 'state'=>1));
+        return $this->render('OGIVEAlertBundle:domain:subDomains_of_domain.html.twig', array(
+            'subDomains' => $subDomains
+        ));
+    }
 
     /**
      * @Rest\View(statusCode=Response::HTTP_CREATED)
@@ -84,13 +99,11 @@ class DomainController extends Controller {
                 $domain->setState(1);
             }
             $subdomains = $domain->getSubDomains();
-            if (is_array($subdomains)) {
-                foreach ($subdomains as $subDomain) {
-                    if ($repositorySubDomain->findOneBy(array('name' => $subDomain->getName(), 'status' => 1))) {
-                        $domain->removeSubDomain($subDomain);
-                    } elseif ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
-                        $subDomain->setState(1);
-                    }
+            foreach ($subdomains as $subDomain) {
+                if ($repositorySubDomain->findOneBy(array('name' => $subDomain->getName(), 'status' => 1))) {
+                    $domain->removeSubDomain($subDomain);
+                } elseif ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+                    $subDomain->setState(1);
                 }
             }
 
@@ -124,7 +137,7 @@ class DomainController extends Controller {
             $view->setFormat('json');
             return $view;
         } else {
-            return new JsonResponse(["message" => 'Domain introuvable'], Response::HTTP_NOT_FOUND);
+            return new JsonResponse(["message" => 'Domaine introuvable'], Response::HTTP_NOT_FOUND);
         }
     }
 
@@ -144,7 +157,7 @@ class DomainController extends Controller {
 
         $repositoryDomain = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Domain');
         $repositorySubDomain = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:SubDomain');
-
+        $originalSubDomains = new \Doctrine\Common\Collections\ArrayCollection();
         if (empty($domain)) {
             return new JsonResponse(['message' => 'Domaine introuvable'], Response::HTTP_NOT_FOUND);
         }
@@ -172,6 +185,9 @@ class DomainController extends Controller {
             return new JsonResponse(['message' => 'Domaine désactivé avec succcès !'], Response::HTTP_OK
             );
         }
+        foreach ($domain->getSubDomains() as $subDomain) {
+            $originalSubDomains->add($subDomain);
+        }
         $form = $this->createForm('OGIVE\AlertBundle\Form\DomainType', $domain, array('method' => 'PUT'));
 
         $form->handleRequest($request);
@@ -181,12 +197,25 @@ class DomainController extends Controller {
             if ($domainUnique && $domainUnique->getId() != $domain->getId()) {
                 return new JsonResponse(["success" => false, 'message' => 'Un domaine avec ce nom existe dejà'], Response::HTTP_NOT_FOUND);
             }
-
+            foreach ($originalSubDomains as $subDomain) {
+                if (false === $domain->getSubDomains()->contains($subDomain)) {
+                    // remove the panne from the piece
+                    $domain->getSubDomains()->removeElement($subDomain);
+                    // if it was a many-to-one relationship, remove the relationship like this
+                    $subDomain->setDomain(null);
+                    $subDomain->setStatus(0);
+                    $repositorySubDomain->updateSubDomain($subDomain);
+                    // if you wanted to delete the Piece entirely, you can also do that
+                    // $em->remove($piece);
+                }
+            }
             $subDomains = $domain->getSubDomains();
             foreach ($subDomains as $subDomain) {
                 $subDomainUnique = $repositorySubDomain->findOneBy(array('name' => $subDomain->getName(), 'status' => 1));
                 if ($subDomainUnique && $subDomainUnique->getId() != $subDomain->getId()) {
                     $domain->removeSubDomain($subDomain);
+                } elseif ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+                    $subDomain->setState(1);
                 }
             }
             $domain = $repositoryDomain->updateDomain($domain);

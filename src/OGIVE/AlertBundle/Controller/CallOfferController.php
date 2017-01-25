@@ -81,8 +81,7 @@ class CallOfferController extends Controller {
                 $callOffer->setState(1);
             }
             $callOffer->setType($request->get('call_offer_type'));
-            $abstract = $callOffer->getType()." : "."N°".$callOffer->getReference()." du ".date_format($callOffer->getPublicationDate(), "d/m/Y")." pour ".$callOffer->getObject().". Dépôt des offres du ".date_format($callOffer->getOpeningDate(), "d/m/Y")." à ".date_format($callOffer->getOpeningDate(), "H:i")." au ".date_format($callOffer->getDeadline(), "d/m/Y")." à ".date_format($callOffer->getOpeningDate(), "H:i"); 
-            $callOffer->setAbstract($abstract);
+            $callOffer->setAbstract($this->getAbstractOfCallOffer($callOffer));
             $callOffer = $repositoryCallOffer->saveCallOffer($callOffer);
             $callOffer_content_grid = $this->renderView('OGIVEAlertBundle:callOffer:callOffer-grid.html.twig', array('callOffer' => $callOffer));
             $callOffer_content_list = $this->renderView('OGIVEAlertBundle:callOffer:callOffer-list.html.twig', array('callOffer' => $callOffer));
@@ -158,8 +157,7 @@ class CallOfferController extends Controller {
                 return new JsonResponse(["success" => false, 'message' => "Un appel d'offre avec cette référence existe dejà"], Response::HTTP_NOT_FOUND);
             }
             $callOffer->setType($request->get('call_offer_type'));
-            $abstract = $callOffer->getType()." : "."N°".$callOffer->getReference()." du ".date_format($callOffer->getPublicationDate(), "d/m/Y")." pour ".$callOffer->getObject().". Dépôt des offres du ".date_format($callOffer->getOpeningDate(), "d/m/Y")." à ".date_format($callOffer->getOpeningDate(), "H:i")." au ".date_format($callOffer->getDeadline(), "d/m/Y")." à ".date_format($callOffer->getOpeningDate(), "H:i"); 
-            $callOffer->setAbstract($abstract);
+            $callOffer->setAbstract($this->getAbstractOfCallOffer($callOffer));
             $callOffer = $repositoryCallOffer->updateCallOffer($callOffer);
             $callOffer_content_grid = $this->renderView('OGIVEAlertBundle:callOffer:callOffer-grid-edit.html.twig', array('callOffer' => $callOffer));
             $callOffer_content_list = $this->renderView('OGIVEAlertBundle:callOffer:callOffer-list-edit.html.twig', array('callOffer' => $callOffer));
@@ -173,6 +171,14 @@ class CallOfferController extends Controller {
             $view = View::create(["code" => 200, 'callOffer' => $callOffer, 'edit_callOffer_form' => $edit_callOffer_form]);
             $view->setFormat('json');
             return $view;
+        }
+    }
+    
+    public function getAbstractOfCallOffer(CallOffer $callOffer){
+        if($callOffer ){
+            return $callOffer->getType()." : "."N°".$callOffer->getReference()." du ".date_format($callOffer->getPublicationDate(), "d/m/Y")." lancé par ".$callOffer->getOwner()." pour ".$callOffer->getObject().". Dépôt des offres le ".date_format($callOffer->getOpeningDate(), "d/m/Y")." à ".date_format($callOffer->getOpeningDate(), "H:i"); 
+        }else{
+            return "";
         }
     }
 

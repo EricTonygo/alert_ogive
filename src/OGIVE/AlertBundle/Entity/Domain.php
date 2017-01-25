@@ -297,10 +297,9 @@ class Domain
      * @return Domain
      */
     public function addSubDomain(\OGIVE\AlertBundle\Entity\SubDomain $subDomain) {
-        $this->subDomains[] = $subDomain;
         if (!$this->subDomains->contains($subDomain)) {
             $subDomain->setDomain($this);
-            $this->subscribers[] = $subDomain;
+            $this->subDomains[] = $subDomain;
         }
         return $this;
     }

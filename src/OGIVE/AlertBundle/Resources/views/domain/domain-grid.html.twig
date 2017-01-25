@@ -13,7 +13,7 @@
             <a id="disable_domain_grid{{domain.id}}" onclick="disable_domain({{domain.id}});" {% if domain.state != 1 %} style="display: none" {% endif %}  data-tooltip="Désactiver" data-position="bottom center" data-inverted=""><i class="lock green icon"></i></a>
         {% endif %}
         <div class="right floated">
-            <div class="ui dropdown item">
+            <div class="ui dropdown">
                 <i class="ellipsis vertical icon"></i>
                 <div class="menu">
                     <div onclick="show_domain({{domain.id}});" class="show_domain_btn item">

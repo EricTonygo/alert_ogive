@@ -18,9 +18,15 @@
             </div>#}
 
             <div class="field">
-                {{ form_label(form.domains,"Domaines d'activité") }}
+                {{ form_label(form.domains,"Ses domaines d'activité") }}
                 {{ form_errors(form.domains, {'attr': {'class': 'ui error message'}})}}
-                {{ form_widget(form.domains,{'attr':{'data-validate': 'domain', 'class': 'ui search dropdown'}})}}
+                {{ form_widget(form.domains,{'attr':{'data-validate': 'domains', 'class': 'ui search dropdown'}})}}
+            </div>
+            
+            <div class="field">
+                {{ form_label(form.subDomains,"Ses sous-domaines d'activité") }}
+                {{ form_errors(form.subDomains, {'attr': {'class': 'ui error message'}})}}
+                {{ form_widget(form.subDomains,{'attr':{'data-validate': 'subDomains', 'class': 'ui search dropdown'}})}}
             </div>
 
             <div class="field">

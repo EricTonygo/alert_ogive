@@ -45,7 +45,7 @@ class TelephoneController extends Controller {
             $historiqueAlertSubscriber->setSubscriber($subscriber);
             $historiqueAlertSubscriber->setAlertType("SMS");
             $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
-            $view = View::create(["code" => 200, 'messages_twilio' =>$message , 'message' => "SMS envoyé avec succès" ]);
+            $view = View::create(["code" => 200, 'messages_twilio' => $message, 'message' => "SMS envoyé avec succès"]);
             $view->setFormat('json');
             return $view;
         } elseif ($form->isSubmitted() && !$form->isValid()) {
@@ -60,8 +60,7 @@ class TelephoneController extends Controller {
             return $view;
         }
     }
-    
-    
+
     /**
      * @Rest\View()
      * @Rest\Post("/send-notification-call-offer/{id}" , name="send_notification_callOffer", options={ "method_prefix" = false, "expose" = true })
@@ -75,7 +74,7 @@ class TelephoneController extends Controller {
         $repositoryHistorique = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:HistoricalAlertSubscriber');
         $repositorySubscriber = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Subscriber');
         $subscribers = null;
-        
+
         if (isset($_POST['send_notification_callOffer_form'])) {
             $twilio = $this->get('twilio.api');
             //$messages = $twilio->account->messages->read();
@@ -87,15 +86,14 @@ class TelephoneController extends Controller {
             $historiqueAlertSubscriber->setSubscriber($subscriber);
             $historiqueAlertSubscriber->setAlertType("SMS");
             $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
-            $view = View::create(["code" => 200, 'messages_twilio' =>$message , 'message' => "SMS envoyé avec succès" ]);
+            $view = View::create(["code" => 200, 'messages_twilio' => $message, 'message' => "SMS envoyé avec succès"]);
             $view->setFormat('json');
             return $view;
 //        } elseif ($form->isSubmitted() && !$form->isValid()) {
 //            return $form;
         } else {
-            if($callOffer->getType()== "AONR" || $callOffer->getType() == "AOIR"){
-                $subscribers = $repositorySubscriber->findBy(array("state"=>1, "status"=>1));
-            }
+            $subscribers = $repositorySubscriber->findBy(array("state" => 1, "status" => 1));
+
             $send_notification_callOffer_form = $this->renderView('OGIVEAlertBundle:send_sms:form_send_notification_callOffer.html.twig', array(
                 'subscribers' => $subscribers,
                 'callOffer' => $callOffer,
@@ -119,7 +117,7 @@ class TelephoneController extends Controller {
         $repositoryHistorique = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:HistoricalAlertSubscriber');
         $repositorySubscriber = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Subscriber');
         $subscribers = null;
-        
+
         if (isset($_POST['send_notification_procedureResult_form'])) {
             $twilio = $this->get('twilio.api');
             //$messages = $twilio->account->messages->read();
@@ -131,15 +129,15 @@ class TelephoneController extends Controller {
             $historiqueAlertSubscriber->setSubscriber($subscriber);
             $historiqueAlertSubscriber->setAlertType("SMS");
             $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
-            $view = View::create(["code" => 200, 'messages_twilio' =>$message , 'message' => "SMS envoyé avec succès" ]);
+            $view = View::create(["code" => 200, 'messages_twilio' => $message, 'message' => "SMS envoyé avec succès"]);
             $view->setFormat('json');
             return $view;
 //        } elseif ($form->isSubmitted() && !$form->isValid()) {
 //            return $form;
         } else {
 
-            $subscribers = $repositorySubscriber->findBy(array("state"=>1, "status"=>1));
-            
+            $subscribers = $repositorySubscriber->findBy(array("state" => 1, "status" => 1));
+
             $send_notification_procedureResult_form = $this->renderView('OGIVEAlertBundle:send_sms:form_send_notification_procedureResult.html.twig', array(
                 'subscribers' => $subscribers,
                 'procedureResult' => $procedureResult,
@@ -149,7 +147,7 @@ class TelephoneController extends Controller {
             return $view;
         }
     }
-    
+
     /**
      * @Rest\View()
      * @Rest\Post("/send-notification-additive/{id}" , name="send_notification_additive", options={ "method_prefix" = false, "expose" = true })
@@ -163,7 +161,7 @@ class TelephoneController extends Controller {
         $repositoryHistorique = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:HistoricalAlertSubscriber');
         $repositorySubscriber = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Subscriber');
         $subscribers = null;
-        
+
         if (isset($_POST['send_notification_additive_form'])) {
             $twilio = $this->get('twilio.api');
             //$messages = $twilio->account->messages->read();
@@ -175,15 +173,15 @@ class TelephoneController extends Controller {
             $historiqueAlertSubscriber->setSubscriber($subscriber);
             $historiqueAlertSubscriber->setAlertType("SMS");
             $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
-            $view = View::create(["code" => 200, 'messages_twilio' =>$message , 'message' => "SMS envoyé avec succès" ]);
+            $view = View::create(["code" => 200, 'messages_twilio' => $message, 'message' => "SMS envoyé avec succès"]);
             $view->setFormat('json');
             return $view;
 //        } elseif ($form->isSubmitted() && !$form->isValid()) {
 //            return $form;
         } else {
 
-            $subscribers = $repositorySubscriber->findBy(array("state"=>1, "status"=>1));
-            
+            $subscribers = $repositorySubscriber->findBy(array("state" => 1, "status" => 1));
+
             $send_notification_additive_form = $this->renderView('OGIVEAlertBundle:send_sms:form_send_notification_additive.html.twig', array(
                 'subscribers' => $subscribers,
                 'additive' => $additive,
@@ -193,7 +191,7 @@ class TelephoneController extends Controller {
             return $view;
         }
     }
-    
+
     /**
      * @Rest\View()
      * @Rest\Post("/send-notification-expression-interest/{id}" , name="send_notification_expressionInterest", options={ "method_prefix" = false, "expose" = true })
@@ -207,7 +205,7 @@ class TelephoneController extends Controller {
         $repositoryHistorique = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:HistoricalAlertSubscriber');
         $repositorySubscriber = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Subscriber');
         $subscribers = null;
-        
+
         if (isset($_POST['send_notification_expressionInterest_form'])) {
             $twilio = $this->get('twilio.api');
             //$messages = $twilio->account->messages->read();
@@ -219,15 +217,15 @@ class TelephoneController extends Controller {
             $historiqueAlertSubscriber->setSubscriber($subscriber);
             $historiqueAlertSubscriber->setAlertType("SMS");
             $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
-            $view = View::create(["code" => 200, 'messages_twilio' =>$message , 'message' => "SMS envoyé avec succès" ]);
+            $view = View::create(["code" => 200, 'messages_twilio' => $message, 'message' => "SMS envoyé avec succès"]);
             $view->setFormat('json');
             return $view;
 //        } elseif ($form->isSubmitted() && !$form->isValid()) {
 //            return $form;
         } else {
 
-            $subscribers = $repositorySubscriber->findBy(array("state"=>1, "status"=>1));
-            
+            $subscribers = $repositorySubscriber->findBy(array("state" => 1, "status" => 1));
+
             $send_notification_expressionInterest_form = $this->renderView('OGIVEAlertBundle:send_sms:form_send_notification_expressionInterest.html.twig', array(
                 'subscribers' => $subscribers,
                 'expressionInterest' => $expressionInterest,
@@ -237,7 +235,7 @@ class TelephoneController extends Controller {
             return $view;
         }
     }
-    
+
     public function callAction($me, $maybee) {
         //returns an instance of Vresh\TwilioBundle\Service\TwilioWrapper
         $twilio = $this->get('twilio.api');

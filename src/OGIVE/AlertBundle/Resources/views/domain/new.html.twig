@@ -4,20 +4,20 @@
         Ajout d'un domaine
     </div>
     <div class="content">
-        {{ form_start(form, {'method': 'POST', 'action': '/domains', 'attr': {'class': 'ui form', 'id': 'add_domain_form'} }) }}
+        <form id="add_domain_form" class="ui form" name="ogive_alertbundle_domain" method="POST" action="{{ path('domain_add') }}" {{ form_enctype(form) }} novalidate="novalidate">
 
-        <div class="field">
-            {{ form_label(form.name,"Nom") }}
-            {{ form_widget(form.name,{'attr':{'placeholder':'Nom du domaine', 'data-validate': 'name'}})}}
-        </div>
+            <div class="field">
+                {{ form_label(form.name,"Nom") }}
+                {{ form_widget(form.name,{'attr':{'placeholder':'Nom du domaine', 'data-validate': 'name'}})}}
+            </div>
 
-        <div class="field">
-            {{ form_label(form.description,"Description") }}
-            {{ form_errors(form.description, {'attr': {'class': 'ui error message'}})}}
-            {{ form_widget(form.description,{'attr':{'placeholder':'Description du domain', 'data-validate': 'description'}})}}
-        </div>
-        
-        <div class="field">
+            <div class="field">
+                {{ form_label(form.description,"Description") }}
+                {{ form_errors(form.description, {'attr': {'class': 'ui error message'}})}}
+                {{ form_widget(form.description,{'attr':{'placeholder':'Description du domain', 'data-validate': 'description'}})}}
+            </div>
+
+            <div class="field">
                 <div class="ui fluid card">
                     <div class="content">
                         <div class="header">Ajout des sous-domaines</div>
@@ -46,22 +46,23 @@
                 </div>
             </div>
 
-        <div class="field">
-            {{form_rest(form)}}
-            <div id="server_error_message" class="ui negative message" style="display:none">
-                <i class="close icon"></i>
-                <div id="server_error_content" class="header">Internal server error</div>
-            </div>
-            <div id="error_name_message" class="ui error message" style="display: none">
-                <i class="close icon"></i>
-                <div id="error_name_header" class="header"></div>
-                <ul id="error_name_list" class="list">
+            <div class="field">
+                <div id="server_error_message" class="ui negative message" style="display:none">
+                    <i class="close icon"></i>
+                    <div id="server_error_content" class="header">Internal server error</div>
+                </div>
+                <div id="error_name_message" class="ui error message" style="display: none">
+                    <i class="close icon"></i>
+                    <div id="error_name_header" class="header"></div>
+                    <ul id="error_name_list" class="list">
 
-                </ul>
+                    </ul>
+                </div>
             </div>
-        </div>
 
-        {{ form_end(form) }}
+            {{form_widget(form._token)}}
+            {#{ form_end(form) }#}
+        </form>
     </div>
     <div class="actions">
         <div id="cancel_add_domain" class="ui black deny button">
