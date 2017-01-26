@@ -69,10 +69,14 @@ class Domain
      */
     private $state;
     
-     /**
+    /**
      * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="\OGIVE\AlertBundle\Entity\Entreprise", inversedBy="subDomains", cascade={"persist"})
+     * 
+     * @ORM\ManyToMany(targetEntity="\OGIVE\AlertBundle\Entity\Entreprise", inversedBy="domains", cascade={"persist"})
+     * @ORM\JoinTable(name="domain_entreprise",
+     * joinColumns={@ORM\JoinColumn(name="domain_id", referencedColumnName="id")},
+     * inverseJoinColumns={@ORM\JoinColumn(name="entreprise_id", referencedColumnName="id")}
+     * )
      */
     private $entreprises;
     

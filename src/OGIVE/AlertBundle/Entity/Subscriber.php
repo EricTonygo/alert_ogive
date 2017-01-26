@@ -87,7 +87,7 @@ class Subscriber
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="SpecialFollowUp", inversedBy="subscribers", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="SpecialFollowUp", mappedBy="subscribers", cascade={"persist"})
      * 
      */
     private $specialFollowUps;

@@ -2,8 +2,8 @@ function send_procedure_additive(id) {
     $('#message_error').hide();
     $('#message_success').hide();
     $.ajax({
-        type: 'POST',
-        url: Routing.generate('send_notification_additive', {id: id}),
+        type: 'GET',
+        url: Routing.generate('send_notification_additive_get', {id: id}),
         dataType: 'json',
         beforeSend: function () {
             $('#message_loading').show();
@@ -78,7 +78,7 @@ function execute_send_notification_additive(id) {
                 onSuccess: function (event, fields) {
                     $.ajax({
                         type: 'POST',
-                        url: Routing.generate('send_notification_additive', {id: id}),
+                        url: Routing.generate('send_notification_additive_post', {id: id}),
                         data: fields,
                         dataType: 'json',
                         beforeSend: function () {

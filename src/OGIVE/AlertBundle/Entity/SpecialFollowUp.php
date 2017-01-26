@@ -52,9 +52,12 @@ class SpecialFollowUp
     
     /**
      * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Subscriber", inversedBy="specialFollowUps", cascade={"persist"})
      * 
+     * @ORM\ManyToMany(targetEntity="\OGIVE\AlertBundle\Entity\Subscriber", inversedBy="specialFollowUps", cascade={"persist"})
+     * @ORM\JoinTable(name="special_follow_up_subscriber",
+     * joinColumns={@ORM\JoinColumn(name="special_follow_up_id", referencedColumnName="id")},
+     * inverseJoinColumns={@ORM\JoinColumn(name="subscriber_id", referencedColumnName="id")}
+     * )
      */
     private $subscribers;
     

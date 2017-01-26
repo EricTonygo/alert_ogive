@@ -118,22 +118,9 @@
                     </div>
                 </div>
 
-
             </div>
             <div id="block_details">
-                <div class="two fields">
-                    <div class="field">
-                        <label>Logo : </label> 
-                    </div>
-                    <div class="field">
-                        {% if entreprise.logo %}
-                            <div class="image">
-                                <img src="{{asset('uploads/logos_entreprises/'~entreprise.logo)}}" alt="{{entreprise.name}}"/>
-                            </div>
-                        {% endif %}
-                    </div>
-                </div>
-
+                
                 <div class="two fields">
                     <div class="field">
                         <label>Nom : </label> 
@@ -203,17 +190,6 @@
                     </div>
                     <div class="field">
                         <span> {{ entreprise.address.place}}</span>
-                    </div>
-                </div>
-
-                <div class="two fields">
-                    <div class="field">
-                        <label>Plan de localisation : </label> 
-                    </div>
-                    <div class="field">
-                        {% if entreprise.address.path %}
-                            <a  href="{{asset('uploads/planslocalisation/'~entreprise.address.path)}}" target="_blank" alt="{{entreprise.name}}"/>Lien vers le plan de localisation</a>
-                        {% endif %}
                     </div>
                 </div>
 

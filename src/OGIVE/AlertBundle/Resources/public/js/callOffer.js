@@ -1,4 +1,5 @@
 $(function () {
+    $('#field_asmi_add').hide();
     $('#checkbox_aono_add').change(function () {
         if ($(this).is(':checked')) {
             $('#field_asmi_add').hide();

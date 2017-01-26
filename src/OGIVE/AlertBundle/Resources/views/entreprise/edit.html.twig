@@ -5,7 +5,7 @@
     </div>
     <div class="content">
         <form id="edit_entreprise_form" class="ui form" name="ogive_alertbundle_entreprise" method="PUT" action="{{ path('entreprise_update', {'id': entreprise.id}) }}" {{ form_enctype(form) }} novalidate="novalidate">
-        {#{ form_start(form, {'method': 'PUT', 'action': path('entreprise_update', {'id': entreprise.id}), 'attr': {'class': 'ui form', 'id': 'edit_entreprise_form'} }) }#}
+            {#{ form_start(form, {'method': 'PUT', 'action': path('entreprise_update', {'id': entreprise.id}), 'attr': {'class': 'ui form', 'id': 'edit_entreprise_form'} }) }#}
 
             <div class="field">
                 {{ form_label(form.name,"Nom") }}
@@ -23,8 +23,8 @@
                 {{ form_errors(form.domains, {'attr': {'class': 'ui error message'}})}}
                 {{ form_widget(form.domains,{'attr':{'data-validate': 'domains', 'class': 'ui search dropdown'}})}}
             </div>
-            
-             <div class="field">
+
+            <div class="field">
                 {{ form_label(form.subDomains,"Ses sous-domaines d'activité") }}
                 {{ form_errors(form.subDomains, {'attr': {'class': 'ui error message'}})}}
                 {{ form_widget(form.subDomains,{'attr':{'data-validate': 'subDomains', 'class': 'ui search dropdown'}})}}
@@ -68,20 +68,6 @@
             </div>#}
 
             <div class="field">
-                <div id="server_error_message_edit" class="ui negative message" style="display:none">
-                    <i class="close icon"></i>
-                    <div id="server_error_content_edit" class="header">Internal server error</div>
-                </div>
-                <div id="error_name_message_edit" class="ui error message" style="display: none">
-                    <i class="close icon"></i>
-                    <div id="error_name_header_edit" class="header"></div>
-                    <ul id="error_name_list_edit" class="list">
-
-                    </ul>
-                </div>
-            </div>
-
-            <div class="field">
                 <div class="ui fluid card">
                     <div class="content">
                         <div class="header">Ajout des abonnés</div>
@@ -113,8 +99,21 @@
                     </div>
                 </div>
             </div>
+            <div class="field">
+                <div id="server_error_message_edit" class="ui negative message" style="display:none">
+                    <i class="close icon"></i>
+                    <div id="server_error_content_edit" class="header">Internal server error</div>
+                </div>
+                <div id="error_name_message_edit" class="ui error message" style="display: none">
+                    <i class="close icon"></i>
+                    <div id="error_name_header_edit" class="header"></div>
+                    <ul id="error_name_list_edit" class="list">
+
+                    </ul>
+                </div>
+            </div>
             {{form_widget(form._token)}}
-        {#{ form_end(form) }#}
+            {#{ form_end(form) }#}
         </form>
     </div>
     <div class="actions">

@@ -72,7 +72,7 @@ class EntrepriseController extends Controller {
         }
         $entreprise = new Entreprise();
         $repositoryEntreprise = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Entreprise');
-        $repositorySubscriber = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Subscriber');
+        $repositorySubscriber = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Subscriber');       
         $form = $this->createForm('OGIVE\AlertBundle\Form\EntrepriseType', $entreprise);
         $form->handleRequest($request);
 
@@ -83,12 +83,27 @@ class EntrepriseController extends Controller {
             if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
                 $entreprise->setState(1);
             }
+            //*************** gestion des domaines de l'entreprise **************************/
+            $domains = $entreprise->getDomains();
+            foreach ($domains as $domain) {
+                $domain->addEntreprise($entreprise);
+            }
+            //*************** gestion des sous-domaines de l'entreprise **************************/
+            $subDomains = $entreprise->getSubDomains();
+            foreach ($subDomains as $subDomain) {
+                $subDomain->addEntreprise($entreprise);
+            }
+            //***************gestion des abonnés de l'entreprise ************************** */
             $subscribers = $entreprise->getSubscribers();
             foreach ($subscribers as $subscriber) {
-                if ($repositorySubscriber->findOneBy(array('phoneNumber' => $subscriber->getPhoneNumber(), 'status' => 1))!==null) {
+
+                if ($repositorySubscriber->findOneBy(array('phoneNumber' => $subscriber->getPhoneNumber(), 'status' => 1)) !== null) {
                     $entreprise->removeSubscriber($subscriber);
                 } elseif ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
                     $subscriber->setState(1);
+                    $subscriber->setEntreprise($entreprise);
+                } else {
+                    $subscriber->setEntreprise($entreprise);
                 }
             }
             $entreprise = $repositoryEntreprise->saveEntreprise($entreprise);
@@ -141,7 +156,11 @@ class EntrepriseController extends Controller {
 
         $repositoryEntreprise = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Entreprise');
         $repositorySubscriber = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Subscriber');
+        $repositoryDomain = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Domain');
+        $repositorySubDomain = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:SubDomain');
         $originalSubscribers = new \Doctrine\Common\Collections\ArrayCollection();
+        $originalDomains = new \Doctrine\Common\Collections\ArrayCollection();
+        $originalSubDomains = new \Doctrine\Common\Collections\ArrayCollection();
         $serializer = $this->container->get('jms_serializer');
         if (empty($entreprise)) {
             return new JsonResponse(['message' => 'Entreprise introuvable'], Response::HTTP_NOT_FOUND);
@@ -169,11 +188,17 @@ class EntrepriseController extends Controller {
             return new JsonResponse(['message' => 'Entreprise désactivée avec succcès !'], Response::HTTP_OK
             );
         }
-
         foreach ($entreprise->getSubscribers() as $subscriber) {
             $originalSubscribers->add($subscriber);
         }
+        foreach ($entreprise->getDomains() as $domain) {
+            $originalDomains->add($domain);
+        }
         
+        foreach ($entreprise->getSubDomains() as $subDomain) {
+            $originalSubDomains->add($subDomain);
+        }
+
         $form = $this->createForm('OGIVE\AlertBundle\Form\EntrepriseType', $entreprise, array('method' => 'PUT'));
 
         $form->handleRequest($request);
@@ -183,17 +208,61 @@ class EntrepriseController extends Controller {
             if ($entrepriseUnique && $entrepriseUnique->getId() != $entreprise->getId()) {
                 return new JsonResponse(["success" => false, 'message' => 'Une entreprise avec ce nom existe dejà'], Response::HTTP_NOT_FOUND);
             }
+
+            //*************** gestion des domaines de l'entreprise **************************/
+
+            foreach ($originalDomains as $domain) {
+                if (false === $entreprise->getDomains()->contains($domain)) {
+                    // remove the entreprise from the subscriber
+                    $entreprise->getDomains()->removeElement($domain);
+                    // if it was a many-to-one relationship, remove the relationship like this
+                    
+                    $repositoryDomain->updateDomain($domain);
+                    // if you wanted to delete the Subscriber entirely, you can also do that
+                    // $em->remove($domain);
+                }
+            }
+            
+            $domains = $entreprise->getDomains();
+            foreach ($domains as $domain) {
+                if(!$originalDomains->contains($domain)){
+                    $domain->addEntreprise($entreprise);
+                }
+            }
+            
+            //*************** gestion des sous-domaines de l'entreprise **************************/
+
+            foreach ($originalSubDomains as $subDomain) {
+                if (false === $entreprise->getSubDomains()->contains($subDomain)) {
+                    // remove the entreprise from the subscriber
+                    $entreprise->getSubDomains()->removeElement($subDomain);
+                    // if it was a many-to-one relationship, remove the relationship like this
+                    
+                    $repositorySubDomain->updateSubDomain($subDomain);
+                    // if you wanted to delete the Subscriber entirely, you can also do that
+                    // $em->remove($domain);
+                }
+            }
+            
+            $subDomains = $entreprise->getSubDomains();
+            foreach ($subDomains as $subDomain) {
+                if(!$originalSubDomains->contains($subDomain)){
+                    $subDomain->addEntreprise($entreprise);
+                }
+            }
+
+            //***************gestion des abonnés de l'entreprise ************************** */
             // remove the relationship between the Entreprise and the Subscribers
             foreach ($originalSubscribers as $subscriber) {
                 if (false === $entreprise->getSubscribers()->contains($subscriber)) {
-                    // remove the panne from the piece
+                    // remove the entreprise from the subscriber
                     $entreprise->getSubscribers()->removeElement($subscriber);
                     // if it was a many-to-one relationship, remove the relationship like this
                     $subscriber->setEntreprise(null);
                     $subscriber->setStatus(0);
                     $repositorySubscriber->updateSubscriber($subscriber);
-                    // if you wanted to delete the Piece entirely, you can also do that
-                    // $em->remove($piece);
+                    // if you wanted to delete the Subscriber entirely, you can also do that
+                    // $em->remove($domain);
                 }
             }
             $subscribers = $entreprise->getSubscribers();
@@ -201,6 +270,8 @@ class EntrepriseController extends Controller {
                 $subscriberUnique = $repositorySubscriber->findOneBy(array('phoneNumber' => $subscriber->getPhoneNumber(), 'status' => 1));
                 if ($subscriberUnique && $subscriberUnique->getId() != $subscriber->getId()) {
                     $entreprise->removeSubscriber($subscriber);
+                } else {
+                    $subscriber->setEntreprise($entreprise);
                 }
             }
             $entreprise = $repositoryEntreprise->updateEntreprise($entreprise);

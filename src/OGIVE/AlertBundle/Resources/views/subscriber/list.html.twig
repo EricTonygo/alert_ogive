@@ -18,7 +18,7 @@
                         </td>
                         <td>{{subscriber.phoneNumber}}</td>
                         <td>{{subscriber.entreprise.name}}</td>
-                        <td>{{subscriber.subscription.name}}</td>
+                        <td>{%if subscriber.subscription%}{{subscriber.subscription.name}}{% endif %}</td>
                         <td class="right aligned">
                             <a onclick="send_procedure_subscriber({{subscriber.id}});" class="send_sms_subscriber_btn item" data-tooltip="Notifier d'une procédure" data-position="top center" data-inverted="">
                                 <i class="alarm icon"></i>

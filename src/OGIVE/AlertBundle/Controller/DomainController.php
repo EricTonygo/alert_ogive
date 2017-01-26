@@ -100,11 +100,13 @@ class DomainController extends Controller {
             }
             $subdomains = $domain->getSubDomains();
             foreach ($subdomains as $subDomain) {
+                $subDomain->setDomain($domain);
                 if ($repositorySubDomain->findOneBy(array('name' => $subDomain->getName(), 'status' => 1))) {
                     $domain->removeSubDomain($subDomain);
                 } elseif ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
                     $subDomain->setState(1);
                 }
+                
             }
 
             $domain = $repositoryDomain->saveDomain($domain);
@@ -210,12 +212,15 @@ class DomainController extends Controller {
                 }
             }
             $subDomains = $domain->getSubDomains();
-            foreach ($subDomains as $subDomain) {
+            foreach ($subDomains as $subDomain) {                
                 $subDomainUnique = $repositorySubDomain->findOneBy(array('name' => $subDomain->getName(), 'status' => 1));
                 if ($subDomainUnique && $subDomainUnique->getId() != $subDomain->getId()) {
                     $domain->removeSubDomain($subDomain);
                 } elseif ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
                     $subDomain->setState(1);
+                    $subDomain->setDomain($domain);
+                }else{
+                    $subDomain->setDomain($domain);
                 }
             }
             $domain = $repositoryDomain->updateDomain($domain);

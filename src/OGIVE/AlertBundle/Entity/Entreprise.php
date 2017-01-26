@@ -61,7 +61,7 @@ class Entreprise {
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="\OGIVE\AlertBundle\Entity\SubDomain", inversedBy="entreprises", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="\OGIVE\AlertBundle\Entity\SubDomain", mappedBy="entreprises", cascade={"persist"})
      * 
      */
     private $subDomains;
@@ -69,8 +69,7 @@ class Entreprise {
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="\OGIVE\AlertBundle\Entity\Domain", inversedBy="entreprises", cascade={"persist"})
-     * 
+     * @ORM\ManyToMany(targetEntity="\OGIVE\AlertBundle\Entity\Domain", mappedBy="entreprises", cascade={"persist"})
      */
     private $domains;
 
@@ -332,9 +331,7 @@ class Entreprise {
      */
     public function addDomain(\OGIVE\AlertBundle\Entity\Domain $domain) {
         $this->domains[] = $domain;
-//        if (!$domain->entreprises->contains($this)) {
-//            $domain->entreprises->add($this);
-//        }
+
         return $this;
     }
 
@@ -354,12 +351,8 @@ class Entreprise {
      * @return Entreprise
      */
     public function setDomains(\Doctrine\Common\Collections\Collection $domains = null) {
+
         $this->domains = $domains;
-//        foreach (domains as $domain) {
-//            if (!$domain->entreprises->contains($this)) {
-//                $domain->entreprises->add($this);
-//            }
-//        }
         return $this;
     }
 
@@ -424,9 +417,9 @@ class Entreprise {
      * @return Entreprise
      */
     public function addSubscriber(\OGIVE\AlertBundle\Entity\Subscriber $subscriber) {
-        if (!$this->subscribers->contains($subscriber)) {
-            $subscriber->setEntreprise($this);
+        if (!$this->subscribers->contains($subscriber) || $subscriber->getId()!=null) {
             $this->subscribers[] = $subscriber;
+            $subscriber->setEntreprise($this);
         }
         return $this;
     }
