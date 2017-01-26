@@ -56,38 +56,38 @@ function add_entreprise() {
                                 prompt: "Veuillez saisir le numéro de téléphone valide"
                             }
                         ]
-                    },
-                    name_subscriber: {
-                        identifier: 'name_subscriber',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: "Veuillez saisir le nom de l'abonné"
-                            }
-                        ]
-                    },
-                    subscription_subscriber: {
-                        identifier: 'subscription_subscriber',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: "Veuillez selectionner l'abonnement de l'abonné"
-                            }
-                        ]
-                    },
-                    phone_subscriber: {
-                        identifier: 'phone_subscriber',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: "Veuillez saisir le numéro de téléphone de l'abonné"
-                            },
-                            {
-                                type: 'regExp[/^([\+][0-9]{4,}?)$/]',
-                                prompt: "Veuillez saisir le numéro de téléphone valide"
-                            }
-                        ]
                     }
+//                    name_subscriber: {
+//                        identifier: 'name_subscriber',
+//                        rules: [
+//                            {
+//                                type: 'empty',
+//                                prompt: "Veuillez saisir le nom de l'abonné"
+//                            }
+//                        ]
+//                    },
+//                    subscription_subscriber: {
+//                        identifier: 'subscription_subscriber',
+//                        rules: [
+//                            {
+//                                type: 'empty',
+//                                prompt: "Veuillez selectionner l'abonnement de l'abonné"
+//                            }
+//                        ]
+//                    },
+//                    phone_subscriber: {
+//                        identifier: 'phone_subscriber',
+//                        rules: [
+//                            {
+//                                type: 'empty',
+//                                prompt: "Veuillez saisir le numéro de téléphone de l'abonné"
+//                            },
+//                            {
+//                                type: 'regExp[/^([\+][0-9]{4,}?)$/]',
+//                                prompt: "Veuillez saisir le numéro de téléphone valide"
+//                            }
+//                        ]
+//                    }
                 },
                 inline: true,
                 on: 'blur',
@@ -201,6 +201,9 @@ function edit_entreprise(id) {
                 $('#ogive_alertbundle_entreprise_subDomains.ui.dropdown').dropdown({
                     on: 'click'
                 });
+                $('.ui.dropdown').dropdown({
+                    on: 'click'
+                });
                 $('#edit_entreprise.ui.modal').modal('show');
                 execute_edit(id);
             }
@@ -255,38 +258,38 @@ function execute_edit(id) {
                                 prompt: "Veuillez saisir le numéro de téléphone valide"
                             }
                         ]
-                    },
-                    name_subscriber: {
-                        identifier: 'name_subscriber',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: "Veuillez saisir le nom de l'abonné"
-                            }
-                        ]
-                    },
-                    subscription_subscriber: {
-                        identifier: 'subscription_subscriber',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: "Veuillez selectionner l'abonnement de l'abonné"
-                            }
-                        ]
-                    },
-                    phone_subscriber: {
-                        identifier: 'phone_subscriber',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: "Veuillez saisir le numéro de téléphone de l'abonné"
-                            },
-                            {
-                                type: 'regExp[/^([\+][0-9]{4,}?)$/]',
-                                prompt: "Veuillez saisir le numéro de téléphone valide"
-                            }
-                        ]
                     }
+//                    name_subscriber: {
+//                        identifier: 'name_subscriber',
+//                        rules: [
+//                            {
+//                                type: 'empty',
+//                                prompt: "Veuillez saisir le nom de l'abonné"
+//                            }
+//                        ]
+//                    },
+//                    subscription_subscriber: {
+//                        identifier: 'subscription_subscriber',
+//                        rules: [
+//                            {
+//                                type: 'empty',
+//                                prompt: "Veuillez selectionner l'abonnement de l'abonné"
+//                            }
+//                        ]
+//                    },
+//                    phone_subscriber: {
+//                        identifier: 'phone_subscriber',
+//                        rules: [
+//                            {
+//                                type: 'empty',
+//                                prompt: "Veuillez saisir le numéro de téléphone de l'abonné"
+//                            },
+//                            {
+//                                type: 'regExp[/^([\+][0-9]{4,}?)$/]',
+//                                prompt: "Veuillez saisir le numéro de téléphone valide"
+//                            }
+//                        ]
+//                    }
                 },
                 inline: true,
                 on: 'blur',

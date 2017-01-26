@@ -30,7 +30,7 @@ class SubscriberController extends Controller {
         if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             return $this->redirect($this->generateUrl('fos_user_security_login'));
         }
-        
+
         $em = $this->getDoctrine()->getManager();
         $subscriber = new Subscriber();
         $form = $this->createForm('OGIVE\AlertBundle\Form\SubscriberType', $subscriber);
@@ -79,7 +79,7 @@ class SubscriberController extends Controller {
             if ($repositorySubscriber->findOneBy(array('phoneNumber' => $subscriber->getPhoneNumber(), 'status' => 1))) {
                 return new JsonResponse(["success" => false, 'message' => 'Un abonné avec ce numero existe dejà'], Response::HTTP_BAD_REQUEST);
             }
-            if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            if ($this->get('security.context')->isGranted('ROLE_ADMIN') && $subscriber->getSubscription()) {
                 $subscriber->setState(1);
             }
             $subscriber = $repositorySubscriber->saveSubscriber($subscriber);
@@ -135,19 +135,23 @@ class SubscriberController extends Controller {
         if (empty($subscriber)) {
             return new JsonResponse(['message' => 'Abonné introuvable'], Response::HTTP_NOT_FOUND);
         }
-        
-        if($request->get('action')== 'enable'){
-            $subscriber->setState(1);
-            $subscriber = $repositorySubscriber->updateSubscriber($subscriber);
-            return new JsonResponse(['message' => 'Abonné activé avec succcès !'], Response::HTTP_OK
-                    );
+
+        if ($request->get('action') == 'enable') {
+            if ($subscriber->getSubscription()) {
+                $subscriber->setState(1);
+                $subscriber = $repositorySubscriber->updateSubscriber($subscriber);
+                return new JsonResponse(['message' => 'Abonné activé avec succcès !'], Response::HTTP_OK
+                );
+            }else{
+                return new JsonResponse(['message' => "Cet abonné n'a pas souscrit à un abonnement"], Response::HTTP_NOT_FOUND);
+            }
         }
-        
-        if($request->get('action')== 'disable'){
+
+        if ($request->get('action') == 'disable') {
             $subscriber->setState(0);
             $subscriber = $repositorySubscriber->updateSubscriber($subscriber);
             return new JsonResponse(['message' => 'Abonné désactivé avec succcès !'], Response::HTTP_OK
-                    );
+            );
         }
         $form = $this->createForm('OGIVE\AlertBundle\Form\SubscriberType', $subscriber, array('method' => 'PUT'));
 

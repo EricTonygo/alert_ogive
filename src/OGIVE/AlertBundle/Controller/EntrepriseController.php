@@ -100,7 +100,9 @@ class EntrepriseController extends Controller {
                 if ($repositorySubscriber->findOneBy(array('phoneNumber' => $subscriber->getPhoneNumber(), 'status' => 1)) !== null) {
                     $entreprise->removeSubscriber($subscriber);
                 } elseif ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
-                    $subscriber->setState(1);
+                    if($subscriber->getSubscription()){
+                        $subscriber->setState(1);
+                    }
                     $subscriber->setEntreprise($entreprise);
                 } else {
                     $subscriber->setEntreprise($entreprise);

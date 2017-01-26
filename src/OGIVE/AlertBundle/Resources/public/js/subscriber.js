@@ -276,6 +276,7 @@ function execute_edit(id) {
                                 $('#server_error_message_edit').show();
                             },
                             400: function (response, textStatus, jqXHR) {
+                                
                                 var myerrors = response.responseJSON;
                                 if (myerrors.success === false) {
                                     $('#error_name_header_edit').html("Echec de la validation");
@@ -381,7 +382,11 @@ function show_subscriber(id) {
         },
         statusCode: {
             500: function (xhr) {
-
+                $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
+                $('#message_error').show();
+                setTimeout(function () {
+                    $('#message_error').hide();
+                }, 4000);
             },
             400: function (response, textStatus, jqXHR) {
                 $('#message_error>div.header').html(response.responseJSON.message);
@@ -453,7 +458,8 @@ function enable_subscriber(id) {
                 }, 4000);
             },
             400: function (response, textStatus, jqXHR) {
-                $('#message_error>div.header').html("Echec d'activation de l'abonné");
+                var myerrors = response.responseJSON;
+                $('#message_error>div.header').html(myerrors.message);
                 $('#message_error').show();
                 setTimeout(function () {
                     $('#message_error').hide();
@@ -502,7 +508,8 @@ function disable_subscriber(id) {
                 }, 4000);
             },
             400: function (response, textStatus, jqXHR) {
-                $('#message_error>div.header').html("Echec de la désactivation de l'abonné");
+                var myerrors = response.responseJSON;
+                $('#message_error>div.header').html(myerrors.message);
                 $('#message_error').show();
                 setTimeout(function () {
                     $('#message_error').hide();

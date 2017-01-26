@@ -37,7 +37,7 @@
             {{ form_widget(form.expressionInterest,{'attr':{'data-validate': 'expressionInterest', 'class': 'ui search dropdown'}})}}
         </div>
 
-        <div class="field">
+        {#<div class="field">
             {{ form_label(form.object,"Objet") }}
             {{ form_errors(form.object, {'attr': {'class': 'ui error message'}})}}
             {{ form_widget(form.object,{'attr':{'placeholder':"Objet de l'additif", 'data-validate': 'object'}})}}
@@ -47,13 +47,7 @@
             {{ form_label(form.owner,"Maître d'ouvrage") }}
             {{ form_errors(form.owner, {'attr': {'class': 'ui error message'}})}}
             {{ form_widget(form.owner,{'attr':{'placeholder':"Maître d'ouvrage", 'data-validate': 'owner'}})}}
-        </div>
-
-        <div class="field">
-            {{ form_label(form.domain,"Domaine") }}
-            {{ form_errors(form.domain, {'attr': {'class': 'ui error message'}})}}
-            {{ form_widget(form.domain,{'attr':{'data-validate': 'domain', 'class': 'ui search dropdown'}})}}
-        </div>
+        </div>#}
 
         <div class="field">
             {{ form_label(form.publicationDate,"Date de publication") }}

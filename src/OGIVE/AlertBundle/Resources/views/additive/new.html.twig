@@ -45,22 +45,16 @@
             {{ form_widget(form.object,{'attr':{'placeholder':"Objet de l'additif", 'data-validate': 'object'}})}}
         </div>
 
-        <div class="field">
+        {#<div class="field">
             {{ form_label(form.owner,"Maître d'ouvrage") }}
             {{ form_errors(form.owner, {'attr': {'class': 'ui error message'}})}}
             {{ form_widget(form.owner,{'attr':{'placeholder':"Maître d'ouvrage", 'data-validate': 'owner'}})}}
         </div>
 
         <div class="field">
-            {{ form_label(form.domain,"Domaine") }}
-            {{ form_errors(form.domain, {'attr': {'class': 'ui error message'}})}}
-            {{ form_widget(form.domain,{'attr':{'id': 'select_domain_edit', 'data-validate': 'domain', 'class': 'ui search dropdown'}})}}
-        </div>
-
-        <div class="field">
             {{ form_label(form.publicationDate,"Date de publication") }}
             {{ form_widget(form.publicationDate,{'attr':{'data-validate': 'publication_date'}})}}
-        </div>
+        </div>#}
 
         <div class="field">
             {{ form_label(form.openingDate,"Date d'ouverture de dépôt") }}
