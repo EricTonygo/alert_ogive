@@ -191,10 +191,11 @@ class AdditiveController extends Controller {
     }
     
     public function getAbstractOfAdditive(Additive $additive){
+        $contact = "+237694200310 / +237694202013";
         if($additive && $additive->getCallOffer()){
-            return  "Réf : ".$additive->getType()." "."N°".$additive->getReference()."/".date_format($additive->getPublicationDate(), "Y")." du ".date_format($additive->getPublicationDate(), "d/m/Y")." relatif à ".$additive->getCallOffer()->getType()." N°".$additive->getCallOffer()->getReference()."/".$additive->getCallOffer()->getType()."/".$additive->getCallOffer()->getOwner()."/".date_format($additive->getCallOffer()->getPublicationDate(), "Y")." du ".date_format($additive->getCallOffer()->getPublicationDate(), "d/m/Y"); 
+            return  "Réf : ".$additive->getType()." "."N°".$additive->getReference()."/".date_format($additive->getPublicationDate(), "Y")." du ".date_format($additive->getPublicationDate(), "d/m/Y")." relatif à ".$additive->getCallOffer()->getType()." N°".$additive->getCallOffer()->getReference()."/".$additive->getCallOffer()->getType()."/".$additive->getCallOffer()->getOwner()."/".date_format($additive->getCallOffer()->getPublicationDate(), "Y")." du ".date_format($additive->getCallOffer()->getPublicationDate(), "d/m/Y").' \n'.$contact; 
         }elseif ($additive && $additive->getExpressionInterest()) {
-            return  "Réf : ".$additive->getType()." "."N°".$additive->getReference()."/".date_format($additive->getPublicationDate(), "Y")." du ".date_format($additive->getPublicationDate(), "d/m/Y")." relatif à ".$additive->getExpressionInterest()->getType()." N°".$additive->getExpressionInterest()->getReference()."/".$additive->getExpressionInterest()->getType()."/".$additive->getExpressionInterest()->getOwner()."/".date_format($additive->getExpressionInterest()->getPublicationDate(), "Y")." du ".date_format($additive->getExpressionInterest()->getPublicationDate(), "d/m/Y"); 
+            return  "Réf : ".$additive->getType()." "."N°".$additive->getReference()."/".date_format($additive->getPublicationDate(), "Y")." du ".date_format($additive->getPublicationDate(), "d/m/Y")." relatif à ".$additive->getExpressionInterest()->getType()." N°".$additive->getExpressionInterest()->getReference()."/".$additive->getExpressionInterest()->getType()."/".$additive->getExpressionInterest()->getOwner()."/".date_format($additive->getExpressionInterest()->getPublicationDate(), "Y")." du ".date_format($additive->getExpressionInterest()->getPublicationDate(), "d/m/Y").' \n'.$contact; 
         }else{
             return "";
         }

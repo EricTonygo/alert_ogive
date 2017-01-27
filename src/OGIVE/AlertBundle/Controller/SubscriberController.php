@@ -206,13 +206,17 @@ class SubscriberController extends Controller {
         $repositoryHistorique = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:HistoricalAlertSubscriber');
         $cout = "";
         if ($subscriber->getSubscription()->getPeriodicity() === 1) {
-            $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . " / an";
+            $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 1 an";
         } elseif ($subscriber->getSubscription()->getPeriodicity() === 2) {
-            $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . " / mois";
-        } elseif ($subscriber->getSubscription()->getPeriodicity() === 1) {
-            $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . " / semaine";
+            $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 6 mois";
+        } elseif ($subscriber->getSubscription()->getPeriodicity() === 3) {
+            $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 3 mois";
+        } elseif ($subscriber->getSubscription()->getPeriodicity() === 4) {
+            $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 1 mois";
+        }elseif ($subscriber->getSubscription()->getPeriodicity() === 4) {
+            $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 1 semaine";
         }
-        $content = "M/Mr. " . $subscriber->getEntreprise()->getName() . ", votre souscription au service <<Appels d'offres Infos>> a été éffectuée avec succès. \nCoût du forfait = " . $cout . ". \nOGIVE SOLUTIONS vous remercie pour votre confiance.";
+        $content = $subscriber->getEntreprise()->getName() . ", votre souscription au service <<Appels d'offres Infos>> a été éffectuée avec succès. \nCoût du forfait = " . $cout . ". \nOGIVE SOLUTIONS vous remercie pour votre confiance.";
         $twilio = $this->get('twilio.api');
         //$messages = $twilio->account->messages->read();
         $message = $twilio->account->messages->sendMessage(

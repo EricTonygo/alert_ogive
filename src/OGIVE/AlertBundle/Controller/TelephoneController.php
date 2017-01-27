@@ -38,7 +38,7 @@ class TelephoneController extends Controller {
             $twilio = $this->get('twilio.api');
             //$messages = $twilio->account->messages->read();
             $message = $twilio->account->messages->sendMessage(
-                    'OGIVE SOLUTIONS', // From a Twilio number in your account
+                    'MG8e369c4e5ea49ce989834c5355a1f02f', // From a Twilio number in your account
                     $subscriber->getPhoneNumber(), // Text any number
                     $historiqueAlertSubscriber->getMessage()
             );
@@ -551,7 +551,7 @@ class TelephoneController extends Controller {
         } elseif ($subscriber->getSubscription()->getPeriodicity() === 1) {
             $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . " / semaine";
         }
-        $content = "M/Mr. " . $subscriber->getName() . " Votre souscription au service l'alerte de messagerie pour les marchés publics a été éffectuée avec succès. \nCoût du forfait = " . $cout . ". \nOGIVE SOLUTIONS vous remercie pour votre confiance.";
+        $content = $subscriber->getEntreprise()->getName() . ", votre souscription au service <<Appels d'offres Infos>> a été éffectuée avec succès. \nCoût du forfait = " . $cout . ". \nOGIVE SOLUTIONS vous remercie pour votre confiance.";
         $twilio = $this->get('twilio.api');
         //$messages = $twilio->account->messages->read();
         $message = $twilio->account->messages->sendMessage(

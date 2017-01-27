@@ -20,8 +20,10 @@ class SubscriptionType extends AbstractType {
                 ->add('periodicity', ChoiceType::class, array(
                     'choices' => array(
                         1 => 'Annuelle',
-                        2 => 'Mensuelle',
-                        3 => 'Hebdomadaire'
+                        2 => 'Semestrielle',
+                        3 => 'Trimestrielle',
+                        4 => 'Mensuelle',
+                        5 => 'Hebdomadaire'
                     ),
                     'required' => false,
                     'placeholder' => 'Selectionner la périodicité',

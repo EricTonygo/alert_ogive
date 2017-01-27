@@ -115,7 +115,7 @@ class EntrepriseController extends Controller {
             if ($sendConfirmation && $sendConfirmation === 'on') {
                 $subscribers = $entreprise->getSubscribers();
                 foreach ($subscribers as $subscriber) {
-                    if ($subscriber->getSubscription() && $subscriber->getStatus()==1 && $subscriber->getState()==1) {
+                    if ($subscriber->getSubscription() && $subscriber->getStatus() == 1 && $subscriber->getState() == 1) {
                         $this->sendSubscriptionConfirmation($subscriber);
                     }
                 }
@@ -297,9 +297,9 @@ class EntrepriseController extends Controller {
             if ($sendConfirmation && $sendConfirmation === 'on') {
                 $subscribers = $entreprise->getSubscribers();
                 foreach ($subscribers as $subscriber) {
-                    if (false === $originalSubscribers->contains($subscriber) && $subscriber->getSubscription() && $subscriber->getStatus()==1 && $subscriber->getState()==1) {
+                    if (false === $originalSubscribers->contains($subscriber) && $subscriber->getSubscription() && $subscriber->getStatus() == 1 && $subscriber->getState() == 1) {
                         $this->sendSubscriptionConfirmation($subscriber);
-                    } elseif ($originalSubscribers->contains($subscriber) && $subscriber->getSubscription() && $repositoryHistoriqueSubscriber->findBy(array('subscriber' => $subscriber, 'alertType' => "SMS_CONFIRMATION_SUBSCRIPTION")) === null && $subscriber->getStatus()==1 && $subscriber->getState()==1) {
+                    } elseif ($originalSubscribers->contains($subscriber) && $subscriber->getSubscription() && $repositoryHistoriqueSubscriber->findBy(array('subscriber' => $subscriber, 'alertType' => "SMS_CONFIRMATION_SUBSCRIPTION")) === null && $subscriber->getStatus() == 1 && $subscriber->getState() == 1) {
                         $this->sendSubscriptionConfirmation($subscriber);
                     }
                 }
@@ -328,17 +328,18 @@ class EntrepriseController extends Controller {
         $historiqueAlertSubscriber = new HistoricalAlertSubscriber();
         $repositoryHistorique = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:HistoricalAlertSubscriber');
         $cout = "";
-        if ($subscriber->getSubscription()) {
-            if ($subscriber->getSubscription()->getPeriodicity() === 1) {
-                $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . " / an";
-            } elseif ($subscriber->getSubscription()->getPeriodicity() === 2) {
-                $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . " / mois";
-            } elseif ($subscriber->getSubscription()->getPeriodicity() === 1) {
-                $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . " / semaine";
-            }
+        if ($subscriber->getSubscription()->getPeriodicity() === 1) {
+            $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 1 an";
+        } elseif ($subscriber->getSubscription()->getPeriodicity() === 2) {
+            $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 6 mois";
+        } elseif ($subscriber->getSubscription()->getPeriodicity() === 3) {
+            $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 3 mois";
+        } elseif ($subscriber->getSubscription()->getPeriodicity() === 4) {
+            $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 1 mois";
+        } elseif ($subscriber->getSubscription()->getPeriodicity() === 5) {
+            $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 1 semaine";
         }
-
-        $content = "M/Mr. " . $subscriber->getName() . " Votre souscription au service l'alerte de messagerie pour les marchés publics a été éffectuée avec succès. \nCoût du forfait = " . $cout . ". \nOGIVE SOLUTIONS vous remercie pour votre confiance.";
+        $content = $subscriber->getEntreprise()->getName() . ", votre souscription au service <<Appels d'offres Infos>> a été éffectuée avec succès. \nCoût du forfait = " . $cout . ". \nOGIVE SOLUTIONS vous remercie pour votre confiance.";
         $twilio = $this->get('twilio.api');
         //$messages = $twilio->account->messages->read();
         $message = $twilio->account->messages->sendMessage(
