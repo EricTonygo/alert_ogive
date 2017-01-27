@@ -43,22 +43,15 @@
             </div>
 
             <div class="field">
-                {{ form_label(form.object,"Contenu") }}
+                {{ form_label(form.object,"Objet") }}
                 {{ form_errors(form.object, {'attr': {'class': 'ui error message'}})}}
                 {{ form_widget(form.object,{'attr':{'placeholder':"Contenu de l'attribution", 'data-validate': 'object'}})}}
             </div>
 
             <div class="field">
-            {{ form_label(form.publicationDate,"Date de publication") }}
-            <div class="two fields">
-                <div class="field">
-                    {{ form_widget(form.publicationDate.date,{'attr':{'data-validate': 'publication_date_date'}})}}
-                </div>
-                <div class="field">
-                    {{ form_widget(form.publicationDate.time,{'attr':{'data-validate': 'publication_date_time'}})}}
-                </div>
+                {{ form_label(form.publicationDate,"Date de publication") }}
+                {{ form_widget(form.publicationDate,{'attr':{'data-validate': 'publication_date'}})}}
             </div>
-        </div>
 
             <div class="field">
                 {{ form_label(form.sendingDate,"Date de notification aux abonnés") }}
@@ -111,39 +104,39 @@
                 </div>
             </div>
             {% if procedureResult.callOffer %}
-            <div class="two fields">
-                <div class="field">
-                    <label>AAO : </label> 
+                <div class="two fields">
+                    <div class="field">
+                        <label>AAO : </label> 
+                    </div>
+                    <div class="field">
+                        <span> {{ procedureResult.callOffer.reference}}</span>
+                    </div>
                 </div>
-                <div class="field">
-                    <span> {{ procedureResult.callOffer.reference}}</span>
+                <div class="two fields">
+                    <div class="field">
+                        <label>Objet : </label> 
+                    </div>
+                    <div class="field">
+                        <span> {{ procedureResult.callOffer.object}}</span>
+                    </div>
                 </div>
-            </div>
-            <div class="two fields">
-                <div class="field">
-                    <label>Objet : </label> 
-                </div>
-                <div class="field">
-                    <span> {{ procedureResult.callOffer.object}}</span>
-                </div>
-            </div>
             {% elseif procedureResult.expressionInterest %}
-            <div class="two fields">
-                <div class="field">
-                    <label>ASMI : </label> 
+                <div class="two fields">
+                    <div class="field">
+                        <label>ASMI : </label> 
+                    </div>
+                    <div class="field">
+                        <span> {{ procedureResult.expressionInterest.reference}}</span>
+                    </div>
                 </div>
-                <div class="field">
-                    <span> {{ procedureResult.expressionInterest.reference}}</span>
+                <div class="two fields">
+                    <div class="field">
+                        <label>Objet : </label> 
+                    </div>
+                    <div class="field">
+                        <span> {{ procedureResult.expressionInterest.object}}</span>
+                    </div>
                 </div>
-            </div>
-            <div class="two fields">
-                <div class="field">
-                    <label>Objet : </label> 
-                </div>
-                <div class="field">
-                    <span> {{ procedureResult.expressionInterest.object}}</span>
-                </div>
-            </div>
             {% endif %}
 
             <div class="two fields">

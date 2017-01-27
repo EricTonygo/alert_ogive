@@ -39,24 +39,24 @@
             {{ form_widget(form.expressionInterest,{'attr':{'data-validate': 'expressionInterest', 'class': 'ui search dropdown'}})}}
         </div>
 
-        <div class="field">
+        {#<div class="field">
             {{ form_label(form.object,"Objet") }}
             {{ form_errors(form.object, {'attr': {'class': 'ui error message'}})}}
             {{ form_widget(form.object,{'attr':{'placeholder':"Objet de l'additif", 'data-validate': 'object'}})}}
-        </div>
+        </div>#}
 
         {#<div class="field">
             {{ form_label(form.owner,"Maître d'ouvrage") }}
             {{ form_errors(form.owner, {'attr': {'class': 'ui error message'}})}}
             {{ form_widget(form.owner,{'attr':{'placeholder':"Maître d'ouvrage", 'data-validate': 'owner'}})}}
-        </div>
+        </div>#}
 
         <div class="field">
             {{ form_label(form.publicationDate,"Date de publication") }}
             {{ form_widget(form.publicationDate,{'attr':{'data-validate': 'publication_date'}})}}
-        </div>#}
+        </div>
 
-        <div class="field">
+        {#<div class="field">
             {{ form_label(form.openingDate,"Date d'ouverture de dépôt") }}
             <div class="two fields">
                 <div class="field">
@@ -78,7 +78,7 @@
                     {{ form_widget(form.deadline.time,{'attr':{'data-validate': 'deadline_time'}})}}
                 </div>
             </div>
-        </div>
+        </div>#}
 
         <div class="field">
             {{ form_label(form.sendingDate,"Date de notification aux abonnés") }}

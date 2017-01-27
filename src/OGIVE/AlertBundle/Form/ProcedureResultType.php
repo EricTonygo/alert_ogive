@@ -16,12 +16,10 @@ class ProcedureResultType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
                 ->add('reference', null, array('required' => false))
-                ->add('publicationDate', DateTimeType::class, array(
-                    'date_widget' => 'single_text',
-                    'time_widget' => 'single_text',
-                    'date_format' => 'yyyy-MM-dd',
-                    'with_seconds' => false,
-                    'required' => false,
+                ->add('publicationDate', DateType::class, array(
+                    'widget' => 'single_text',
+                    // this is actually the default format for single_text
+                    'format' => 'yyyy-MM-dd',
                 ))
                 ->add('sendingDate', DateTimeType::class, array(
                     'date_widget' => 'single_text',

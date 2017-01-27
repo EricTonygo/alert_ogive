@@ -3,6 +3,7 @@
 namespace OGIVE\AlertBundle\Controller;
 
 use OGIVE\AlertBundle\Entity\Subscriber;
+use OGIVE\AlertBundle\Entity\HistoricalAlertSubscriber;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -71,6 +72,7 @@ class SubscriberController extends Controller {
             return $this->redirect($this->generateUrl('fos_user_security_login'));
         }
         $subscriber = new Subscriber();
+        //$this = new TelephoneController();
         $repositorySubscriber = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Subscriber');
         $form = $this->createForm('OGIVE\AlertBundle\Form\SubscriberType', $subscriber);
         $form->handleRequest($request);
@@ -83,6 +85,12 @@ class SubscriberController extends Controller {
                 $subscriber->setState(1);
             }
             $subscriber = $repositorySubscriber->saveSubscriber($subscriber);
+            $sendConfirmation = $request->get('send_confirmation');
+            if ($sendConfirmation && $sendConfirmation === 'on') {
+                if ($subscriber->getSubscription() && $subscriber->getStatus() == 1 && $subscriber->getState() == 1) {
+                    $this->sendSubscriptionConfirmation($subscriber);
+                }
+            }
             $subscriber_content_grid = $this->renderView('OGIVEAlertBundle:subscriber:subscriber-grid.html.twig', array('subscriber' => $subscriber));
             $subscriber_content_list = $this->renderView('OGIVEAlertBundle:subscriber:subscriber-list.html.twig', array('subscriber' => $subscriber));
             $view = View::create(["code" => 200, 'subscriber' => $subscriber, 'subscriber_content_grid' => $subscriber_content_grid, 'subscriber_content_list' => $subscriber_content_list]);
@@ -131,7 +139,8 @@ class SubscriberController extends Controller {
     public function updateSubscriberAction(Request $request, Subscriber $subscriber) {
 
         $repositorySubscriber = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Subscriber');
-
+        $oldSubscription = $subscriber->getSubscription();
+        //$this = new TelephoneController();
         if (empty($subscriber)) {
             return new JsonResponse(['message' => 'Abonné introuvable'], Response::HTTP_NOT_FOUND);
         }
@@ -142,7 +151,7 @@ class SubscriberController extends Controller {
                 $subscriber = $repositorySubscriber->updateSubscriber($subscriber);
                 return new JsonResponse(['message' => 'Abonné activé avec succcès !'], Response::HTTP_OK
                 );
-            }else{
+            } else {
                 return new JsonResponse(['message' => "Cet abonné n'a pas souscrit à un abonnement"], Response::HTTP_NOT_FOUND);
             }
         }
@@ -163,6 +172,17 @@ class SubscriberController extends Controller {
                 return new JsonResponse(["success" => false, 'message' => 'Un abonné avec ce numero existe dejà'], Response::HTTP_NOT_FOUND);
             }
             $subscriber = $repositorySubscriber->updateSubscriber($subscriber);
+            $sendConfirmation = $request->get('send_confirmation');
+            if ($sendConfirmation && $sendConfirmation === 'on') {
+                if ($oldSubscription === null && $subscriber->getSubscription() && $subscriber->getStatus() == 1 && $subscriber->getState() == 1) {
+                    $this->sendSubscriptionConfirmation($subscriber);
+                } elseif ($oldSubscription && $subscriber->getSubscription() && $oldSubscription->getId() != $subscriber->getSubscription()->getId() && $subscriber->getStatus() == 1 && $subscriber->getState() == 1) {
+                    $this->sendSubscriptionConfirmation($subscriber);
+                } elseif ($subscriber->getSubscription() && $repositoryHistoriqueSubscriber->findBy(array('subscriber' => $subscriber, 'alertType' => "SMS_CONFIRMATION_SUBSCRIPTION")) === null && $subscriber->getStatus() == 1 && $subscriber->getState() == 1) {
+                    $this->sendSubscriptionConfirmation($subscriber);
+                }
+            }
+
             $subscriber_content_grid = $this->renderView('OGIVEAlertBundle:subscriber:subscriber-grid-edit.html.twig', array('subscriber' => $subscriber));
             $subscriber_content_list = $this->renderView('OGIVEAlertBundle:subscriber:subscriber-list-edit.html.twig', array('subscriber' => $subscriber));
             $view = View::create(["code" => 200, 'subscriber' => $subscriber, 'subscriber_content_grid' => $subscriber_content_grid, 'subscriber_content_list' => $subscriber_content_list]);
@@ -176,6 +196,35 @@ class SubscriberController extends Controller {
             $view->setFormat('json');
             return $view;
         }
+    }
+
+    public function sendSubscriptionConfirmation(Subscriber $subscriber) {
+        if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            return $this->redirect($this->generateUrl('fos_user_security_login'));
+        }
+        $historiqueAlertSubscriber = new HistoricalAlertSubscriber();
+        $repositoryHistorique = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:HistoricalAlertSubscriber');
+        $cout = "";
+        if ($subscriber->getSubscription()->getPeriodicity() === 1) {
+            $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . " / an";
+        } elseif ($subscriber->getSubscription()->getPeriodicity() === 2) {
+            $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . " / mois";
+        } elseif ($subscriber->getSubscription()->getPeriodicity() === 1) {
+            $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . " / semaine";
+        }
+        $content = "M/Mr. " . $subscriber->getName() . " Votre souscription au service l'alerte de messagerie pour les marchés publics a été éffectuée avec succès. \nCoût du forfait = " . $cout . ". \nOGIVE SOLUTIONS vous remercie pour votre confiance.";
+        $twilio = $this->get('twilio.api');
+        //$messages = $twilio->account->messages->read();
+        $message = $twilio->account->messages->sendMessage(
+                'MG8e369c4e5ea49ce989834c5355a1f02f', // From a Twilio number in your account
+                $subscriber->getPhoneNumber(), // Text any number
+                $content
+        );
+        $historiqueAlertSubscriber->setMessage($content);
+        $historiqueAlertSubscriber->setSubscriber($subscriber);
+        $historiqueAlertSubscriber->setAlertType("SMS_CONFIRMATION_SUBSCRIPTION");
+
+        return $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
     }
 
 }

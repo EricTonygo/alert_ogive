@@ -34,6 +34,13 @@
                 {{ form_label(form.entreprise,"Entreprise") }}
                 {{ form_widget(form.entreprise,{'attr':{'data-validate': 'entreprise', 'class': 'ui search dropdown'}})}}
             </div>
+            
+            <div class="field" >
+                <div class="ui checkbox">
+                    <input id='checkbox_send_confirmation_edit' type="checkbox" name="send_confirmation" >
+                    <label> Envoyer l'accusé de reception à l'abonné</label>
+                </div>
+            </div>
 
             <div class="field">
                 {{form_rest(form)}}

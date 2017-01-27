@@ -57,7 +57,7 @@
                 {{ form_widget(form.publicationDate,{'attr':{'data-validate': 'publication_date'}})}}
             </div>
 
-            <div class="field">
+            {#<div class="field">
                 {{ form_label(form.openingDate,"Date d'ouverture de dépôt") }}
                 <div class="two fields">
                     <div class="field">
@@ -79,7 +79,7 @@
                         {{ form_widget(form.deadline.time,{'attr':{'data-validate': 'deadline_time'}})}}
                     </div>
                 </div>
-            </div>
+            </div>#}
 
             <div class="field">
                 {{ form_label(form.sendingDate,"Date de notification aux abonnés") }}
@@ -129,7 +129,7 @@
                     <label>Appel d'offre : </label> 
                 </div>
                 <div class="field">
-                    N°{{ additive.callOffer.reference}}/{{ additive.callOffer.type}}/{{ additive.callOffer.owner}}/{{ additive.callOffer.datePublication | date('Y')}}
+                    N°{{ additive.callOffer.reference}}/{{ additive.callOffer.type}}/{{ additive.callOffer.owner}}/{{ additive.callOffer.publicationDate | date('Y')}}
                 </div>
             </div>
             {% endif %}
@@ -139,7 +139,7 @@
                     <label>Appel d'offre : </label> 
                 </div>
                 <div class="field">
-                    N°{{ additive.expressionInterest.reference}}/{{ additive.expressionInterest.type}}/{{ additive.expressionInterest.owner}}/{{ additive.expressionInterest.datePublication | date('Y')}}
+                    N°{{ additive.expressionInterest.reference}}/{{ additive.expressionInterest.type}}/{{ additive.expressionInterest.owner}}/{{ additive.expressionInterest.publicationDate | date('Y')}}
                 </div>
             </div>
             {% endif %}

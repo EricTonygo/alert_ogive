@@ -85,5 +85,16 @@ class Additive extends AlertProcedure
     public function getExpressionInterest() {
         return $this->expressionInterest;
     }
+    
+    /**
+     * @ORM\PrePersist() 
+     */
+    public function prePersist() {
+        $this->createDate = new \DateTime();
+        $this->lastUpdateDate = new \DateTime();
+        $this->deadline = new \DateTime();
+        $this->openingDate = new \DateTime();
+        $this->status = 1;
+    }
 }
 

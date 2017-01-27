@@ -4,7 +4,7 @@
         Notifier les abonnés de l'attribution N°{{procedureResult.reference}}
     </div>
     <div class="content">
-        <form method = 'POST' action= '{{path('send_notification_procedureResult', {'id': procedureResult.id})}}' class = 'ui form' id ='send_notification_procedureResult_form' name='send_notification_procedureResult_form'>
+        <form method = 'POST' action= '{{path('send_notification_procedureResult_post', {'id': procedureResult.id})}}' class = 'ui form' id ='send_notification_procedureResult_form' name='send_notification_procedureResult_form'>
             <div class="field">
                 <label>Le resumé à envoyer</label>
                 <textarea name='abstract'>{{procedureResult.abstract}}</textarea>

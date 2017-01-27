@@ -32,6 +32,12 @@
                 {{ form_widget(form.domain,{'attr':{'data-validate': 'domain', 'class': 'ui dropdown'}})}}
             </div>
 
+            <div id='subDomain_add_field' class="field">
+                {{ form_label(form.subDomain,"Sous-domaine d'activité") }}
+                {{ form_errors(form.subDomain, {'attr': {'class': 'ui error message'}})}}
+                {{ form_widget(form.subDomain,{'attr':{ 'data-validate': 'subDomain', 'class': 'ui search dropdown'}})}}
+            </div>
+
             <div class="field">
                 {{ form_label(form.publicationDate,"Date de publication") }}
                 {{ form_widget(form.publicationDate,{'attr':{'data-validate': 'publication_date'}})}}
@@ -186,21 +192,21 @@
 
             <div id="field_state_enable" class="two fields" {% if expressionInterest.state != 1 %} style="display: none" {% endif %}>
                 <div class="field">
-                     <label>Etat : </label>
+                    <label>Etat : </label>
                 </div>
                 <div class="field">
-                     <span> Activé </span>
+                    <span> Activé </span>
                 </div>             
             </div>
 
             <div id="field_state_disable" class="two fields" {% if expressionInterest.state == 1 %} style="display: none" {% endif %}>
                 <div class="field">
-                     <label>Etat : </label>
+                    <label>Etat : </label>
                 </div>
                 <div class="field">
-                     <span> Désactivé </span>
+                    <span> Désactivé </span>
                 </div>
-                 
+
             </div>
 
         </div>

@@ -2,6 +2,9 @@ $(function () {
     $('#ogive_alertbundle_expressionInterest_domain.ui.dropdown').dropdown({
         on: 'click'
     });
+    $('#ogive_alertbundle_expressionInterest_subDomain.ui.dropdown').dropdown({
+        on: 'click'
+    });
     $('#add_expressionInterest_btn').click(function () {
         $('#add_expressionInterest.ui.modal').modal('setting', {
             autofocus: false,
@@ -214,6 +217,9 @@ function edit_expressionInterest(id) {
                     closable: false
                 });
                 $('#ogive_alertbundle_expressionInterest_domain.ui.dropdown').dropdown({
+                    on: 'click'
+                });
+                $('#ogive_alertbundle_expressionInterest_subDomain.ui.dropdown').dropdown({
                     on: 'click'
                 });
                 $('#edit_expressionInterest.ui.modal').modal('show');
@@ -483,6 +489,9 @@ function show_expressionInterest(id) {
                     closable: false
                 });
                 $('#ogive_alertbundle_expressionInterest_domain.ui.dropdown').dropdown({
+                    on: 'click'
+                });
+                $('#ogive_alertbundle_expressionInterest_subDomain.ui.dropdown').dropdown({
                     on: 'click'
                 });
                 $('#edit_expressionInterest.ui.modal').modal('show');

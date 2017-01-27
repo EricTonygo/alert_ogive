@@ -62,7 +62,7 @@ class TelephoneController extends Controller {
     }
 
     ////////////////// Send SMS Call Offer ///////////////////////////////////
-    
+
     /**
      * @Rest\View()
      * @Rest\Post("/send-notification-call-offer/{id}" , name="send_notification_callOffer_post", options={ "method_prefix" = false, "expose" = true })
@@ -131,7 +131,7 @@ class TelephoneController extends Controller {
                 $historiqueAlertSubscriber->setAlertType("SMS");
                 $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
             }
-            $view = View::create(["code" => 200, 'messages_twilio' => $message, 'message' => "SMS envoyé avec succès"]);
+            $view = View::create(["code" => 200, 'message' => "SMS envoyé avec succès"]);
             $view->setFormat('json');
             return $view;
         } else {
@@ -179,11 +179,9 @@ class TelephoneController extends Controller {
         $view->setFormat('json');
         return $view;
     }
-    
-    
 
     ////////////////////send SMS Procedure result ///////////////////////////////////
-    
+
     /**
      * @Rest\View()
      * @Rest\Post("/send-notification-result/{id}" , name="send_notification_procedureResult_post", options={ "method_prefix" = false, "expose" = true })
@@ -252,7 +250,7 @@ class TelephoneController extends Controller {
                 $historiqueAlertSubscriber->setAlertType("SMS");
                 $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
             }
-            $view = View::create(["code" => 200, 'messages_twilio' => $message, 'message' => "SMS envoyé avec succès"]);
+            $view = View::create(["code" => 200, 'message' => "SMS envoyé avec succès"]);
             $view->setFormat('json');
             return $view;
         } else {
@@ -300,13 +298,9 @@ class TelephoneController extends Controller {
         $view->setFormat('json');
         return $view;
     }
-    
-    
-    
-    
-    
+
 ////////////////////send SMS Additive ///////////////////////////////////
-    
+
     /**
      * @Rest\View()
      * @Rest\Post("/send-notification-additive/{id}" , name="send_notification_additive_post", options={ "method_prefix" = false, "expose" = true })
@@ -375,7 +369,7 @@ class TelephoneController extends Controller {
                 $historiqueAlertSubscriber->setAlertType("SMS");
                 $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
             }
-            $view = View::create(["code" => 200, 'messages_twilio' => $message, 'message' => "SMS envoyé avec succès"]);
+            $view = View::create(["code" => 200, 'message' => "SMS envoyé avec succès"]);
             $view->setFormat('json');
             return $view;
         } else {
@@ -385,7 +379,7 @@ class TelephoneController extends Controller {
 
     /**
      * @Rest\View()
-     * @Rest\Get("/send-notification-result/{id}" , name="send_notification_additive_get", options={ "method_prefix" = false, "expose" = true })
+     * @Rest\Get("/send-notification-additive/{id}" , name="send_notification_additive_get", options={ "method_prefix" = false, "expose" = true })
      * @param Request $request
      */
     public function getSendNotificationAdditiveAction(Request $request, Additive $additive) {
@@ -422,13 +416,10 @@ class TelephoneController extends Controller {
         $view = View::create(["code" => 200, 'send_notification_additive_form' => $send_notification_additive_form]);
         $view->setFormat('json');
         return $view;
-    }    
-    
-    
-    
-    
+    }
+
     ////////////////////send SMS Expression interest ///////////////////////////////////
-    
+
     /**
      * @Rest\View()
      * @Rest\Post("/send-notification-expression-interest/{id}" , name="send_notification_expressionInterest_post", options={ "method_prefix" = false, "expose" = true })
@@ -481,7 +472,7 @@ class TelephoneController extends Controller {
                 $historiqueAlertSubscriber->setAlertType("SMS");
                 $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
             }
-            $view = View::create(["code" => 200, 'messages_twilio' => $message, 'message' => "SMS envoyé avec succès"]);
+            $view = View::create(["code" => 200, 'message' => "SMS envoyé avec succès"]);
             $view->setFormat('json');
             return $view;
         } elseif ($idSubscribers && is_array($idSubscribers) && !empty($idSubscribers)) {
@@ -497,7 +488,7 @@ class TelephoneController extends Controller {
                 $historiqueAlertSubscriber->setAlertType("SMS");
                 $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
             }
-            $view = View::create(["code" => 200, 'messages_twilio' => $message, 'message' => "SMS envoyé avec succès"]);
+            $view = View::create(["code" => 200,  'message' => "SMS envoyé avec succès"]);
             $view->setFormat('json');
             return $view;
         } else {
@@ -507,7 +498,7 @@ class TelephoneController extends Controller {
 
     /**
      * @Rest\View()
-     * @Rest\Get("/send-notification-result/{id}" , name="send_notification_expressionInterest_get", options={ "method_prefix" = false, "expose" = true })
+     * @Rest\Get("/send-notification-expression-interest/{id}" , name="send_notification_expressionInterest_get", options={ "method_prefix" = false, "expose" = true })
      * @param Request $request
      */
     public function getSendNotificationExpressionInterestAction(Request $request, ExpressionInterest $expressionInterest) {
@@ -544,6 +535,35 @@ class TelephoneController extends Controller {
         $view = View::create(["code" => 200, 'send_notification_expressionInterest_form' => $send_notification_expressionInterest_form]);
         $view->setFormat('json');
         return $view;
+    }
+
+    public function sendSubscriptionConfirmationAction(Subscriber $subscriber) {
+        if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            return $this->redirect($this->generateUrl('fos_user_security_login'));
+        }
+        $historiqueAlertSubscriber = new HistoricalAlertSubscriber();
+        $repositoryHistorique = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:HistoricalAlertSubscriber');
+        $cout = "";
+        if ($subscriber->getSubscription()->getPeriodicity() === 1) {
+            $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . " / an";
+        } elseif ($subscriber->getSubscription()->getPeriodicity() === 2) {
+            $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . " / mois";
+        } elseif ($subscriber->getSubscription()->getPeriodicity() === 1) {
+            $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . " / semaine";
+        }
+        $content = "M/Mr. " . $subscriber->getName() . " Votre souscription au service l'alerte de messagerie pour les marchés publics a été éffectuée avec succès. \nCoût du forfait = " . $cout . ". \nOGIVE SOLUTIONS vous remercie pour votre confiance.";
+        $twilio = $this->get('twilio.api');
+        //$messages = $twilio->account->messages->read();
+        $message = $twilio->account->messages->sendMessage(
+                'MG8e369c4e5ea49ce989834c5355a1f02f', // From a Twilio number in your account
+                $subscriber->getPhoneNumber(), // Text any number
+                $content
+        );
+        $historiqueAlertSubscriber->setMessage($content);
+        $historiqueAlertSubscriber->setSubscriber($subscriber);
+        $historiqueAlertSubscriber->setAlertType("SMS_CONFIRMATION_SUBSCRIPTION");
+
+        return $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
     }
 
 }

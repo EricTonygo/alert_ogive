@@ -30,6 +30,13 @@
                 {{ form_errors(form.entreprise, {'attr': {'class': 'ui error message'}})}}
                 {{ form_widget(form.entreprise,{'attr':{'data-validate': 'enterprise', 'class': 'ui search dropdown'}})}}
             </div>
+            
+            <div class="field" >
+                <div class="ui checkbox">
+                    <input id='checkbox_send_confirmation' type="checkbox" name="send_confirmation" >
+                    <label> Envoyer l'accusé de reception à l'abonné</label>
+                </div>
+            </div>
 
             <div class="field">
                 {{form_rest(form)}}

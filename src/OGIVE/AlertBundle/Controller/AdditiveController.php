@@ -84,9 +84,13 @@ class AdditiveController extends Controller {
             if($additive->getCallOffer()){
                 $additive->setDomain($additive->getCallOffer()->getDomain());
                 $additive->setSubDomain($additive->getCallOffer()->getSubDomain());
+                $additive->setOwner($additive->getCallOffer()->getOwner());
+                $additive->setObject($additive->getCallOffer()->getObject());
             }elseif($additive->getExpressionInterest()){
                 $additive->setDomain($additive->getExpressionInterest()->getDomain());
                 $additive->setSubDomain($additive->getExpressionInterest()->getSubDomain());
+                $additive->setOwner($additive->getExpressionInterest()->getOwner());
+                $additive->setObject($additive->getExpressionInterest()->getObject());
             }
             $additive = $repositoryAdditive->saveAdditive($additive);
             $additive_content_grid = $this->renderView('OGIVEAlertBundle:additive:additive-grid.html.twig', array('additive' => $additive));
@@ -188,9 +192,9 @@ class AdditiveController extends Controller {
     
     public function getAbstractOfAdditive(Additive $additive){
         if($additive && $additive->getCallOffer()){
-            return  "Ref : ".$additive->getType()." : "."N°".$additive->getReference()."/".date_format($additive->getPublicationDate(), "Y")." du ".date_format($additive->getPublicationDate(), "d/m/Y")." relatif à ".$additive->getCallOffer()->getType()." N°".$additive->getCallOffer()->getReference()."/".$additive->getCallOffer()->getType()."/".$additive->getCallOffer()->getOwner()."/".date_format($additive->getCallOffer()->getPublicationDate(), "Y")." du ".date_format($additive->getCallOffer()->getPublicationDate(), "d/m/Y"); 
+            return  "Réf : ".$additive->getType()." "."N°".$additive->getReference()."/".date_format($additive->getPublicationDate(), "Y")." du ".date_format($additive->getPublicationDate(), "d/m/Y")." relatif à ".$additive->getCallOffer()->getType()." N°".$additive->getCallOffer()->getReference()."/".$additive->getCallOffer()->getType()."/".$additive->getCallOffer()->getOwner()."/".date_format($additive->getCallOffer()->getPublicationDate(), "Y")." du ".date_format($additive->getCallOffer()->getPublicationDate(), "d/m/Y"); 
         }elseif ($additive && $additive->getExpressionInterest()) {
-            return  "Ref : ".$additive->getType()." : "."N°".$additive->getReference()."/".date_format($additive->getPublicationDate(), "Y")." du ".date_format($additive->getPublicationDate(), "d/m/Y")." relatif à ".$additive->getExpressionInterest()->getType()." N°".$additive->getExpressionInterest()->getReference()."/".$additive->getExpressionInterest()->getType()."/".$additive->getExpressionInterest()->getOwner()."/".date_format($additive->getExpressionInterest()->getPublicationDate(), "Y")." du ".date_format($additive->getExpressionInterest()->getPublicationDate(), "d/m/Y"); 
+            return  "Réf : ".$additive->getType()." "."N°".$additive->getReference()."/".date_format($additive->getPublicationDate(), "Y")." du ".date_format($additive->getPublicationDate(), "d/m/Y")." relatif à ".$additive->getExpressionInterest()->getType()." N°".$additive->getExpressionInterest()->getReference()."/".$additive->getExpressionInterest()->getType()."/".$additive->getExpressionInterest()->getOwner()."/".date_format($additive->getExpressionInterest()->getPublicationDate(), "Y")." du ".date_format($additive->getExpressionInterest()->getPublicationDate(), "d/m/Y"); 
         }else{
             return "";
         }

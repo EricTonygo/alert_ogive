@@ -80,8 +80,7 @@ class ExpressionInterestController extends Controller {
             if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
                 $expressionInterest->setState(1);
             }
-            $abstract = $expressionInterest->getType()." : "."N°".$expressionInterest->getReference()." du ".date_format($expressionInterest->getPublicationDate(), "d/m/Y")." pour ".$expressionInterest->getObject().". Dépôt des offres du ".date_format($expressionInterest->getOpeningDate(), "d/m/Y")." à ".date_format($expressionInterest->getOpeningDate(), "H:i")." au ".date_format($expressionInterest->getDeadline(), "d/m/Y")." à ".date_format($expressionInterest->getOpeningDate(), "H:i"); 
-            $expressionInterest->setAbstract($abstract);
+            $expressionInterest->setAbstract($this->getAbstractOfExpressionInterest($expressionInterest));
             $expressionInterest = $repositoryExpressionInterest->saveExpressionInterest($expressionInterest);
             $expressionInterest_content_grid = $this->renderView('OGIVEAlertBundle:expressionInterest:expressionInterest-grid.html.twig', array('expressionInterest' => $expressionInterest));
             $expressionInterest_content_list = $this->renderView('OGIVEAlertBundle:expressionInterest:expressionInterest-list.html.twig', array('expressionInterest' => $expressionInterest));
@@ -156,8 +155,7 @@ class ExpressionInterestController extends Controller {
             if ($expressionInterestUnique && $expressionInterestUnique->getId() != $expressionInterest->getId()) {
                 return new JsonResponse(["success" => false, 'message' => "Une manifestation d'intérêt avec cette référence existe dejà"], Response::HTTP_NOT_FOUND);
             }            
-            $abstract = $expressionInterest->getType()." : "."N°".$expressionInterest->getReference()." du ".date_format($expressionInterest->getPublicationDate(), "d/m/Y")." pour ".$expressionInterest->getObject().". Dépôt des offres du ".date_format($expressionInterest->getOpeningDate(), "d/m/Y")." à ".date_format($expressionInterest->getOpeningDate(), "H:i")." au ".date_format($expressionInterest->getDeadline(), "d/m/Y")." à ".date_format($expressionInterest->getOpeningDate(), "H:i"); 
-            $expressionInterest->setAbstract($abstract);
+            $expressionInterest->setAbstract($this->getAbstractOfExpressionInterest($expressionInterest));
             $expressionInterest = $repositoryExpressionInterest->updateExpressionInterest($expressionInterest);
             $expressionInterest_content_grid = $this->renderView('OGIVEAlertBundle:expressionInterest:expressionInterest-grid-edit.html.twig', array('expressionInterest' => $expressionInterest));
             $expressionInterest_content_list = $this->renderView('OGIVEAlertBundle:expressionInterest:expressionInterest-list-edit.html.twig', array('expressionInterest' => $expressionInterest));
@@ -175,8 +173,12 @@ class ExpressionInterestController extends Controller {
     }
 
     public function getAbstractOfExpressionInterest(ExpressionInterest $expressionInterest){
+        $dot = ".";
+            if(substr(trim($expressionInterest->getObject()), -1) === "."){
+                $dot = "";
+            } 
         if($expressionInterest ){
-            return $expressionInterest->getType()." : "."N°".$expressionInterest->getReference()." du ".date_format($expressionInterest->getPublicationDate(), "d/m/Y")." lancé par ".$expressionInterest->getOwner()." pour ".$expressionInterest->getObject().". Dépôt des offres le ".date_format($expressionInterest->getOpeningDate(), "d/m/Y")." à ".date_format($expressionInterest->getOpeningDate(), "H:i"); 
+            return $expressionInterest->getType()." : "."N°".$expressionInterest->getReference()." du ".date_format($expressionInterest->getPublicationDate(), "d/m/Y")." lancé par ".$expressionInterest->getOwner()." pour ".$expressionInterest->getObject().$dot." Dépôt des offres le ".date_format($expressionInterest->getOpeningDate(), "d/m/Y")." à ".date_format($expressionInterest->getOpeningDate(), "H:i"); 
         }else{
             return "";
         }

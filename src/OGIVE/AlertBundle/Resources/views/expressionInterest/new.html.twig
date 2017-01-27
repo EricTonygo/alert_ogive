@@ -28,6 +28,12 @@
             {{ form_errors(form.domain, {'attr': {'class': 'ui error message'}})}}
             {{ form_widget(form.domain,{'attr':{'id': 'select_domain_edit', 'data-validate': 'domain', 'class': 'ui search dropdown'}})}}
         </div>
+        
+        <div id='subDomain_add_field' class="field">
+            {{ form_label(form.subDomain,"Sous-domaine d'activité") }}
+            {{ form_errors(form.subDomain, {'attr': {'class': 'ui error message'}})}}
+            {{ form_widget(form.subDomain,{'attr':{ 'data-validate': 'subDomain', 'class': 'ui search dropdown'}})}}
+        </div>
 
         <div class="field">
             {{ form_label(form.publicationDate,"Date de publication") }}

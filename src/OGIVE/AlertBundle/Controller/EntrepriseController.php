@@ -3,6 +3,7 @@
 namespace OGIVE\AlertBundle\Controller;
 
 use OGIVE\AlertBundle\Entity\Entreprise;
+use OGIVE\AlertBundle\Entity\HistoricalAlertSubscriber;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -71,8 +72,9 @@ class EntrepriseController extends Controller {
             return $this->redirect($this->generateUrl('fos_user_security_login'));
         }
         $entreprise = new Entreprise();
+        //$this = new TelephoneController();
         $repositoryEntreprise = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Entreprise');
-        $repositorySubscriber = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Subscriber');       
+        $repositorySubscriber = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Subscriber');
         $form = $this->createForm('OGIVE\AlertBundle\Form\EntrepriseType', $entreprise);
         $form->handleRequest($request);
 
@@ -100,7 +102,7 @@ class EntrepriseController extends Controller {
                 if ($repositorySubscriber->findOneBy(array('phoneNumber' => $subscriber->getPhoneNumber(), 'status' => 1)) !== null) {
                     $entreprise->removeSubscriber($subscriber);
                 } elseif ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
-                    if($subscriber->getSubscription()){
+                    if ($subscriber->getSubscription()) {
                         $subscriber->setState(1);
                     }
                     $subscriber->setEntreprise($entreprise);
@@ -109,6 +111,15 @@ class EntrepriseController extends Controller {
                 }
             }
             $entreprise = $repositoryEntreprise->saveEntreprise($entreprise);
+            $sendConfirmation = $request->get('send_confirmation');
+            if ($sendConfirmation && $sendConfirmation === 'on') {
+                $subscribers = $entreprise->getSubscribers();
+                foreach ($subscribers as $subscriber) {
+                    if ($subscriber->getSubscription() && $subscriber->getStatus()==1 && $subscriber->getState()==1) {
+                        $this->sendSubscriptionConfirmation($subscriber);
+                    }
+                }
+            }
             $entreprise_content_grid = $this->renderView('OGIVEAlertBundle:entreprise:entreprise-grid.html.twig', array('entreprise' => $entreprise));
             $entreprise_content_list = $this->renderView('OGIVEAlertBundle:entreprise:entreprise-list.html.twig', array('entreprise' => $entreprise));
             $view = View::create(["code" => 200, 'entreprise' => $entreprise, 'entreprise_content_grid' => $entreprise_content_grid, 'entreprise_content_list' => $entreprise_content_list]);
@@ -160,9 +171,11 @@ class EntrepriseController extends Controller {
         $repositorySubscriber = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Subscriber');
         $repositoryDomain = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Domain');
         $repositorySubDomain = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:SubDomain');
+        $repositoryHistoriqueSubscriber = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:HistoricalAlertSubscriber');
         $originalSubscribers = new \Doctrine\Common\Collections\ArrayCollection();
         $originalDomains = new \Doctrine\Common\Collections\ArrayCollection();
         $originalSubDomains = new \Doctrine\Common\Collections\ArrayCollection();
+        //$this = new TelephoneController();
         $serializer = $this->container->get('jms_serializer');
         if (empty($entreprise)) {
             return new JsonResponse(['message' => 'Entreprise introuvable'], Response::HTTP_NOT_FOUND);
@@ -196,7 +209,7 @@ class EntrepriseController extends Controller {
         foreach ($entreprise->getDomains() as $domain) {
             $originalDomains->add($domain);
         }
-        
+
         foreach ($entreprise->getSubDomains() as $subDomain) {
             $originalSubDomains->add($subDomain);
         }
@@ -218,20 +231,20 @@ class EntrepriseController extends Controller {
                     // remove the entreprise from the subscriber
                     $entreprise->getDomains()->removeElement($domain);
                     // if it was a many-to-one relationship, remove the relationship like this
-                    
+
                     $repositoryDomain->updateDomain($domain);
                     // if you wanted to delete the Subscriber entirely, you can also do that
                     // $em->remove($domain);
                 }
             }
-            
+
             $domains = $entreprise->getDomains();
             foreach ($domains as $domain) {
-                if(!$originalDomains->contains($domain)){
+                if (!$originalDomains->contains($domain)) {
                     $domain->addEntreprise($entreprise);
                 }
             }
-            
+
             //*************** gestion des sous-domaines de l'entreprise **************************/
 
             foreach ($originalSubDomains as $subDomain) {
@@ -239,16 +252,16 @@ class EntrepriseController extends Controller {
                     // remove the entreprise from the subscriber
                     $entreprise->getSubDomains()->removeElement($subDomain);
                     // if it was a many-to-one relationship, remove the relationship like this
-                    
+
                     $repositorySubDomain->updateSubDomain($subDomain);
                     // if you wanted to delete the Subscriber entirely, you can also do that
                     // $em->remove($domain);
                 }
             }
-            
+
             $subDomains = $entreprise->getSubDomains();
             foreach ($subDomains as $subDomain) {
-                if(!$originalSubDomains->contains($subDomain)){
+                if (!$originalSubDomains->contains($subDomain)) {
                     $subDomain->addEntreprise($entreprise);
                 }
             }
@@ -273,10 +286,24 @@ class EntrepriseController extends Controller {
                 if ($subscriberUnique && $subscriberUnique->getId() != $subscriber->getId()) {
                     $entreprise->removeSubscriber($subscriber);
                 } else {
+                    if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+                        $entreprise->setState(1);
+                    }
                     $subscriber->setEntreprise($entreprise);
                 }
             }
             $entreprise = $repositoryEntreprise->updateEntreprise($entreprise);
+            $sendConfirmation = $request->get('send_confirmation');
+            if ($sendConfirmation && $sendConfirmation === 'on') {
+                $subscribers = $entreprise->getSubscribers();
+                foreach ($subscribers as $subscriber) {
+                    if (false === $originalSubscribers->contains($subscriber) && $subscriber->getSubscription() && $subscriber->getStatus()==1 && $subscriber->getState()==1) {
+                        $this->sendSubscriptionConfirmation($subscriber);
+                    } elseif ($originalSubscribers->contains($subscriber) && $subscriber->getSubscription() && $repositoryHistoriqueSubscriber->findBy(array('subscriber' => $subscriber, 'alertType' => "SMS_CONFIRMATION_SUBSCRIPTION")) === null && $subscriber->getStatus()==1 && $subscriber->getState()==1) {
+                        $this->sendSubscriptionConfirmation($subscriber);
+                    }
+                }
+            }
             //$entreprise->upload();
             $entreprise_content_grid = $this->renderView('OGIVEAlertBundle:entreprise:entreprise-grid-edit.html.twig', array('entreprise' => $entreprise));
             $entreprise_content_list = $this->renderView('OGIVEAlertBundle:entreprise:entreprise-list-edit.html.twig', array('entreprise' => $entreprise));
@@ -292,6 +319,38 @@ class EntrepriseController extends Controller {
             $view->setFormat('json');
             return $view;
         }
+    }
+
+    public function sendSubscriptionConfirmation(\OGIVE\AlertBundle\Entity\Subscriber $subscriber) {
+        if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            return $this->redirect($this->generateUrl('fos_user_security_login'));
+        }
+        $historiqueAlertSubscriber = new HistoricalAlertSubscriber();
+        $repositoryHistorique = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:HistoricalAlertSubscriber');
+        $cout = "";
+        if ($subscriber->getSubscription()) {
+            if ($subscriber->getSubscription()->getPeriodicity() === 1) {
+                $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . " / an";
+            } elseif ($subscriber->getSubscription()->getPeriodicity() === 2) {
+                $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . " / mois";
+            } elseif ($subscriber->getSubscription()->getPeriodicity() === 1) {
+                $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . " / semaine";
+            }
+        }
+
+        $content = "M/Mr. " . $subscriber->getName() . " Votre souscription au service l'alerte de messagerie pour les marchés publics a été éffectuée avec succès. \nCoût du forfait = " . $cout . ". \nOGIVE SOLUTIONS vous remercie pour votre confiance.";
+        $twilio = $this->get('twilio.api');
+        //$messages = $twilio->account->messages->read();
+        $message = $twilio->account->messages->sendMessage(
+                'MG8e369c4e5ea49ce989834c5355a1f02f', // From a Twilio number in your account
+                $subscriber->getPhoneNumber(), // Text any number
+                $content
+        );
+        $historiqueAlertSubscriber->setMessage($content);
+        $historiqueAlertSubscriber->setSubscriber($subscriber);
+        $historiqueAlertSubscriber->setAlertType("SMS_CONFIRMATION_SUBSCRIPTION");
+
+        return $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
     }
 
 }

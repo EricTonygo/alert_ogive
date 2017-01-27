@@ -40,21 +40,14 @@
         </div>
 
         <div class="field">
-            {{ form_label(form.object,"Contenu") }}
+            {{ form_label(form.object,"Objet") }}
             {{ form_errors(form.object, {'attr': {'class': 'ui error message'}})}}
             {{ form_widget(form.object,{'attr':{'placeholder':"Contenu de l'attribution", 'data-validate': 'object'}})}}
         </div>
 
-        <div class="field">
+         <div class="field">
             {{ form_label(form.publicationDate,"Date de publication") }}
-            <div class="two fields">
-                <div class="field">
-                    {{ form_widget(form.publicationDate.date,{'attr':{'data-validate': 'publication_date_date'}})}}
-                </div>
-                <div class="field">
-                    {{ form_widget(form.publicationDate.time,{'attr':{'data-validate': 'publication_date_time'}})}}
-                </div>
-            </div>
+            {{ form_widget(form.publicationDate,{'attr':{'data-validate': 'publication_date'}})}}
         </div>
 
         <div class="field">

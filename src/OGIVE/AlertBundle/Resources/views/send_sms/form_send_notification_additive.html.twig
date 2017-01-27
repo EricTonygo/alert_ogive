@@ -4,7 +4,7 @@
         Notifier les abonnés de l'attribution N°{{additive.reference}}
     </div>
     <div class="content">
-        <form method = 'POST' action= '{{path('send_notification_additive', {'id': additive.id})}}' class = 'ui form' id ='send_notification_additive_form' name='send_notification_additive_form'>
+        <form method = 'POST' action= '{{path('send_notification_additive_post', {'id': additive.id})}}' class = 'ui form' id ='send_notification_additive_form' name='send_notification_additive_form'>
             <div class="field">
                 <label>Le resumé à envoyer</label>
                 <textarea name='abstract'>{{additive.abstract}}</textarea>

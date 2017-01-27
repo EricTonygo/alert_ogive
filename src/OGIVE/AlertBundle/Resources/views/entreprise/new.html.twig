@@ -22,7 +22,7 @@
                 {{ form_errors(form.domains, {'attr': {'class': 'ui error message'}})}}
                 {{ form_widget(form.domains,{'attr':{'data-validate': 'domains', 'class': 'ui search dropdown'}})}}
             </div>
-            
+
             <div class="field">
                 {{ form_label(form.subDomains,"Ses sous-domaines d'activité") }}
                 {{ form_errors(form.subDomains, {'attr': {'class': 'ui error message'}})}}
@@ -96,6 +96,13 @@
                             {% endmacro %}
                         </table>
                     </div>
+                </div>
+            </div>
+
+            <div class="field" >
+                <div class="ui checkbox">
+                    <input id='checkbox_send_confirmation' type="checkbox" name="send_confirmation" >
+                    <label> Envoyer l'accusé de reception aux abonnés</label>
                 </div>
             </div>
 

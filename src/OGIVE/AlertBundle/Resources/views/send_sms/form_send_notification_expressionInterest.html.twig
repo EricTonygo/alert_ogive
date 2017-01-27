@@ -1,10 +1,10 @@
 <div id="send_notification_expressionInterest" class="ui small modal">
     <i class="close icon"></i>
     <div class="header">
-        Notifier les abonnés de l'attribution N°{{expressionInterest.reference}}
+        Notifier les abonnés de l'ASMI N°{{expressionInterest.reference}}
     </div>
     <div class="content">
-        <form method = 'POST' action= '{{path('send_notification_expressionInterest', {'id': expressionInterest.id})}}' class = 'ui form' id ='send_notification_expressionInterest_form' name='send_notification_expressionInterest_form'>
+        <form method = 'POST' action= '{{path('send_notification_expressionInterest_post', {'id': expressionInterest.id})}}' class = 'ui form' id ='send_notification_expressionInterest_form' name='send_notification_expressionInterest_form'>
             <div class="field">
                 <label>Le resumé à envoyer</label>
                 <textarea name='abstract'>{{expressionInterest.abstract}}</textarea>
