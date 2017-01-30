@@ -13,6 +13,7 @@ class SubscriberRepository extends \Doctrine\ORM\EntityRepository
     public function deleteSubscriber(\OGIVE\AlertBundle\Entity\Subscriber $subscriber) {
         $em= $this->_em;
         $subscriber->setStatus(0);
+        $subscriber->setEntreprise(null);
         $em->getConnection()->beginTransaction();
         try{
             $em->persist($subscriber);

@@ -78,12 +78,18 @@ class SubscriberController extends Controller {
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($repositorySubscriber->findOneBy(array('phoneNumber' => $subscriber->getPhoneNumber(), 'status' => 1))) {
+            if ($repositorySubscriber->findOneBy(array('phoneNumber' => $subscriber->getPhoneNumber(), 'email' => $subscriber->getEmail(), 'status' => 1))) {
                 return new JsonResponse(["success" => false, 'message' => 'Un abonné avec ce numero existe dejà'], Response::HTTP_BAD_REQUEST);
             }
             if ($this->get('security.context')->isGranted('ROLE_ADMIN') && $subscriber->getSubscription()) {
-                $subscriber->setState(1);
+                $sendActivate = $request->get('send_activate');
+                if ($sendActivate && $sendActivate === 'on' && $subscriber->getEntreprise()->getState()== 1) {
+                    $subscriber->setState(1);
+                } else {
+                    $subscriber->setState(0);
+                }
             }
+
             $subscriber = $repositorySubscriber->saveSubscriber($subscriber);
             $sendConfirmation = $request->get('send_confirmation');
             if ($sendConfirmation && $sendConfirmation === 'on') {
@@ -146,13 +152,13 @@ class SubscriberController extends Controller {
         }
 
         if ($request->get('action') == 'enable') {
-            if ($subscriber->getSubscription()) {
+            if ($subscriber->getSubscription() && $subscriber->getEntreprise()->getState()== 1) {
                 $subscriber->setState(1);
                 $subscriber = $repositorySubscriber->updateSubscriber($subscriber);
                 return new JsonResponse(['message' => 'Abonné activé avec succcès !'], Response::HTTP_OK
                 );
             } else {
-                return new JsonResponse(['message' => "Cet abonné n'a pas souscrit à un abonnement"], Response::HTTP_NOT_FOUND);
+                return new JsonResponse(['message' => "Impossible d'activer cet abonné"], Response::HTTP_NOT_FOUND);
             }
         }
 
@@ -167,10 +173,19 @@ class SubscriberController extends Controller {
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $subscriberUnique = $repositorySubscriber->findOneBy(array('phoneNumber' => $subscriber->getPhoneNumber(), 'status' => 1));
+            $subscriberUnique = $repositorySubscriber->findOneBy(array('phoneNumber' => $subscriber->getPhoneNumber(), 'email' => $subscriber->getEmail(), 'status' => 1));
             if ($subscriberUnique && $subscriberUnique->getId() != $subscriber->getId()) {
                 return new JsonResponse(["success" => false, 'message' => 'Un abonné avec ce numero existe dejà'], Response::HTTP_NOT_FOUND);
             }
+            if ($this->get('security.context')->isGranted('ROLE_ADMIN') && $subscriber->getSubscription()) {
+                $sendActivate = $request->get('send_activate');
+                if ($sendActivate && $sendActivate === 'on' && $subscriber->getEntreprise()->getState()== 1) {
+                    $subscriber->setState(1);
+                } else {
+                    $subscriber->setState(0);
+                }
+            }
+
             $subscriber = $repositorySubscriber->updateSubscriber($subscriber);
             $sendConfirmation = $request->get('send_confirmation');
             if ($sendConfirmation && $sendConfirmation === 'on') {

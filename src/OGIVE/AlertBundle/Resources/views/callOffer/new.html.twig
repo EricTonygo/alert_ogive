@@ -33,13 +33,13 @@
                 </div>
             </div>
         </div>
-        
+
         <div id="field_asmi_add" class="field" style="display: none;">
             {{ form_label(form.expressionInterest,"expressionInterest") }}
             {{ form_errors(form.expressionInterest, {'attr': {'class': 'ui error message'}})}}
             {{ form_widget(form.expressionInterest,{'attr':{'data-validate': 'expressionInterest', 'class': 'ui search dropdown'}})}}
         </div>
-        
+
         <div class="field">
             {{ form_label(form.reference,"Numéro") }}
             {{ form_widget(form.reference,{'attr':{'placeholder':"Référence de l'appel d'offre", 'data-validate': 'reference'}})}}
@@ -62,7 +62,7 @@
             {{ form_errors(form.domain, {'attr': {'class': 'ui error message'}})}}
             {{ form_widget(form.domain,{'attr':{'data-validate': 'domain', 'class': 'ui search dropdown'}})}}
         </div>
-        
+
         <div id='subDomain_add_field' class="field">
             {{ form_label(form.subDomain,"Sous-domaine d'activité") }}
             {{ form_errors(form.subDomain, {'attr': {'class': 'ui error message'}})}}
@@ -107,6 +107,13 @@
                 <div class="field">
                     {{ form_widget(form.sendingDate.time,{'attr':{'data-validate': 'sending_date_time'}})}}
                 </div>
+            </div>
+        </div>
+
+        <div class="field" {% if not is_granted('ROLE_ADMIN') %} style="display: none;"{% endif %}>
+            <div class="ui checkbox">
+                <input id='checkbox_activate' type="checkbox" name="send_activate" >
+                <label> Activer l'appel d'offres</label>
             </div>
         </div>
         {#<div class="field">

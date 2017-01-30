@@ -45,7 +45,7 @@
             {{ form_widget(form.object,{'attr':{'placeholder':"Contenu de l'attribution", 'data-validate': 'object'}})}}
         </div>
 
-         <div class="field">
+        <div class="field">
             {{ form_label(form.publicationDate,"Date de publication") }}
             {{ form_widget(form.publicationDate,{'attr':{'data-validate': 'publication_date'}})}}
         </div>
@@ -59,6 +59,13 @@
                 <div class="field">
                     {{ form_widget(form.sendingDate.time,{'attr':{'data-validate': 'sending_date_time'}})}}
                 </div>
+            </div>
+        </div>
+
+        <div class="field" {% if not is_granted('ROLE_ADMIN') %} style="display: none;"{% endif %}>
+            <div class="ui checkbox">
+                <input id='checkbox_activate_edit' type="checkbox" name="send_activate" {% if procedureResult.state == 1 %} checked="checked" {% endif %}>
+                <label> Activer l'attribution</label>
             </div>
         </div>
         {#<div class="field">

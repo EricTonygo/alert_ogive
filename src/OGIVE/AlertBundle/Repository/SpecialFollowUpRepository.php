@@ -12,9 +12,15 @@ class SpecialFollowUpRepository extends \Doctrine\ORM\EntityRepository
 {
     public function deleteSpecialFollowUp(\OGIVE\AlertBundle\Entity\SpecialFollowUp $specialFollowUp) {
         $em= $this->_em;
+        $repositorySubscriber = $em->getRepository("OGIVE\AlertBundle:Subscriber");
         $specialFollowUp->setStatus(0);
         $em->getConnection()->beginTransaction();
         try{
+            $subscribers = $specialFollowUp->getSubscribers();
+            foreach ($subscribers as $subscriber) {
+                $subscriber->removeSpecialFollowUp($specialFollowUp);
+                $repositorySubscriber->updateSubscriber($subscriber);
+            }
             $em->persist($specialFollowUp);
             $em->flush();
             $em->getConnection()->commit();

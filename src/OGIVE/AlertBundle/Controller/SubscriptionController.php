@@ -82,6 +82,14 @@ class SubscriptionController extends Controller {
             if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
                 $subscription->setState(1);
             }
+            
+            if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+                $sendActivate = $request->get('send_activate');
+                if ($sendActivate && $sendActivate === 'on') {
+                    $subscription->setState(1);
+                }
+            }
+            
             $subscription = $repositorySubscription->saveSubscription($subscription);
             $subscription_content_grid = $this->renderView('OGIVEAlertBundle:subscription:subscription-grid.html.twig', array('subscription' => $subscription));
             $subscription_content_list = $this->renderView('OGIVEAlertBundle:subscription:subscription-list.html.twig', array('subscription' => $subscription));
@@ -158,6 +166,16 @@ class SubscriptionController extends Controller {
             if ($subscriptionUnique && $subscriptionUnique->getId() != $subscription->getId()) {
                 return new JsonResponse(["success" => false, 'message' => 'Un abonnement avec ce nom et cette périodicité existe dejà'], Response::HTTP_NOT_FOUND);
             }
+            
+            if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+                $sendActivate = $request->get('send_activate');
+                if ($sendActivate && $sendActivate === 'on') {
+                    $subscription->setState(1);
+                } else {
+                    $subscription->setState(0);
+                }
+            }
+            
             $subscription = $repositorySubscription->updateSubscription($subscription);
             $subscription_content_grid = $this->renderView('OGIVEAlertBundle:subscription:subscription-grid-edit.html.twig', array('subscription' => $subscription));
             $subscription_content_list = $this->renderView('OGIVEAlertBundle:subscription:subscription-list-edit.html.twig', array('subscription' => $subscription));

@@ -31,6 +31,13 @@
                 {{ form_widget(form.entreprise,{'attr':{'data-validate': 'enterprise', 'class': 'ui search dropdown'}})}}
             </div>
             
+            <div class="field" {% if not is_granted('ROLE_ADMIN')%} style="display: none;"{% endif %}>
+                <div class="ui checkbox">
+                    <input id='checkbox_activate' type="checkbox" name="send_activate" >
+                    <label> Activer l'abonné</label>
+                </div>
+            </div>
+            
             <div class="field" >
                 <div class="ui checkbox">
                     <input id='checkbox_send_confirmation' type="checkbox" name="send_confirmation" >

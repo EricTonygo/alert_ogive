@@ -25,6 +25,13 @@
             {{ form_label(form.currency,"Dévise") }}
             {{ form_widget(form.currency,{'attr':{'data-validate': 'currency', 'class': 'ui search dropdown'}})}}
         </div>
+        
+         <div class="field" {% if not is_granted('ROLE_ADMIN') %} style="display: none;"{% endif %}>
+            <div class="ui checkbox">
+                <input id='checkbox_activate' type="checkbox" name="send_activate" >
+                <label> Activer l'abonnement</label>
+            </div>
+        </div>
 
         <div class="field">
             {{form_rest(form)}}

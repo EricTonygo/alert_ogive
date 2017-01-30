@@ -34,7 +34,20 @@
                 {{ form_label(form.entreprise,"Entreprise") }}
                 {{ form_widget(form.entreprise,{'attr':{'data-validate': 'entreprise', 'class': 'ui search dropdown'}})}}
             </div>
+
+            <div class="inline  fields" {% if not is_granted('ROLE_ADMIN') %} style="display: none;" {% endif %}>
+                {{ form_label(form.state,"Activé : ") }}
+                {{ form_errors(form.state, {'attr': {'class': 'ui error message'}})}}
+                {{ form_widget(form.state,{'attr':{'data-validate': 'enterprise'}})}}
+            </div>
             
+            <div class="field" {% if not is_granted('ROLE_ADMIN') and subscriber.subscription  and subscriber.entreprise and subscriber.entreprise.status==1  %} style="display: none;"{% endif %}>
+                <div class="ui checkbox">
+                    <input id='checkbox_activate_edit' type="checkbox" name="send_activate" {% if subscriber.state == 1 %} checked="checked" {% endif %}>
+                    <label> Activer l'abonné</label>
+                </div>
+            </div>
+
             <div class="field" >
                 <div class="ui checkbox">
                     <input id='checkbox_send_confirmation_edit' type="checkbox" name="send_confirmation" >

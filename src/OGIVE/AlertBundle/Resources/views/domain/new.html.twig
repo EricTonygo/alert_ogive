@@ -17,6 +17,13 @@
                 {{ form_widget(form.description,{'attr':{'placeholder':'Description du domain', 'data-validate': 'description'}})}}
             </div>
 
+            <div class="field" {% if not is_granted('ROLE_ADMIN') %} style="display: none;"{% endif %}>
+                <div class="ui checkbox">
+                    <input id='checkbox_activate' type="checkbox" name="send_activate" >
+                    <label> Activer l'appel d'offres</label>
+                </div>
+            </div>
+
             <div class="field">
                 <div class="ui fluid card">
                     <div class="content">

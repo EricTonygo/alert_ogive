@@ -78,7 +78,12 @@ class AdditiveController extends Controller {
                 return new JsonResponse(["success" => false, 'message' => "Un additif avec cette référence existe dejà !"], Response::HTTP_BAD_REQUEST);
             }
             if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
-                $additive->setState(1);
+                $sendActivate = $request->get('send_activate');
+                if ($sendActivate && $sendActivate === 'on') {
+                    $subscriber->setState(1);
+                } else {
+                    $subscriber->setState(0);
+                }
             }
             $additive->setAbstract($this->getAbstractOfAdditive($additive));
             if($additive->getCallOffer()){
@@ -174,6 +179,15 @@ class AdditiveController extends Controller {
                 $additive->setDomain($additive->getExpressionInterest()->getDomain());
                 $additive->setSubDomain($additive->getExpressionInterest()->getSubDomain());
             }
+            if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+                $sendActivate = $request->get('send_activate');
+                if ($sendActivate && $sendActivate === 'on') {
+                    $additive->setState(1);
+                } else {
+                    $additive->setState(0);
+                }
+            }
+            
             $additive = $repositoryAdditive->updateAdditive($additive);
             $additive_content_grid = $this->renderView('OGIVEAlertBundle:additive:additive-grid-edit.html.twig', array('additive' => $additive));
             $additive_content_list = $this->renderView('OGIVEAlertBundle:additive:additive-list-edit.html.twig', array('additive' => $additive));

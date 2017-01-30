@@ -61,7 +61,7 @@ class DomainController extends Controller {
         $view->setFormat('json');
         return $view;
     }
-    
+
     /**
      * @Rest\View()
      * @Rest\Get("/sub-domains-of-domain/{id}" , name="subDomains_of_domain", options={ "method_prefix" = false, "expose" = true })
@@ -71,9 +71,9 @@ class DomainController extends Controller {
             return $this->redirect($this->generateUrl('fos_user_security_login'));
         }
         $repositorySubDomain = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:SubDomain');
-        $subDomains = $repositorySubDomain->findBy(array('domain'=>$domain, 'status'=>1, 'state'=>1));
+        $subDomains = $repositorySubDomain->findBy(array('domain' => $domain, 'status' => 1, 'state' => 1));
         return $this->render('OGIVEAlertBundle:domain:subDomains_of_domain.html.twig', array(
-            'subDomains' => $subDomains
+                    'subDomains' => $subDomains
         ));
     }
 
@@ -95,18 +95,28 @@ class DomainController extends Controller {
             if ($repositoryDomain->findOneBy(array('name' => $domain->getName(), 'status' => 1))) {
                 return new JsonResponse(["success" => false, 'message' => 'Un domaine avec ce nom existe dejà'], Response::HTTP_BAD_REQUEST);
             }
+
             if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
-                $domain->setState(1);
+                $sendActivate = $request->get('send_activate');
+                if ($sendActivate && $sendActivate === 'on') {
+                    $domain->setState(1);
+                } else {
+                    $domain->setState(0);
+                }
             }
             $subdomains = $domain->getSubDomains();
             foreach ($subdomains as $subDomain) {
                 $subDomain->setDomain($domain);
                 if ($repositorySubDomain->findOneBy(array('name' => $subDomain->getName(), 'status' => 1))) {
                     $domain->removeSubDomain($subDomain);
-                } elseif ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
-                    $subDomain->setState(1);
+                } else {
+                    if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+                        if ($sendActivate && $sendActivate === 'on') {
+                            $subDomain->setState(1);
+                        }
+                        $subDomain->setDomain($domain);
+                    }
                 }
-                
             }
 
             $domain = $repositoryDomain->saveDomain($domain);
@@ -199,6 +209,15 @@ class DomainController extends Controller {
             if ($domainUnique && $domainUnique->getId() != $domain->getId()) {
                 return new JsonResponse(["success" => false, 'message' => 'Un domaine avec ce nom existe dejà'], Response::HTTP_NOT_FOUND);
             }
+            if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+                $sendActivate = $request->get('send_activate');
+                if ($sendActivate && $sendActivate === 'on') {
+                    $domain->setState(1);
+                } else {
+                    $domain->setState(0);
+                }
+            }
+            
             foreach ($originalSubDomains as $subDomain) {
                 if (false === $domain->getSubDomains()->contains($subDomain)) {
                     // remove the panne from the piece
@@ -212,14 +231,18 @@ class DomainController extends Controller {
                 }
             }
             $subDomains = $domain->getSubDomains();
-            foreach ($subDomains as $subDomain) {                
+            foreach ($subDomains as $subDomain) {
                 $subDomainUnique = $repositorySubDomain->findOneBy(array('name' => $subDomain->getName(), 'status' => 1));
                 if ($subDomainUnique && $subDomainUnique->getId() != $subDomain->getId()) {
                     $domain->removeSubDomain($subDomain);
-                } elseif ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
-                    $subDomain->setState(1);
-                    $subDomain->setDomain($domain);
-                }else{
+                } else {
+                    if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+                        if ($sendActivate && $sendActivate === 'on') {
+                            $subDomain->setState(1);
+                        } else {
+                            $subDomain->setState(0);
+                        }
+                    }
                     $subDomain->setDomain($domain);
                 }
             }

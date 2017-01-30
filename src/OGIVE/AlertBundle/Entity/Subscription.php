@@ -39,7 +39,7 @@ class Subscription
     /**
      * @var float
      *
-     * @ORM\Column(name="evolutionAttendu", type="float", precision=10, scale=0, nullable=true)
+     * @ORM\Column(name="price", type="float", precision=10, scale=0, nullable=true)
      */
     private $price;
     
@@ -51,9 +51,9 @@ class Subscription
     private $currency;
     
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="status", type="string", length=255)
+     * @ORM\Column(name="status", type="integer", length=255)
      */
     private $status;
     
@@ -202,7 +202,7 @@ class Subscription
     /**
      * Set status
      *
-     * @param string $status
+     * @param integer $status
      *
      * @return Subscription
      */
@@ -216,7 +216,7 @@ class Subscription
     /**
      * Get status
      *
-     * @return string
+     * @return integer
      */
     public function getStatus()
     {
@@ -228,7 +228,7 @@ class Subscription
      *
      * @param integer $state
      *
-     * @return Subscription
+     * @return integer
      */
     public function setState($state)
     {
@@ -240,7 +240,7 @@ class Subscription
     /**
      * Get state
      *
-     * @return int
+     * @return integer
      */
     public function getState()
     {

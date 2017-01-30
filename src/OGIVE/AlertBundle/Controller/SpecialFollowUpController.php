@@ -80,7 +80,10 @@ class SpecialFollowUpController extends Controller {
                 return new JsonResponse(["success" => false, 'message' => 'Un suivi spécialisé avec ce nom existe dejà'], Response::HTTP_BAD_REQUEST);
             }
             if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
-                $specialFollowUp->setState(1);
+                $sendActivate = $request->get('send_activate');
+                if ($sendActivate && $sendActivate === 'on') {
+                    $specialFollowUp->setState(1);
+                }
             }
             $specialFollowUp = $repositorySpecialFollowUp->saveSpecialFollowUp($specialFollowUp);
             $specialFollowUp_content_grid = $this->renderView('OGIVEAlertBundle:specialFollowUp:specialFollowUp-grid.html.twig', array('specialFollowUp' => $specialFollowUp));
@@ -157,6 +160,14 @@ class SpecialFollowUpController extends Controller {
             $specialFollowUpUnique = $repositorySpecialFollowUp->findOneBy(array('name' => $specialFollowUp->getName(), 'status' => 1));
             if ($specialFollowUpUnique && $specialFollowUpUnique->getId() != $specialFollowUp->getId()) {
                 return new JsonResponse(["success" => false, 'message' => 'Un suivi spécialisé avec ce nom existe dejà'], Response::HTTP_NOT_FOUND);
+            }
+            if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+                $sendActivate = $request->get('send_activate');
+                if ($sendActivate && $sendActivate === 'on') {
+                    $specialFollowUp->setState(1);
+                } else {
+                    $specialFollowUp->setState(0);
+                }
             }
             $specialFollowUp = $repositorySpecialFollowUp->updateSpecialFollowUp($specialFollowUp);
             $specialFollowUp_content_grid = $this->renderView('OGIVEAlertBundle:specialFollowUp:specialFollowUp-grid-edit.html.twig', array('specialFollowUp' => $specialFollowUp));

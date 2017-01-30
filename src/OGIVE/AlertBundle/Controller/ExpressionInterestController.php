@@ -77,8 +77,11 @@ class ExpressionInterestController extends Controller {
             if ($repositoryExpressionInterest->findOneBy(array('reference' => $expressionInterest->getReference(), 'status' => 1))) {
                 return new JsonResponse(["success" => false, 'message' => "Une manifestation d'intérêt avec cette référence existe dejà !"], Response::HTTP_BAD_REQUEST);
             }
-            if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
-                $expressionInterest->setState(1);
+           if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+                $sendActivate = $request->get('send_activate');
+                if ($sendActivate && $sendActivate === 'on') {
+                    $expressionInterest->setState(1);
+                }
             }
             $expressionInterest->setAbstract($this->getAbstractOfExpressionInterest($expressionInterest));
             $expressionInterest = $repositoryExpressionInterest->saveExpressionInterest($expressionInterest);
@@ -156,6 +159,14 @@ class ExpressionInterestController extends Controller {
                 return new JsonResponse(["success" => false, 'message' => "Une manifestation d'intérêt avec cette référence existe dejà"], Response::HTTP_NOT_FOUND);
             }            
             $expressionInterest->setAbstract($this->getAbstractOfExpressionInterest($expressionInterest));
+            if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+                $sendActivate = $request->get('send_activate');
+                if ($sendActivate && $sendActivate === 'on') {
+                    $expressionInterest->setState(1);
+                } else {
+                    $expressionInterest->setState(0);
+                }
+            }
             $expressionInterest = $repositoryExpressionInterest->updateExpressionInterest($expressionInterest);
             $expressionInterest_content_grid = $this->renderView('OGIVEAlertBundle:expressionInterest:expressionInterest-grid-edit.html.twig', array('expressionInterest' => $expressionInterest));
             $expressionInterest_content_list = $this->renderView('OGIVEAlertBundle:expressionInterest:expressionInterest-list-edit.html.twig', array('expressionInterest' => $expressionInterest));

@@ -143,7 +143,7 @@ $(function () {
                             500: function (xhr) {
                                 $('#server_error_message').show();
                             },
-                            400: function (response, textStatus, jqXHR) {
+                            404: function (response, textStatus, jqXHR) {
                                 console.log(response);
                                 var myerrors = response.responseJSON;
                                 if (myerrors.success === false) {
@@ -202,7 +202,7 @@ function edit_expressionInterest(id) {
             500: function (xhr) {
 
             },
-            400: function (response, textStatus, jqXHR) {
+            404: function (response, textStatus, jqXHR) {
                 $('#message_error>div.header').html(response.responseJSON.message);
                 $('#message_error').show();
             }
@@ -366,7 +366,7 @@ function execute_edit(id) {
                             500: function (xhr) {
                                 $('#server_error_message_edit').show();
                             },
-                            400: function (response, textStatus, jqXHR) {
+                            404: function (response, textStatus, jqXHR) {
                                 var myerrors = response.responseJSON;
                                 if (myerrors.success === false) {
                                     $('#error_name_header_edit').html("Echec de la validation");
@@ -432,7 +432,7 @@ function delete_expressionInterest(id) {
                     $('#message_error').hide();
                 }, 4000);
             },
-            400: function (response, textStatus, jqXHR) {
+            404: function (response, textStatus, jqXHR) {
                 $('#message_error>div.header').html(response.responseJSON.message);
                 $('#message_error').show();
                 setTimeout(function () {
@@ -474,7 +474,7 @@ function show_expressionInterest(id) {
             500: function (xhr) {
 
             },
-            400: function (response, textStatus, jqXHR) {
+            404: function (response, textStatus, jqXHR) {
                 $('#message_error>div.header').html(response.responseJSON.message);
                 $('#message_error').show();
             }
@@ -543,7 +543,7 @@ function enable_expressionInterest(id) {
                     $('#message_error').hide();
                 }, 4000);
             },
-            400: function (response, textStatus, jqXHR) {
+            404: function (response, textStatus, jqXHR) {
                 $('#message_error>div.header').html("Echec d'activation de la manifestation");
                 $('#message_error').show();
                 setTimeout(function () {
@@ -592,7 +592,7 @@ function disable_expressionInterest(id) {
                     $('#message_error').hide();
                 }, 4000);
             },
-            400: function (response, textStatus, jqXHR) {
+            404: function (response, textStatus, jqXHR) {
                 $('#message_error>div.header').html("Echec de la désactivation de la manifestition");
                 $('#message_error').show();
                 setTimeout(function () {

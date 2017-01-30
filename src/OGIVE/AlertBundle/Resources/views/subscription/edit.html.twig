@@ -20,10 +20,17 @@
             {{ form_label(form.price,"Coût") }}
             {{ form_widget(form.price,{'attr':{'placeholder':"Coût de l'abonnement", 'data-validate': 'price'}})}}
         </div>
-        
+
         <div class="field">
             {{ form_label(form.currency,"Dévise") }}
             {{ form_widget(form.currency,{'attr':{'data-validate': 'currency', 'class': 'ui search dropdown'}})}}
+        </div>
+
+        <div class="field" {% if not is_granted('ROLE_ADMIN') %} style="display: none;"{% endif %}>
+            <div class="ui checkbox">
+                <input id='checkbox_activate_edit' type="checkbox" name="send_activate" {% if subscription.state == 1 %} checked="checked" {% endif %}>
+                <label> Activer l'abonnement</label>
+            </div>
         </div>
 
         <div class="field">

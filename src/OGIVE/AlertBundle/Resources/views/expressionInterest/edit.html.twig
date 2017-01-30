@@ -6,7 +6,7 @@
     <div class="content">
         {{ form_start(form, {'method': 'PUT', 'action': path('expressionInterest_update', {'id': expressionInterest.id}), 'attr': {'class': 'ui form', 'id': 'edit_expressionInterest_form'} })}}
 
-       <div class="field">
+        <div class="field">
             {{ form_label(form.reference,"Numero") }}
             {{ form_widget(form.reference,{'attr':{'placeholder':"Numero de la manifestation d'intérêt", 'data-validate': 'reference'}})}}
         </div>
@@ -34,7 +34,7 @@
             {{ form_errors(form.subDomain, {'attr': {'class': 'ui error message'}})}}
             {{ form_widget(form.subDomain,{'attr':{ 'data-validate': 'subDomain', 'class': 'ui search dropdown'}})}}
         </div>
-        
+
         <div class="field">
             {{ form_label(form.publicationDate,"Date de publication") }}
             {{ form_widget(form.publicationDate,{'attr':{'data-validate': 'publication_date'}})}}
@@ -73,6 +73,13 @@
                 <div class="field">
                     {{ form_widget(form.sendingDate.time,{'attr':{'data-validate': 'sending_date_time'}})}}
                 </div>
+            </div>
+        </div>
+
+        <div class="field" {% if not is_granted('ROLE_ADMIN') %} style="display: none;"{% endif %}>
+            <div class="ui checkbox">
+                <input id='checkbox_activate_edit' type="checkbox" name="send_activate" {% if expressionInterest.state == 1 %} checked="checked" {% endif %}>
+                <label> Activer l'ASMI</label>
             </div>
         </div>
         {#<div class="field">

@@ -92,6 +92,14 @@
                     </div>
                 </div>
             </div>
+
+            <div class="field" {% if not is_granted('ROLE_ADMIN') %} style="display: none;"{% endif %}>
+                <div class="ui checkbox">
+                    <input id='checkbox_activate_edit' type="checkbox" name="send_activate" {% if additive.state == 1 %} checked="checked" {% endif %}>
+                    <label> Activer l'additif</label>
+                </div>
+            </div>
+
             {#<div class="field">
                 {{ form_label(form.uploadedFiles, "Fichiers attachés")}}           
                     {{ form_errors(form.uploadedFiles, {'attr': {'class': 'list'}})}}           
@@ -122,26 +130,26 @@
                     <span> {{ additive.reference}}</span>
                 </div>
             </div>
-                
+
             {% if additive.callOffer %}
-            <div class="two fields">                
-                <div class="field">
-                    <label>Appel d'offre : </label> 
+                <div class="two fields">                
+                    <div class="field">
+                        <label>Appel d'offre : </label> 
+                    </div>
+                    <div class="field">
+                        N°{{ additive.callOffer.reference}}/{{ additive.callOffer.type}}/{{ additive.callOffer.owner}}/{{ additive.callOffer.publicationDate | date('Y')}}
+                    </div>
                 </div>
-                <div class="field">
-                    N°{{ additive.callOffer.reference}}/{{ additive.callOffer.type}}/{{ additive.callOffer.owner}}/{{ additive.callOffer.publicationDate | date('Y')}}
-                </div>
-            </div>
             {% endif %}
             {% if additive.expressionInterest %}
-            <div class="two fields">                
-                <div class="field">
-                    <label>Appel d'offre : </label> 
+                <div class="two fields">                
+                    <div class="field">
+                        <label>Appel d'offre : </label> 
+                    </div>
+                    <div class="field">
+                        N°{{ additive.expressionInterest.reference}}/{{ additive.expressionInterest.type}}/{{ additive.expressionInterest.owner}}/{{ additive.expressionInterest.publicationDate | date('Y')}}
+                    </div>
                 </div>
-                <div class="field">
-                    N°{{ additive.expressionInterest.reference}}/{{ additive.expressionInterest.type}}/{{ additive.expressionInterest.owner}}/{{ additive.expressionInterest.publicationDate | date('Y')}}
-                </div>
-            </div>
             {% endif %}
 
             <div class="two fields">

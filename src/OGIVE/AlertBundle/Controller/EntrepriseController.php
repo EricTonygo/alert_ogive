@@ -82,7 +82,8 @@ class EntrepriseController extends Controller {
             if ($repositoryEntreprise->findOneBy(array('name' => $entreprise->getName(), 'status' => 1))) {
                 return new JsonResponse(["success" => false, 'message' => 'Une entreprise avec ce nom existe dejà'], Response::HTTP_BAD_REQUEST);
             }
-            if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            $sendActivate = $request->get('send_activate');
+            if ($sendActivate && $sendActivate === 'on') {
                 $entreprise->setState(1);
             }
             //*************** gestion des domaines de l'entreprise **************************/
@@ -101,7 +102,7 @@ class EntrepriseController extends Controller {
 
                 if ($repositorySubscriber->findOneBy(array('phoneNumber' => $subscriber->getPhoneNumber(), 'status' => 1)) !== null) {
                     $entreprise->removeSubscriber($subscriber);
-                } elseif ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+                } elseif ($entreprise->getState() == 1) {
                     if ($subscriber->getSubscription()) {
                         $subscriber->setState(1);
                     }
@@ -224,6 +225,16 @@ class EntrepriseController extends Controller {
                 return new JsonResponse(["success" => false, 'message' => 'Une entreprise avec ce nom existe dejà'], Response::HTTP_NOT_FOUND);
             }
 
+            if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+                $sendActivate = $request->get('send_activate');
+                if ($sendActivate && $sendActivate === 'on') {
+                    $entreprise->setState(1);
+                } else {
+                    $entreprise->setState(0);
+                }
+            }
+
+
             //*************** gestion des domaines de l'entreprise **************************/
 
             foreach ($originalDomains as $domain) {
@@ -286,9 +297,14 @@ class EntrepriseController extends Controller {
                 if ($subscriberUnique && $subscriberUnique->getId() != $subscriber->getId()) {
                     $entreprise->removeSubscriber($subscriber);
                 } else {
-                    if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
-                        $entreprise->setState(1);
+                    if ($this->get('security.context')->isGranted('ROLE_ADMIN') && $subscriber->getSubscription()) {
+                        if ($sendActivate && $sendActivate === 'on') {
+                            $subscriber->setState(1);
+                        } else {
+                            $subscriber->setState(0);
+                        }
                     }
+
                     $subscriber->setEntreprise($entreprise);
                 }
             }
@@ -339,7 +355,7 @@ class EntrepriseController extends Controller {
         } elseif ($subscriber->getSubscription()->getPeriodicity() === 5) {
             $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 1 semaine";
         }
-        $content = $subscriber->getEntreprise()->getName() . ", votre souscription au service <<Appels d'offres Infos>> a été éffectuée avec succès. \nCoût du forfait = " . $cout . ". \nOGIVE SOLUTIONS vous remercie pour votre confiance.";
+        $content = $subscriber->getEntreprise()->getName() . ", votre souscription au service <<Appels d'offres Infos>> pour ce numero a été éffectuée avec succès. \nCoût du forfait = " . $cout . ". \nOGIVE SOLUTIONS vous remercie pour votre confiance.";
         $twilio = $this->get('twilio.api');
         //$messages = $twilio->account->messages->read();
         $message = $twilio->account->messages->sendMessage(

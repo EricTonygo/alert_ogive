@@ -44,18 +44,18 @@ class Subscriber
     private $phoneNumber;
 
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="status", type="string", length=255)
+     * @ORM\Column(name="status", type="integer", length=255)
      */
     private $status;
 
     /**
-     * @var int
+     * @var integer
      *
      * @ORM\Column(name="state", type="integer")
      */
-    private $state;
+    protected $state;
     
     /**
      * @var \Entreprise
@@ -200,7 +200,7 @@ class Subscriber
     /**
      * Set status
      *
-     * @param string $status
+     * @param integer $status
      *
      * @return Subscriber
      */
@@ -214,7 +214,7 @@ class Subscriber
     /**
      * Get status
      *
-     * @return string
+     * @return integer
      */
     public function getStatus()
     {
@@ -238,7 +238,7 @@ class Subscriber
     /**
      * Get state
      *
-     * @return int
+     * @return integer
      */
     public function getState()
     {

@@ -12,7 +12,7 @@ function send_procedure_procedureResult(id) {
             500: function (xhr) {
 
             },
-            400: function (response, textStatus, jqXHR) {
+            404: function (response, textStatus, jqXHR) {
                 $('#message_error>div.header').html(response.responseJSON.message);
                 $('#message_error').show();
             }
@@ -91,7 +91,7 @@ function execute_send_notification_procedureResult(id) {
                             500: function (xhr) {
                                 $('#server_error_message_send_notification').show();
                             },
-                            400: function (response, textStatus, jqXHR) {
+                            404: function (response, textStatus, jqXHR) {
                                 var myerrors = response.responseJSON;
                                 if (myerrors.success === false) {
                                     $('#error_name_header_send_notification').html("Echec de la validation");

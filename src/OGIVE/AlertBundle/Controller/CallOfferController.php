@@ -78,7 +78,10 @@ class CallOfferController extends Controller {
                 return new JsonResponse(["success" => false, 'message' => "Un appel d'offre avec cette référence existe dejà !"], Response::HTTP_BAD_REQUEST);
             }
             if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
-                $callOffer->setState(1);
+                $sendActivate = $request->get('send_activate');
+                if ($sendActivate && $sendActivate === 'on') {
+                    $callOffer->setState(1);
+                }
             }
             $callOffer->setType($request->get('call_offer_type'));
             $callOffer->setAbstract($this->getAbstractOfCallOffer($callOffer));
@@ -158,6 +161,14 @@ class CallOfferController extends Controller {
             }
             $callOffer->setType($request->get('call_offer_type'));
             $callOffer->setAbstract($this->getAbstractOfCallOffer($callOffer));
+            if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+                $sendActivate = $request->get('send_activate');
+                if ($sendActivate && $sendActivate === 'on') {
+                    $callOffer->setState(1);
+                } else {
+                    $callOffer->setState(0);
+                }
+            }
             $callOffer = $repositoryCallOffer->updateCallOffer($callOffer);
             $callOffer_content_grid = $this->renderView('OGIVEAlertBundle:callOffer:callOffer-grid-edit.html.twig', array('callOffer' => $callOffer));
             $callOffer_content_list = $this->renderView('OGIVEAlertBundle:callOffer:callOffer-list-edit.html.twig', array('callOffer' => $callOffer));

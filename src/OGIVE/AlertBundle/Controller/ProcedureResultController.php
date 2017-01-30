@@ -78,7 +78,10 @@ class ProcedureResultController extends Controller {
                 return new JsonResponse(["success" => false, 'message' => "Une attribution avec cette référence existe dejà !"], Response::HTTP_BAD_REQUEST);
             }
             if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
-                $procedureResult->setState(1);
+                $sendActivate = $request->get('send_activate');
+                if ($sendActivate && $sendActivate === 'on') {
+                    $procedureResult->setState(1);
+                }
             }
             $procedureResult->setType($request->get('attribution_type'));
             $procedureResult->setAbstract($this->getAbstractOfProcedureResult($procedureResult));
@@ -179,6 +182,14 @@ class ProcedureResultController extends Controller {
                 $procedureResult->setSubDomain($procedureResult->getExpressionInterest()->getSubDomain());
                 $procedureResult->setOwner($procedureResult->getExpressionInterest()->getOwner());
                 //$procedureResult->setObject($procedureResult->getExpressionInterest()->getObject());
+            }
+            if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+                $sendActivate = $request->get('send_activate');
+                if ($sendActivate && $sendActivate === 'on') {
+                    $procedureResult->setState(1);
+                } else {
+                    $procedureResult->setState(0);
+                }
             }
             $procedureResult = $repositoryProcedureResult->updateProcedureResult($procedureResult);
             $procedureResult_content_grid = $this->renderView('OGIVEAlertBundle:procedureResult:procedureResult-grid-edit.html.twig', array('procedureResult' => $procedureResult));

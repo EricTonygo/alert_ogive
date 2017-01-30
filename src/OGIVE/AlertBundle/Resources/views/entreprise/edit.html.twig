@@ -60,6 +60,13 @@
                 {{ form_label(form.address.place,"Lieu de localisation") }}
                 {{ form_widget(form.address.place,{'attr':{'placeholder':"Lieu de localisation", 'data-validate': 'mailBox'}})}}
             </div>
+            
+            <div class="field" {% if not is_granted('ROLE_ADMIN') %} style="display: none;"{% endif %}>
+                <div class="ui checkbox">
+                    <input id='checkbox_activate_edit' type="checkbox" name="send_activate" {% if entreprise.state == 1 %} checked="checked" {% endif %}>
+                    <label> Activer l'entreprise</label>
+                </div>
+            </div>
 
             {#<div class="field">
                 {{ form_label(form.address.file, "Plan de localisation")}}

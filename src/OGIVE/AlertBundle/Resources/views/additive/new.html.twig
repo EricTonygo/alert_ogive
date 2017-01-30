@@ -21,12 +21,12 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="field">
             {{ form_label(form.reference,"Numero") }}
             {{ form_widget(form.reference,{'attr':{'placeholder':"Référence du numero", 'data-validate': 'reference'}})}}
         </div>
-        
+
         <div id="field_aao_add" class="field">
             {{ form_label(form.callOffer,"L'AAO concerné") }}
             {{ form_errors(form.callOffer, {'attr': {'class': 'ui error message'}})}}
@@ -89,6 +89,13 @@
                 <div class="field">
                     {{ form_widget(form.sendingDate.time,{'attr':{'data-validate': 'sending_date_time'}})}}
                 </div>
+            </div>
+        </div>
+
+        <div class="field" {% if not is_granted('ROLE_ADMIN') %} style="display: none;"{% endif %}>
+            <div class="ui checkbox">
+                <input id='checkbox_activate' type="checkbox" name="send_activate" >
+                <label> Activer l'additif</label>
             </div>
         </div>
         {#<div class="field">

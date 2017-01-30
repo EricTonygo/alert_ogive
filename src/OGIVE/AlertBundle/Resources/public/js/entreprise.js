@@ -109,7 +109,7 @@ function add_entreprise() {
                             500: function (xhr) {
                                 $('#server_error_message').show();
                             },
-                            400: function (response, textStatus, jqXHR) {
+                            404: function (response, textStatus, jqXHR) {
                                 console.log(response);
                                 var myerrors = response.responseJSON;
                                 if (myerrors.success === false) {
@@ -180,7 +180,7 @@ function edit_entreprise(id) {
             500: function (xhr) {
 
             },
-            400: function (response, textStatus, jqXHR) {
+            404: function (response, textStatus, jqXHR) {
                 $('#message_error>div.header').html(response.responseJSON.message);
                 $('#message_error').show();
             }
@@ -314,7 +314,7 @@ function execute_edit(id) {
                             500: function (xhr) {
                                 $('#server_error_message_edit').show();
                             },
-                            400: function (response, textStatus, jqXHR) {
+                            404: function (response, textStatus, jqXHR) {
                                 var myerrors = response.responseJSON;
                                 if (myerrors.success === false) {
                                     $('#error_name_header_edit').html("Echec de la validation");
@@ -382,7 +382,7 @@ function delete_entreprise(id) {
                     $('#message_error').hide();
                 }, 4000);
             },
-            400: function (response, textStatus, jqXHR) {
+            404: function (response, textStatus, jqXHR) {
                 $('#message_error>div.header').html(response.responseJSON.message);
                 $('#message_error').show();
                 setTimeout(function () {
@@ -426,7 +426,7 @@ function show_entreprise(id) {
             500: function (xhr) {
 
             },
-            400: function (response, textStatus, jqXHR) {
+            404: function (response, textStatus, jqXHR) {
                 $('#message_error>div.header').html(response.responseJSON.message);
                 $('#message_error').show();
             }
@@ -495,8 +495,8 @@ function enable_entreprise(id) {
                     $('#message_error').hide();
                 }, 4000);
             },
-            400: function (response, textStatus, jqXHR) {
-                $('#message_error>div.header').html("Echec d'activation de l'entreprise");
+            404: function (response, textStatus, jqXHR) {
+                $('#message_error>div.header').html(response.responseJSON.message);
                 $('#message_error').show();
                 setTimeout(function () {
                     $('#message_error').hide();
@@ -544,7 +544,7 @@ function disable_entreprise(id) {
                     $('#message_error').hide();
                 }, 4000);
             },
-            400: function (response, textStatus, jqXHR) {
+            404: function (response, textStatus, jqXHR) {
                 $('#message_error>div.header').html("Echec de la désactivation de l'entreprise");
                 $('#message_error').show();
                 setTimeout(function () {

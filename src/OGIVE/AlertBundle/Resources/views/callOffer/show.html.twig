@@ -112,6 +112,13 @@
                     </div>
                 </div>
             </div>
+
+            <div class="field" {% if not is_granted('ROLE_ADMIN') %} style="display: none;"{% endif %}>
+                <div class="ui checkbox">
+                    <input id='checkbox_activate_edit' type="checkbox" name="send_activate" {% if additive.state == 1 %} checked="checked" {% endif %}>
+                    <label> Activer l'appel d'offres</label>
+                </div>
+            </div>
             {#<div class="field">
                 {{ form_label(form.uploadedFiles, "Fichiers attachés")}}           
                     {{ form_errors(form.uploadedFiles, {'attr': {'class': 'list'}})}}           

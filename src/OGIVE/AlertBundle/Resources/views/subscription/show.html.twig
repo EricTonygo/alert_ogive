@@ -10,24 +10,31 @@
         {{ form_start(form, {'method': 'PUT', 'action': path('subscription_update', {'id': subscription.id}), 'attr': {'class': 'ui form', 'id': 'edit_subscription_form'} }) }}
         <div id="block_form_edit" style="display: none">
             <div class="field">
-            {{ form_label(form.name,"Nom") }}
-            {{ form_widget(form.name,{'attr':{'placeholder':"Nom de l'abonnement", 'data-validate': 'name'}})}}
-        </div>
+                {{ form_label(form.name,"Nom") }}
+                {{ form_widget(form.name,{'attr':{'placeholder':"Nom de l'abonnement", 'data-validate': 'name'}})}}
+            </div>
 
-        <div class="field">
-            {{ form_label(form.periodicity,"Périodicité") }}
-            {{ form_widget(form.periodicity,{'attr':{'data-validate': 'periodicity', 'class': 'ui search dropdown'}})}}
-        </div>
+            <div class="field">
+                {{ form_label(form.periodicity,"Périodicité") }}
+                {{ form_widget(form.periodicity,{'attr':{'data-validate': 'periodicity', 'class': 'ui search dropdown'}})}}
+            </div>
 
-        <div class="field">
-            {{ form_label(form.price,"Coût") }}
-            {{ form_widget(form.price,{'attr':{'placeholder':"Coût de l'abonnement", 'data-validate': 'price'}})}}
-        </div>
-        
-        <div class="field">
-            {{ form_label(form.currency,"Dévise") }}
-            {{ form_widget(form.currency,{'attr':{'data-validate': 'currency', 'class': 'ui search dropdown'}})}}
-        </div>
+            <div class="field">
+                {{ form_label(form.price,"Coût") }}
+                {{ form_widget(form.price,{'attr':{'placeholder':"Coût de l'abonnement", 'data-validate': 'price'}})}}
+            </div>
+
+            <div class="field">
+                {{ form_label(form.currency,"Dévise") }}
+                {{ form_widget(form.currency,{'attr':{'data-validate': 'currency', 'class': 'ui search dropdown'}})}}
+            </div>
+
+            <div class="field" {% if not is_granted('ROLE_ADMIN') %} style="display: none;"{% endif %}>
+                <div class="ui checkbox">
+                    <input id='checkbox_activate_edit' type="checkbox" name="send_activate" {% if subscription.state == 1 %} checked="checked" {% endif %}>
+                    <label> Activer l'abonnement</label>
+                </div>
+            </div>
         </div>
         <div id="block_details">
             <div class="two fields">
@@ -47,7 +54,7 @@
                     {{ subscription.periodicity|periodicity}}
                 </div>
             </div>
-                
+
             <div class="two fields">
                 <div class="field">
                     <label>Coût : </label> 
