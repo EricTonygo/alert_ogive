@@ -9,28 +9,31 @@
         </div>
         <div class="extra content">
             {% if is_granted('ROLE_ADMIN') %}
-            <a id="enable_specialFollowUp_grid{{specialFollowUp.id}}" onclick="enable_specialFollowUp({{specialFollowUp.id}});" {% if specialFollowUp.state == 1 %} style="display: none" {% endif %}  data-tooltip="Activer" data-position="bottom center" data-inverted=""><i class="unlock red icon"></i></a>
-            <a id="disable_specialFollowUp_grid{{specialFollowUp.id}}" onclick="disable_specialFollowUp({{specialFollowUp.id}});" {% if specialFollowUp.state != 1 %} style="display: none" {% endif %}  data-tooltip="Désactiver" data-position="bottom center" data-inverted=""><i class="lock green icon"></i></a>
-        {% endif %}
-        <div class="right floated">
-            <div class="ui dropdown item">
-                <i class="ellipsis vertical icon"></i>
-                <div class="menu">
-                    <div onclick="show_specialFollowUp({{specialFollowUp.id}});" class="show_specialFollowUp_btn item">
-                        <i class="unhide icon"></i>
-                        Détails
+                <a id="enable_specialFollowUp_grid{{specialFollowUp.id}}" onclick="enable_specialFollowUp({{specialFollowUp.id}});" {% if specialFollowUp.state == 1 %} style="display: none" {% endif %}  data-tooltip="Activer" data-position="bottom center" data-inverted=""><i class="unlock red icon"></i></a>
+                <a id="disable_specialFollowUp_grid{{specialFollowUp.id}}" onclick="disable_specialFollowUp({{specialFollowUp.id}});" {% if specialFollowUp.state != 1 %} style="display: none" {% endif %}  data-tooltip="Désactiver" data-position="bottom center" data-inverted=""><i class="lock green icon"></i></a>
+                {% endif %}
+            <div class="right floated">
+                <a onclick="send_special_follow_up({{specialFollowUp.id}});" class="send_special_follow_up_btn item" data-tooltip="Envoyer le suivi spécialisé" data-position="top center" data-inverted="" {% if specialFollowUp.state != 1 %} style="display: none" {% endif %}>
+                    <i class="send icon"></i>
+                </a>
+                <a class="ui dropdown item">
+                    <i class="ellipsis vertical icon"></i>
+                    <div class="menu">
+                        <div onclick="show_specialFollowUp({{specialFollowUp.id}});" class="show_specialFollowUp_btn item">
+                            <i class="unhide icon"></i>
+                            Détails
+                        </div>
+                        <div onclick="edit_specialFollowUp({{specialFollowUp.id}});" class="edit_specialFollowUp_btn item">
+                            <i class="edit icon"></i>
+                            Modifier
+                        </div>
+                        <div onclick="delete_specialFollowUp({{specialFollowUp.id}});" class="delete_specialFollowUp_btn item">
+                            <i class="trash icon"></i>
+                            Supprimer
+                        </div>
                     </div>
-                    <div onclick="edit_specialFollowUp({{specialFollowUp.id}});" class="edit_specialFollowUp_btn item">
-                        <i class="edit icon"></i>
-                        Modifier
-                    </div>
-                    <div onclick="delete_specialFollowUp({{specialFollowUp.id}});" class="delete_specialFollowUp_btn item">
-                        <i class="trash icon"></i>
-                        Supprimer
-                    </div>
-                </div>
+                </a>
             </div>
-        </div>
         </div>
     </div>
 </div>

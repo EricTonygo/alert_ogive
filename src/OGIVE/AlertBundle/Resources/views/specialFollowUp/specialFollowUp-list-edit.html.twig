@@ -4,7 +4,10 @@
 </td>
 <td>{{specialFollowUp.description}}</td>
 <td class="right aligned">
-    <div class="ui dropdown item">
+    <a onclick="send_special_follow_up({{specialFollowUp.id}});" class="send_special_follow_up_btn item" data-tooltip="Envoyer le suivi spécialisé" data-position="top center" data-inverted="" {% if specialFollowUp.state != 1 %} style="display: none" {% endif %}>
+        <i class="send icon"></i>
+    </a>
+    <a class="ui dropdown item">
         <i class="ellipsis vertical icon"></i>
         <div class="menu">
             <div onclick="show_specialFollowUp({{specialFollowUp.id}});" class="show_specialFollowUp_btn item">
@@ -30,6 +33,6 @@
                 </div>
             {% endif %}
         </div>
-    </div>
+    </a>
 </td>
 {#</tr>#}

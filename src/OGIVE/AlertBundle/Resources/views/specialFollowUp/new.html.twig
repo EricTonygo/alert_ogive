@@ -12,11 +12,17 @@
         </div>
 
         <div class="field">
-            {{ form_label(form.description,"Description") }}
+            {{ form_label(form.description,"Message") }}
             {{ form_errors(form.description, {'attr': {'class': 'ui error message'}})}}
-            {{ form_widget(form.description,{'attr':{'placeholder':'Description du suivi spécialisé', 'data-validate': 'description'}})}}
+            {{ form_widget(form.description,{'attr':{'placeholder':'Message du suivi spécialisé', 'data-validate': 'description'}})}}
         </div>
-        
+
+        {#<div class="field" >
+            {{ form_label(form.subscribers,"Les Abonnés souscrits") }}
+            {{ form_errors(form.subscribers, {'attr': {'class': 'ui error message'}})}}
+            {{ form_widget(form.subscribers,{'attr':{'data-validate': 'subscribers', 'class': 'ui search dropdown'}})}}
+        </div>#}
+
         <div class="field" {% if not is_granted('ROLE_ADMIN') %} style="display: none;"{% endif %}>
             <div class="ui checkbox">
                 <input id='checkbox_activate' type="checkbox" name="send_activate" >

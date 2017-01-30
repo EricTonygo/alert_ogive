@@ -16,6 +16,13 @@
                 {{ form_widget(form.description,{'attr':{'placeholder':'Description du domaine', 'data-validate': 'description'}})}}
             </div>
 
+            <div class="field" {% if not is_granted('ROLE_ADMIN') %} style="display: none;"{% endif %}>
+                <div class="ui checkbox">
+                    <input id='checkbox_activate_edit' type="checkbox" name="send_activate" {% if domain.state == 1 %} checked="checked" {% endif %}>
+                    <label> Activer le domaine</label>
+                </div>
+            </div>
+
             <div class="field">
                 <div class="ui fluid card">
                     <div class="content">
