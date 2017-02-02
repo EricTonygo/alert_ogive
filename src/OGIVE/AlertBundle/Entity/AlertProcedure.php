@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * AlertProcedure
- * @ORM\MappedSuperClass
+ * @ORM\MappedSuperclass
  * @ORM\HasLifecycleCallbacks
  */
 class AlertProcedure {
