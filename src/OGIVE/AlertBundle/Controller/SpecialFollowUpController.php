@@ -30,7 +30,7 @@ class SpecialFollowUpController extends Controller {
         if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             return $this->redirect($this->generateUrl('fos_user_security_login'));
         }
-        
+
         $em = $this->getDoctrine()->getManager();
         $specialFollowUp = new SpecialFollowUp();
         $form = $this->createForm('OGIVE\AlertBundle\Form\SpecialFollowUpType', $specialFollowUp);
@@ -138,19 +138,19 @@ class SpecialFollowUpController extends Controller {
         if (empty($specialFollowUp)) {
             return new JsonResponse(['message' => 'Suivi spécialisé introuvable'], Response::HTTP_NOT_FOUND);
         }
-        
-        if($request->get('action')== 'enable'){
+
+        if ($request->get('action') == 'enable') {
             $specialFollowUp->setState(1);
             $specialFollowUp = $repositorySpecialFollowUp->updateSpecialFollowUp($specialFollowUp);
             return new JsonResponse(['message' => 'Suivi spécialisé activé avec succcès !'], Response::HTTP_OK
-                    );
+            );
         }
-        
-        if($request->get('action')== 'disable'){
+
+        if ($request->get('action') == 'disable') {
             $specialFollowUp->setState(0);
             $specialFollowUp = $repositorySpecialFollowUp->updateSpecialFollowUp($specialFollowUp);
             return new JsonResponse(['message' => 'Suivi spécialisé désactivé avec succcès !'], Response::HTTP_OK
-                    );
+            );
         }
         $form = $this->createForm('OGIVE\AlertBundle\Form\SpecialFollowUpType', $specialFollowUp, array('method' => 'PUT'));
 

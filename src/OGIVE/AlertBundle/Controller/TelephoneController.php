@@ -7,6 +7,7 @@ use OGIVE\AlertBundle\Entity\Subscriber;
 use OGIVE\AlertBundle\Entity\CallOffer;
 use OGIVE\AlertBundle\Entity\ProcedureResult;
 use OGIVE\AlertBundle\Entity\Additive;
+use OGIVE\AlertBundle\Entity\SpecialFollowUp;
 use OGIVE\AlertBundle\Entity\ExpressionInterest;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -488,7 +489,7 @@ class TelephoneController extends Controller {
                 $historiqueAlertSubscriber->setAlertType("SMS");
                 $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
             }
-            $view = View::create(["code" => 200,  'message' => "SMS envoyé avec succès"]);
+            $view = View::create(["code" => 200, 'message' => "SMS envoyé avec succès"]);
             $view->setFormat('json');
             return $view;
         } else {
@@ -564,6 +565,82 @@ class TelephoneController extends Controller {
         $historiqueAlertSubscriber->setAlertType("SMS_CONFIRMATION_SUBSCRIPTION");
 
         return $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
+    }
+
+    ////////////////////send SMS Spécial Follow Up ///////////////////////////////////
+    
+    /**
+     * @Rest\View()
+     * @Rest\Post("/send-special-follow-up/{id}" , name="send_special_follow_up_post", options={ "method_prefix" = false, "expose" = true })
+     * @param Request $request
+     */
+    public function postSendSpecialFollowUpAction(Request $request, SpecialFollowUp $specialFollowUp) {
+        if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            return $this->redirect($this->generateUrl('fos_user_security_login'));
+        }
+        $historiqueAlertSubscriber = new HistoricalAlertSubscriber();
+        $repositoryHistorique = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:HistoricalAlertSubscriber');
+        $repositorySubscriber = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Subscriber');
+
+        $twilio = $this->get('twilio.api');
+        //$messages = $twilio->account->messages->read();
+        $sendToAll = $request->get('all_subscribers');
+        $idSubscribers = $request->get('subscribers');
+        if ($sendToAll && $sendToAll === 'on') {
+            $subscribers = $repositorySubscriber->getAll();
+            foreach ($subscribers as $subscriber) {
+                $message = $twilio->account->messages->sendMessage(
+                        'MG8e369c4e5ea49ce989834c5355a1f02f', // From a Twilio number in your account
+                        $subscriber->getPhoneNumber(), // Text any number
+                        $request->get('abstract')
+                );
+                $historiqueAlertSubscriber->setMessage($request->get('abstract'));
+                $historiqueAlertSubscriber->setSubscriber($subscriber);
+                $historiqueAlertSubscriber->setAlertType("SMS");
+                $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
+            }
+            $view = View::create(["code" => 200, 'messages_twilio' => $message, 'message' => "SMS envoyé avec succès"]);
+            $view->setFormat('json');
+            return $view;
+        } elseif ($idSubscribers && is_array($idSubscribers) && !empty($idSubscribers)) {
+            foreach ($idSubscribers as $idSubscriber) {
+                $subscriber = $repositorySubscriber->find((int) $idSubscriber);
+                $message = $twilio->account->messages->sendMessage(
+                        'MG8e369c4e5ea49ce989834c5355a1f02f', // From a Twilio number in your account
+                        $subscriber->getPhoneNumber(), // Text any number
+                        $request->get('abstract')
+                );
+                $historiqueAlertSubscriber->setMessage($request->get('abstract'));
+                $historiqueAlertSubscriber->setSubscriber($subscriber);
+                $historiqueAlertSubscriber->setAlertType("SMS");
+                $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
+            }
+            $view = View::create(["code" => 200, 'message' => "SMS envoyé avec succès"]);
+            $view->setFormat('json');
+            return $view;
+        } else {
+            return new JsonResponse(["success" => false, 'message' => "Echec de l'envoi des messages"], Response::HTTP_NOT_FOUND);
+        }
+    }
+
+    /**
+     * @Rest\View()
+     * @Rest\Get("/send-special-follow-up/{id}" , name="send_special_follow_up_get", options={ "method_prefix" = false, "expose" = true })
+     * @param Request $request
+     */
+    public function getSendSpecialFollowUpAction(Request $request, SpecialFollowUp $specialFollowUp) {
+        if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            return $this->redirect($this->generateUrl('fos_user_security_login'));
+        }
+        $repositorySubscriber = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Subscriber');
+        $subscribers = $repositorySubscriber->getAll();
+        $send_special_follow_up_form = $this->renderView('OGIVEAlertBundle:send_sms:form_send_special_follow_up.html.twig', array(
+            'subscribers' => $subscribers,
+            'specialFollowUp' => $specialFollowUp,
+        ));
+        $view = View::create(["code" => 200, 'send_special_follow_up_form' => $send_special_follow_up_form]);
+        $view->setFormat('json');
+        return $view;
     }
 
 }

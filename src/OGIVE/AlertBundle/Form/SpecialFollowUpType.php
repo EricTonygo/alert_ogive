@@ -16,6 +16,16 @@ class SpecialFollowUpType extends AbstractType
         $builder
                 ->add('name', null, array('required' => false))
                 ->add('description', null, array('required'=> false))
+//                ->add('subscribers', 'entity', array(
+//                    'class' => 'OGIVEAlertBundle:Subscriber',
+//                    'property' => 'phoneNumber',
+//                    'empty_value' => "Selectionner ces abonnés",
+//                    'multiple' => true,
+//                    'required' => false,
+//                    'query_builder' => function(\OGIVE\AlertBundle\Repository\SubscriberRepository $repo) {
+//                        return $repo->getSubscriberEnableOrDisableQueryBuilder();
+//                    }
+//                ))
                 ;
     }
     

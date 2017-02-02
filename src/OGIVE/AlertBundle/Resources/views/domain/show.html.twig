@@ -19,35 +19,41 @@
                     {{ form_errors(form.description, {'attr': {'class': 'ui error message'}})}}
                     {{ form_widget(form.description,{'attr':{'placeholder':'Description du domaine', 'data-validate': 'description'}})}}
                 </div>
-                <div class="field">
-                <div class="ui fluid card">
-                    <div class="content">
-                        <div class="header">Ajout des sous-domaines</div>
-                    </div>
-                    <div class="content">
-                        <table class="ui very basic table">
-                            <thead>
-                                <tr><th>Nom</th>
-                                    <th>Description</th>
-                                    <th class="right aligned">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody class="subDomains_edit" data-prototype="{{ _self.subDomain_prototype(form.subDomains.vars.prototype)|e }}">
-                                {% for subDomain in form.subDomains %}
-                                    <tr>
-                                        {{ _self.subDomain_prototype(subDomain) }}
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                            {% macro subDomain_prototype(childForm) %}
-                                <td>{{ form_widget(childForm.name,{'attr':{'data-validate': 'name_subDomain'}}) }}</td>
-                                <td>{{ form_widget(childForm.description,{'attr':{'data-validate': 'description_subDomain'}}) }}</td>
-
-                            {% endmacro %}
-                        </table>
+                <div class="field" {% if not is_granted('ROLE_ADMIN') %} style="display: none;"{% endif %}>
+                    <div class="ui checkbox">
+                        <input id='checkbox_activate_edit' type="checkbox" name="send_activate" {% if domain.state == 1 %} checked="checked" {% endif %}>
+                        <label> Activer le domaine</label>
                     </div>
                 </div>
-            </div>
+                <div class="field">
+                    <div class="ui fluid card">
+                        <div class="content">
+                            <div class="header">Ajout des sous-domaines</div>
+                        </div>
+                        <div class="content">
+                            <table class="ui very basic table">
+                                <thead>
+                                    <tr><th>Nom</th>
+                                        <th>Description</th>
+                                        <th class="right aligned">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="subDomains_edit" data-prototype="{{ _self.subDomain_prototype(form.subDomains.vars.prototype)|e }}">
+                                    {% for subDomain in form.subDomains %}
+                                        <tr>
+                                            {{ _self.subDomain_prototype(subDomain) }}
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                                {% macro subDomain_prototype(childForm) %}
+                                    <td>{{ form_widget(childForm.name,{'attr':{'data-validate': 'name_subDomain'}}) }}</td>
+                                    <td>{{ form_widget(childForm.description,{'attr':{'data-validate': 'description_subDomain'}}) }}</td>
+
+                                {% endmacro %}
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div id="block_details">
                 <div class="two fields">

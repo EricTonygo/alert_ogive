@@ -76,4 +76,13 @@ class SubscriberRepository extends \Doctrine\ORM\EntityRepository
          ->setParameter('state', 1);
 
     }
+    
+    public function getSubscriberEnableOrDisableQueryBuilder() {
+         return $this
+          ->createQueryBuilder('e')
+          ->where('e.status = :status')
+          ->orderBy('e.name', 'ASC')
+          ->setParameter('status', 1)
+         ;
+    }
 }
