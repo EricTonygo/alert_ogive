@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * ExpressionInterest
  *
  * @ORM\Table(name="expression_interest")
- * @ORM\Entity(repositoryClass="OGIVE\AlertBundle\Repository\ExpressionInterestRepository")
+ * @ORM\Entity(repositoryClass="\OGIVE\AlertBundle\Repository\ExpressionInterestRepository")
  * @ORM\HasLifecycleCallbacks
  */
 class ExpressionInterest extends AlertProcedure

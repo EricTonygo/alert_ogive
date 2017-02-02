@@ -400,7 +400,7 @@ class AlertProcedure {
     /**
      * Get status
      *
-     * @return OGIVE\AlertBundle\Entity\Domain
+     * @return \OGIVE\AlertBundle\Entity\Domain
      */
     public function getDomain() {
         return $this->domain;
@@ -409,11 +409,11 @@ class AlertProcedure {
     /**
      * Set domain
      *
-     * @param OGIVE\AlertBundle\Entity\SubDomain $subDomain
+     * @param \OGIVE\AlertBundle\Entity\SubDomain $subDomain
      *
      * @return AlertProcedure
      */
-    public function setSubDomain($subDomain) {
+    public function setSubDomain(\OGIVE\AlertBundle\Entity\SubDomain $subDomain) {
         $this->subDomain = $subDomain;
 
         return $this;
@@ -422,7 +422,7 @@ class AlertProcedure {
     /**
      * Get status
      *
-     * @return OGIVE\AlertBundle\Entity\SubDomain
+     * @return \OGIVE\AlertBundle\Entity\SubDomain
      */
     public function getSubDomain() {
         return $this->subDomain;

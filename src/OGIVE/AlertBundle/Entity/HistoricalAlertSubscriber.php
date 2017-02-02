@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * HistoricalAlertSubscriber
  *
  * @ORM\Table(name="historical_alert_subscriber")
- * @ORM\Entity(repositoryClass="OGIVE\AlertBundle\Repository\HistoricalAlertSubscriberRepository")
+ * @ORM\Entity(repositoryClass="\OGIVE\AlertBundle\Repository\HistoricalAlertSubscriberRepository")
  * @ORM\HasLifecycleCallbacks
  */
 class HistoricalAlertSubscriber

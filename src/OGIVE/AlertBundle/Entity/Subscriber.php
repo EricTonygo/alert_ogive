@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Subscriber
  *
  * @ORM\Table(name="subscriber")
- * @ORM\Entity(repositoryClass="OGIVE\AlertBundle\Repository\SubscriberRepository")
+ * @ORM\Entity(repositoryClass="\OGIVE\AlertBundle\Repository\SubscriberRepository")
  * @ORM\HasLifecycleCallbacks
  */
 class Subscriber
@@ -80,7 +80,7 @@ class Subscriber
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="OGIVE\AlertBundle\Entity\HistoricalAlertSubscriber", mappedBy="subscriber", cascade={"remove", "persist"})
+     * @ORM\OneToMany(targetEntity="HistoricalAlertSubscriber", mappedBy="subscriber", cascade={"remove", "persist"})
      */
     private $historicalAlertSubscribers;
     
@@ -248,7 +248,7 @@ class Subscriber
     /**
      * Set entreprise
      *
-     * @param OGIVE\AlertBundle\Entity\Entrprise $entreprise
+     * @param \OGIVE\AlertBundle\Entity\Entrprise $entreprise
      *
      * @return Subscriber
      */
@@ -262,7 +262,7 @@ class Subscriber
     /**
      * Get entreprise
      *
-     * @return OGIVE\AlertBundle\Entity\Entreprise
+     * @return \OGIVE\AlertBundle\Entity\Entreprise
      */
     public function getEntreprise()
     {
@@ -273,11 +273,11 @@ class Subscriber
     /**
      * Set subscription
      *
-     * @param OGIVE\AlertBundle\Entity\Subscription $subscription
+     * @param \OGIVE\AlertBundle\Entity\Subscription $subscription
      *
      * @return Subscriber
      */
-    public function setSubscription($subscription)
+    public function setSubscription(\OGIVE\AlertBundle\Entity\Subscription $subscription)
     {
         $this->subscription = $subscription;
 
@@ -287,7 +287,7 @@ class Subscriber
     /**
      * Get subscription
      *
-     * @return OGIVE\AlertBundle\Entity\Subscription
+     * @return \OGIVE\AlertBundle\Entity\Subscription
      */
     public function getSubscription()
     {
@@ -297,10 +297,10 @@ class Subscriber
     /**
      * Add historicalAlertSubscriber
      *
-     * @param OGIVE\AlertBundle\Entity\HistoricalAlertSubscriber $historicalAlertSubscriber
+     * @param \OGIVE\AlertBundle\Entity\HistoricalAlertSubscriber $historicalAlertSubscriber
      * @return Subscriber
      */
-    public function addHistoricalAlertSubscriber(OGIVE\AlertBundle\Entity\HistoricalAlertSubscriber $historicalAlertSubscriber) {
+    public function addHistoricalAlertSubscriber(\OGIVE\AlertBundle\Entity\HistoricalAlertSubscriber $historicalAlertSubscriber) {
         $this->historicalAlertSubscribers[] = $historicalAlertSubscriber;
         return $this;
     }
@@ -329,10 +329,10 @@ class Subscriber
     /**
      * Remove historicalAlertSubscribers
      *
-     * @param OGIVE\AlertBundle\Entity\HistoricalAlertSubscriber $historicalAlertSubscriber
+     * @param \OGIVE\AlertBundle\Entity\HistoricalAlertSubscriber $historicalAlertSubscriber
      * @return Subscriber
      */
-    public function removeHistoricalAlertSubscriber(OGIVE\AlertBundle\Entity\HistoricalAlertSubscriber $historicalAlertSubscriber) {
+    public function removeHistoricalAlertSubscriber(\OGIVE\AlertBundle\Entity\HistoricalAlertSubscriber $historicalAlertSubscriber) {
         $this->historicalAlertSubscribers->removeElement($historicalAlertSubscriber);
         return $this;
     }
@@ -341,10 +341,10 @@ class Subscriber
     /**
      * Add specialFollowUp
      *
-     * @param OGIVE\AlertBundle\Entity\SpecialFollowUp $specialFollowUp
+     * @param \OGIVE\AlertBundle\Entity\SpecialFollowUp $specialFollowUp
      * @return Subscriber
      */
-    public function addSpecialFollowUp(OGIVE\AlertBundle\Entity\SpecialFollowUp $specialFollowUp) {
+    public function addSpecialFollowUp(\OGIVE\AlertBundle\Entity\SpecialFollowUp $specialFollowUp) {
         $this->specialFollowUps[] = $specialFollowUp;
         return $this;
     }
@@ -373,10 +373,10 @@ class Subscriber
     /**
      * Remove specialFollowUps
      *
-     * @param OGIVE\AlertBundle\Entity\SpecialFollowUp $specialFollowUp
+     * @param \OGIVE\AlertBundle\Entity\SpecialFollowUp $specialFollowUp
      * @return Subscriber
      */
-    public function removeSpecialFollowUp(OGIVE\AlertBundle\Entity\SpecialFollowUp $specialFollowUp) {
+    public function removeSpecialFollowUp(\OGIVE\AlertBundle\Entity\SpecialFollowUp $specialFollowUp) {
         $this->entreprises->removeElement($specialFollowUp);
         return $this;
     }

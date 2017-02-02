@@ -318,11 +318,11 @@ class SubDomain
     /**
      * Set domain
      *
-     * @param OGIVE\AlertBundle\Entity\Domain $domain
+     * @param \OGIVE\AlertBundle\Entity\Domain $domain
      *
      * @return SubDomain
      */
-    public function setDomain($domain) {
+    public function setDomain(\OGIVE\AlertBundle\Entity\Domain $domain) {
         $this->domain = $domain;
 
         return $this;
@@ -331,7 +331,7 @@ class SubDomain
     /**
      * Get domain
      *
-     * @return OGIVE\AlertBundle\Entity\Domain
+     * @return \OGIVE\AlertBundle\Entity\Domain
      */
     public function getDomain() {
         return $this->domain;

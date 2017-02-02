@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Subscription
  *
  * @ORM\Table(name="subscription")
- * @ORM\Entity(repositoryClass="OGIVE\AlertBundle\Repository\SubscriptionRepository")
+ * @ORM\Entity(repositoryClass="\OGIVE\AlertBundle\Repository\SubscriptionRepository")
  * @ORM\HasLifecycleCallbacks
  */
 class Subscription
@@ -67,7 +67,7 @@ class Subscription
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="OGIVE\AlertBundle\Entity\Subscriber", mappedBy="subscription", cascade={"remove", "persist"})
+     * @ORM\OneToMany(targetEntity="\OGIVE\AlertBundle\Entity\Subscriber", mappedBy="subscription", cascade={"remove", "persist"})
      */
     private $subscribers;
     
@@ -250,7 +250,7 @@ class Subscription
     /**
      * Add subscriber
      *
-     * @param OGIVE\AlertBundle\Entity\Subscriber $subscriber 
+     * @param \OGIVE\AlertBundle\Entity\Subscriber $subscriber 
      * @return Subscription
      */
     public function addSubscriber(\OGIVE\AlertBundle\Entity\Subscriber $subscriber) {
@@ -282,7 +282,7 @@ class Subscription
     /**
      * Remove subscriber
      *
-     * @param OGIVE\AlertBundle\Entity\Subscriber $subscriber
+     * @param \OGIVE\AlertBundle\Entity\Subscriber $subscriber
      * @return Subscription
      */
     public function removeSubscriber(\OGIVE\AlertBundle\Entity\Subscriber $subscriber) {

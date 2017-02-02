@@ -45,11 +45,11 @@ class Additive extends AlertProcedure
     /**
      * Set callOffer
      *
-     * @param OGIVE\AlertBundle\Entity\CallOffer $callOffer
+     * @param \OGIVE\AlertBundle\Entity\CallOffer $callOffer
      *
      * @return ProcedureResult
      */
-    public function setCallOffer($callOffer) {
+    public function setCallOffer(\OGIVE\AlertBundle\Entity\CallOffer $callOffer) {
         $this->callOffer = $callOffer;
 
         return $this;
@@ -67,11 +67,11 @@ class Additive extends AlertProcedure
     /**
      * Set expressionInterest
      *
-     * @param OGIVE\AlertBundle\Entity\ExpressionInterest $expressionInterest
+     * @param \OGIVE\AlertBundle\Entity\ExpressionInterest $expressionInterest
      *
      * @return ProcedureResult
      */
-    public function setExpressionInterest($expressionInterest) {
+    public function setExpressionInterest(\OGIVE\AlertBundle\Entity\ExpressionInterest $expressionInterest) {
         $this->expressionInterest = $expressionInterest;
 
         return $this;
@@ -80,7 +80,7 @@ class Additive extends AlertProcedure
     /**
      * Get expressionInterest
      *
-     * @return OGIVE\AlertBundle\Entity\ExpressionInterest
+     * @return \OGIVE\AlertBundle\Entity\ExpressionInterest
      */
     public function getExpressionInterest() {
         return $this->expressionInterest;

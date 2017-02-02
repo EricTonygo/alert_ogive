@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Notification
  *
  * @ORM\Table(name="notification")
- * @ORM\Entity(repositoryClass="OGIVE\AlertBundle\Repository\NotificationRepository")
+ * @ORM\Entity(repositoryClass="\OGIVE\AlertBundle\Repository\NotificationRepository")
  * @ORM\HasLifecycleCallbacks
  */
 class Notification

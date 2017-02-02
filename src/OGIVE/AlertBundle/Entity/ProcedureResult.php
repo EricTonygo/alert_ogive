@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * ProcedureResult
  *
  * @ORM\Table(name="procedure_result")
- * @ORM\Entity(repositoryClass="OGIVE\AlertBundle\Repository\ProcedureResultRepository")
+ * @ORM\Entity(repositoryClass="\OGIVE\AlertBundle\Repository\ProcedureResultRepository")
  * @ORM\HasLifecycleCallbacks
  */
 class ProcedureResult extends AlertProcedure
@@ -43,11 +43,11 @@ class ProcedureResult extends AlertProcedure
     /**
      * Set callOffer
      *
-     * @param OGIVE\AlertBundle\Entity\CallOffer $callOffer
+     * @param \OGIVE\AlertBundle\Entity\CallOffer $callOffer
      *
      * @return ProcedureResult
      */
-    public function setCallOffer($callOffer) {
+    public function setCallOffer(\OGIVE\AlertBundle\Entity\CallOffer $callOffer) {
         $this->callOffer = $callOffer;
 
         return $this;
@@ -56,7 +56,7 @@ class ProcedureResult extends AlertProcedure
     /**
      * Get callOffer
      *
-     * @return OGIVE\AlertBundle\Entity\CallOffer
+     * @return \OGIVE\AlertBundle\Entity\CallOffer
      */
     public function getCallOffer() {
         return $this->callOffer;
@@ -65,11 +65,11 @@ class ProcedureResult extends AlertProcedure
     /**
      * Set expressionInterest
      *
-     * @param OGIVE\AlertBundle\Entity\ExpressionInterest $expressionInterest
+     * @param \OGIVE\AlertBundle\Entity\ExpressionInterest $expressionInterest
      *
      * @return ProcedureResult
      */
-    public function setExpressionInterest($expressionInterest) {
+    public function setExpressionInterest(\OGIVE\AlertBundle\Entity\ExpressionInterest $expressionInterest) {
         $this->expressionInterest = $expressionInterest;
 
         return $this;
@@ -78,7 +78,7 @@ class ProcedureResult extends AlertProcedure
     /**
      * Get expressionInterest
      *
-     * @return OGIVE\AlertBundle\Entity\ExpressionInterest
+     * @return \OGIVE\AlertBundle\Entity\ExpressionInterest
      */
     public function getExpressionInterest() {
         return $this->expressionInterest;
