@@ -12,7 +12,7 @@
 
         <div id="message_error" class="ui error message" style="position: fixed; top: 5em; right: 40em; left: auto; z-index: 5; width: 25em; display: none">
             <i class="close icon"></i>
-            <div class="header"> vbvvb </div>
+            <div class="header"> </div>
         </div>
 
         <div id="message_loading" class="ui icon message" style="position: fixed; top: 5em; right: 40em; left: auto; z-index: 5; width: 20em; display: none;">
@@ -32,8 +32,10 @@
     </div>
     {% block block_add_new %}
     {% endblock block_add_new %} 
+    
     {% block block_edit %}
     {% endblock block_edit %} 
     {% block block_sms%}
     {% endblock block_sms %} 
-{% endblock %}
+    
+{% endblock body%}
