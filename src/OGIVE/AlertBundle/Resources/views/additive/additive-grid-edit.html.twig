@@ -1,9 +1,11 @@
 {#<div id="additive_grid{{additive.id}}" class="column">#}
 <div class="ui fluid card">
     <div class="content">
-        <div class="header">{{additive.reference}}</div>
+        <div class="header">{% if additive.reference %}{{additive.reference}}{% endif %}</div>
         <div class="description">
-            {{additive.object}}
+            {% if additive.object %}
+                {{additive.object}}
+            {% endif %}
         </div>
     </div>
     <div class="extra content">

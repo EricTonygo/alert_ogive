@@ -11,9 +11,9 @@
                 {%for additive in additives%}
                     <tr id="additive_list{{additive.id}}">
                         <td>
-                            <div class="ui ribbon label">{{additive.reference}}</div>
+                            <div class="ui ribbon label">{% if additive.reference %} {{additive.reference}}{% endif %}</div>
                         </td>
-                        <td>{{additive.object}}</td>
+                        <td>{% if additive.object %} {{additive.object}} {% endif %}</td>
                         <td class="right aligned">
                             <a onclick="send_procedure_additive({{additive.id}});" class="send_sms_additive_btn item" data-tooltip="Notifier les abonnés" data-position="top center" data-inverted="">
                                 <i class="alarm icon"></i>
