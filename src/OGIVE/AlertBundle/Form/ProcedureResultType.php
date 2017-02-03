@@ -21,13 +21,13 @@ class ProcedureResultType extends AbstractType {
                     // this is actually the default format for single_text
                     'format' => 'yyyy-MM-dd',
                 ))
-                ->add('sendingDate', DateTimeType::class, array(
-                    'date_widget' => 'single_text',
-                    'time_widget' => 'single_text',
-                    'date_format' => 'yyyy-MM-dd',
-                    'with_seconds' => false,
-                    'required' => false,
-                ))
+//                ->add('sendingDate', DateTimeType::class, array(
+//                    'date_widget' => 'single_text',
+//                    'time_widget' => 'single_text',
+//                    'date_format' => 'yyyy-MM-dd',
+//                    'with_seconds' => false,
+//                    'required' => false,
+//                ))
                 ->add('object', null, array('required' => false))
 //                ->add('uploadedFiles', FileType::class, array(
 //                    "multiple" => true,

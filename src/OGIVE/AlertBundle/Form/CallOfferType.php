@@ -38,13 +38,13 @@ class CallOfferType extends AbstractType {
                     'with_seconds' => false,
                     'required' => false,
                 ))
-                ->add('sendingDate', DateTimeType::class, array(
-                    'date_widget' => 'single_text',
-                    'time_widget' => 'single_text',
-                    'date_format' => 'yyyy-MM-dd',
-                    'with_seconds' => false,
-                    'required' => false,
-                ))
+//                ->add('sendingDate', DateTimeType::class, array(
+//                    'date_widget' => 'single_text',
+//                    'time_widget' => 'single_text',
+//                    'date_format' => 'yyyy-MM-dd',
+//                    'with_seconds' => false,
+//                    'required' => false,
+//                ))
                 ->add('object', null, array('required' => false))
                 ->add('owner', null, array('required' => false))
                 //->add('abstract')

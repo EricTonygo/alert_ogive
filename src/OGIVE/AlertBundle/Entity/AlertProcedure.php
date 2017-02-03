@@ -564,6 +564,7 @@ class AlertProcedure {
      */
     public function preUpdate() {
         $this->lastUpdateDate = new \DateTime();
+        $this->sendingDate = new \DateTime();
     }
 
     /**
@@ -572,6 +573,7 @@ class AlertProcedure {
     public function prePersist() {
         $this->createDate = new \DateTime();
         $this->lastUpdateDate = new \DateTime();
+        $this->sendingDate = new \DateTime();
         $this->status = 1;
     }
 

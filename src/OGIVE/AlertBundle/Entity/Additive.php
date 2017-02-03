@@ -49,7 +49,7 @@ class Additive extends AlertProcedure
      *
      * @return ProcedureResult
      */
-    public function setCallOffer(\OGIVE\AlertBundle\Entity\CallOffer $callOffer) {
+    public function setCallOffer(\OGIVE\AlertBundle\Entity\CallOffer $callOffer=null) {
         $this->callOffer = $callOffer;
 
         return $this;
@@ -71,7 +71,7 @@ class Additive extends AlertProcedure
      *
      * @return ProcedureResult
      */
-    public function setExpressionInterest(\OGIVE\AlertBundle\Entity\ExpressionInterest $expressionInterest) {
+    public function setExpressionInterest(\OGIVE\AlertBundle\Entity\ExpressionInterest $expressionInterest=null) {
         $this->expressionInterest = $expressionInterest;
 
         return $this;

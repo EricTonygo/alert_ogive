@@ -53,7 +53,7 @@
                 {{ form_widget(form.publicationDate,{'attr':{'data-validate': 'publication_date'}})}}
             </div>
 
-            <div class="field">
+            {#<div class="field">
                 {{ form_label(form.sendingDate,"Date de notification aux abonnés") }}
                 <div class="two fields">
                     <div class="field">
@@ -63,7 +63,7 @@
                         {{ form_widget(form.sendingDate.time,{'attr':{'data-validate': 'sending_date_time'}})}}
                     </div>
                 </div>
-            </div>
+            </div>#}
 
             <div class="field" {% if not is_granted('ROLE_ADMIN') %} style="display: none;"{% endif %}>
                 <div class="ui checkbox">
@@ -88,7 +88,6 @@
                     <i class="close icon"></i>
                     <div id="error_name_header" class="header"></div>
                     <ul id="error_name_list" class="list">
-
                     </ul>
                 </div>
             </div>

@@ -37,7 +37,7 @@ class SubDomain
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="text")
+     * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
     
@@ -322,7 +322,7 @@ class SubDomain
      *
      * @return SubDomain
      */
-    public function setDomain(\OGIVE\AlertBundle\Entity\Domain $domain) {
+    public function setDomain(\OGIVE\AlertBundle\Entity\Domain $domain=null) {
         $this->domain = $domain;
 
         return $this;

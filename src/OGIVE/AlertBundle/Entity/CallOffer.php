@@ -38,7 +38,7 @@ class CallOffer extends AlertProcedure
      *
      * @return CallOffer
      */
-    public function setExpressionInterest(\OGIVE\AlertBundle\Entity\ExpressionInterest $expressionInterest) {
+    public function setExpressionInterest(\OGIVE\AlertBundle\Entity\ExpressionInterest $expressionInterest=null) {
         $this->expressionInterest = $expressionInterest;
 
         return $this;

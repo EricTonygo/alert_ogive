@@ -277,7 +277,7 @@ class Subscriber
      *
      * @return Subscriber
      */
-    public function setSubscription(\OGIVE\AlertBundle\Entity\Subscription $subscription)
+    public function setSubscription(\OGIVE\AlertBundle\Entity\Subscription $subscription=null)
     {
         $this->subscription = $subscription;
 
