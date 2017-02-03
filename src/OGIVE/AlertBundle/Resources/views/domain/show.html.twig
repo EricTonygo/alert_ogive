@@ -55,6 +55,7 @@
                     </div>
                 </div>
             </div>
+            {{form_widget(form._token)}}
         </div>
         <div id="block_details">
             <div class="two fields">
@@ -126,9 +127,8 @@
                 </ul>
             </div>
         </div>
-
-        {{form_widget(form._token)}}
-        {{ form_end(form) }}
+        {#{ form_end(form) }#}
+    </form>
     </div>
     <div class="actions">
         <div id="cancel_details_domain" class="ui black deny button">
