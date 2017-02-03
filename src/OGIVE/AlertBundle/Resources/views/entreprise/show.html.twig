@@ -7,7 +7,8 @@
         Modification de l'entreprise << {{entreprise.name}} >>
     </div>
     <div class="content">
-        <form id='edit_entreprise_form' class="ui form" method="PUT" action="{{ path('entreprise_update', {'id': entreprise.id})}}" {{ form_enctype(form) }}>
+        <!--form id='edit_entreprise_form' class="ui form" method="PUT" action="{{ path('entreprise_update', {'id': entreprise.id})}}" {{ form_enctype(form) }}-->
+            {{ form_start(form, {'method': 'PUT', 'action': path('entreprise_update', {'id': entreprise.id}), 'attr': {'class': 'ui form', 'id': 'edit_entreprise_form'} }) }}
             <div id="block_form_edit" style="display: none">            
 
                 <div class="field">
@@ -258,8 +259,8 @@
                     </ul>
                 </div>
             </div>
-
-        </form>
+        {{ form_end(form) }}
+        <!--/form-->
     </div>
     <div class="actions">
         <div id="cancel_details_entreprise" class="ui black deny button">

@@ -4,7 +4,7 @@
         Modification du domaine << {{domain.name}} >>
     </div>
     <div class="content">
-        <form id="edit_domain_form" class="ui form" name="ogive_alertbundle_domain" method="PUT" action="{{ path('domain_update', {'id': domain.id}) }}" {{ form_enctype(form) }} novalidate="novalidate">
+        {{ form_start(form, {'method': 'PUT', 'action': path('domain_update', {'id': domain.id}), 'attr': {'class': 'ui form', 'id': 'edit_domain_form'} }) }}
             <div class="field">
                 {{ form_label(form.name,"Nom") }}
                 {{ form_widget(form.name,{'attr':{'placeholder':'Nom du domaine', 'data-validate': 'name'}})}}
@@ -67,8 +67,8 @@
                 </div>
             </div>
             {{form_widget(form._token)}}
-            {#{ form_end(form) }#}
-        </form>
+            {{ form_end(form) }}
+        <!--/form-->
     </div>
     <div class="actions">
         <div id="cancel_edit_domain" class="ui black deny button">

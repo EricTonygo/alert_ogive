@@ -4,8 +4,8 @@
         Ajout d'une entreprise
     </div>
     <div class="content">
-        <form id="add_entreprise_form" class="ui form" name="ogive_alertbundle_entreprise" method="POST" action="{{ path('entreprise_add') }}" {{ form_enctype(form) }} novalidate="novalidate">
-            {#{ form_start(form, {'method': 'POST', 'action': '/entreprises', 'attr': {'class': 'ui form', 'id': 'add_entreprise_form'} }) }#}
+        <!--form id="add_entreprise_form" class="ui form" name="ogive_alertbundle_entreprise" method="POST" action="" novalidate="novalidate"-->
+            {{ form_start(form, {'method': 'POST', 'action':  path('entreprise_add'), 'attr': {'class': 'ui form', 'id': 'add_entreprise_form'} }) }}
             <div class="field">
                 {{ form_label(form.name,"Nom") }}
                 {{ form_widget(form.name,{'attr':{'placeholder':"Nom de l'entreprise", 'data-validate': 'name'}})}}
@@ -128,8 +128,8 @@
                 </div>
             </div>
             {{form_widget(form._token)}}
-            {#{ form_end(form) }#}
-        </form>
+            {{ form_end(form) }}
+        <!--/form-->
     </div>
     <div class="actions">
         <div id="cancel_add_entreprise" class="ui black deny button">

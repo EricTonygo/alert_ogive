@@ -4,8 +4,8 @@
         Ajout d'un domaine
     </div>
     <div class="content">
-        <form id="add_domain_form" class="ui form" name="ogive_alertbundle_domain" method="POST" action="{{ path('domain_add') }}" {{ form_enctype(form) }} novalidate="novalidate">
-
+        <!--form id="add_domain_form" class="ui form" name="ogive_alertbundle_domain" method="POST" action=""  novalidate="novalidate"-->
+            {{ form_start(form, {'method': 'POST', 'action':  path('domain_add'), 'attr': {'class': 'ui form', 'id': 'add_domain_form'} }) }}
             <div class="field">
                 {{ form_label(form.name,"Nom") }}
                 {{ form_widget(form.name,{'attr':{'placeholder':'Nom du domaine', 'data-validate': 'name'}})}}
@@ -68,8 +68,7 @@
             </div>
 
             {{form_widget(form._token)}}
-            {#{ form_end(form) }#}
-        </form>
+            {{ form_end(form) }}
     </div>
     <div class="actions">
         <div id="cancel_add_domain" class="ui black deny button">

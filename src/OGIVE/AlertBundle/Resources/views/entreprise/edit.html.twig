@@ -4,8 +4,8 @@
         Modification de l'entreprise << {{entreprise.name}} >>
     </div>
     <div class="content">
-        <form id="edit_entreprise_form" class="ui form" name="ogive_alertbundle_entreprise" method="PUT" action="{{ path('entreprise_update', {'id': entreprise.id}) }}" {{ form_enctype(form) }} novalidate="novalidate">
-            {#{ form_start(form, {'method': 'PUT', 'action': path('entreprise_update', {'id': entreprise.id}), 'attr': {'class': 'ui form', 'id': 'edit_entreprise_form'} }) }#}
+        <!--form id="edit_entreprise_form" class="ui form" name="ogive_alertbundle_entreprise" method="PUT" action="" novalidate="novalidate"-->
+            {{ form_start(form, {'method': 'PUT', 'action': path('entreprise_update', {'id': entreprise.id}), 'attr': {'class': 'ui form', 'id': 'edit_entreprise_form'} }) }}
 
             <div class="field">
                 {{ form_label(form.name,"Nom") }}
@@ -127,8 +127,8 @@
                 </div>
             </div>
             {{form_widget(form._token)}}
-            {#{ form_end(form) }#}
-        </form>
+        {{ form_end(form) }}
+        <!--/form-->
     </div>
     <div class="actions">
         <div id="cancel_edit_entreprise" class="ui black deny button">
