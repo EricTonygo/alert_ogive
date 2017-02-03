@@ -80,9 +80,9 @@ class AdditiveController extends Controller {
             if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
                 $sendActivate = $request->get('send_activate');
                 if ($sendActivate && $sendActivate === 'on') {
-                    $subscriber->setState(1);
+                    $additif->setState(1);
                 } else {
-                    $subscriber->setState(0);
+                    $additif->setState(0);
                 }
             }
             $additive->setAbstract($this->getAbstractOfAdditive($additive));
