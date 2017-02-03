@@ -183,6 +183,8 @@ function edit_procedureResult(id) {
     $('#message_success').hide();
     $('.ui.dropdown').dropdown('remove active');
     $('.ui.dropdown').dropdown('remove visible');
+    $('.ui.dropdown>div.menu').removeClass('visible');
+    $('.ui.dropdown>div.menu').addClass('hidden');
     $.ajax({
         type: 'PUT',
         url: Routing.generate('procedureResult_update', {id: id}),
@@ -402,6 +404,8 @@ function delete_procedureResult(id) {
     $('#message_success').hide();
     $('.ui.dropdown').dropdown('remove active');
     $('.ui.dropdown').dropdown('remove visible');
+    $('.ui.dropdown>div.menu').removeClass('visible');
+    $('.ui.dropdown>div.menu').addClass('hidden');
     $.ajax({
         type: 'DELETE',
         url: Routing.generate('procedureResult_delete', {id: id}),
@@ -448,6 +452,8 @@ function show_procedureResult(id) {
     $('#message_success').hide();
     $('.ui.dropdown').dropdown('remove active');
     $('.ui.dropdown').dropdown('remove visible');
+    $('.ui.dropdown>div.menu').removeClass('visible');
+    $('.ui.dropdown>div.menu').addClass('hidden');
     $.ajax({
         type: 'GET',
         url: Routing.generate('procedureResult_get_one', {id: id}),
@@ -530,6 +536,8 @@ function enable_procedureResult(id) {
     $('#edit_procedureResult').remove();
     $('.ui.dropdown').dropdown('remove active');
     $('.ui.dropdown').dropdown('remove visible');
+    $('.ui.dropdown>div.menu').removeClass('visible');
+    $('.ui.dropdown>div.menu').addClass('hidden');
     $.ajax({
         type: 'PUT',
         url: Routing.generate('procedureResult_update', {id: id}),
@@ -579,6 +587,8 @@ function disable_procedureResult(id) {
     $('#edit_procedureResult').remove();
     $('.ui.dropdown').dropdown('remove active');
     $('.ui.dropdown').dropdown('remove visible');
+    $('.ui.dropdown>div.menu').removeClass('visible');
+    $('.ui.dropdown>div.menu').addClass('hidden');
     $.ajax({
         type: 'PUT',
         url: Routing.generate('procedureResult_update', {id: id}),

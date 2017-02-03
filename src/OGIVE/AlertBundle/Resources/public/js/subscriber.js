@@ -145,6 +145,8 @@ function edit_subscriber(id) {
     $('#message_success').hide();
     $('.ui.dropdown').dropdown('remove active');
     $('.ui.dropdown').dropdown('remove visible');
+    $('.ui.dropdown>div.menu').removeClass('visible');
+    $('.ui.dropdown>div.menu').addClass('hidden');
     $.ajax({
         type: 'PUT',
         url: Routing.generate('subscriber_update', {id: id}),
@@ -327,6 +329,8 @@ function delete_subscriber(id) {
     $('#message_success').hide();
     $('.ui.dropdown').dropdown('remove active');
     $('.ui.dropdown').dropdown('remove visible');
+    $('.ui.dropdown>div.menu').removeClass('visible');
+    $('.ui.dropdown>div.menu').addClass('hidden');
     $.ajax({
         type: 'DELETE',
         url: Routing.generate('subscriber_delete', {id: id}),
@@ -373,6 +377,8 @@ function show_subscriber(id) {
     $('#message_success').hide();
     $('.ui.dropdown').dropdown('remove active');
     $('.ui.dropdown').dropdown('remove visible');
+    $('.ui.dropdown>div.menu').removeClass('visible');
+    $('.ui.dropdown>div.menu').addClass('hidden');
     $.ajax({
         type: 'GET',
         url: Routing.generate('subscriber_get_one', {id: id}),
@@ -441,6 +447,8 @@ function enable_subscriber(id) {
     $('#edit_subscriber').remove();
     $('.ui.dropdown').dropdown('remove active');
     $('.ui.dropdown').dropdown('remove visible');
+    $('.ui.dropdown>div.menu').removeClass('visible');
+    $('.ui.dropdown>div.menu').addClass('hidden');
     $.ajax({
         type: 'PUT',
         url: Routing.generate('subscriber_update', {id: id}),
@@ -491,6 +499,8 @@ function disable_subscriber(id) {
     $('#edit_subscriber').remove();
     $('.ui.dropdown').dropdown('remove active');
     $('.ui.dropdown').dropdown('remove visible');
+    $('.ui.dropdown>div.menu').removeClass('visible');
+    $('.ui.dropdown>div.menu').addClass('hidden');
     $.ajax({
         type: 'PUT',
         url: Routing.generate('subscriber_update', {id: id}),

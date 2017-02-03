@@ -211,6 +211,11 @@ function edit_additive(id) {
     $('#message_success').hide();
     $('.ui.dropdown').dropdown('remove active');
     $('.ui.dropdown').dropdown('remove visible');
+    $('.ui.dropdown>div.menu').removeClass('visible');
+    $('.ui.dropdown>div.menu').addClass('hidden');
+    $('.ui.dropdown').dropdown({
+        on: 'hover'
+    });
     $.ajax({
         type: 'PUT',
         url: Routing.generate('additive_update', {id: id}),
@@ -476,6 +481,11 @@ function delete_additive(id) {
     $('#message_success').hide();
     $('.ui.dropdown').dropdown('remove active');
     $('.ui.dropdown').dropdown('remove visible');
+    $('.ui.dropdown>div.menu').removeClass('visible');
+    $('.ui.dropdown>div.menu').addClass('hidden');
+    $('.ui.dropdown').dropdown({
+        on: 'hover'
+    });
     $.ajax({
         type: 'DELETE',
         url: Routing.generate('additive_delete', {id: id}),
@@ -522,6 +532,11 @@ function show_additive(id) {
     $('#message_success').hide();
     $('.ui.dropdown').dropdown('remove active');
     $('.ui.dropdown').dropdown('remove visible');
+    $('.ui.dropdown>div.menu').removeClass('visible');
+    $('.ui.dropdown>div.menu').addClass('hidden');
+    $('.ui.dropdown').dropdown({
+        on: 'hover'
+    });
     $.ajax({
         type: 'GET',
         url: Routing.generate('additive_get_one', {id: id}),
@@ -583,6 +598,11 @@ function enable_additive(id) {
     $('#edit_additive').remove();
     $('.ui.dropdown').dropdown('remove active');
     $('.ui.dropdown').dropdown('remove visible');
+    $('.ui.dropdown>div.menu').removeClass('visible');
+    $('.ui.dropdown>div.menu').addClass('hidden');
+    $('.ui.dropdown').dropdown({
+        on: 'hover'
+    });
     $.ajax({
         type: 'PUT',
         url: Routing.generate('additive_update', {id: id}),
@@ -632,6 +652,11 @@ function disable_additive(id) {
     $('#edit_additive').remove();
     $('.ui.dropdown').dropdown('remove active');
     $('.ui.dropdown').dropdown('remove visible');
+    $('.ui.dropdown>div.menu').removeClass('visible');
+    $('.ui.dropdown>div.menu').addClass('hidden');
+    $('.ui.dropdown').dropdown({
+        on: 'hover'
+    });
     $.ajax({
         type: 'PUT',
         url: Routing.generate('additive_update', {id: id}),

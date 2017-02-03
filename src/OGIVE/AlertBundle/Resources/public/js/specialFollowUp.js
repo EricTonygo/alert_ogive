@@ -95,6 +95,8 @@ function edit_specialFollowUp(id) {
     $('#message_success').hide();
     $('.ui.dropdown').dropdown('remove active');
     $('.ui.dropdown').dropdown('remove visible');
+    $('.ui.dropdown>div.menu').removeClass('visible');
+    $('.ui.dropdown>div.menu').addClass('hidden');
     $.ajax({
         type: 'PUT',
         url: Routing.generate('specialFollowUp_update', { id: id }),
@@ -235,6 +237,8 @@ function delete_specialFollowUp(id) {
     $('#message_success').hide();
     $('.ui.dropdown').dropdown('remove active');
     $('.ui.dropdown').dropdown('remove visible');
+    $('.ui.dropdown>div.menu').removeClass('visible');
+    $('.ui.dropdown>div.menu').addClass('hidden');
     $.ajax({
         type: 'DELETE',
         url: Routing.generate('specialFollowUp_delete', { id: id }),
@@ -281,6 +285,8 @@ function show_specialFollowUp(id) {
     $('#message_success').hide();
     $('.ui.dropdown').dropdown('remove active');
     $('.ui.dropdown').dropdown('remove visible');
+    $('.ui.dropdown>div.menu').removeClass('visible');
+    $('.ui.dropdown>div.menu').addClass('hidden');
     $.ajax({
         type: 'GET',
         url: Routing.generate('specialFollowUp_get_one', { id: id }),
@@ -339,6 +345,8 @@ function enable_specialFollowUp(id) {
     $('#edit_specialFollowUp').remove();
     $('.ui.dropdown').dropdown('remove active');
     $('.ui.dropdown').dropdown('remove visible');
+    $('.ui.dropdown>div.menu').removeClass('visible');
+    $('.ui.dropdown>div.menu').addClass('hidden');
     $.ajax({
         type: 'PUT',
         url: Routing.generate('specialFollowUp_update', { id: id }),
@@ -388,6 +396,8 @@ function disable_specialFollowUp(id) {
     $('#edit_specialFollowUp').remove();
     $('.ui.dropdown').dropdown('remove active');
     $('.ui.dropdown').dropdown('remove visible');
+    $('.ui.dropdown>div.menu').removeClass('visible');
+    $('.ui.dropdown>div.menu').addClass('hidden');
     $.ajax({
         type: 'PUT',
         url: Routing.generate('specialFollowUp_update', { id: id }),

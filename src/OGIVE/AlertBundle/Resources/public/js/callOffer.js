@@ -214,40 +214,14 @@ $(function () {
 
 });
 
-function load_sub_domain() {
-//    $('#subDomain_add_field').hide();
-//    $('#ogive_alertbundle_calloffer_domain').change(function () {
-//        var id = $('#ogive_alertbundle_calloffer_domain option:selected').val();
-//        if (id !== "") {
-//            var id = parseInt(id);
-//            $.ajax({
-//                type: 'get',
-//                url: Routing.generate('subDomains_of_domain', {id: id}),
-//                dataType: 'html',
-//                beforeSend: function (xhr) {
-//                    $('#subDomain_add_field').hide();
-//                },
-//                success: function (data, textStatus, jqXHR) {
-//                    $('#ogive_alertbundle_calloffer_subDomain').html(data);
-//                    $('#ogive_alertbundle_calloffer_subDomain.ui.dropdown').dropdown({
-//                        on: 'click'
-//                    });
-//                    $('#subDomain_add_field').show();
-//                },
-//                error: function (jqXHR, textStatus, errorThrown) {
-//                    $('#subDomain_add_field').hide();
-//                    ;
-//                }
-//            });
-//        }
-//    });
-}
 
 function edit_callOffer(id) {
     $('#message_error').hide();
     $('#message_success').hide();
     $('.ui.dropdown').dropdown('remove active');
     $('.ui.dropdown').dropdown('remove visible');
+    $('.ui.dropdown>div.menu').removeClass('visible');
+    $('.ui.dropdown>div.menu').addClass('hidden');
     $.ajax({
         type: 'PUT',
         url: Routing.generate('call_offer_update', {id: id}),
@@ -501,6 +475,8 @@ function delete_callOffer(id) {
     $('#message_success').hide();
     $('.ui.dropdown').dropdown('remove active');
     $('.ui.dropdown').dropdown('remove visible');
+    $('.ui.dropdown>div.menu').removeClass('visible');
+    $('.ui.dropdown>div.menu').addClass('hidden');
     $.ajax({
         type: 'DELETE',
         url: Routing.generate('call_offer_delete', {id: id}),
@@ -547,6 +523,8 @@ function show_callOffer(id) {
     $('#message_success').hide();
     $('.ui.dropdown').dropdown('remove active');
     $('.ui.dropdown').dropdown('remove visible');
+    $('.ui.dropdown>div.menu').removeClass('visible');
+    $('.ui.dropdown>div.menu').addClass('hidden');
     $.ajax({
         type: 'GET',
         url: Routing.generate('call_offer_get_one', {id: id}),
@@ -636,6 +614,8 @@ function enable_callOffer(id) {
     $('#edit_callOffer').remove();
     $('.ui.dropdown').dropdown('remove active');
     $('.ui.dropdown').dropdown('remove visible');
+    $('.ui.dropdown>div.menu').removeClass('visible');
+    $('.ui.dropdown>div.menu').addClass('hidden');
     $.ajax({
         type: 'PUT',
         url: Routing.generate('call_offer_update', {id: id}),
@@ -685,6 +665,8 @@ function disable_callOffer(id) {
     $('#edit_callOffer').remove();
     $('.ui.dropdown').dropdown('remove active');
     $('.ui.dropdown').dropdown('remove visible');
+    $('.ui.dropdown>div.menu').removeClass('visible');
+    $('.ui.dropdown>div.menu').addClass('hidden');
     $.ajax({
         type: 'PUT',
         url: Routing.generate('call_offer_update', {id: id}),

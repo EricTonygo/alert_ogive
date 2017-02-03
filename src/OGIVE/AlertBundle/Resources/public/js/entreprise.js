@@ -167,14 +167,17 @@ function edit_entreprise(id) {
     $('#message_success').hide();
     $('.ui.dropdown').dropdown('remove active');
     $('.ui.dropdown').dropdown('remove visible');
+    $('.ui.dropdown>div.menu').removeClass('visible');
+    $('.ui.dropdown>div.menu').addClass('hidden');
+    $('.ui.dropdown').dropdown({
+        on: 'hover'
+    });
     $.ajax({
         type: 'PUT',
         url: Routing.generate('entreprise_update', {id: id}),
         dataType: 'json',
         beforeSend: function () {
             $('#message_loading').show();
-            $('.ui.dropdown').dropdown('remove active');
-            $('.ui.dropdown').dropdown('remove visible');
         },
         statusCode: {
             500: function (xhr) {
@@ -365,14 +368,17 @@ function delete_entreprise(id) {
     $('#message_success').hide();
     $('.ui.dropdown').dropdown('remove active');
     $('.ui.dropdown').dropdown('remove visible');
+    $('.ui.dropdown>div.menu').removeClass('visible');
+    $('.ui.dropdown>div.menu').addClass('hidden');
+    $('.ui.dropdown').dropdown({
+        on: 'hover'
+    });
     $.ajax({
         type: 'DELETE',
         url: Routing.generate('entreprise_delete', {id: id}),
         dataType: 'json',
         beforeSend: function () {
             $('#message_loading').show();
-            $('.ui.dropdown').dropdown('remove active');
-            $('.ui.dropdown').dropdown('remove visible');
         },
         statusCode: {
             500: function (xhr) {
@@ -413,14 +419,17 @@ function show_entreprise(id) {
     $('#message_success').hide();
     $('.ui.dropdown').dropdown('remove active');
     $('.ui.dropdown').dropdown('remove visible');
+    $('.ui.dropdown>div.menu').removeClass('visible');
+    $('.ui.dropdown>div.menu').addClass('hidden');
+    $('.ui.dropdown').dropdown({
+        on: 'hover'
+    });
     $.ajax({
         type: 'GET',
         url: Routing.generate('entreprise_get_one', {id: id}),
         dataType: 'json',
         beforeSend: function () {
             $('#message_loading').show();
-            $('.ui.dropdown').dropdown('remove active');
-            $('.ui.dropdown').dropdown('remove visible');
         },
         statusCode: {
             500: function (xhr) {
@@ -479,6 +488,11 @@ function enable_entreprise(id) {
     $('#edit_entreprise').remove();
     $('.ui.dropdown').dropdown('remove active');
     $('.ui.dropdown').dropdown('remove visible');
+    $('.ui.dropdown>div.menu').removeClass('visible');
+    $('.ui.dropdown>div.menu').addClass('hidden');
+    $('.ui.dropdown').dropdown({
+        on: 'hover'
+    });
     $.ajax({
         type: 'PUT',
         url: Routing.generate('entreprise_update', {id: id}),
@@ -528,6 +542,11 @@ function disable_entreprise(id) {
     $('#edit_entreprise').remove();
     $('.ui.dropdown').dropdown('remove active');
     $('.ui.dropdown').dropdown('remove visible');
+    $('.ui.dropdown>div.menu').removeClass('visible');
+    $('.ui.dropdown>div.menu').addClass('hidden');
+    $('.ui.dropdown').dropdown({
+        on: 'hover'
+    });
     $.ajax({
         type: 'PUT',
         url: Routing.generate('entreprise_update', {id: id}),

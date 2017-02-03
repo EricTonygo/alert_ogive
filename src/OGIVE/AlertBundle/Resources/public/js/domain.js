@@ -98,6 +98,8 @@ function edit_domain(id) {
     $('#message_success').hide();
     $('.ui.dropdown').dropdown('remove active');
     $('.ui.dropdown').dropdown('remove visible');
+    $('.ui.dropdown>div.menu').removeClass('visible');
+    $('.ui.dropdown>div.menu').addClass('hidden');
     $.ajax({
         type: 'PUT',
         url: Routing.generate('domain_update', {id: id}),
@@ -106,6 +108,8 @@ function edit_domain(id) {
             $('#message_loading').show();
             $('.ui.dropdown').dropdown('remove active');
             $('.ui.dropdown').dropdown('remove visible');
+            $('.ui.dropdown>div.menu').removeClass('visible');
+            $('.ui.dropdown>div.menu').addClass('hidden');
         },
         statusCode: {
             500: function (xhr) {
@@ -234,6 +238,8 @@ function delete_domain(id) {
     $('#message_success').hide();
     $('.ui.dropdown').dropdown('remove active');
     $('.ui.dropdown').dropdown('remove visible');
+    $('.ui.dropdown>div.menu').removeClass('visible');
+    $('.ui.dropdown>div.menu').addClass('hidden');
     $.ajax({
         type: 'DELETE',
         url: Routing.generate('domain_delete', {id: id}),
@@ -242,6 +248,8 @@ function delete_domain(id) {
             $('#message_loading').show();
             $('.ui.dropdown').dropdown('remove active');
             $('.ui.dropdown').dropdown('remove visible');
+            $('.ui.dropdown>div.menu').removeClass('visible');
+            $('.ui.dropdown>div.menu').addClass('hidden');s
         },
         statusCode: {
             500: function (xhr) {
@@ -282,6 +290,8 @@ function show_domain(id) {
     $('#message_success').hide();
     $('.ui.dropdown').dropdown('remove active');
     $('.ui.dropdown').dropdown('remove visible');
+    $('.ui.dropdown>div.menu').removeClass('visible');
+    $('.ui.dropdown>div.menu').addClass('hidden');
     $.ajax({
         type: 'GET',
         url: Routing.generate('domain_get_one', {id: id}),
@@ -290,6 +300,8 @@ function show_domain(id) {
             $('#message_loading').show();
             $('.ui.dropdown').dropdown('remove active');
             $('.ui.dropdown').dropdown('remove visible');
+            $('.ui.dropdown>div.menu').removeClass('visible');
+            $('.ui.dropdown>div.menu').addClass('hidden');
         },
         statusCode: {
             500: function (xhr) {
@@ -342,6 +354,8 @@ function enable_domain(id) {
     $('#edit_domain').remove();
     $('.ui.dropdown').dropdown('remove active');
     $('.ui.dropdown').dropdown('remove visible');
+    $('.ui.dropdown>div.menu').removeClass('visible');
+    $('.ui.dropdown>div.menu').addClass('hidden');
     $.ajax({
         type: 'PUT',
         url: Routing.generate('domain_update', {id: id}),
@@ -351,6 +365,8 @@ function enable_domain(id) {
             $('#message_loading').show();
             $('.ui.dropdown').dropdown('remove active');
             $('.ui.dropdown').dropdown('remove visible');
+            $('.ui.dropdown>div.menu').removeClass('visible');
+            $('.ui.dropdown>div.menu').addClass('hidden');
         },
         statusCode: {
             500: function (xhr) {
@@ -393,6 +409,8 @@ function disable_domain(id) {
     $('#edit_domain').remove();
     $('.ui.dropdown').dropdown('remove active');
     $('.ui.dropdown').dropdown('remove visible');
+    $('.ui.dropdown>div.menu').removeClass('visible');
+    $('.ui.dropdown>div.menu').addClass('hidden');
     $.ajax({
         type: 'PUT',
         url: Routing.generate('domain_update', {id: id}),
@@ -402,6 +420,8 @@ function disable_domain(id) {
             $('#message_loading').show();
             $('.ui.dropdown').dropdown('remove active');
             $('.ui.dropdown').dropdown('remove visible');
+            $('.ui.dropdown>div.menu').removeClass('visible');
+            $('.ui.dropdown>div.menu').addClass('hidden');
         },
         statusCode: {
             500: function (xhr) {

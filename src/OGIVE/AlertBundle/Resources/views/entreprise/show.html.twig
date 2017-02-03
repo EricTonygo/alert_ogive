@@ -9,245 +9,117 @@
     </div>
     <div class="content">
         <!--form id='edit_entreprise_form' class="ui form" method="PUT" action="{{ path('entreprise_update', {'id': entreprise.id})}}" {{ form_enctype(form) }}-->
-            {{ form_start(form, {'method': 'PUT', 'action': path('entreprise_update', {'id': entreprise.id}), 'attr': {'class': 'ui form', 'id': 'edit_entreprise_form'} }) }}
-            <div id="block_form_edit" style="display: none">            
+        {{ form_start(form, {'method': 'PUT', 'action': path('entreprise_update', {'id': entreprise.id}), 'attr': {'class': 'ui form', 'id': 'edit_entreprise_form'} }) }}
+        <div id="block_form_edit" style="display: none">            
 
-                <div class="field">
-                    {{ form_label(form.name,"Nom") }}
-                    {{ form_widget(form.name,{'attr':{'placeholder':"Nom de l'entreprise", 'data-validate': 'name'}})}}
-                </div>
-
-                <div class="field">
-                    {{ form_label(form.domains,"Domaines d'activité") }}
-                    {{ form_errors(form.domains, {'attr': {'class': 'ui error message'}})}}
-                    {{ form_widget(form.domains,{'attr':{'data-validate': 'domains', 'class': 'ui search dropdown'}})}}
-                </div>
-
-                <div class="field">
-                    {{ form_label(form.subDomains,"Ses sous-domaines d'activité") }}
-                    {{ form_errors(form.subDomains, {'attr': {'class': 'ui error message'}})}}
-                    {{ form_widget(form.subDomains,{'attr':{'data-validate': 'subDomains', 'class': 'ui search dropdown'}})}}
-                </div>
-
-                <div class="field">
-                    {{ form_label(form.address.email,"Email") }}
-                    {{ form_widget(form.address.email,{'attr':{'placeholder':"Email de l'entreprise", 'data-validate': 'email'}})}}
-                </div>
-
-                <div class="field">
-                    {{ form_label(form.address.phone,"Téléphone") }}
-                    {{ form_widget(form.address.phone,{'attr':{'placeholder':"Numero de téléphone", 'data-validate': 'phone'}})}}
-                </div>
-
-                <div class="field">
-                    {{ form_label(form.address.mailBox,"Boîte postale") }}
-                    {{ form_widget(form.address.mailBox,{'attr':{'placeholder':"Boîte postale", 'data-validate': 'mailBox'}})}}
-                </div>
-
-                <div class="field">
-                    {{ form_label(form.address.country,"Pays") }}
-                    {{ form_errors(form.address.country, {'attr': {'class': 'ui error message'}})}}
-                    {{ form_widget(form.address.country,{'attr':{'data-validate': 'domain', 'class': 'ui search dropdown'}})}}
-                </div>
-
-                <div class="field">
-                    {{ form_label(form.address.street,"Ville") }}
-                    {{ form_widget(form.address.street,{'attr':{'placeholder':"Ville de localisation", 'data-validate': 'mailBox'}})}}
-                </div>
-
-                <div class="field">
-                    {{ form_label(form.address.place,"Lieu de localisation") }}
-                    {{ form_widget(form.address.place,{'attr':{'placeholder':"Lieu de localisation", 'data-validate': 'mailBox'}})}}
-                </div>
-
-                <div class="field" {% if not is_granted('ROLE_ADMIN') %} style="display: none;"{% endif %}>
-                    <div class="ui checkbox">
-                        <input id='checkbox_activate_edit' type="checkbox" name="send_activate" {% if entreprise.state == 1 %} checked="checked" {% endif %}>
-                        <label> Activer l'entreprise</label>
-                    </div>
-                </div>
-
-                {# <div class="field">
-                     {{ form_label(form.file, "Logo")}}
-                     {{ form_errors(form.file, {'attr': {'class': 'list'}})}}
-                     {{ form_widget(form.file, { 'attr' : {'class' : 'inputfile' }}) }}
-                 </div>#}
-
-                {#<div class="field">
-                    {{ form_label(form.address.file, "Plan de localisation")}}
-                    {{ form_errors(form.address.file, {'attr': {'class': 'list'}})}}
-                    {{ form_widget(form.address.file, { 'attr' : {'class' : 'inputfile' }}) }}
-                </div>#}
-
-                <div class="field">
-                    <div class="ui fluid card">
-                        <div class="content">
-                            <div class="header">Ajout des abonnés</div>
-                        </div>
-                        <div class="content">
-                            <table class="ui very basic table">
-                                <thead>
-                                    <tr><th>Nom</th>
-                                        <th>Téléphone</th>
-                                        <th>Email</th>
-                                        <th>Abonnement</th>
-                                        <th class="right aligned">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="subscribers_edit" data-prototype="{{ forms.subscriber_prototype(form.subscribers.vars.prototype)|e }}">
-                                    {% for subscriber in form.subscribers %}
-                                        <tr>
-                                            {{ forms.subscriber_prototype(subscriber) }}
-                                        </tr>
-                                    {% endfor %}
-                                </tbody>
-                                {% macro subscriber_prototype(childForm) %}
-                                    <td>{{ form_widget(childForm.name,{'attr':{'data-validate': 'name_subscriber'}}) }}</td>
-                                    <td>{{ form_widget(childForm.phoneNumber,{'attr':{'data-validate': 'phone_subscriber'}}) }}</td>
-                                    <td>{{ form_widget(childForm.email,{'attr':{'data-validate': 'email_subscriber'}}) }}</td>
-                                    <td>{{ form_widget(childForm.subscription,{'attr':{'data-validate': 'subscription_subscriber', 'class': 'ui subscriber_ent_subscription search dropdown'}}) }}</td>
-                                {% endmacro %}
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <div class="field" >
-                    <div class="ui checkbox">
-                        <input id='checkbox_send_confirmation_edit' type="checkbox" name="send_confirmation" >
-                        <label> Envoyer l'accusé de reception aux abonnés</label>
-                    </div>
-                </div>
-
-                <div class="field">
-                    {{form_rest(form)}}
-                    <div id="server_error_message_edit" class="ui negative message" style="display:none">
-                        <i class="close icon"></i>
-                        <div id="server_error_content_edit" class="header">Internal server error</div>
-                    </div>
-                    <div id="error_name_message_edit" class="ui error message" style="display: none">
-                        <i class="close icon"></i>
-                        <div id="error_name_header_edit" class="header"></div>
-                        <ul id="error_name_list_edit" class="list">
-
-                        </ul>
-                    </div>
-                </div>
-
-            </div>
-            <div id="block_details">
-
-                <div class="two fields">
-                    <div class="field">
-                        <label>Nom : </label> 
-                    </div>
-                    <div class="field">
-                        <span> {{ entreprise.name}}</span>
-                    </div>
-                </div>
-
-                {#<div class="two fields">
-                    <div class="field">
-                        <label>Domaine d'activité : </label> 
-                    </div>
-                    <div class="field">
-                        {{ entreprise.domain.name}}
-                    </div>
-                </div>#}
-
-                <div class="two fields">
-                    <div class="field">
-                        <label>Numéro de téléphone : </label> 
-                    </div>
-                    <div class="field">
-                        <span> {{ entreprise.address.phone}}</span>
-                    </div>
-                </div>
-
-                <div class="two fields">
-                    <div class="field">
-                        <label>Email : </label> 
-                    </div>
-                    <div class="field">
-                        {{ entreprise.address.email}}
-                    </div>
-                </div>
-
-                <div class="two fields">
-                    <div class="field">
-                        <label>Boîte poste : </label> 
-                    </div>
-                    <div class="field">
-                        <span> {{ entreprise.address.mailBox}}</span>
-                    </div>
-                </div>
-
-                <div class="two fields">
-                    <div class="field">
-                        <label>Pays : </label> 
-                    </div>
-                    <div class="field">
-                        {{ entreprise.address.country|country_name}}
-                    </div>
-                </div>
-
-                <div class="two fields">
-                    <div class="field">
-                        <label>Ville : </label> 
-                    </div>
-                    <div class="field">
-                        {{ entreprise.address.street}}
-                    </div>
-                </div>
-
-                <div class="two fields">
-                    <div class="field">
-                        <label>Lieu de localisation : </label> 
-                    </div>
-                    <div class="field">
-                        <span> {{ entreprise.address.place}}</span>
-                    </div>
-                </div>
-
-                <div class="two fields">
-                    <div class="field">
-                        <label>Date de création : </label>
-                    </div>
-                    <div class="field">
-                        <span> {{ entreprise.createDate is empty ? "" : entreprise.createDate|date('d-m-Y H:i:s')}}</span>
-                    </div>
-                </div>
-
-                <div class="two fields">
-                    <div class="field">
-                        <label>Date de la dernière modification : </label> 
-                    </div>
-                    <div class="field">
-                        <span> {{ entreprise.createDate is empty ? "" : entreprise.createDate|date('d-m-Y H:i:s')}}</span>
-                    </div>
-                </div>
-
-                <div id="field_state_enable" class="two fields" {% if entreprise.state != 1 %} style="display: none" {% endif %}>
-                    <div class="field">
-                        <label>Etat : </label>
-                    </div>
-                    <div class="field">
-                        <span> Activé </span>
-                    </div>             
-                </div>
-
-                <div id="field_state_disable" class="two fields" {% if entreprise.state == 1 %} style="display: none" {% endif %}>
-                    <div class="field">
-                        <label>Etat : </label>
-                    </div>
-                    <div class="field">
-                        <span> Désactivé </span>
-                    </div>
-
-                </div>
-
-            </div>
             <div class="field">
-                {{ form_widget(form._token) }}
+                {{ form_label(form.name,"Nom") }}
+                {{ form_widget(form.name,{'attr':{'placeholder':"Nom de l'entreprise", 'data-validate': 'name'}})}}
+            </div>
+
+            <div class="field">
+                {{ form_label(form.domains,"Domaines d'activité") }}
+                {{ form_errors(form.domains, {'attr': {'class': 'ui error message'}})}}
+                {{ form_widget(form.domains,{'attr':{'data-validate': 'domains', 'class': 'ui search dropdown'}})}}
+            </div>
+
+            <div class="field">
+                {{ form_label(form.subDomains,"Ses sous-domaines d'activité") }}
+                {{ form_errors(form.subDomains, {'attr': {'class': 'ui error message'}})}}
+                {{ form_widget(form.subDomains,{'attr':{'data-validate': 'subDomains', 'class': 'ui search dropdown'}})}}
+            </div>
+
+            <div class="field">
+                {{ form_label(form.address.email,"Email") }}
+                {{ form_widget(form.address.email,{'attr':{'placeholder':"Email de l'entreprise", 'data-validate': 'email'}})}}
+            </div>
+
+            <div class="field">
+                {{ form_label(form.address.phone,"Téléphone") }}
+                {{ form_widget(form.address.phone,{'attr':{'placeholder':"Numero de téléphone", 'data-validate': 'phone'}})}}
+            </div>
+
+            <div class="field">
+                {{ form_label(form.address.mailBox,"Boîte postale") }}
+                {{ form_widget(form.address.mailBox,{'attr':{'placeholder':"Boîte postale", 'data-validate': 'mailBox'}})}}
+            </div>
+
+            <div class="field">
+                {{ form_label(form.address.country,"Pays") }}
+                {{ form_errors(form.address.country, {'attr': {'class': 'ui error message'}})}}
+                {{ form_widget(form.address.country,{'attr':{'data-validate': 'domain', 'class': 'ui search dropdown'}})}}
+            </div>
+
+            <div class="field">
+                {{ form_label(form.address.street,"Ville") }}
+                {{ form_widget(form.address.street,{'attr':{'placeholder':"Ville de localisation", 'data-validate': 'mailBox'}})}}
+            </div>
+
+            <div class="field">
+                {{ form_label(form.address.place,"Lieu de localisation") }}
+                {{ form_widget(form.address.place,{'attr':{'placeholder':"Lieu de localisation", 'data-validate': 'mailBox'}})}}
+            </div>
+
+            <div class="field" {% if not is_granted('ROLE_ADMIN') %} style="display: none;"{% endif %}>
+                <div class="ui checkbox">
+                    <input id='checkbox_activate_edit' type="checkbox" name="send_activate" {% if entreprise.state == 1 %} checked="checked" {% endif %}>
+                    <label> Activer l'entreprise</label>
+                </div>
+            </div>
+
+            {# <div class="field">
+                 {{ form_label(form.file, "Logo")}}
+                 {{ form_errors(form.file, {'attr': {'class': 'list'}})}}
+                 {{ form_widget(form.file, { 'attr' : {'class' : 'inputfile' }}) }}
+             </div>#}
+
+            {#<div class="field">
+                {{ form_label(form.address.file, "Plan de localisation")}}
+                {{ form_errors(form.address.file, {'attr': {'class': 'list'}})}}
+                {{ form_widget(form.address.file, { 'attr' : {'class' : 'inputfile' }}) }}
+            </div>#}
+
+            <div class="field">
+                <div class="ui fluid card">
+                    <div class="content">
+                        <div class="header">Ajout des abonnés</div>
+                    </div>
+                    <div class="content">
+                        <table class="ui very basic table">
+                            <thead>
+                                <tr><th>Nom</th>
+                                    <th>Téléphone</th>
+                                    <th>Email</th>
+                                    <th>Abonnement</th>
+                                    <th class="right aligned">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="subscribers_edit" data-prototype="{{ forms.subscriber_prototype(form.subscribers.vars.prototype)|e }}">
+                                {% for subscriber in form.subscribers %}
+                                    <tr>
+                                        {{ forms.subscriber_prototype(subscriber) }}
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                            {% macro subscriber_prototype(childForm) %}
+                                <td>{{ form_widget(childForm.name,{'attr':{'data-validate': 'name_subscriber'}}) }}</td>
+                                <td>{{ form_widget(childForm.phoneNumber,{'attr':{'data-validate': 'phone_subscriber'}}) }}</td>
+                                <td>{{ form_widget(childForm.email,{'attr':{'data-validate': 'email_subscriber'}}) }}</td>
+                                <td>{{ form_widget(childForm.subscription,{'attr':{'data-validate': 'subscription_subscriber', 'class': 'ui subscriber_ent_subscription search dropdown'}}) }}</td>
+                            {% endmacro %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="field" >
+                <div class="ui checkbox">
+                    <input id='checkbox_send_confirmation_edit' type="checkbox" name="send_confirmation" >
+                    <label> Envoyer l'accusé de reception aux abonnés</label>
+                </div>
+            </div>
+
+            <div class="field">
+                {{form_rest(form)}}
                 <div id="server_error_message_edit" class="ui negative message" style="display:none">
                     <i class="close icon"></i>
                     <div id="server_error_content_edit" class="header">Internal server error</div>
@@ -260,6 +132,134 @@
                     </ul>
                 </div>
             </div>
+
+        </div>
+        <div id="block_details">
+
+            <div class="two fields">
+                <div class="field">
+                    <label>Nom : </label> 
+                </div>
+                <div class="field">
+                    <span> {{ entreprise.name}}</span>
+                </div>
+            </div>
+
+            {#<div class="two fields">
+                <div class="field">
+                    <label>Domaine d'activité : </label> 
+                </div>
+                <div class="field">
+                    {{ entreprise.domain.name}}
+                </div>
+            </div>#}
+
+            <div class="two fields">
+                <div class="field">
+                    <label>Numéro de téléphone : </label> 
+                </div>
+                <div class="field">
+                    <span> {{ entreprise.address.phone}}</span>
+                </div>
+            </div>
+
+            <div class="two fields">
+                <div class="field">
+                    <label>Email : </label> 
+                </div>
+                <div class="field">
+                    {{ entreprise.address.email}}
+                </div>
+            </div>
+
+            <div class="two fields">
+                <div class="field">
+                    <label>Boîte poste : </label> 
+                </div>
+                <div class="field">
+                    <span> {{ entreprise.address.mailBox}}</span>
+                </div>
+            </div>
+
+            <div class="two fields">
+                <div class="field">
+                    <label>Pays : </label> 
+                </div>
+                <div class="field">
+                    {{ entreprise.address.country|country_name}}
+                </div>
+            </div>
+
+            <div class="two fields">
+                <div class="field">
+                    <label>Ville : </label> 
+                </div>
+                <div class="field">
+                    {{ entreprise.address.street}}
+                </div>
+            </div>
+
+            <div class="two fields">
+                <div class="field">
+                    <label>Lieu de localisation : </label> 
+                </div>
+                <div class="field">
+                    <span> {{ entreprise.address.place}}</span>
+                </div>
+            </div>
+
+            <div class="two fields">
+                <div class="field">
+                    <label>Date de création : </label>
+                </div>
+                <div class="field">
+                    <span> {{ entreprise.createDate is empty ? "" : entreprise.createDate|date('d-m-Y H:i:s')}}</span>
+                </div>
+            </div>
+
+            <div class="two fields">
+                <div class="field">
+                    <label>Date de la dernière modification : </label> 
+                </div>
+                <div class="field">
+                    <span> {{ entreprise.createDate is empty ? "" : entreprise.createDate|date('d-m-Y H:i:s')}}</span>
+                </div>
+            </div>
+
+            <div id="field_state_enable" class="two fields" {% if entreprise.state != 1 %} style="display: none" {% endif %}>
+                <div class="field">
+                    <label>Etat : </label>
+                </div>
+                <div class="field">
+                    <span> Activé </span>
+                </div>             
+            </div>
+
+            <div id="field_state_disable" class="two fields" {% if entreprise.state == 1 %} style="display: none" {% endif %}>
+                <div class="field">
+                    <label>Etat : </label>
+                </div>
+                <div class="field">
+                    <span> Désactivé </span>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="field">
+            {{ form_widget(form._token) }}
+            <div id="server_error_message_edit" class="ui negative message" style="display:none">
+                <i class="close icon"></i>
+                <div id="server_error_content_edit" class="header">Internal server error</div>
+            </div>
+            <div id="error_name_message_edit" class="ui error message" style="display: none">
+                <i class="close icon"></i>
+                <div id="error_name_header_edit" class="header"></div>
+                <ul id="error_name_list_edit" class="list">
+
+                </ul>
+            </div>
+        </div>
         {{ form_end(form) }}
         <!--/form-->
     </div>
@@ -279,15 +279,15 @@
                 <i class="unlock icon"></i>
                 Activer
             </div>
-            <div id='edit_entreprise_btn' class="ui primary icon button">
-                <i class="edit icon"></i>
-                Modifier
-            </div>
-            <div id='submit_edit_entreprise' class="ui primary icon button" style="display: none">
-                <i class="save icon"></i>
-                Sauvegarder
-            </div>
         {% endif %}
+        <div id='edit_entreprise_btn' class="ui primary icon button">
+            <i class="edit icon"></i>
+            Modifier
+        </div>
+        <div id='submit_edit_entreprise' class="ui primary icon button" style="display: none">
+            <i class="save icon"></i>
+            Sauvegarder
+        </div>
     </div>
 </div>
 <script>
