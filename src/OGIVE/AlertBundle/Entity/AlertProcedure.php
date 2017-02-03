@@ -387,11 +387,11 @@ class AlertProcedure {
     /**
      * Set domain
      *
-     * @param OGIVE\AlertBundle\Entity\Domain $domain
+     * @param \OGIVE\AlertBundle\Entity\Domain $domain
      *
      * @return AlertProcedure
      */
-    public function setDomain($domain) {
+    public function setDomain(\OGIVE\AlertBundle\Entity\Domain $domain=null) {
         $this->domain = $domain;
 
         return $this;
@@ -413,7 +413,7 @@ class AlertProcedure {
      *
      * @return AlertProcedure
      */
-    public function setSubDomain(\OGIVE\AlertBundle\Entity\SubDomain $subDomain) {
+    public function setSubDomain(\OGIVE\AlertBundle\Entity\SubDomain $subDomain=null) {
         $this->subDomain = $subDomain;
 
         return $this;
