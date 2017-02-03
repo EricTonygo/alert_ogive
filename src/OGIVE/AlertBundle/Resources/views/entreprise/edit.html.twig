@@ -1,3 +1,4 @@
+{% import _self as forms %}
 <div id="edit_entreprise" class="ui modal">
     <i class="close icon"></i>
     <div class="header">
@@ -89,10 +90,10 @@
                                     <th class="right aligned">Action</th>
                                 </tr>
                             </thead>
-                            <tbody class="subscribers_edit" data-prototype="{{ _self.subscriber_prototype(form.subscribers.vars.prototype)|e }}">
+                            <tbody class="subscribers_edit" data-prototype="{{ forms.subscriber_prototype(form.subscribers.vars.prototype)|e }}">
                                 {% for subscriber in form.subscribers %}
                                     <tr>
-                                        {{ _self.subscriber_prototype(subscriber) }}
+                                        {{ forms.subscriber_prototype(subscriber) }}
                                     </tr>
                                 {% endfor %}
                             </tbody>
