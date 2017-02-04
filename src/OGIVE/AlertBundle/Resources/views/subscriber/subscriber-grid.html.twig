@@ -4,7 +4,7 @@
             <img src="{{asset('bundles/ogivealert/images/avatar_1.png')}}" alt="{{subscriber.name}}"/>
         </div>#}
         <div class="content">
-            <div class="header">{{subscriber.name}}</div>
+            <div class="header">{{subscriber.name}}{%if subscriber.entreprise%} ({{subscriber.entreprise.name}}){% endif %}</div>
             <div class="description">
                 {{subscriber.phoneNumber}}
             </div>
