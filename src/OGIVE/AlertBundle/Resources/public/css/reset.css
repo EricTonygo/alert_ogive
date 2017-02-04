@@ -539,7 +539,7 @@ body.pushable>.pusher {
   outline: 2px dashed black;
   outline-offset: -10px;
 }
-.box.has-advanced-upload .box__dragndrop {
+.box.has-advanced-upload .box_dragndrop {
   display: inline;
 }
 
@@ -549,4 +549,42 @@ body.pushable>.pusher {
 
 a.ui.dropdown{
     color: #999999;
+}
+
+.ui.sidebar.menu .item:hover {
+    background-color: #4285f4;
+}
+
+.ui.sidebar.menu .sidebar_title.item:hover {
+    background-color: white;
+}
+
+.ui.sidebar.menu .item>a.title:hover {
+    color: white;
+}
+
+.sidebar_title.item{
+    font-weight: bold;
+}
+
+.ui.sidebar.menu .item>a.title{
+    color: black;
+    font-weight: bold;
+}
+.ui.sidebar.menu .item>.title{
+    color: black;
+    font-weight: bold;
+}
+
+.ui.sidebar.menu .sidebar_title.item{
+    font-weight: bold;
+}
+
+.ui.sidebar.menu .item>.menu>a{
+    font-weight: bold;
+}
+
+.ui.sidebar.menu .item>.menu>a:hover {
+    background-color: white!important;
+    color: black!important;
 }

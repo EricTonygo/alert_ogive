@@ -83,7 +83,7 @@ class SubscriberController extends Controller {
             }
             if ($this->get('security.context')->isGranted('ROLE_ADMIN') && $subscriber->getSubscription()) {
                 $sendActivate = $request->get('send_activate');
-                if ($sendActivate && $sendActivate === 'on' && $subscriber->getEntreprise()->getState()== 1) {
+                if ($sendActivate && $sendActivate === 'on' && $subscriber->getEntreprise() && $subscriber->getEntreprise()->getState()== 1) {
                     $subscriber->setState(1);
                 } else {
                     $subscriber->setState(0);
