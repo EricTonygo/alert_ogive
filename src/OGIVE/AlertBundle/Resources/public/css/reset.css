@@ -563,9 +563,6 @@ a.ui.dropdown{
     color: white;
 }
 
-.sidebar_title.item{
-    font-weight: bold;
-}
 
 .ui.sidebar.menu .item>a.title{
     color: black;
@@ -578,6 +575,7 @@ a.ui.dropdown{
 
 .ui.sidebar.menu .sidebar_title.item{
     font-weight: bold;
+    color: #4285f4!important;
 }
 
 .ui.sidebar.menu .item>.menu>a{
