@@ -1,0 +1,26 @@
+<div id='list_as_table' class="ui basic segment container">
+    <table class="ui very basic table">
+        <thead>
+            <tr><th>Nom de l'abonné</th>
+                <th>Numero de l'abonné</th>
+                <th>Message</th>
+            </tr>
+        </thead>
+        <tbody id='list_as_table_content'>
+            {%if historicalAlertSubscribers%}
+                {%for historicalAlertSubscriber in historicalAlertSubscribers%}
+                    <tr id="historicalAlertSubscriber_list{{historicalAlertSubscriber.id}}">
+                        <td>
+                            <div class="ui ribbon label">{%if historicalAlertSubscriber.subscriber%} {{historicalAlertSubscriber.subscriber.name}} {%endif%}</div>
+                        </td>
+                        <td>
+                            <div class="ui ribbon label">{%if historicalAlertSubscriber.subscriber%} {{historicalAlertSubscriber.subscriber.phoneNumber}} {%endif%}</div>
+                        </td>
+                        <td>{{historicalAlertSubscriber.message}}</td>                       
+                    </tr>
+                {%endfor%} 
+            {%endif%} 
+
+        </tbody>
+    </table>
+</div> 
