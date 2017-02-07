@@ -194,7 +194,7 @@
                     <label>Date de la dernière modification : </label> 
                 </div>
                 <div class="field">
-                    <span> {{ expressionInterest.createDate is empty ? "" : expressionInterest.createDate|date('d-m-Y H:i:s')}}</span>
+                    <span> {{ expressionInterest.createDate is empty ? "" : expressionInterest.lastUpdateDate|date('d-m-Y H:i:s')}}</span>
                 </div>
             </div>
 
