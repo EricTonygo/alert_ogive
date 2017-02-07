@@ -145,6 +145,7 @@ class SubscriberController extends Controller {
     public function updateSubscriberAction(Request $request, Subscriber $subscriber) {
 
         $repositorySubscriber = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Subscriber');
+        $repositoryHistoriqueSubscriber = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:HistoricalAlertSubscriber');
         $oldSubscription = $subscriber->getSubscription();
         //$this = new TelephoneController();
         if (empty($subscriber)) {
