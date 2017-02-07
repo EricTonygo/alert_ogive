@@ -186,13 +186,13 @@ class CallOfferController extends Controller {
     }
     
     public function getAbstractOfCallOffer(CallOffer $callOffer){
-        $contact = "Contacts: +237694200310 - +237694202013";
+        $contact = "Contacts: +237694200310  +237694202013";
         if($callOffer ){
             $dot = ".";
             if(substr(trim($callOffer->getObject()), -1) === "."){
                 $dot = "";
             } 
-            return $callOffer->getType()." : "."N°".$callOffer->getReference()." du ".date_format($callOffer->getPublicationDate(), "d/m/Y")." lancé par ".$callOffer->getOwner()." pour ".$callOffer->getObject().$dot." Dépôt des offres le ".date_format($callOffer->getOpeningDate(), "d/m/Y")." à ".date_format($callOffer->getOpeningDate(), "H:i"); 
+            return $callOffer->getType()." : "."N°".$callOffer->getReference()." du ".date_format($callOffer->getPublicationDate(), "d/m/Y")." lancé par ".$callOffer->getOwner()." pour ".$callOffer->getObject().$dot." Dépôt des offres le ".date_format($callOffer->getOpeningDate(), "d/m/Y")." à ".date_format($callOffer->getOpeningDate(), "H:i").' \n '.$contact; 
         }else{
             return "";
         }
