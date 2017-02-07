@@ -227,7 +227,7 @@
                     <label>Date de la dernière modification : </label> 
                 </div>
                 <div class="field">
-                    <span> {{ callOffer.createDate is empty ? "" : callOffer.createDate|date('d-m-Y H:i:s')}}</span>
+                    <span> {{ callOffer.createDate is empty ? "" : callOffer.lastUpdateDate|date('d-m-Y H:i:s')}}</span>
                 </div>
             </div>
 

@@ -563,17 +563,17 @@ class AlertProcedure {
      * @ORM\PreUpdate() 
      */
     public function preUpdate() {
-        $this->lastUpdateDate = new \DateTime();
-        $this->sendingDate = new \DateTime();
+        $this->lastUpdateDate = new \DateTime('now');
+        $this->sendingDate = new \DateTime('now');
     }
 
     /**
      * @ORM\PrePersist() 
      */
     public function prePersist() {
-        $this->createDate = new \DateTime();
-        $this->lastUpdateDate = new \DateTime();
-        $this->sendingDate = new \DateTime();
+        $this->createDate = new \DateTime('now');
+        $this->lastUpdateDate = new \DateTime('now');
+        $this->sendingDate = new \DateTime('now');
         $this->status = 1;
     }
 

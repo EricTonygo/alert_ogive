@@ -83,7 +83,7 @@ class ProcedureResult extends AlertProcedure
     public function getExpressionInterest() {
         return $this->expressionInterest;
     }
-    
+  
     /**
      * @ORM\PrePersist() 
      */

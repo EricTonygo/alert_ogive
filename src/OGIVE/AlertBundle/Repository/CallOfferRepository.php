@@ -47,6 +47,8 @@ class CallOfferRepository extends EntityRepository
         $em= $this->_em;
         $em->getConnection()->beginTransaction();
         try{
+            $callOffer->setLastUpdateDate(new \DateTime());
+            $callOffer->setSendingDate(new \DateTime());
             $em->persist($callOffer);
             $em->flush();
             $em->getConnection()->commit();           
