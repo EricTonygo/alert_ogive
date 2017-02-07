@@ -16,6 +16,9 @@ $(function () {
         $('#error_name_message').hide();
         $('#add_domain_form.ui.form').submit();
     });
+    $('#cancel_add_domain').click(function () {
+        window.location.replace(Routing.generate('domain_index'));
+    });
     $('#add_domain_form.ui.form')
             .form({
                 fields: {
@@ -74,6 +77,7 @@ $(function () {
                                 $('#add_domain.ui.modal').modal('hide');
                                 $('#message_success>div.header').html('Domaine ajouté avec succès !');
                                 $('#message_success').show();
+                                window.location.replace(Routing.generate('domain_index'));
                                 setTimeout(function () {
                                     $('#message_success').hide();
                                 }, 4000);
@@ -129,6 +133,10 @@ function edit_domain(id) {
                     inverted: true,
                     closable: false
                 });
+                $('#cancel_edit_domain').click(function () {
+                    window.location.replace(Routing.generate('domain_index'));
+                });
+
                 $('#edit_domain.ui.modal').modal('show');
                 execute_edit(id);
             }
@@ -213,6 +221,7 @@ function execute_edit(id) {
                                 $('#edit_domain.ui.modal').modal('hide');
                                 $('#message_success>div.header').html('Domaine modifié avec succès !');
                                 $('#message_success').show();
+                                window.location.replace(Routing.generate('domain_index'));
                                 setTimeout(function () {
                                     $('#message_success').hide();
                                 }, 4000);
@@ -249,7 +258,7 @@ function delete_domain(id) {
             $('.ui.dropdown').dropdown('remove active');
             $('.ui.dropdown').dropdown('remove visible');
             $('.ui.dropdown>div.menu').removeClass('visible');
-            $('.ui.dropdown>div.menu').addClass('hidden');s
+            $('.ui.dropdown>div.menu').addClass('hidden');
         },
         statusCode: {
             500: function (xhr) {
@@ -274,6 +283,7 @@ function delete_domain(id) {
             $('#message_loading').hide();
             $('#message_success>div.header').html(response.message);
             $('#message_success').show();
+            window.location.replace(Routing.generate('domain_index'));
             setTimeout(function () {
                 $('#message_success').hide();
             }, 4000);
@@ -321,6 +331,13 @@ function show_domain(id) {
                     inverted: true,
                     closable: false
                 });
+                $('#cancel_details_domain').click(function () {
+                    window.location.replace(Routing.generate('domain_index'));
+                });
+                $('#cancel_edit_domain').click(function () {
+                    window.location.replace(Routing.generate('domain_index'));
+                });
+
                 $('#edit_domain.ui.modal').modal('show');
                 execute_edit(id);
                 $('#edit_domain_btn').click(function () {
@@ -391,6 +408,7 @@ function enable_domain(id) {
             $('#disable_domain_grid' + id).show();
             $('#message_success>div.header').html(response.message);
             $('#message_success').show();
+            window.location.replace(Routing.generate('domain_index'));
             setTimeout(function () {
                 $('#message_success').hide();
             }, 4000);
@@ -446,6 +464,7 @@ function disable_domain(id) {
             $('#enable_domain_grid' + id).show();
             $('#message_success>div.header').html(response.message);
             $('#message_success').show();
+            window.location.replace(Routing.generate('domain_index'));
             setTimeout(function () {
                 $('#message_success').hide();
             }, 4000);

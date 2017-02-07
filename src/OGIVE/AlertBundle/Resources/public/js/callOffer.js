@@ -48,6 +48,11 @@ $(function () {
         $('#error_name_message').hide();
         $('#add_callOffer_form.ui.form').submit();
     });
+
+    $('#cancel_add_callOffer').click(function () {
+        window.location.replace(Routing.generate('call_offer_index'));
+    });
+
     $('#add_callOffer_form.ui.form')
             .form({
                 fields: {
@@ -193,6 +198,7 @@ $(function () {
                                 $('#add_callOffer.ui.modal').modal('hide');
                                 $('#message_success>div.header').html("Appel d'offre ajouté avec succès !");
                                 $('#message_success').show();
+                                window.location.replace(Routing.generate('call_offer_index'));
                                 setTimeout(function () {
                                     $('#message_success').hide();
                                 }, 4000);
@@ -277,6 +283,9 @@ function edit_callOffer(id) {
                     if ($(this).is(':checked')) {
                         $('#field_asmi_edit').show();
                     }
+                });
+                $('#cancel_edit_callOffer').click(function () {
+                    window.location.replace(Routing.generate('call_offer_index'));
                 });
                 $('#edit_callOffer.ui.modal').modal('show');
                 execute_edit(id);
@@ -448,6 +457,7 @@ function execute_edit(id) {
                                 $('#edit_callOffer.ui.modal').modal('hide');
                                 $('#message_success>div.header').html("Appel d'offre modifié avec succès !");
                                 $('#message_success').show();
+                                window.location.replace(Routing.generate('call_offer_index'));
                                 setTimeout(function () {
                                     $('#message_success').hide();
                                 }, 4000);
@@ -505,6 +515,7 @@ function delete_callOffer(id) {
             $('#message_loading').hide();
             $('#message_success>div.header').html(response.message);
             $('#message_success').show();
+            window.location.replace(Routing.generate('call_offer_index'));
             setTimeout(function () {
                 $('#message_success').hide();
             }, 4000);
@@ -579,6 +590,12 @@ function show_callOffer(id) {
                         $('#field_asmi_edit').show();
                     }
                 });
+                $('#cancel_details_callOffer').click(function () {
+                   window.location.replace(Routing.generate('call_offer_index'));
+                });
+                $('#cancel_edit_callOffer').click(function () {
+                    window.location.replace(Routing.generate('call_offer_index'));
+                });
                 $('#edit_callOffer.ui.modal').modal('show');
                 execute_edit(id);
                 $('#edit_callOffer_btn').click(function () {
@@ -645,6 +662,7 @@ function enable_callOffer(id) {
             $('#disable_callOffer_grid' + id).show();
             $('#message_success>div.header').html(response.message);
             $('#message_success').show();
+            window.location.replace(Routing.generate('call_offer_index'));
             setTimeout(function () {
                 $('#message_success').hide();
             }, 4000);
@@ -696,6 +714,7 @@ function disable_callOffer(id) {
             $('#enable_callOffer_grid' + id).show();
             $('#message_success>div.header').html(response.message);
             $('#message_success').show();
+            window.location.replace(Routing.generate('call_offer_index'));
             setTimeout(function () {
                 $('#message_success').hide();
             }, 4000);
