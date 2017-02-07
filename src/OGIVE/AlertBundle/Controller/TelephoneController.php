@@ -121,6 +121,7 @@ class TelephoneController extends Controller {
             return $view;
         } elseif ($idSubscribers && is_array($idSubscribers) && !empty($idSubscribers)) {
             foreach ($idSubscribers as $idSubscriber) {
+                $idSubscriber = (int)$idSubscriber;
                 $subscriber = $repositorySubscriber->find($idSubscriber);
                 $message = $twilio->account->messages->sendMessage(
                         'MG8e369c4e5ea49ce989834c5355a1f02f', // From a Twilio number in your account
