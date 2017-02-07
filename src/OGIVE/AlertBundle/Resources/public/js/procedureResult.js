@@ -38,6 +38,9 @@ $(function () {
         $('#error_name_message').hide();
         $('#add_procedureResult_form.ui.form').submit();
     });
+    $('#cancel_add_procedureResult').click(function () {
+        window.location.replace(Routing.generate('procedureResult_index'));
+    });
     $('#add_procedureResult_form.ui.form')
             .form({
                 fields: {
@@ -159,6 +162,7 @@ $(function () {
                                 $('#add_procedureResult.ui.modal').modal('hide');
                                 $('#message_success>div.header').html('Attribution ajoutée avec succès !');
                                 $('#message_success').show();
+                                 window.location.replace(Routing.generate('procedureResult_index'));
                                 setTimeout(function () {
                                     $('#message_success').hide();
                                 }, 4000);
@@ -230,6 +234,9 @@ function edit_procedureResult(id) {
                         $('#field_aao_edit').hide();
                         $('#field_aao_edit>.ui.dropdown').dropdown('clear');
                     }
+                });
+                $('#cancel_edit_procedureResult').click(function () {
+                    window.location.replace(Routing.generate('procedureResult_index'));
                 });
                 $('#edit_procedureResult.ui.modal').modal('show');
 
@@ -379,6 +386,7 @@ function execute_edit(id) {
                                 $('#edit_procedureResult.ui.modal').modal('hide');
                                 $('#message_success>div.header').html('Attribution modifiée avec succès !');
                                 $('#message_success').show();
+                                 window.location.replace(Routing.generate('procedureResult_index'));
                                 setTimeout(function () {
                                     $('#message_success').hide();
                                 }, 4000);
@@ -436,6 +444,7 @@ function delete_procedureResult(id) {
             $('#message_loading').hide();
             $('#message_success>div.header').html(response.message);
             $('#message_success').show();
+             window.location.replace(Routing.generate('procedureResult_index'));
             setTimeout(function () {
                 $('#message_success').hide();
             }, 4000);
@@ -503,6 +512,12 @@ function show_procedureResult(id) {
                         $('#field_aao_edit>.ui.dropdown').dropdown('clear');
                     }
                 });
+                $('#cancel_details_procedureResult').click(function () {
+                    window.location.replace(Routing.generate('procedureResult_index'));
+                });
+                $('#cancel_edit_procedureResult').click(function () {
+                    window.location.replace(Routing.generate('procedureResult_index'));
+                });
                 $('#edit_procedureResult.ui.modal').modal('show');
                 execute_edit(id);
                 $('#edit_procedureResult_btn').click(function () {
@@ -569,6 +584,7 @@ function enable_procedureResult(id) {
             $('#disable_procedureResult_grid' + id).show();
             $('#message_success>div.header').html(response.message);
             $('#message_success').show();
+             window.location.replace(Routing.generate('procedureResult_index'));
             setTimeout(function () {
                 $('#message_success').hide();
             }, 4000);
@@ -620,6 +636,7 @@ function disable_procedureResult(id) {
             $('#enable_procedureResult_grid' + id).show();
             $('#message_success>div.header').html(response.message);
             $('#message_success').show();
+             window.location.replace(Routing.generate('procedureResult_index'));
             setTimeout(function () {
                 $('#message_success').hide();
             }, 4000);

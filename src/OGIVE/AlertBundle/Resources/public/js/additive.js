@@ -25,6 +25,9 @@ $(function () {
     $('#ogive_alertbundle_additive_domain.ui.dropdown').dropdown({
         on: 'click'
     });
+    $('#cancel_add_additive').click(function () {
+        window.location.replace(Routing.generate('additive_index'));
+    });
     $('#add_additive_btn').click(function () {
         $('#add_additive.ui.modal').modal('setting', {
             autofocus: false,
@@ -187,6 +190,7 @@ $(function () {
                                 $('#add_additive.ui.modal').modal('hide');
                                 $('#message_success>div.header').html('Additif ajouté avec succès !');
                                 $('#message_success').show();
+                                window.location.replace(Routing.generate('additive_index'));
                                 setTimeout(function () {
                                     $('#message_success').hide();
                                 }, 4000);
@@ -265,6 +269,10 @@ function edit_additive(id) {
                         $('#field_aao_edit>.ui.dropdown').dropdown('clear');
                     }
                 });
+                $('#cancel_edit_additive').click(function () {
+                    window.location.replace(Routing.generate('additive_index'));
+                });
+
                 $('#edit_additive.ui.modal').modal('show');
                 execute_edit(id);
             }
@@ -456,6 +464,7 @@ function execute_edit(id) {
                                 $('#edit_additive.ui.modal').modal('hide');
                                 $('#message_success>div.header').html('Additif modifié avec succès !');
                                 $('#message_success').show();
+                                window.location.replace(Routing.generate('additive_index'));
                                 setTimeout(function () {
                                     $('#message_success').hide();
                                 }, 4000);
@@ -516,6 +525,7 @@ function delete_additive(id) {
             $('#message_loading').hide();
             $('#message_success>div.header').html(response.message);
             $('#message_success').show();
+            window.location.replace(Routing.generate('additive_index'));
             setTimeout(function () {
                 $('#message_success').hide();
             }, 4000);
@@ -564,6 +574,12 @@ function show_additive(id) {
                 });
                 $('#ogive_alertbundle_additive_domain.ui.dropdown').dropdown({
                     on: 'click'
+                });
+                $('#cancel_edit_additive').click(function () {
+                    window.location.replace(Routing.generate('additive_index'));
+                });
+                $('#cancel_details_additive').click(function () {
+                    window.location.replace(Routing.generate('additive_index'));
                 });
                 $('#edit_additive.ui.modal').modal('show');
                 execute_edit(id);
@@ -634,6 +650,7 @@ function enable_additive(id) {
             $('#disable_additive_grid' + id).show();
             $('#message_success>div.header').html(response.message);
             $('#message_success').show();
+            window.location.replace(Routing.generate('additive_index'));
             setTimeout(function () {
                 $('#message_success').hide();
             }, 4000);
@@ -688,6 +705,7 @@ function disable_additive(id) {
             $('#enable_additive_grid' + id).show();
             $('#message_success>div.header').html(response.message);
             $('#message_success').show();
+            window.location.replace(Routing.generate('additive_index'));
             setTimeout(function () {
                 $('#message_success').hide();
             }, 4000);

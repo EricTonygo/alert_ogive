@@ -5,6 +5,10 @@ $(function () {
     $('#ogive_alertbundle_subscriber_subscription.ui.dropdown').dropdown({
         on: 'click'
     });
+    $('#cancel_add_subscriber').click(function () {
+        window.location.replace(Routing.generate('subscriber_index'));
+    });
+
     $('#add_subscriber_btn').click(function () {
         $('#add_subscriber.ui.modal').modal('setting', {
             autofocus: false,
@@ -121,6 +125,7 @@ $(function () {
                                 $('#add_subscriber.ui.modal').modal('hide');
                                 $('#message_success>div.header').html('Abonné ajouté avec succès !');
                                 $('#message_success').show();
+                                window.location.replace(Routing.generate('subscriber_index'));
                                 setTimeout(function () {
                                     $('#message_success').hide();
                                 }, 4000);
@@ -177,6 +182,12 @@ function edit_subscriber(id) {
                     autofocus: false,
                     inverted: true,
                     closable: false
+                });
+                $('#cancel_edit_subscriber').click(function () {
+                    window.location.replace(Routing.generate('subscriber_index'));
+                });
+                $('#cancel_details_subscriber').click(function () {
+                    window.location.replace(Routing.generate('subscriber_index'));
                 });
                 $('#edit_subscriber.ui.modal').modal('show');
                 execute_edit(id);
@@ -278,7 +289,7 @@ function execute_edit(id) {
                                 $('#server_error_message_edit').show();
                             },
                             404: function (response, textStatus, jqXHR) {
-                                
+
                                 var myerrors = response.responseJSON;
                                 if (myerrors.success === false) {
                                     $('#error_name_header_edit').html("Echec de la validation");
@@ -304,6 +315,7 @@ function execute_edit(id) {
                                 $('#edit_subscriber.ui.modal').modal('hide');
                                 $('#message_success>div.header').html('Abonné modifié avec succès !');
                                 $('#message_success').show();
+                                window.location.replace(Routing.generate('subscriber_index'));
                                 setTimeout(function () {
                                     $('#message_success').hide();
                                 }, 4000);
@@ -349,6 +361,7 @@ function delete_subscriber(id) {
             404: function (response, textStatus, jqXHR) {
                 $('#message_error>div.header').html(response.responseJSON.message);
                 $('#message_error').show();
+                window.location.replace(Routing.generate('subscriber_index'));
                 setTimeout(function () {
                     $('#message_error').hide();
                 }, 4000);
@@ -413,6 +426,12 @@ function show_subscriber(id) {
                     autofocus: false,
                     inverted: true,
                     closable: false
+                });
+                $('#cancel_edit_subscriber').click(function () {
+                    window.location.replace(Routing.generate('subscriber_index'));
+                });
+                $('#cancel_details_subscriber').click(function () {
+                    window.location.replace(Routing.generate('subscriber_index'));
                 });
                 $('#edit_subscriber.ui.modal').modal('show');
                 execute_edit(id);
@@ -481,6 +500,7 @@ function enable_subscriber(id) {
             $('#disable_subscriber_grid' + id).show();
             $('#message_success>div.header').html(response.message);
             $('#message_success').show();
+            window.location.replace(Routing.generate('subscriber_index'));
             setTimeout(function () {
                 $('#message_success').hide();
             }, 4000);
@@ -533,6 +553,7 @@ function disable_subscriber(id) {
             $('#enable_subscriber_grid' + id).show();
             $('#message_success>div.header').html(response.message);
             $('#message_success').show();
+            window.location.replace(Routing.generate('subscriber_index'));
             setTimeout(function () {
                 $('#message_success').hide();
             }, 4000);

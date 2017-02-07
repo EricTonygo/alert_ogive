@@ -90,7 +90,7 @@
                     <label>Date de la dernière modification : </label> 
                 </div>
                 <div class="field">
-                    <span> {{ domain.createDate is empty ? "" : domain.createDate|date('d-m-Y H:i:s')}}</span>
+                    <span> {{ domain.createDate is empty ? "" : domain.lastUpdateDate|date('d-m-Y H:i:s')}}</span>
                 </div>
             </div>
 

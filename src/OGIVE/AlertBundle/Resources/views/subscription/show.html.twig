@@ -78,7 +78,7 @@
                     <label>Date de la dernière modification : </label> 
                 </div>
                 <div class="field">
-                    <span> {{ subscription.createDate is empty ? "" : subscription.createDate|date('d-m-Y H:i:s')}}</span>
+                    <span> {{ subscription.createDate is empty ? "" : subscription.lastUpdateDate|date('d-m-Y H:i:s')}}</span>
                 </div>
             </div>
 

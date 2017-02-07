@@ -4,8 +4,8 @@ function add_entreprise() {
         on: 'click'
     });
     $('#ogive_alertbundle_entreprise_subDomains.ui.dropdown').dropdown({
-                    on: 'click'
-                });
+        on: 'click'
+    });
     $('#add_entreprise_btn').click(function () {
         $('#add_entreprise.ui.modal').modal('setting', {
             autofocus: false,
@@ -133,6 +133,7 @@ function add_entreprise() {
                                 $('#add_entreprise.ui.modal').modal('hide');
                                 $('#message_success>div.header').html('Entreprise ajoutée avec succès !');
                                 $('#message_success').show();
+                                window.location.replace(Routing.generate('entreprise_index'));
                                 setTimeout(function () {
                                     $('#message_success').hide();
                                 }, 4000);
@@ -160,6 +161,9 @@ function add_entreprise() {
 
 $(function () {
     add_entreprise();
+    $('#cancel_add_entreprise').click(function () {
+        window.location.replace(Routing.generate('entreprise_index'));
+    });
 });
 
 function edit_entreprise(id) {
@@ -206,6 +210,9 @@ function edit_entreprise(id) {
                 });
                 $('.ui.dropdown').dropdown({
                     on: 'click'
+                });
+                $('#cancel_edit_entreprise').click(function () {
+                    window.location.replace(Routing.generate('entreprise_index'));
                 });
                 $('#edit_entreprise.ui.modal').modal('show');
                 execute_edit(id);
@@ -343,6 +350,7 @@ function execute_edit(id) {
                                 $('#edit_entreprise.ui.modal').modal('hide');
                                 $('#message_success>div.header').html('Entreprise modifiée avec succès !');
                                 $('#message_success').show();
+                                window.location.replace(Routing.generate('entreprise_index'));
                                 setTimeout(function () {
                                     $('#message_success').hide();
                                 }, 4000);
@@ -403,6 +411,7 @@ function delete_entreprise(id) {
             $('#message_loading').hide();
             $('#message_success>div.header').html(response.message);
             $('#message_success').show();
+            window.location.replace(Routing.generate('entreprise_index'));
             setTimeout(function () {
                 $('#message_success').hide();
             }, 4000);
@@ -454,6 +463,12 @@ function show_entreprise(id) {
                 });
                 $('#ogive_alertbundle_entreprise_subDomains.ui.dropdown').dropdown({
                     on: 'click'
+                });
+                $('#cancel_edit_entreprise').click(function () {
+                    window.location.replace(Routing.generate('entreprise_index'));
+                });
+                $('#cancel_details_entreprise').click(function () {
+                    window.location.replace(Routing.generate('entreprise_index'));
                 });
                 $('#edit_entreprise.ui.modal').modal('show');
                 execute_edit(id);
@@ -524,6 +539,7 @@ function enable_entreprise(id) {
             $('#disable_entreprise_grid' + id).show();
             $('#message_success>div.header').html(response.message);
             $('#message_success').show();
+            window.location.replace(Routing.generate('entreprise_index'));
             setTimeout(function () {
                 $('#message_success').hide();
             }, 4000);
@@ -566,6 +582,7 @@ function disable_entreprise(id) {
             404: function (response, textStatus, jqXHR) {
                 $('#message_error>div.header').html("Echec de la désactivation de l'entreprise");
                 $('#message_error').show();
+                window.location.replace(Routing.generate('entreprise_index'));
                 setTimeout(function () {
                     $('#message_error').hide();
                 }, 4000);
@@ -578,6 +595,7 @@ function disable_entreprise(id) {
             $('#enable_entreprise_grid' + id).show();
             $('#message_success>div.header').html(response.message);
             $('#message_success').show();
+            window.location.replace(Routing.generate('entreprise_index'));
             setTimeout(function () {
                 $('#message_success').hide();
             }, 4000);

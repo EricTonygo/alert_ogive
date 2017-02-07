@@ -13,7 +13,9 @@ $(function () {
         });
         $('#add_expressionInterest.ui.modal').modal('show');
     });
-
+    $('#cancel_add_expressionInterest').click(function () {
+        window.location.replace(Routing.generate('expressionInterest_index'));
+    });
     $('#submit_expressionInterest').click(function (e) {
         e.preventDefault();
         $('#server_error_message').hide();
@@ -167,6 +169,7 @@ $(function () {
                                 $('#add_expressionInterest.ui.modal').modal('hide');
                                 $('#message_success>div.header').html("Manifestation d'intérêt ajoutée avec succès !");
                                 $('#message_success').show();
+                                window.location.replace(Routing.generate('expressionInterest_index'));
                                 setTimeout(function () {
                                     $('#message_success').hide();
                                 }, 4000);
@@ -223,6 +226,9 @@ function edit_expressionInterest(id) {
                 });
                 $('#ogive_alertbundle_expressionInterest_subDomain.ui.dropdown').dropdown({
                     on: 'click'
+                });
+                $('#cancel_edit_expressionInterest').click(function () {
+                    window.location.replace(Routing.generate('expressionInterest_index'));
                 });
                 $('#edit_expressionInterest.ui.modal').modal('show');
                 execute_edit(id);
@@ -394,6 +400,7 @@ function execute_edit(id) {
                                 $('#edit_expressionInterest.ui.modal').modal('hide');
                                 $('#message_success>div.header').html("Manifestation d'intérêt modifiée avec succès !");
                                 $('#message_success').show();
+                                window.location.replace(Routing.generate('expressionInterest_index'));
                                 setTimeout(function () {
                                     $('#message_success').hide();
                                 }, 4000);
@@ -451,6 +458,7 @@ function delete_expressionInterest(id) {
             $('#message_loading').hide();
             $('#message_success>div.header').html(response.message);
             $('#message_success').show();
+            window.location.replace(Routing.generate('expressionInterest_index'));
             setTimeout(function () {
                 $('#message_success').hide();
             }, 4000);
@@ -499,6 +507,12 @@ function show_expressionInterest(id) {
                 });
                 $('#ogive_alertbundle_expressionInterest_subDomain.ui.dropdown').dropdown({
                     on: 'click'
+                });
+                $('#cancel_details_expressionInterest').click(function () {
+                    window.location.replace(Routing.generate('expressionInterest_index'));
+                });
+                $('#cancel_edit_expressionInterest').click(function () {
+                    window.location.replace(Routing.generate('expressionInterest_index'));
                 });
                 $('#edit_expressionInterest.ui.modal').modal('show');
                 execute_edit(id);
@@ -566,6 +580,7 @@ function enable_expressionInterest(id) {
             $('#disable_expressionInterest_grid' + id).show();
             $('#message_success>div.header').html(response.message);
             $('#message_success').show();
+            window.location.replace(Routing.generate('expressionInterest_index'));
             setTimeout(function () {
                 $('#message_success').hide();
             }, 4000);
@@ -617,6 +632,7 @@ function disable_expressionInterest(id) {
             $('#enable_expressionInterest_grid' + id).show();
             $('#message_success>div.header').html(response.message);
             $('#message_success').show();
+            window.location.replace(Routing.generate('expressionInterest_index'));
             setTimeout(function () {
                 $('#message_success').hide();
             }, 4000);

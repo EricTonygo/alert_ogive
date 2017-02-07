@@ -22,6 +22,9 @@ $(function () {
         $('#error_name_message').hide();
         $('#add_subscription_form.ui.form').submit();
     });
+    $('#cancel_add_subscription').click(function () {
+        window.location.replace(Routing.generate('subscription_index'));
+    });
     $('#add_subscription_form.ui.form')
             .form({
                 fields: {
@@ -94,6 +97,7 @@ $(function () {
                                 $('#add_subscription.ui.modal').modal('hide');
                                 $('#message_success>div.header').html('Abonnement ajouté avec succès !');
                                 $('#message_success').show();
+                                window.location.replace(Routing.generate('subscription_index'));
                                 setTimeout(function () {
                                     $('#message_success').hide();
                                 }, 4000);
@@ -150,6 +154,9 @@ function edit_subscription(id) {
                     autofocus: false,
                     inverted: true,
                     closable: false
+                });
+                $('#cancel_edit_subscription').click(function () {
+                    window.location.replace(Routing.generate('subscription_index'));
                 });
                 $('#edit_subscription.ui.modal').modal('show');
                 execute_edit(id);
@@ -253,6 +260,7 @@ function execute_edit(id) {
                                 $('#edit_subscription.ui.modal').modal('hide');
                                 $('#message_success>div.header').html('Abonnement modifié avec succès !');
                                 $('#message_success').show();
+                                window.location.replace(Routing.generate('subscription_index'));
                                 setTimeout(function () {
                                     $('#message_success').hide();
                                 }, 4000);
@@ -310,6 +318,7 @@ function delete_subscription(id) {
             $('#message_loading').hide();
             $('#message_success>div.header').html(response.message);
             $('#message_success').show();
+            window.location.replace(Routing.generate('subscription_index'));
             setTimeout(function () {
                 $('#message_success').hide();
             }, 4000);
@@ -358,6 +367,12 @@ function show_subscription(id) {
                     autofocus: false,
                     inverted: true,
                     closable: false
+                });
+                $('#cancel_details_subscription').click(function () {
+                    window.location.replace(Routing.generate('subscription_index'));
+                });
+                $('#cancel_edit_subscription').click(function () {
+                    window.location.replace(Routing.generate('subscription_index'));
                 });
                 $('#edit_subscription.ui.modal').modal('show');
                 execute_edit(id);
@@ -425,6 +440,7 @@ function enable_subscription(id) {
             $('#disable_subscription_grid' + id).show();
             $('#message_success>div.header').html(response.message);
             $('#message_success').show();
+            window.location.replace(Routing.generate('subscription_index'));
             setTimeout(function () {
                 $('#message_success').hide();
             }, 4000);
@@ -476,6 +492,7 @@ function disable_subscription(id) {
             $('#enable_subscription_grid' + id).show();
             $('#message_success>div.header').html(response.message);
             $('#message_success').show();
+            window.location.replace(Routing.generate('subscription_index'));
             setTimeout(function () {
                 $('#message_success').hide();
             }, 4000);

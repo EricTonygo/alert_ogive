@@ -16,6 +16,9 @@ $(function () {
         $('#error_name_message').hide();
         $('#add_specialFollowUp_form.ui.form').submit();
     });
+    $('#cancel_add_specialFollowUp').click(function () {
+        window.location.replace(Routing.generate('specialFollowUp_index'));
+    });
     $('#add_specialFollowUp_form.ui.form')
             .form({
                 fields: {
@@ -71,6 +74,7 @@ $(function () {
                                 $('#add_specialFollowUp.ui.modal').modal('hide');
                                 $('#message_success>div.header').html('Suivi spécialisé ajouté avec succès !');
                                 $('#message_success').show();
+                                window.location.replace(Routing.generate('specialFollowUp_index'));
                                 setTimeout(function () {
                                     $('#message_success').hide();
                                 }, 4000);
@@ -99,7 +103,7 @@ function edit_specialFollowUp(id) {
     $('.ui.dropdown>div.menu').addClass('hidden');
     $.ajax({
         type: 'PUT',
-        url: Routing.generate('specialFollowUp_update', { id: id }),
+        url: Routing.generate('specialFollowUp_update', {id: id}),
         dataType: 'json',
         beforeSend: function () {
             $('#message_loading').show();
@@ -121,6 +125,9 @@ function edit_specialFollowUp(id) {
                     autofocus: false,
                     inverted: true,
                     closable: false
+                });
+                $('#cancel_edit_specialFollowUp').click(function () {
+                    window.location.replace(Routing.generate('specialFollowUp_index'));
                 });
                 $('#edit_specialFollowUp.ui.modal').modal('show');
                 execute_edit(id);
@@ -171,7 +178,7 @@ function execute_edit(id) {
                 onSuccess: function (event, fields) {
                     $.ajax({
                         type: 'PUT',
-                        url: Routing.generate('specialFollowUp_update', { id: id }),
+                        url: Routing.generate('specialFollowUp_update', {id: id}),
                         data: fields,
                         dataType: 'json',
                         beforeSend: function () {
@@ -212,6 +219,7 @@ function execute_edit(id) {
                                 $('#edit_specialFollowUp.ui.modal').modal('hide');
                                 $('#message_success>div.header').html('Suivi spécialisé modifié avec succès !');
                                 $('#message_success').show();
+                                window.location.replace(Routing.generate('specialFollowUp_index'));
                                 setTimeout(function () {
                                     $('#message_success').hide();
                                 }, 4000);
@@ -241,7 +249,7 @@ function delete_specialFollowUp(id) {
     $('.ui.dropdown>div.menu').addClass('hidden');
     $.ajax({
         type: 'DELETE',
-        url: Routing.generate('specialFollowUp_delete', { id: id }),
+        url: Routing.generate('specialFollowUp_delete', {id: id}),
         dataType: 'json',
         beforeSend: function () {
             $('#message_loading').show();
@@ -269,6 +277,7 @@ function delete_specialFollowUp(id) {
             $('#message_loading').hide();
             $('#message_success>div.header').html(response.message);
             $('#message_success').show();
+            window.location.replace(Routing.generate('specialFollowUp_index'));
             setTimeout(function () {
                 $('#message_success').hide();
             }, 4000);
@@ -289,7 +298,7 @@ function show_specialFollowUp(id) {
     $('.ui.dropdown>div.menu').addClass('hidden');
     $.ajax({
         type: 'GET',
-        url: Routing.generate('specialFollowUp_get_one', { id: id }),
+        url: Routing.generate('specialFollowUp_get_one', {id: id}),
         dataType: 'json',
         beforeSend: function () {
             $('#message_loading').show();
@@ -311,6 +320,12 @@ function show_specialFollowUp(id) {
                     autofocus: false,
                     inverted: true,
                     closable: false
+                });
+                $('#cancel_details_specialFollowUp').click(function () {
+                    window.location.replace(Routing.generate('specialFollowUp_index'));
+                });
+                $('#cancel_edit_specialFollowUp').click(function () {
+                    window.location.replace(Routing.generate('specialFollowUp_index'));
                 });
                 $('#edit_specialFollowUp.ui.modal').modal('show');
                 execute_edit(id);
@@ -349,7 +364,7 @@ function enable_specialFollowUp(id) {
     $('.ui.dropdown>div.menu').addClass('hidden');
     $.ajax({
         type: 'PUT',
-        url: Routing.generate('specialFollowUp_update', { id: id }),
+        url: Routing.generate('specialFollowUp_update', {id: id}),
         data: {'action': 'enable'},
         dataType: 'json',
         beforeSend: function () {
@@ -378,6 +393,7 @@ function enable_specialFollowUp(id) {
             $('#disable_specialFollowUp_grid' + id).show();
             $('#message_success>div.header').html(response.message);
             $('#message_success').show();
+            window.location.replace(Routing.generate('specialFollowUp_index'));
             setTimeout(function () {
                 $('#message_success').hide();
             }, 4000);
@@ -400,7 +416,7 @@ function disable_specialFollowUp(id) {
     $('.ui.dropdown>div.menu').addClass('hidden');
     $.ajax({
         type: 'PUT',
-        url: Routing.generate('specialFollowUp_update', { id: id }),
+        url: Routing.generate('specialFollowUp_update', {id: id}),
         data: {'action': 'disable'},
         dataType: 'json',
         beforeSend: function () {
@@ -429,6 +445,7 @@ function disable_specialFollowUp(id) {
             $('#enable_specialFollowUp_grid' + id).show();
             $('#message_success>div.header').html(response.message);
             $('#message_success').show();
+            window.location.replace(Routing.generate('specialFollowUp_index'));
             setTimeout(function () {
                 $('#message_success').hide();
             }, 4000);
