@@ -133,6 +133,7 @@ function add_entreprise() {
                                 $('#add_entreprise.ui.modal').modal('hide');
                                 $('#message_success>div.header').html('Entreprise ajoutée avec succès !');
                                 $('#message_success').show();
+                                window.location.replace(Routing.generate('entreprise_index'));
                                 setTimeout(function () {
                                     $('#message_success').hide();
                                 }, 4000);
@@ -343,6 +344,7 @@ function execute_edit(id) {
                                 $('#edit_entreprise.ui.modal').modal('hide');
                                 $('#message_success>div.header').html('Entreprise modifiée avec succès !');
                                 $('#message_success').show();
+                                window.location.replace(Routing.generate('entreprise_index'));
                                 setTimeout(function () {
                                     $('#message_success').hide();
                                 }, 4000);
@@ -524,6 +526,7 @@ function enable_entreprise(id) {
             $('#disable_entreprise_grid' + id).show();
             $('#message_success>div.header').html(response.message);
             $('#message_success').show();
+            window.location.replace(Routing.generate('entreprise_index'));
             setTimeout(function () {
                 $('#message_success').hide();
             }, 4000);
@@ -566,6 +569,7 @@ function disable_entreprise(id) {
             404: function (response, textStatus, jqXHR) {
                 $('#message_error>div.header').html("Echec de la désactivation de l'entreprise");
                 $('#message_error').show();
+                window.location.replace(Routing.generate('entreprise_index'));
                 setTimeout(function () {
                     $('#message_error').hide();
                 }, 4000);
@@ -578,6 +582,7 @@ function disable_entreprise(id) {
             $('#enable_entreprise_grid' + id).show();
             $('#message_success>div.header').html(response.message);
             $('#message_success').show();
+            window.location.replace(Routing.generate('entreprise_index'));
             setTimeout(function () {
                 $('#message_success').hide();
             }, 4000);

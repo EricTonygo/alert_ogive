@@ -121,6 +121,7 @@ $(function () {
                                 $('#add_subscriber.ui.modal').modal('hide');
                                 $('#message_success>div.header').html('Abonné ajouté avec succès !');
                                 $('#message_success').show();
+                                window.location.replace(Routing.generate('subscriber_index'));
                                 setTimeout(function () {
                                     $('#message_success').hide();
                                 }, 4000);
@@ -304,6 +305,7 @@ function execute_edit(id) {
                                 $('#edit_subscriber.ui.modal').modal('hide');
                                 $('#message_success>div.header').html('Abonné modifié avec succès !');
                                 $('#message_success').show();
+                                window.location.replace(Routing.generate('subscriber_index'));
                                 setTimeout(function () {
                                     $('#message_success').hide();
                                 }, 4000);
@@ -349,6 +351,7 @@ function delete_subscriber(id) {
             404: function (response, textStatus, jqXHR) {
                 $('#message_error>div.header').html(response.responseJSON.message);
                 $('#message_error').show();
+                window.location.replace(Routing.generate('subscriber_index'));
                 setTimeout(function () {
                     $('#message_error').hide();
                 }, 4000);
@@ -481,6 +484,7 @@ function enable_subscriber(id) {
             $('#disable_subscriber_grid' + id).show();
             $('#message_success>div.header').html(response.message);
             $('#message_success').show();
+            window.location.replace(Routing.generate('subscriber_index'));
             setTimeout(function () {
                 $('#message_success').hide();
             }, 4000);
@@ -533,6 +537,7 @@ function disable_subscriber(id) {
             $('#enable_subscriber_grid' + id).show();
             $('#message_success>div.header').html(response.message);
             $('#message_success').show();
+            window.location.replace(Routing.generate('subscriber_index'));
             setTimeout(function () {
                 $('#message_success').hide();
             }, 4000);
