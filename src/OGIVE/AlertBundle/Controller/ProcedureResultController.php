@@ -208,7 +208,7 @@ class ProcedureResultController extends Controller {
     }
 
     public function getAbstractOfProcedureResult(ProcedureResult $procedureResult) {
-        $contact = "+237694200310 / +237694202013";
+        $contact = "+237694200310 - +237694202013";
         if ($procedureResult && $procedureResult->getCallOffer()) {
             return "Décision " . "N°".$procedureResult->getReference(). "/D/" . $procedureResult->getCallOffer()->getOwner() . "/" . date_format($procedureResult->getPublicationDate(), "Y") . " portant " . $procedureResult->getObject() . " de l'" . $procedureResult->getCallOffer()->getType() . " N°" . $procedureResult->getCallOffer()->getReference() . "/" . $procedureResult->getCallOffer()->getType() . "/" . $procedureResult->getCallOffer()->getOwner() . "/" . date_format($procedureResult->getCallOffer()->getPublicationDate(), "Y") . " du " . date_format($procedureResult->getCallOffer()->getPublicationDate(), "d/m/Y").' \n'.$contact;
         } elseif ($procedureResult && $procedureResult->getExpressionInterest()) {

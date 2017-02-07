@@ -184,7 +184,7 @@ class ExpressionInterestController extends Controller {
     }
 
     public function getAbstractOfExpressionInterest(ExpressionInterest $expressionInterest){
-        $contact = "+237694200310 / +237694202013";
+        $contact = "+237694200310 - +237694202013";
         $dot = ".";
             if(substr(trim($expressionInterest->getObject()), -1) === "."){
                 $dot = "";

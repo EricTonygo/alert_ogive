@@ -205,7 +205,7 @@ class AdditiveController extends Controller {
     }
     
     public function getAbstractOfAdditive(Additive $additive){
-        $contact = "Contacts: +237694200310 / +237694202013";
+        $contact = "Contacts: +237694200310 - +237694202013";
         if($additive && $additive->getCallOffer()){
             return  "Réf : ".$additive->getType()." "."N°".$additive->getReference()."/".date_format($additive->getPublicationDate(), "Y")." du ".date_format($additive->getPublicationDate(), "d/m/Y")." relatif à ".$additive->getCallOffer()->getType()." N°".$additive->getCallOffer()->getReference()."/".$additive->getCallOffer()->getType()."/".$additive->getCallOffer()->getOwner()."/".date_format($additive->getCallOffer()->getPublicationDate(), "Y")." du ".date_format($additive->getCallOffer()->getPublicationDate(), "d/m/Y").' \n'.$contact; 
         }elseif ($additive && $additive->getExpressionInterest()) {
