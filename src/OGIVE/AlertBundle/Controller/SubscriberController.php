@@ -194,7 +194,7 @@ class SubscriberController extends Controller {
                     $this->sendSubscriptionConfirmation($subscriber);
                 } elseif ($oldSubscription && $subscriber->getSubscription() && $oldSubscription->getId() != $subscriber->getSubscription()->getId() && $subscriber->getStatus() == 1 && $subscriber->getState() == 1) {
                     $this->sendSubscriptionConfirmation($subscriber);
-                } elseif ($subscriber->getSubscription() && $repositoryHistoriqueSubscriber->findBy(array('subscriber' => $subscriber, 'alertType' => "SMS_CONFIRMATION_SUBSCRIPTION")) === null && $subscriber->getStatus() == 1 && $subscriber->getState() == 1) {
+                } elseif ($subscriber->getSubscription() && $repositoryHistoriqueSubscriber->findBy(array('subscriber' => $subscriber, 'alertType' => "SMS_CONFIRMATION_SUBSCRIPTION")) == null && $subscriber->getStatus() == 1 && $subscriber->getState() == 1) {
                     $this->sendSubscriptionConfirmation($subscriber);
                 }
             }
