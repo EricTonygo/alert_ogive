@@ -210,7 +210,6 @@ $(function () {
                 }
             }
             );
-    load_sub_domain();
 
 });
 
@@ -279,7 +278,6 @@ function edit_callOffer(id) {
                         $('#field_asmi_edit').show();
                     }
                 });
-                load_sub_domain();
                 $('#edit_callOffer.ui.modal').modal('show');
                 execute_edit(id);
             }
