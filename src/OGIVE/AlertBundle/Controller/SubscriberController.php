@@ -145,6 +145,7 @@ class SubscriberController extends Controller {
     public function updateSubscriberAction(Request $request, Subscriber $subscriber) {
 
         $repositorySubscriber = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Subscriber');
+        $repositoryHistoriqueSubscriber = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:HistoricalAlertSubscriber');
         $oldSubscription = $subscriber->getSubscription();
         //$this = new TelephoneController();
         if (empty($subscriber)) {
@@ -193,7 +194,7 @@ class SubscriberController extends Controller {
                     $this->sendSubscriptionConfirmation($subscriber);
                 } elseif ($oldSubscription && $subscriber->getSubscription() && $oldSubscription->getId() != $subscriber->getSubscription()->getId() && $subscriber->getStatus() == 1 && $subscriber->getState() == 1) {
                     $this->sendSubscriptionConfirmation($subscriber);
-                } elseif ($subscriber->getSubscription() && $repositoryHistoriqueSubscriber->findBy(array('subscriber' => $subscriber, 'alertType' => "SMS_CONFIRMATION_SUBSCRIPTION")) === null && $subscriber->getStatus() == 1 && $subscriber->getState() == 1) {
+                } elseif ($subscriber->getSubscription() && $repositoryHistoriqueSubscriber->findBy(array('subscriber' => $subscriber, 'alertType' => "SMS_CONFIRMATION_SUBSCRIPTION", "status" => 1)) == null && $subscriber->getStatus() == 1 && $subscriber->getState() == 1) {
                     $this->sendSubscriptionConfirmation($subscriber);
                 }
             }
@@ -231,7 +232,7 @@ class SubscriberController extends Controller {
         }elseif ($subscriber->getSubscription()->getPeriodicity() === 4) {
             $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 1 semaine";
         }
-        $content = $subscriber->getEntreprise()->getName() . ", votre souscription au service <<Appels d'offres Infos>> a été éffectuée avec succès. \nCoût du forfait = " . $cout . ". \nOGIVE SOLUTIONS vous remercie pour votre confiance. \nContacts: +237694200310 / +237694202013";
+        $content = $subscriber->getEntreprise()->getName() . ", votre souscription au service <<Appels d'offres Infos>> a été éffectuée avec succès. \nCoût du forfait = " . $cout . ". \nOGIVE SOLUTIONS vous remercie pour votre confiance. \nContacts: +237694200310 - +237694202013";
         $twilio = $this->get('twilio.api');
         //$messages = $twilio->account->messages->read();
         $message = $twilio->account->messages->sendMessage(

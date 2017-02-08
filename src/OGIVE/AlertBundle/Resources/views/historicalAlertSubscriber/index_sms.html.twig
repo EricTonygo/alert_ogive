@@ -1,0 +1,24 @@
+{% extends "OGIVEAlertBundle::layout.html.twig" %}
+{% block title %}L'Historique d'envoi des SMS aux abonnés{% endblock %}
+
+{% block sub_header %}
+    {{parent()}}
+    <div id="second_computer_top_nav" class="ui computer_top_nav inverted main menu" style="background-color: #eeeeee; position: fixed;
+         top: 70px; left: 0; right: 0; height:4em;">
+        <div class="ui container">
+            <div class="ui left inverted secondary menu">
+                <a id="document_title" class="item">
+                    <h3>Liste des historicalAlertSubscriberes</h3>
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block content %}
+    {% include('OGIVEAlertBundle:historicalAlertSubscriber:list.html.twig') %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent()}}
+   
+{% endblock %}

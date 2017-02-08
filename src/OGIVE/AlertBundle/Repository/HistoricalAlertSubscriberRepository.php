@@ -56,11 +56,13 @@ class HistoricalAlertSubscriberRepository extends \Doctrine\ORM\EntityRepository
         }
         return $historicalAlertSubscriber;
     }
-    public function getAll() 
+    public function getAllByAlertType($alertType) 
     {
         $qb = $this->createQueryBuilder('e');
         $qb->where('e.status = :status')
+            ->andWhere('e.alertType = :alertType')
             ->orderBy('e.createDate', 'DESC')
+            ->setParameter('alertType', $alertType)
             ->setParameter('status', 1);
         return $qb->getQuery()->getResult();
     }
