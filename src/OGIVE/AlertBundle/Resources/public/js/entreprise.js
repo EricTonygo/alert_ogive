@@ -464,9 +464,7 @@ function show_entreprise(id) {
                 $('#ogive_alertbundle_entreprise_subDomains.ui.dropdown').dropdown({
                     on: 'click'
                 });
-                $('#cancel_edit_entreprise').click(function () {
-                    window.location.replace(Routing.generate('entreprise_index'));
-                });
+                
                 $('#cancel_details_entreprise').click(function () {
                     window.location.replace(Routing.generate('entreprise_index'));
                 });

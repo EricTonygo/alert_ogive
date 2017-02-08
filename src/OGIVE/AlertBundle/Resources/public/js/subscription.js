@@ -371,9 +371,7 @@ function show_subscription(id) {
                 $('#cancel_details_subscription').click(function () {
                     window.location.replace(Routing.generate('subscription_index'));
                 });
-                $('#cancel_edit_subscription').click(function () {
-                    window.location.replace(Routing.generate('subscription_index'));
-                });
+                
                 $('#edit_subscription.ui.modal').modal('show');
                 execute_edit(id);
                 $('#edit_subscription_btn').click(function () {

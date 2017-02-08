@@ -511,9 +511,7 @@ function show_expressionInterest(id) {
                 $('#cancel_details_expressionInterest').click(function () {
                     window.location.replace(Routing.generate('expressionInterest_index'));
                 });
-                $('#cancel_edit_expressionInterest').click(function () {
-                    window.location.replace(Routing.generate('expressionInterest_index'));
-                });
+                
                 $('#edit_expressionInterest.ui.modal').modal('show');
                 execute_edit(id);
                 $('#edit_expressionInterest_btn').click(function () {

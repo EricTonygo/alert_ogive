@@ -334,9 +334,7 @@ function show_domain(id) {
                 $('#cancel_details_domain').click(function () {
                     window.location.replace(Routing.generate('domain_index'));
                 });
-                $('#cancel_edit_domain').click(function () {
-                    window.location.replace(Routing.generate('domain_index'));
-                });
+               
 
                 $('#edit_domain.ui.modal').modal('show');
                 execute_edit(id);

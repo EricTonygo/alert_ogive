@@ -593,9 +593,7 @@ function show_callOffer(id) {
                 $('#cancel_details_callOffer').click(function () {
                    window.location.replace(Routing.generate('call_offer_index'));
                 });
-                $('#cancel_edit_callOffer').click(function () {
-                    window.location.replace(Routing.generate('call_offer_index'));
-                });
+               
                 $('#edit_callOffer.ui.modal').modal('show');
                 execute_edit(id);
                 $('#edit_callOffer_btn').click(function () {

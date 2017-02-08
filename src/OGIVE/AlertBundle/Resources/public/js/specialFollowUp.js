@@ -324,9 +324,7 @@ function show_specialFollowUp(id) {
                 $('#cancel_details_specialFollowUp').click(function () {
                     window.location.replace(Routing.generate('specialFollowUp_index'));
                 });
-                $('#cancel_edit_specialFollowUp').click(function () {
-                    window.location.replace(Routing.generate('specialFollowUp_index'));
-                });
+                
                 $('#edit_specialFollowUp.ui.modal').modal('show');
                 execute_edit(id);
                 $('#edit_specialFollowUp_btn').click(function () {

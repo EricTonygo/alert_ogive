@@ -515,9 +515,7 @@ function show_procedureResult(id) {
                 $('#cancel_details_procedureResult').click(function () {
                     window.location.replace(Routing.generate('procedureResult_index'));
                 });
-                $('#cancel_edit_procedureResult').click(function () {
-                    window.location.replace(Routing.generate('procedureResult_index'));
-                });
+                
                 $('#edit_procedureResult.ui.modal').modal('show');
                 execute_edit(id);
                 $('#edit_procedureResult_btn').click(function () {

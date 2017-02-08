@@ -432,9 +432,7 @@ function show_subscriber(id) {
                     inverted: true,
                     closable: false
                 });
-                $('#cancel_edit_subscriber').click(function () {
-                    window.location.replace(Routing.generate('subscriber_index'));
-                });
+                
                 $('#cancel_details_subscriber').click(function () {
                     window.location.replace(Routing.generate('subscriber_index'));
                 });

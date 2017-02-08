@@ -575,9 +575,6 @@ function show_additive(id) {
                 $('#ogive_alertbundle_additive_domain.ui.dropdown').dropdown({
                     on: 'click'
                 });
-                $('#cancel_edit_additive').click(function () {
-                    window.location.replace(Routing.generate('additive_index'));
-                });
                 $('#cancel_details_additive').click(function () {
                     window.location.replace(Routing.generate('additive_index'));
                 });
