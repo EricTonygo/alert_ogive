@@ -32,7 +32,7 @@ class HistoricalAlertSubscriberController extends Controller {
         }
 
         $em = $this->getDoctrine()->getManager();
-        $historicalAlertSubscribers = $em->getRepository('OGIVEAlertBundle:HistoricalAlertSubscriber')->getAllByAlertType('SMS');
+        $historicalAlertSubscribers = $em->getRepository('OGIVEAlertBundle:HistoricalAlertSubscriber')->getAll();
         return $this->render('OGIVEAlertBundle:historicalAlertSubscriber:index_sms.html.twig', array(
                     'historicalAlertSubscribers' => $historicalAlertSubscribers,
         ));

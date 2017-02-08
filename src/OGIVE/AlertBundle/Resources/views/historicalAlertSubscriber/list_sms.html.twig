@@ -11,10 +11,10 @@
                 {%for historicalAlertSubscriber in historicalAlertSubscribers%}
                     <tr id="historicalAlertSubscriber_list{{historicalAlertSubscriber.id}}">
                         <td>
-                            <div class="ui ribbon label">{%if historicalAlertSubscriber.subscriber%} {{historicalAlertSubscriber.subscriber.name}} {%endif%}</div>
+                            <div class="ui ribbon label">{%if historicalAlertSubscriber.subscriber.entreprise%} {{historicalAlertSubscriber.subscriber.entreprise.name}} {%endif%}</div>
                         </td>
                         <td>
-                            <div class="ui ribbon label">{%if historicalAlertSubscriber.subscriber%} {{historicalAlertSubscriber.subscriber.phoneNumber}} {%endif%}</div>
+                            <div>{%if historicalAlertSubscriber.subscriber%} {{historicalAlertSubscriber.subscriber.phoneNumber}} {%endif%}</div>
                         </td>
                         <td>{{historicalAlertSubscriber.message}}</td>                       
                     </tr>
