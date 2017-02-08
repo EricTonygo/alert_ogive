@@ -58,7 +58,7 @@ class CallOfferController extends Controller {
 //        $view = View::create(["code" => 200, 'callOffer' => $callOffer, 'callOffer_details' => $callOffer_details]);
 //        $view->setFormat('json');
 //        return $view;
-        return new JsonResponse(['message' => "Appel d'offre introuvable"], Response::HTTP_NOT_FOUND);
+        return new JsonResponse(["code" => 200, 'callOffer' => $callOffer, 'callOffer_details' => $callOffer_details], Response::HTTP_OK);
     }
 
     /**

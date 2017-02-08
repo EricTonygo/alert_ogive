@@ -551,6 +551,7 @@ function show_callOffer(id) {
             }
         },
         success: function (response, textStatus, jqXHR) {
+            response = response.responseJSON;
             if (response.code === 200) {
                 $('#edit_callOffer').remove();
                 $('#edit_callOffer_content').html(response.callOffer_details);
