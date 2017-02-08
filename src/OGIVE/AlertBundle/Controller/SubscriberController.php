@@ -248,7 +248,7 @@ class SubscriberController extends Controller {
     }
 
     /**
-     * @Rest\View(statusCode=Response::HTTP_CREATED)
+     * @Rest\View()
      * @Rest\Post("/send-subscription-confirmation/{id}", name="send_subscription_confirmation_post", options={ "method_prefix" = false, "expose" = true  })
      */
     public function postSendSubcriptionConfirmationAction(Request $request, Subscriber $subscriber) {

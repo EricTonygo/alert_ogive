@@ -229,7 +229,8 @@ function edit_additive(id) {
         },
         statusCode: {
             500: function (xhr) {
-
+                $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
+                $('#message_error').show();
             },
             404: function (response, textStatus, jqXHR) {
                 $('#message_error>div.header').html(response.responseJSON.message);
@@ -280,6 +281,8 @@ function edit_additive(id) {
         },
         error: function (jqXHR, textStatus, errorThrown) {
             $('#message_loading').hide();
+            $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
+            $('#message_error').show();
             /*alertify.error("Internal Server Error");*/
         }
     });
