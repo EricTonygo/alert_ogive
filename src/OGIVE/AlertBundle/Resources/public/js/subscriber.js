@@ -380,6 +380,11 @@ function delete_subscriber(id) {
         },
         error: function (jqXHR, textStatus, errorThrown) {
             $('#message_loading').hide();
+            $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
+                $('#message_error').show();
+                setTimeout(function () {
+                    $('#message_error').hide();
+                }, 4000);
             /*alertify.error("Internal Server Error");*/
         }
     });
@@ -454,6 +459,11 @@ function show_subscriber(id) {
         },
         error: function (jqXHR, textStatus, errorThrown) {
             $('#message_loading').hide();
+            $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
+                $('#message_error').show();
+                setTimeout(function () {
+                    $('#message_error').hide();
+                }, 4000);
             /*alertify.error("Internal Server Error");*/
         }
     });
@@ -507,6 +517,11 @@ function enable_subscriber(id) {
         },
         error: function (jqXHR, textStatus, errorThrown) {
             $('#message_loading').hide();
+            $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
+                $('#message_error').show();
+                setTimeout(function () {
+                    $('#message_error').hide();
+                }, 4000);
             /*alertify.error("Internal Server Error");*/
         }
     });

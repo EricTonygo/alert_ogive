@@ -83,7 +83,7 @@ class SubscriberController extends Controller {
             }
             if ($this->get('security.context')->isGranted('ROLE_ADMIN') && $subscriber->getSubscription()) {
                 $sendActivate = $request->get('send_activate');
-                if ($sendActivate && $sendActivate === 'on' && $subscriber->getEntreprise() && $subscriber->getEntreprise()->getState()== 1) {
+                if ($sendActivate && $sendActivate === 'on' && $subscriber->getEntreprise() && $subscriber->getEntreprise()->getState() == 1) {
                     $subscriber->setState(1);
                 } else {
                     $subscriber->setState(0);
@@ -153,7 +153,7 @@ class SubscriberController extends Controller {
         }
 
         if ($request->get('action') == 'enable') {
-            if ($subscriber->getSubscription() && $subscriber->getEntreprise()->getState()== 1) {
+            if ($subscriber->getSubscription() && $subscriber->getEntreprise()->getState() == 1) {
                 $subscriber->setState(1);
                 $subscriber = $repositorySubscriber->updateSubscriber($subscriber);
                 return new JsonResponse(['message' => 'Abonné activé avec succcès !'], Response::HTTP_OK
@@ -180,7 +180,7 @@ class SubscriberController extends Controller {
             }
             if ($this->get('security.context')->isGranted('ROLE_ADMIN') && $subscriber->getSubscription()) {
                 $sendActivate = $request->get('send_activate');
-                if ($sendActivate && $sendActivate === 'on' && $subscriber->getEntreprise()->getState()== 1) {
+                if ($sendActivate && $sendActivate === 'on' && $subscriber->getEntreprise()->getState() == 1) {
                     $subscriber->setState(1);
                 } else {
                     $subscriber->setState(0);
@@ -222,17 +222,17 @@ class SubscriberController extends Controller {
         $repositoryHistorique = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:HistoricalAlertSubscriber');
         $cout = "";
         if ($subscriber->getSubscription()->getPeriodicity() === 1) {
-            $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 1 an";
+            $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validite = 1 an";
         } elseif ($subscriber->getSubscription()->getPeriodicity() === 2) {
-            $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 6 mois";
+            $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validite = 6 mois";
         } elseif ($subscriber->getSubscription()->getPeriodicity() === 3) {
-            $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 3 mois";
+            $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validite = 3 mois";
         } elseif ($subscriber->getSubscription()->getPeriodicity() === 4) {
-            $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 1 mois";
-        }elseif ($subscriber->getSubscription()->getPeriodicity() === 4) {
-            $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 1 semaine";
+            $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validite = 1 mois";
+        } elseif ($subscriber->getSubscription()->getPeriodicity() === 4) {
+            $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validite = 1 semaine";
         }
-        $content = $subscriber->getEntreprise()->getName() . ", votre souscription au service <<Appels d'offres Infos>> a été éffectuée avec succès. \nCoût du forfait = " . $cout . ". \nOGIVE SOLUTIONS vous remercie pour votre confiance. \nContacts: +237694200310 - +237694202013";
+        $content = $subscriber->getEntreprise()->getName() . ", votre souscription au service <<Appels d'offres Infos>> a ete effectuee avec succes. \nCout du forfait = " . $cout . ". \nOGIVE SOLUTIONS vous remercie pour votre confiance.";
         $twilio = $this->get('twilio.api');
         //$messages = $twilio->account->messages->read();
         $message = $twilio->account->messages->sendMessage(
@@ -245,6 +245,26 @@ class SubscriberController extends Controller {
         $historiqueAlertSubscriber->setAlertType("SMS_CONFIRMATION_SUBSCRIPTION");
 
         return $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
+    }
+
+    /**
+     * @Rest\View(statusCode=Response::HTTP_CREATED)
+     * @Rest\Post("/send-subscription-confirmation/{id}", name="send_subscription_confirmation_post", options={ "method_prefix" = false, "expose" = true  })
+     */
+    public function postSendSubcriptionConfirmationAction(Request $request, Subscriber $subscriber) {
+        if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            return $this->redirect($this->generateUrl('fos_user_security_login'));
+        }
+        if (empty($subscriber)) {
+            return new JsonResponse(['message' => 'Abonné introuvable'], Response::HTTP_NOT_FOUND);
+        }
+        $historical = $this->sendSubscriptionConfirmation($subscriber);
+        if (empty($historical)) {
+            return new JsonResponse(['message' => "Error lors de l'envoi du message"], Response::HTTP_NOT_FOUND);
+        }
+        $view = View::create(["code" => 200, 'message' => "Accusé de reception envoyé avec succès"]);
+        $view->setFormat('json');
+        return $view;
     }
 
 }

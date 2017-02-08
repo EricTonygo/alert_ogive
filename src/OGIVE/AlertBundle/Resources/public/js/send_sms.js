@@ -117,3 +117,57 @@ function execute_send_sms_subscriber(id) {
             }
             );
 }
+
+function send_subscription_confirmation(id) {
+
+    $.ajax({
+        type: 'POST',
+        url: Routing.generate('send_subscription_confirmation_post', {id: id}),
+        dataType: 'json',
+        beforeSend: function () {
+            $('#message_loading').show();
+
+        },
+        statusCode: {
+            500: function (xhr) {
+                $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
+                $('#message_error').show();
+                setTimeout(function () {
+                    $('#message_error').hide();
+                }, 4000);
+            },
+            404: function (response, textStatus, jqXHR) {
+                var myerrors = response.responseJSON;
+                $('#message_error>div.header').html(myerrors.message);
+                $('#message_error').show();
+                setTimeout(function () {
+                    $('#message_error').hide();
+                }, 4000);
+            }
+        },
+        success: function (response, textStatus, jqXHR) {
+            if (response.code === 200) {
+                $('#message_loading').hide();
+                $('#enable_subscriber_grid' + id).hide();
+                $('#disable_subscriber_grid' + id).show();
+                $('#message_success>div.header').html(response.message);
+                $('#message_success').show();
+                setTimeout(function () {
+                    $('#message_success').hide();
+                }, 4000);
+            }
+
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+             $('#message_loading').hide();
+             $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
+                $('#message_error').show();
+                setTimeout(function () {
+                    $('#message_error').hide();
+                }, 4000);
+            /*alertify.error("Internal Server Error");*/
+        }
+    });
+
+}
+

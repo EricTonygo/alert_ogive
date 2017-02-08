@@ -76,6 +76,7 @@ class TelephoneController extends Controller {
         $historiqueAlertSubscriber = new HistoricalAlertSubscriber();
         $repositoryHistorique = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:HistoricalAlertSubscriber');
         $repositorySubscriber = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Subscriber');
+        $repositoryCallOffer = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:CallOffer');
 
         $twilio = $this->get('twilio.api');
         //$messages = $twilio->account->messages->read();
@@ -116,6 +117,8 @@ class TelephoneController extends Controller {
                 $historiqueAlertSubscriber->setAlertType("SMS");
                 $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
             }
+//            $callOffer->setAbstract($request->get('abstract'));
+//            $callOffer = $repositoryCallOffer->updateCallOffer($callOffer);
             $view = View::create(["code" => 200, 'messages_twilio' => $message, 'message' => "SMS envoyé avec succès"]);
             $view->setFormat('json');
             return $view;
@@ -133,6 +136,8 @@ class TelephoneController extends Controller {
                 $historiqueAlertSubscriber->setAlertType("SMS");
                 $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
             }
+//            $callOffer->setAbstract($request->get('abstract'));
+//            $callOffer = $repositoryCallOffer->updateCallOffer($callOffer);
             $view = View::create(["code" => 200, 'message' => "SMS envoyé avec succès"]);
             $view->setFormat('json');
             return $view;
@@ -196,6 +201,7 @@ class TelephoneController extends Controller {
         $historiqueAlertSubscriber = new HistoricalAlertSubscriber();
         $repositoryHistorique = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:HistoricalAlertSubscriber');
         $repositorySubscriber = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Subscriber');
+        $repositoryProcedureResult = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:ProcedureResult');
 
         $twilio = $this->get('twilio.api');
         //$messages = $twilio->account->messages->read();
@@ -236,6 +242,8 @@ class TelephoneController extends Controller {
                 $historiqueAlertSubscriber->setAlertType("SMS");
                 $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
             }
+//            $procedureResult->setAbstract($request->get('abstract'));
+//            $procedureResult = $repositoryProcedureResult->updateProcedureResult($procedureResult);
             $view = View::create(["code" => 200, 'messages_twilio' => $message, 'message' => "SMS envoyé avec succès"]);
             $view->setFormat('json');
             return $view;
@@ -252,6 +260,8 @@ class TelephoneController extends Controller {
                 $historiqueAlertSubscriber->setAlertType("SMS");
                 $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
             }
+//            $procedureResult->setAbstract($request->get('abstract'));
+//            $procedureResult = $repositoryProcedureResult->updateProcedureResult($procedureResult);
             $view = View::create(["code" => 200, 'message' => "SMS envoyé avec succès"]);
             $view->setFormat('json');
             return $view;
@@ -315,6 +325,7 @@ class TelephoneController extends Controller {
         $historiqueAlertSubscriber = new HistoricalAlertSubscriber();
         $repositoryHistorique = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:HistoricalAlertSubscriber');
         $repositorySubscriber = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Subscriber');
+        $repositoryAdditive = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Additive');
 
         $twilio = $this->get('twilio.api');
         //$messages = $twilio->account->messages->read();
@@ -355,6 +366,8 @@ class TelephoneController extends Controller {
                 $historiqueAlertSubscriber->setAlertType("SMS");
                 $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
             }
+//            $additive->setAbstract($request->get('abstract'));
+//            $additive = $repositoryAdditive->updateAdditive($additive);
             $view = View::create(["code" => 200, 'messages_twilio' => $message, 'message' => "SMS envoyé avec succès"]);
             $view->setFormat('json');
             return $view;
@@ -371,6 +384,8 @@ class TelephoneController extends Controller {
                 $historiqueAlertSubscriber->setAlertType("SMS");
                 $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
             }
+//            $additive->setAbstract($request->get('abstract'));
+//            $additive = $repositoryAdditive->updateAdditive($additive);
             $view = View::create(["code" => 200, 'message' => "SMS envoyé avec succès"]);
             $view->setFormat('json');
             return $view;
@@ -434,6 +449,7 @@ class TelephoneController extends Controller {
         $historiqueAlertSubscriber = new HistoricalAlertSubscriber();
         $repositoryHistorique = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:HistoricalAlertSubscriber');
         $repositorySubscriber = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Subscriber');
+        $repositoryExpressionInterest = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:ExpressionInterest');
 
         $twilio = $this->get('twilio.api');
         //$messages = $twilio->account->messages->read();
@@ -474,6 +490,8 @@ class TelephoneController extends Controller {
                 $historiqueAlertSubscriber->setAlertType("SMS");
                 $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
             }
+//            $expressionInterest->setAbstract($request->get('abstract'));
+//            $expressionInterest = $repositoryExpressionInterest->updateExpressionInterest($expressionInterest);
             $view = View::create(["code" => 200, 'message' => "SMS envoyé avec succès"]);
             $view->setFormat('json');
             return $view;
@@ -490,6 +508,8 @@ class TelephoneController extends Controller {
                 $historiqueAlertSubscriber->setAlertType("SMS");
                 $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
             }
+//            $expressionInterest->setAbstract($request->get('abstract'));
+//            $expressionInterest = $repositoryExpressionInterest->updateExpressionInterest($expressionInterest);
             $view = View::create(["code" => 200, 'message' => "SMS envoyé avec succès"]);
             $view->setFormat('json');
             return $view;

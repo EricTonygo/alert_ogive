@@ -15,10 +15,10 @@
                 <a id="disable_subscriber_grid{{subscriber.id}}" onclick="disable_subscriber({{subscriber.id}});" {% if subscriber.state != 1 %} style="display: none" {% endif %}  data-tooltip="Désactiver" data-position="bottom center" data-inverted=""><i class="lock green icon"></i></a>
                 {% endif %}
             <div class="right floated">
-                <a onclick="send_procedure_subscriber({{subscriber.id}});" class="send_sms_subscriber_btn item" data-tooltip="Notifier d'une procédure" data-position="top center" data-inverted="">
+                <a onclick="send_subscription_confirmation({{subscriber.id}});" class="send_sms_subscriber_btn item" data-tooltip="Envoyer un accusé de reception" data-position="top center" data-inverted="">
                     <i class="alarm icon"></i>
                 </a>
-                <a onclick="send_sms_subscriber({{subscriber.id}});" class="send_sms_subscriber_btn item" data-tooltip="Envoyer un SMS" data-position="top center" data-inverted="">
+                <a onclick="send_subscription_confirmation({{subscriber.id}});" class="send_sms_subscriber_btn item" data-tooltip="Envoyer un SMS" data-position="top center" data-inverted="">
                     <i class="talk icon"></i>
                 </a>
                 <a class="ui dropdown item">
