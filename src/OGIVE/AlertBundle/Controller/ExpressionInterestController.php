@@ -190,7 +190,7 @@ class ExpressionInterestController extends Controller {
                 $dot = "";
             } 
         if($expressionInterest ){
-            return $expressionInterest->getType()." : "."N°".$expressionInterest->getReference()." du ".date_format($expressionInterest->getPublicationDate(), "d/m/Y")." lancé par ".$expressionInterest->getOwner()." pour ".$expressionInterest->getObject().$dot." Dépôt des offres le ".date_format($expressionInterest->getOpeningDate(), "d/m/Y")." à ".date_format($expressionInterest->getOpeningDate(), "H:i").". ".$contact; 
+            return $expressionInterest->getType()." : "."N°".$expressionInterest->getReference()." du ".date_format($expressionInterest->getPublicationDate(), "d/m/Y")." lancé par ".$expressionInterest->getOwner()." pour ".$expressionInterest->getObject().$dot." Dépôt des offres le ".date_format($expressionInterest->getOpeningDate(), "d/m/Y")." à ".date_format($expressionInterest->getOpeningDate(), "H:i")."."; 
         }else{
             return "";
         }
