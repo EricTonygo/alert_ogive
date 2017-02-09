@@ -166,15 +166,16 @@ $(function () {
                             500: function (xhr) {
                                 $('#server_error_message').show();
                             },
-                            404: function (response, textStatus, jqXHR) {
-                                console.log(response);
+                            400: function (response, textStatus, jqXHR) {
                                 var myerrors = response.responseJSON;
                                 if (myerrors.success === false) {
                                     $('#error_name_header').html("Echec de la validation");
                                     $('#error_name_list').html('<li>' + myerrors.message + '</li>');
                                     $('#error_name_message').show();
+                                }else{
+                                    $('#error_name_header').html("Echec de la validation. Veuillez verifier à nouveau vos données");
+                                    $('#error_name_message').show();
                                 }
-
                             }
                         },
                         success: function (response, textStatus, jqXHR) {
@@ -420,11 +421,14 @@ function execute_edit(id) {
                             500: function (xhr) {
                                 $('#server_error_message_edit').show();
                             },
-                            404: function (response, textStatus, jqXHR) {
+                            400: function (response, textStatus, jqXHR) {
                                 var myerrors = response.responseJSON;
                                 if (myerrors.success === false) {
                                     $('#error_name_header_edit').html("Echec de la validation");
                                     $('#error_name_list_edit').html('<li>' + myerrors.message + '</li>');
+                                    $('#error_name_message_edit').show();
+                                }else{
+                                    $('#error_name_header_edit').html("Echec de la validation. Veuillez vérifier vos données");
                                     $('#error_name_message_edit').show();
                                 }
 
@@ -558,9 +562,6 @@ function show_additive(id) {
             $('#message_loading').show();
         },
         statusCode: {
-            500: function (xhr) {
-
-            },
             404: function (response, textStatus, jqXHR) {
                 $('#message_error>div.header').html(response.responseJSON.message);
                 $('#message_error').show();

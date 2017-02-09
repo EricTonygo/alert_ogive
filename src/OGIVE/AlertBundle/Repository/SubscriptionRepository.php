@@ -14,7 +14,7 @@ class SubscriptionRepository extends \Doctrine\ORM\EntityRepository
         $em= $this->_em;
         $subscription->setStatus(0);
         $subscriber = new \OGIVE\AlertBundle\Entity\Subscriber();
-        $repositorySubscriber = $em->getRepository("OGIVE\AlertBundle:Subscriber");
+        $repositorySubscriber = $em->getRepository("OGIVEAlertBundle:Subscriber");
         $em->getConnection()->beginTransaction();
         try{
             $subscribers = $subscription->getSubscribers();

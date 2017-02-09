@@ -56,7 +56,7 @@ class DomainRepository extends \Doctrine\ORM\EntityRepository {
                 $expressionInterest->setDomain(null);
                 $repositoryExpressionInterest->updateExpressionInterest($expressionInterest);
             }
-            
+
             foreach ($subDomains as $subDomain) {
                 $repositorySubDomain->deleteSubdomain($subDomain);
             }
@@ -111,12 +111,12 @@ class DomainRepository extends \Doctrine\ORM\EntityRepository {
 
     public function getDomainQueryBuilder() {
         return $this
-                        ->createQueryBuilder('e')
-                        ->where('e.status = :status')
-                        ->andWhere('e.state = :state')
-                        ->orderBy('e.name', 'ASC')
-                        ->setParameter('status', 1)
-                        ->setParameter('state', 1);
+        ->createQueryBuilder('e')
+        ->where('e.status = :status')
+        ->andWhere('e.state = :state')
+        ->orderBy('e.name', 'ASC')
+        ->setParameter('status', 1)
+        ->setParameter('state', 1);
     }
 
 }

@@ -89,13 +89,15 @@ class CallOfferController extends Controller {
             $callOffer = $repositoryCallOffer->saveCallOffer($callOffer);
             $callOffer_content_grid = $this->renderView('OGIVEAlertBundle:callOffer:callOffer-grid.html.twig', array('callOffer' => $callOffer));
             $callOffer_content_list = $this->renderView('OGIVEAlertBundle:callOffer:callOffer-list.html.twig', array('callOffer' => $callOffer));
-            $view = View::create(["code" => 200, 'callOffer' => $callOffer, 'callOffer_content_grid' => $callOffer_content_grid, 'callOffer_content_list' => $callOffer_content_list]);
-            $view->setFormat('json');
-            return $view;
+//            $view = View::create(["code" => 200, 'callOffer' => $callOffer, 'callOffer_content_grid' => $callOffer_content_grid, 'callOffer_content_list' => $callOffer_content_list]);
+//            $view->setFormat('json');
+//            return $view;
+            return new JsonResponse(["code" => 200, 'callOffer' => $callOffer, 'callOffer_content_grid' => $callOffer_content_grid, 'callOffer_content_list' => $callOffer_content_list], Response::HTTP_CREATED);
         } else {
-            $view = View::create($form);
-            $view->setFormat('json');
-            return $view;
+//            $view = View::create($form);
+//            $view->setFormat('json');
+//            return $view;
+            return new JsonResponse($form, Response::HTTP_BAD_REQUEST);
         }
     }
 
@@ -110,9 +112,10 @@ class CallOfferController extends Controller {
         $repositoryCallOffer = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:CallOffer');
         if ($callOffer) {
             $repositoryCallOffer->deleteCallOffer($callOffer);
-            $view = View::create(['callOffer' => $callOffer, "message" => "Appel d'offre supprimé avec succès !"]);
-            $view->setFormat('json');
-            return $view;
+//            $view = View::create(['callOffer' => $callOffer, "message" => "Appel d'offre supprimé avec succès !"]);
+//            $view->setFormat('json');
+//            return $view;
+            return new JsonResponse(['callOffer' => $callOffer, "message" => "Appel d'offre supprimé avec succès !"], Response::HTTP_OK);
         } else {
             return new JsonResponse(["message" => "Appel d'offre introuvable"], Response::HTTP_NOT_FOUND);
         }
@@ -141,8 +144,7 @@ class CallOfferController extends Controller {
         if($request->get('action')== 'enable'){
             $callOffer->setState(1);
             $callOffer = $repositoryCallOffer->updateCallOffer($callOffer);
-            return new JsonResponse(['message' => "Appel d'offre activé avec succcès !"], Response::HTTP_OK
-                    );
+            return new JsonResponse(['message' => "Appel d'offre activé avec succcès !"], Response::HTTP_OK);
         }
         
         if($request->get('action')== 'disable'){
@@ -158,7 +160,7 @@ class CallOfferController extends Controller {
         if ($form->isSubmitted() && $form->isValid()) {
             $callOfferUnique = $repositoryCallOffer->findOneBy(array('reference' => $callOffer->getReference(), 'status' => 1));
             if ($callOfferUnique && $callOfferUnique->getId() != $callOffer->getId()) {
-                return new JsonResponse(["success" => false, 'message' => "Un appel d'offre avec cette référence existe dejà"], Response::HTTP_NOT_FOUND);
+                return new JsonResponse(["success" => false, 'message' => "Un appel d'offre avec cette référence existe dejà"], Response::HTTP_BAD_REQUEST);
             }
             $callOffer->setType($request->get('call_offer_type'));
             $callOffer->setAbstract($this->getAbstractOfCallOffer($callOffer));
@@ -173,16 +175,19 @@ class CallOfferController extends Controller {
             $callOffer = $repositoryCallOffer->updateCallOffer($callOffer);
             $callOffer_content_grid = $this->renderView('OGIVEAlertBundle:callOffer:callOffer-grid-edit.html.twig', array('callOffer' => $callOffer));
             $callOffer_content_list = $this->renderView('OGIVEAlertBundle:callOffer:callOffer-list-edit.html.twig', array('callOffer' => $callOffer));
-            $view = View::create(["code" => 200, 'callOffer' => $callOffer, 'callOffer_content_grid' => $callOffer_content_grid, 'callOffer_content_list' => $callOffer_content_list]);
-            $view->setFormat('json');
-            return $view;
+//            $view = View::create(["code" => 200, 'callOffer' => $callOffer, 'callOffer_content_grid' => $callOffer_content_grid, 'callOffer_content_list' => $callOffer_content_list]);
+//            $view->setFormat('json');
+//            return $view;
+            return new JsonResponse(["code" => 200, 'callOffer' => $callOffer, 'callOffer_content_grid' => $callOffer_content_grid, 'callOffer_content_list' => $callOffer_content_list], Response::HTTP_OK);
         } elseif ($form->isSubmitted() && !$form->isValid()) {
-            return $form;
+//            return $form;
+            return new JsonResponse($form, Response::HTTP_BAD_REQUEST);
         } else {
             $edit_callOffer_form = $this->renderView('OGIVEAlertBundle:callOffer:edit.html.twig', array('form' => $form->createView(), 'callOffer' => $callOffer));
-            $view = View::create(["code" => 200, 'callOffer' => $callOffer, 'edit_callOffer_form' => $edit_callOffer_form]);
-            $view->setFormat('json');
-            return $view;
+//            $view = View::create(["code" => 200, 'callOffer' => $callOffer, 'edit_callOffer_form' => $edit_callOffer_form]);
+//            $view->setFormat('json');
+//            return $view;
+            return new JsonResponse(["code" => 200, 'callOffer' => $callOffer, 'edit_callOffer_form' => $edit_callOffer_form], Response::HTTP_OK);
         }
     }
     

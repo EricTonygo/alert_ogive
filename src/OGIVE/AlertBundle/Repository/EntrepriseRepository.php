@@ -12,7 +12,7 @@ class EntrepriseRepository extends \Doctrine\ORM\EntityRepository
 {
     public function deleteEntreprise(\OGIVE\AlertBundle\Entity\Entreprise $entreprise) {
         $em= $this->_em;
-        $repositorySubscriber = $em->getRepository("OGIVE\AlertBundle:Subscriber");
+        $repositorySubscriber = $em->getRepository("OGIVEAlertBundle:Subscriber");
         $entreprise->setStatus(0);
         $em->getConnection()->beginTransaction();
         try{
