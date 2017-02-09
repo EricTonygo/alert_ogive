@@ -57,7 +57,7 @@ class SpecialFollowUpController extends Controller {
             'specialFollowUp' => $specialFollowUp,
             'form' => $form->createView()
         ));
-        $view = View::create(["code" => 200, 'specialFollowUp' => $specialFollowUp, 'specialFollowUp_details' => $specialFollowUp_details]);
+        $view = View::create(["code" => 200, 'specialFollowUp_details' => $specialFollowUp_details]);
         $view->setFormat('json');
         return $view;
     }
@@ -88,7 +88,7 @@ class SpecialFollowUpController extends Controller {
             $specialFollowUp = $repositorySpecialFollowUp->saveSpecialFollowUp($specialFollowUp);
             $specialFollowUp_content_grid = $this->renderView('OGIVEAlertBundle:specialFollowUp:specialFollowUp-grid.html.twig', array('specialFollowUp' => $specialFollowUp));
             $specialFollowUp_content_list = $this->renderView('OGIVEAlertBundle:specialFollowUp:specialFollowUp-list.html.twig', array('specialFollowUp' => $specialFollowUp));
-            $view = View::create(["code" => 200, 'specialFollowUp' => $specialFollowUp, 'specialFollowUp_content_grid' => $specialFollowUp_content_grid, 'specialFollowUp_content_list' => $specialFollowUp_content_list]);
+            $view = View::create(["code" => 200, 'specialFollowUp_content_grid' => $specialFollowUp_content_grid, 'specialFollowUp_content_list' => $specialFollowUp_content_list]);
             $view->setFormat('json');
             return $view;
             //return new JsonResponse(["success" => true, 'specialFollowUp' => $specialFollowUp, 'specialFollowUp_content_grid' => $specialFollowUp_content_grid, 'specialFollowUp_content_list' => $specialFollowUp_content_list], Response::HTTP_OK);
@@ -111,7 +111,7 @@ class SpecialFollowUpController extends Controller {
         $repositorySpecialFollowUp = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:SpecialFollowUp');
         if ($specialFollowUp) {
             $repositorySpecialFollowUp->deleteSpecialFollowUp($specialFollowUp);
-            $view = View::create(['specialFollowUp' => $specialFollowUp, "message" => 'Suivi spécialisé supprimé avec succès']);
+            $view = View::create(["message" => 'Suivi spécialisé supprimé avec succès']);
             $view->setFormat('json');
             return $view;
         } else {
@@ -159,7 +159,7 @@ class SpecialFollowUpController extends Controller {
         if ($form->isSubmitted() && $form->isValid()) {
             $specialFollowUpUnique = $repositorySpecialFollowUp->findOneBy(array('name' => $specialFollowUp->getName(), 'status' => 1));
             if ($specialFollowUpUnique && $specialFollowUpUnique->getId() != $specialFollowUp->getId()) {
-                return new JsonResponse(["success" => false, 'message' => 'Un suivi spécialisé avec ce nom existe dejà'], Response::HTTP_NOT_FOUND);
+                return new JsonResponse(["success" => false, 'message' => 'Un suivi spécialisé avec ce nom existe dejà'], Response::HTTP_BAD_REQUEST);
             }
             if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
                 $sendActivate = $request->get('send_activate');
@@ -172,14 +172,14 @@ class SpecialFollowUpController extends Controller {
             $specialFollowUp = $repositorySpecialFollowUp->updateSpecialFollowUp($specialFollowUp);
             $specialFollowUp_content_grid = $this->renderView('OGIVEAlertBundle:specialFollowUp:specialFollowUp-grid-edit.html.twig', array('specialFollowUp' => $specialFollowUp));
             $specialFollowUp_content_list = $this->renderView('OGIVEAlertBundle:specialFollowUp:specialFollowUp-list-edit.html.twig', array('specialFollowUp' => $specialFollowUp));
-            $view = View::create(["code" => 200, 'specialFollowUp' => $specialFollowUp, 'specialFollowUp_content_grid' => $specialFollowUp_content_grid, 'specialFollowUp_content_list' => $specialFollowUp_content_list]);
+            $view = View::create(["code" => 200, 'specialFollowUp_content_grid' => $specialFollowUp_content_grid, 'specialFollowUp_content_list' => $specialFollowUp_content_list]);
             $view->setFormat('json');
             return $view;
         } elseif ($form->isSubmitted() && !$form->isValid()) {
             return $form;
         } else {
             $edit_specialFollowUp_form = $this->renderView('OGIVEAlertBundle:specialFollowUp:edit.html.twig', array('form' => $form->createView(), 'specialFollowUp' => $specialFollowUp));
-            $view = View::create(["code" => 200, 'specialFollowUp' => $specialFollowUp, 'edit_specialFollowUp_form' => $edit_specialFollowUp_form]);
+            $view = View::create(["code" => 200, 'edit_specialFollowUp_form' => $edit_specialFollowUp_form]);
             $view->setFormat('json');
             return $view;
         }

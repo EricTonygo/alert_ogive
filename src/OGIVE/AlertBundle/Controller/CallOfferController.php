@@ -58,7 +58,7 @@ class CallOfferController extends Controller {
 //        $view = View::create(["code" => 200, 'callOffer' => $callOffer, 'callOffer_details' => $callOffer_details]);
 //        $view->setFormat('json');
 //        return $view;
-        return new JsonResponse(["code" => 200, 'callOffer' => $callOffer, 'callOffer_details' => $callOffer_details], Response::HTTP_OK);
+        return new JsonResponse(["code" => 200, 'callOffer_details' => $callOffer_details], Response::HTTP_OK);
     }
 
     /**
@@ -92,7 +92,7 @@ class CallOfferController extends Controller {
 //            $view = View::create(["code" => 200, 'callOffer' => $callOffer, 'callOffer_content_grid' => $callOffer_content_grid, 'callOffer_content_list' => $callOffer_content_list]);
 //            $view->setFormat('json');
 //            return $view;
-            return new JsonResponse(["code" => 200, 'callOffer' => $callOffer, 'callOffer_content_grid' => $callOffer_content_grid, 'callOffer_content_list' => $callOffer_content_list], Response::HTTP_CREATED);
+            return new JsonResponse(["code" => 200, 'callOffer_content_grid' => $callOffer_content_grid, 'callOffer_content_list' => $callOffer_content_list], Response::HTTP_CREATED);
         } else {
 //            $view = View::create($form);
 //            $view->setFormat('json');
@@ -115,7 +115,7 @@ class CallOfferController extends Controller {
 //            $view = View::create(['callOffer' => $callOffer, "message" => "Appel d'offre supprimé avec succès !"]);
 //            $view->setFormat('json');
 //            return $view;
-            return new JsonResponse(['callOffer' => $callOffer, "message" => "Appel d'offre supprimé avec succès !"], Response::HTTP_OK);
+            return new JsonResponse(["message" => "Appel d'offre supprimé avec succès !"], Response::HTTP_OK);
         } else {
             return new JsonResponse(["message" => "Appel d'offre introuvable"], Response::HTTP_NOT_FOUND);
         }
@@ -178,7 +178,7 @@ class CallOfferController extends Controller {
 //            $view = View::create(["code" => 200, 'callOffer' => $callOffer, 'callOffer_content_grid' => $callOffer_content_grid, 'callOffer_content_list' => $callOffer_content_list]);
 //            $view->setFormat('json');
 //            return $view;
-            return new JsonResponse(["code" => 200, 'callOffer' => $callOffer, 'callOffer_content_grid' => $callOffer_content_grid, 'callOffer_content_list' => $callOffer_content_list], Response::HTTP_OK);
+            return new JsonResponse(["code" => 200, 'callOffer_content_grid' => $callOffer_content_grid, 'callOffer_content_list' => $callOffer_content_list], Response::HTTP_OK);
         } elseif ($form->isSubmitted() && !$form->isValid()) {
 //            return $form;
             return new JsonResponse($form, Response::HTTP_BAD_REQUEST);
@@ -187,7 +187,7 @@ class CallOfferController extends Controller {
 //            $view = View::create(["code" => 200, 'callOffer' => $callOffer, 'edit_callOffer_form' => $edit_callOffer_form]);
 //            $view->setFormat('json');
 //            return $view;
-            return new JsonResponse(["code" => 200, 'callOffer' => $callOffer, 'edit_callOffer_form' => $edit_callOffer_form], Response::HTTP_OK);
+            return new JsonResponse(["code" => 200, 'edit_callOffer_form' => $edit_callOffer_form], Response::HTTP_OK);
         }
     }
     

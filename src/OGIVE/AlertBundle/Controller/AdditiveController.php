@@ -58,7 +58,7 @@ class AdditiveController extends Controller {
 //        $view = View::create(["code" => 200, 'additive' => $additive, 'additive_details' => $additive_details]);
 //        $view->setFormat('json');
 //        return $view;
-        return new JsonResponse(["code" => 200, 'additive' => $additive, 'additive_details' => $additive_details], Response::HTTP_OK);
+        return new JsonResponse(["code" => 200, 'additive_details' => $additive_details], Response::HTTP_OK);
     }
 
     /**
@@ -104,7 +104,7 @@ class AdditiveController extends Controller {
 //            $view = View::create(["code" => 200, 'additive' => $additive, 'additive_content_grid' => $additive_content_grid, 'additive_content_list' => $additive_content_list]);
 //            $view->setFormat('json');
 //            return $view;
-            return new JsonResponse(["code" => 200, 'additive' => $additive, 'additive_content_grid' => $additive_content_grid, 'additive_content_list' => $additive_content_list], Response::HTTP_CREATED);
+            return new JsonResponse(["code" => 200, 'additive_content_grid' => $additive_content_grid, 'additive_content_list' => $additive_content_list], Response::HTTP_CREATED);
         } else {
 //            $view = View::create($form);
 //            $view->setFormat('json');
@@ -127,7 +127,7 @@ class AdditiveController extends Controller {
 //            $view = View::create(['additive' => $additive, "message" => "Additif supprimé avec succès !"]);
 //            $view->setFormat('json');
 //            return $view;
-            return new JsonResponse(['additive' => $additive, "message" => "Additif supprimé avec succès !"], Response::HTTP_OK);
+            return new JsonResponse(["message" => "Additif supprimé avec succès !"], Response::HTTP_OK);
         } else {
             return new JsonResponse(["message" => "Additif introuvable"], Response::HTTP_NOT_FOUND);
         }
@@ -198,7 +198,7 @@ class AdditiveController extends Controller {
 //            $view = View::create(["code" => 200, 'additive' => $additive, 'additive_content_grid' => $additive_content_grid, 'additive_content_list' => $additive_content_list]);
 //            $view->setFormat('json');
 //            return $view;
-            return new JsonResponse(["code" => 200, 'additive' => $additive, 'additive_content_grid' => $additive_content_grid, 'additive_content_list' => $additive_content_list], Response::HTTP_OK);
+            return new JsonResponse(["code" => 200, 'additive_content_grid' => $additive_content_grid, 'additive_content_list' => $additive_content_list], Response::HTTP_OK);
         } elseif ($form->isSubmitted() && !$form->isValid()) {
             return new JsonResponse($form, Response::HTTP_BAD_REQUEST);
         } else {
@@ -206,7 +206,7 @@ class AdditiveController extends Controller {
 //            $view = View::create(["code" => 200, 'additive' => $additive, 'edit_additive_form' => $edit_additive_form]);
 //            $view->setFormat('json');
 //            return $view;
-            return new JsonResponse(["code" => 200, 'additive' => $additive, 'edit_additive_form' => $edit_additive_form], Response::HTTP_OK);
+            return new JsonResponse(["code" => 200, 'edit_additive_form' => $edit_additive_form], Response::HTTP_OK);
         }
     }
     

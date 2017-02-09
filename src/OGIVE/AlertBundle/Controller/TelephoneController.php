@@ -56,7 +56,7 @@ class TelephoneController extends Controller {
                 'subscriber' => $subscriber,
                 'form' => $form->createView()
             ));
-            $view = View::create(["code" => 200, 'subscriber' => $subscriber, 'send_sms_subscriber_form' => $send_sms_subscriber_form]);
+            $view = View::create(["code" => 200, 'send_sms_subscriber_form' => $send_sms_subscriber_form]);
             $view->setFormat('json');
             return $view;
         }

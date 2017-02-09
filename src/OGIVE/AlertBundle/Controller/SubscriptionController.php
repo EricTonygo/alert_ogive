@@ -57,7 +57,7 @@ class SubscriptionController extends Controller {
             'subscription' => $subscription,
             'form' => $form->createView()
         ));
-        $view = View::create(["code" => 200, 'subscription' => $subscription, 'subscription_details' => $subscription_details]);
+        $view = View::create(["code" => 200, 'subscription_details' => $subscription_details]);
         $view->setFormat('json');
         return $view;
     }
@@ -93,7 +93,7 @@ class SubscriptionController extends Controller {
             $subscription = $repositorySubscription->saveSubscription($subscription);
             $subscription_content_grid = $this->renderView('OGIVEAlertBundle:subscription:subscription-grid.html.twig', array('subscription' => $subscription));
             $subscription_content_list = $this->renderView('OGIVEAlertBundle:subscription:subscription-list.html.twig', array('subscription' => $subscription));
-            $view = View::create(["code" => 200, 'subscription' => $subscription, 'subscription_content_grid' => $subscription_content_grid, 'subscription_content_list' => $subscription_content_list]);
+            $view = View::create(["code" => 200, 'subscription_content_grid' => $subscription_content_grid, 'subscription_content_list' => $subscription_content_list]);
             $view->setFormat('json');
             return $view;
             //return new JsonResponse(["success" => true, 'subscription' => $subscription, 'subscription_content_grid' => $subscription_content_grid, 'subscription_content_list' => $subscription_content_list], Response::HTTP_OK);
@@ -164,7 +164,7 @@ class SubscriptionController extends Controller {
         if ($form->isSubmitted() && $form->isValid()) {
             $subscriptionUnique = $repositorySubscription->findOneBy(array('name' => $subscription->getName(),'periodicity' => $subscription->getPeriodicity(), 'status' => 1));
             if ($subscriptionUnique && $subscriptionUnique->getId() != $subscription->getId()) {
-                return new JsonResponse(["success" => false, 'message' => 'Un abonnement avec ce nom et cette périodicité existe dejà'], Response::HTTP_NOT_FOUND);
+                return new JsonResponse(["success" => false, 'message' => 'Un abonnement avec ce nom et cette périodicité existe dejà'], Response::HTTP_BAD_REQUEST);
             }
             
             if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
@@ -179,14 +179,14 @@ class SubscriptionController extends Controller {
             $subscription = $repositorySubscription->updateSubscription($subscription);
             $subscription_content_grid = $this->renderView('OGIVEAlertBundle:subscription:subscription-grid-edit.html.twig', array('subscription' => $subscription));
             $subscription_content_list = $this->renderView('OGIVEAlertBundle:subscription:subscription-list-edit.html.twig', array('subscription' => $subscription));
-            $view = View::create(["code" => 200, 'subscription' => $subscription, 'subscription_content_grid' => $subscription_content_grid, 'subscription_content_list' => $subscription_content_list]);
+            $view = View::create(["code" => 200, 'subscription_content_grid' => $subscription_content_grid, 'subscription_content_list' => $subscription_content_list]);
             $view->setFormat('json');
             return $view;
         } elseif ($form->isSubmitted() && !$form->isValid()) {
             return $form;
         } else {
             $edit_subscription_form = $this->renderView('OGIVEAlertBundle:subscription:edit.html.twig', array('form' => $form->createView(), 'subscription' => $subscription));
-            $view = View::create(["code" => 200, 'subscription' => $subscription, 'edit_subscription_form' => $edit_subscription_form]);
+            $view = View::create(["code" => 200, 'edit_subscription_form' => $edit_subscription_form]);
             $view->setFormat('json');
             return $view;
         }

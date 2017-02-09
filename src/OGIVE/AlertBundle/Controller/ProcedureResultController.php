@@ -55,7 +55,7 @@ class ProcedureResultController extends Controller {
             'procedureResult' => $procedureResult,
             'form' => $form->createView()
         ));
-        $view = View::create(["code" => 200, 'procedureResult' => $procedureResult, 'procedureResult_details' => $procedureResult_details]);
+        $view = View::create(["code" => 200, 'procedureResult_details' => $procedureResult_details]);
         $view->setFormat('json');
         return $view;
     }
@@ -99,7 +99,7 @@ class ProcedureResultController extends Controller {
             $procedureResult = $repositoryProcedureResult->saveProcedureResult($procedureResult);
             $procedureResult_content_grid = $this->renderView('OGIVEAlertBundle:procedureResult:procedureResult-grid.html.twig', array('procedureResult' => $procedureResult));
             $procedureResult_content_list = $this->renderView('OGIVEAlertBundle:procedureResult:procedureResult-list.html.twig', array('procedureResult' => $procedureResult));
-            $view = View::create(["code" => 200, 'procedureResult' => $procedureResult, 'procedureResult_content_grid' => $procedureResult_content_grid, 'procedureResult_content_list' => $procedureResult_content_list]);
+            $view = View::create(["code" => 200, 'procedureResult_content_grid' => $procedureResult_content_grid, 'procedureResult_content_list' => $procedureResult_content_list]);
             $view->setFormat('json');
             return $view;
         } else {
@@ -120,7 +120,7 @@ class ProcedureResultController extends Controller {
         $repositoryProcedureResult = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:ProcedureResult');
         if ($procedureResult) {
             $repositoryProcedureResult->deleteProcedureResult($procedureResult);
-            $view = View::create(['procedureResult' => $procedureResult, "message" => "Additif supprimé avec succès !"]);
+            $view = View::create(["message" => "Additif supprimé avec succès !"]);
             $view->setFormat('json');
             return $view;
         } else {
@@ -168,7 +168,7 @@ class ProcedureResultController extends Controller {
         if ($form->isSubmitted() && $form->isValid()) {
             $procedureResultUnique = $repositoryProcedureResult->findOneBy(array('reference' => $procedureResult->getReference(), 'status' => 1));
             if ($procedureResultUnique && $procedureResultUnique->getId() != $procedureResult->getId()) {
-                return new JsonResponse(["success" => false, 'message' => "Une attribution avec cette référence existe dejà"], Response::HTTP_NOT_FOUND);
+                return new JsonResponse(["success" => false, 'message' => "Une attribution avec cette référence existe dejà"], Response::HTTP_BAD_REQUEST);
             }
             $procedureResult->setAbstract($this->getAbstractOfProcedureResult($procedureResult));
             $procedureResult->setType($request->get('attribution_type'));
@@ -194,14 +194,14 @@ class ProcedureResultController extends Controller {
             $procedureResult = $repositoryProcedureResult->updateProcedureResult($procedureResult);
             $procedureResult_content_grid = $this->renderView('OGIVEAlertBundle:procedureResult:procedureResult-grid-edit.html.twig', array('procedureResult' => $procedureResult));
             $procedureResult_content_list = $this->renderView('OGIVEAlertBundle:procedureResult:procedureResult-list-edit.html.twig', array('procedureResult' => $procedureResult));
-            $view = View::create(["code" => 200, 'procedureResult' => $procedureResult, 'procedureResult_content_grid' => $procedureResult_content_grid, 'procedureResult_content_list' => $procedureResult_content_list]);
+            $view = View::create(["code" => 200, 'procedureResult_content_grid' => $procedureResult_content_grid, 'procedureResult_content_list' => $procedureResult_content_list]);
             $view->setFormat('json');
             return $view;
         } elseif ($form->isSubmitted() && !$form->isValid()) {
             return $form;
         } else {
             $edit_procedureResult_form = $this->renderView('OGIVEAlertBundle:procedureResult:edit.html.twig', array('form' => $form->createView(), 'procedureResult' => $procedureResult));
-            $view = View::create(["code" => 200, 'procedureResult' => $procedureResult, 'edit_procedureResult_form' => $edit_procedureResult_form]);
+            $view = View::create(["code" => 200, 'edit_procedureResult_form' => $edit_procedureResult_form]);
             $view->setFormat('json');
             return $view;
         }

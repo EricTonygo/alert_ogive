@@ -58,7 +58,7 @@ class SubscriberController extends Controller {
             'subscriber' => $subscriber,
             'form' => $form->createView()
         ));
-        $view = View::create(["code" => 200, 'subscriber' => $subscriber, 'subscriber_details' => $subscriber_details]);
+        $view = View::create(["code" => 200, 'subscriber_details' => $subscriber_details]);
         $view->setFormat('json');
         return $view;
     }
@@ -99,7 +99,7 @@ class SubscriberController extends Controller {
             }
             $subscriber_content_grid = $this->renderView('OGIVEAlertBundle:subscriber:subscriber-grid.html.twig', array('subscriber' => $subscriber));
             $subscriber_content_list = $this->renderView('OGIVEAlertBundle:subscriber:subscriber-list.html.twig', array('subscriber' => $subscriber));
-            $view = View::create(["code" => 200, 'subscriber' => $subscriber, 'subscriber_content_grid' => $subscriber_content_grid, 'subscriber_content_list' => $subscriber_content_list]);
+            $view = View::create(["code" => 200, 'subscriber_content_grid' => $subscriber_content_grid, 'subscriber_content_list' => $subscriber_content_list]);
             $view->setFormat('json');
             return $view;
             //return new JsonResponse(["success" => true, 'subscriber' => $subscriber, 'subscriber_content_grid' => $subscriber_content_grid, 'subscriber_content_list' => $subscriber_content_list], Response::HTTP_OK);
@@ -122,7 +122,7 @@ class SubscriberController extends Controller {
         $repositorySubscriber = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Subscriber');
         if ($subscriber) {
             $repositorySubscriber->deleteSubscriber($subscriber);
-            $view = View::create(['subscriber' => $subscriber, "message" => 'Abonné supprimé avec succès']);
+            $view = View::create(["message" => 'Abonné supprimé avec succès']);
             $view->setFormat('json');
             return $view;
         } else {
@@ -176,7 +176,7 @@ class SubscriberController extends Controller {
         if ($form->isSubmitted() && $form->isValid()) {
             $subscriberUnique = $repositorySubscriber->findOneBy(array('phoneNumber' => $subscriber->getPhoneNumber(), 'email' => $subscriber->getEmail(), 'status' => 1));
             if ($subscriberUnique && $subscriberUnique->getId() != $subscriber->getId()) {
-                return new JsonResponse(["success" => false, 'message' => 'Un abonné avec ce numero existe dejà'], Response::HTTP_NOT_FOUND);
+                return new JsonResponse(["success" => false, 'message' => 'Un abonné avec ce numero existe dejà'], Response::HTTP_BAD_REQUEST);
             }
             if ($this->get('security.context')->isGranted('ROLE_ADMIN') && $subscriber->getSubscription()) {
                 $sendActivate = $request->get('send_activate');
@@ -201,14 +201,14 @@ class SubscriberController extends Controller {
 
             $subscriber_content_grid = $this->renderView('OGIVEAlertBundle:subscriber:subscriber-grid-edit.html.twig', array('subscriber' => $subscriber));
             $subscriber_content_list = $this->renderView('OGIVEAlertBundle:subscriber:subscriber-list-edit.html.twig', array('subscriber' => $subscriber));
-            $view = View::create(["code" => 200, 'subscriber' => $subscriber, 'subscriber_content_grid' => $subscriber_content_grid, 'subscriber_content_list' => $subscriber_content_list]);
+            $view = View::create(["code" => 200, 'subscriber_content_grid' => $subscriber_content_grid, 'subscriber_content_list' => $subscriber_content_list]);
             $view->setFormat('json');
             return $view;
         } elseif ($form->isSubmitted() && !$form->isValid()) {
             return $form;
         } else {
             $edit_subscriber_form = $this->renderView('OGIVEAlertBundle:subscriber:edit.html.twig', array('form' => $form->createView(), 'subscriber' => $subscriber));
-            $view = View::create(["code" => 200, 'subscriber' => $subscriber, 'edit_subscriber_form' => $edit_subscriber_form]);
+            $view = View::create(["code" => 200, 'edit_subscriber_form' => $edit_subscriber_form]);
             $view->setFormat('json');
             return $view;
         }
