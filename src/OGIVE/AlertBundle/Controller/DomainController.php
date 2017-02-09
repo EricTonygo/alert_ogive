@@ -49,6 +49,7 @@ class DomainController extends Controller {
         if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             return $this->redirect($this->generateUrl('fos_user_security_login'));
         }
+        $serializer = $this->container->get('jms_serializer');
         if (empty($domain)) {
             return new JsonResponse(['message' => 'Domaine introuvable'], Response::HTTP_NOT_FOUND);
         }
@@ -60,7 +61,8 @@ class DomainController extends Controller {
 //        $view = View::create(["code" => 200, 'domain' => $domain, 'domain_details' => $domain_details]);
 //        $view->setFormat('json');
 //        return $view;
-         return new JsonResponse(["code" => 200, 'domain' => $domain, 'domain_details' => $domain_details], Response::HTTP_OK);
+        $domain_json = $serializer->serialize($domain, 'json');
+         return new JsonResponse(["code" => 200, 'domain' => $domain_json, 'domain_details' => $domain_details], Response::HTTP_OK);
     }
 
     /**
@@ -90,6 +92,7 @@ class DomainController extends Controller {
         $repositoryDomain = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Domain');
         $repositorySubDomain = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:SubDomain');
         $form = $this->createForm('OGIVE\AlertBundle\Form\DomainType', $domain);
+        $serializer = $this->container->get('jms_serializer');
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -118,15 +121,15 @@ class DomainController extends Controller {
                         $subDomain->setDomain($domain);
                     }
                 }
-            }
-
+            }            
             $domain = $repositoryDomain->saveDomain($domain);
+            $domain_json = $serializer->serialize($domain, 'json');
             $domain_content_grid = $this->renderView('OGIVEAlertBundle:domain:domain-grid.html.twig', array('domain' => $domain));
             $domain_content_list = $this->renderView('OGIVEAlertBundle:domain:domain-list.html.twig', array('domain' => $domain));
 //            $view = View::create(["code" => 200, 'domain' => $domain, 'domain_content_grid' => $domain_content_grid, 'domain_content_list' => $domain_content_list]);
 //            $view->setFormat('json');
 //            return $view;
-            return new JsonResponse(["code" => 200, 'domain' => $domain, 'domain_content_grid' => $domain_content_grid, 'domain_content_list' => $domain_content_list], Response::HTTP_CREATED);
+            return new JsonResponse(["code" => 200, 'domain' => $domain_json, 'domain_content_grid' => $domain_content_grid, 'domain_content_list' => $domain_content_list], Response::HTTP_CREATED);
         } else {
 //            $view = View::create($form);
 //            $view->setFormat('json');
@@ -144,13 +147,15 @@ class DomainController extends Controller {
         if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             return $this->redirect($this->generateUrl('fos_user_security_login'));
         }
+        $serializer = $this->container->get('jms_serializer');
         $repositoryDomain = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Domain');
         if ($domain) {
             $repositoryDomain->deleteDomain($domain);
+            $domain_json = $serializer->serialize($domain, 'json');
 //            $view = View::create(['domain' => $domain, "message" => 'Domaine supprimé avec succès']);
 //            $view->setFormat('json');
 //            return $view;
-            return new JsonResponse(['domain' => $domain, "message" => 'Domaine supprimé avec succès'], Response::HTTP_OK);
+            return new JsonResponse(['domain' => $domain_json, "message" => 'Domaine supprimé avec succès'], Response::HTTP_OK);
         } else {
             return new JsonResponse(["message" => 'Domaine introuvable'], Response::HTTP_NOT_FOUND);
         }
@@ -173,6 +178,7 @@ class DomainController extends Controller {
         $repositoryDomain = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Domain');
         $repositorySubDomain = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:SubDomain');
         $originalSubDomains = new \Doctrine\Common\Collections\ArrayCollection();
+        $serializer = $this->container->get('jms_serializer');
         if (empty($domain)) {
             return new JsonResponse(['message' => 'Domaine introuvable'], Response::HTTP_NOT_FOUND);
         }
@@ -250,21 +256,23 @@ class DomainController extends Controller {
                 }
             }
             $domain = $repositoryDomain->updateDomain($domain);
+            $domain_json = $serializer->serialize($domain, 'json');
             $domain_content_grid = $this->renderView('OGIVEAlertBundle:domain:domain-grid-edit.html.twig', array('domain' => $domain));
             $domain_content_list = $this->renderView('OGIVEAlertBundle:domain:domain-list-edit.html.twig', array('domain' => $domain));
 //            $view = View::create(["code" => 200, 'domain' => $domain, 'domain_content_grid' => $domain_content_grid, 'domain_content_list' => $domain_content_list]);
 //            $view->setFormat('json');
 //            return $view;
-            return new JsonResponse(["code" => 200, 'domain' => $domain, 'domain_content_grid' => $domain_content_grid, 'domain_content_list' => $domain_content_list], Response::HTTP_OK);
+            return new JsonResponse(["code" => 200, 'domain' => $domain_json, 'domain_content_grid' => $domain_content_grid, 'domain_content_list' => $domain_content_list], Response::HTTP_OK);
         } elseif ($form->isSubmitted() && !$form->isValid()) {
 //            return $form;
             return new JsonResponse($form, Response::HTTP_BAD_REQUEST);
         } else {
             $edit_domain_form = $this->renderView('OGIVEAlertBundle:domain:edit.html.twig', array('form' => $form->createView(), 'domain' => $domain));
+            $domain_json = $serializer->serialize($domain, 'json');
 //            $view = View::create(["code" => 200, 'domain' => $domain, 'edit_domain_form' => $edit_domain_form]);
 //            $view->setFormat('json');
 //            return $view;
-            return new JsonResponse(["code" => 200, 'domain' => $domain, 'edit_domain_form' => $edit_domain_form], Response::HTTP_OK);
+            return new JsonResponse(["code" => 200, 'domain' => $domain_json, 'edit_domain_form' => $edit_domain_form], Response::HTTP_OK);
         }
     }
 

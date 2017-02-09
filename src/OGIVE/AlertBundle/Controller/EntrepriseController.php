@@ -50,6 +50,7 @@ class EntrepriseController extends Controller {
         if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             return $this->redirect($this->generateUrl('fos_user_security_login'));
         }
+        $serializer = $this->container->get('jms_serializer');
         if (empty($entreprise)) {
             return new JsonResponse(['message' => 'Entreprise introuvable'], Response::HTTP_NOT_FOUND);
         }
@@ -58,10 +59,11 @@ class EntrepriseController extends Controller {
             'entreprise' => $entreprise,
             'form' => $form->createView()
         ));
+        $entreprise_json = $serializer->serialize($entreprise, 'json');
 //        $view = View::create(["code" => 200, 'entreprise' => $entreprise, 'entreprise_details' => $entreprise_details]);
 //        $view->setFormat('json');
 //        return $view;
-        return new JsonResponse(["code" => 200, 'entreprise' => $entreprise, 'entreprise_details' => $entreprise_details], Response::HTTP_OK);
+        return new JsonResponse(["code" => 200, 'entreprise' => $entreprise_json, 'entreprise_details' => $entreprise_details], Response::HTTP_OK);
     }
 
     /**
@@ -77,6 +79,7 @@ class EntrepriseController extends Controller {
         $repositoryEntreprise = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Entreprise');
         $repositorySubscriber = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Subscriber');
         $form = $this->createForm('OGIVE\AlertBundle\Form\EntrepriseType', $entreprise);
+        $serializer = $this->container->get('jms_serializer');
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -122,12 +125,13 @@ class EntrepriseController extends Controller {
                     }
                 }
             }
+            $entreprise_json = $serializer->serialize($entreprise, 'json');
             $entreprise_content_grid = $this->renderView('OGIVEAlertBundle:entreprise:entreprise-grid.html.twig', array('entreprise' => $entreprise));
             $entreprise_content_list = $this->renderView('OGIVEAlertBundle:entreprise:entreprise-list.html.twig', array('entreprise' => $entreprise));
 //            $view = View::create(["code" => 200, 'entreprise' => $entreprise, 'entreprise_content_grid' => $entreprise_content_grid, 'entreprise_content_list' => $entreprise_content_list]);
 //            $view->setFormat('json');
 //            return $view;
-            return new JsonResponse(["code" => 200, 'entreprise' => $entreprise, 'entreprise_content_grid' => $entreprise_content_grid, 'entreprise_content_list' => $entreprise_content_list], Response::HTTP_CREATED);
+            return new JsonResponse(["code" => 200, 'entreprise' => $entreprise_json, 'entreprise_content_grid' => $entreprise_content_grid, 'entreprise_content_list' => $entreprise_content_list], Response::HTTP_CREATED);
         } else {
 //            $view = View::create($form);
 //            $view->setFormat('json');
@@ -145,13 +149,15 @@ class EntrepriseController extends Controller {
         if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             return $this->redirect($this->generateUrl('fos_user_security_login'));
         }
+        $serializer = $this->container->get('jms_serializer');
         $repositoryEntreprise = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Entreprise');
         if ($entreprise) {
             $repositoryEntreprise->deleteEntreprise($entreprise);
+            $entreprise_json = $serializer->serialize($entreprise, 'json');
 //            $view = View::create(['entreprise' => $entreprise, "message" => 'Entreprise supprimée avec succès']);
 //            $view->setFormat('json');
 //            return $view;
-            return new JsonResponse(['entreprise' => $entreprise, "message" => 'Entreprise supprimée avec succès'], Response::HTTP_OK);
+            return new JsonResponse(['entreprise' => $entreprise_json, "message" => 'Entreprise supprimée avec succès'], Response::HTTP_OK);
         } else {
             return new JsonResponse(["message" => 'Entreprise introuvable'], Response::HTTP_NOT_FOUND);
         }
@@ -338,7 +344,7 @@ class EntrepriseController extends Controller {
 //            $view = View::create(["code" => 200, 'entreprise' => $entreprise, 'edit_entreprise_form' => $edit_entreprise_form]);
 //            $view->setFormat('json');
 //            return $view;
-            return new JsonResponse(["code" => 200, 'entreprise' => $entreprise, 'edit_entreprise_form' => $edit_entreprise_form], Response::HTTP_OK);
+            return new JsonResponse(["code" => 200, 'entreprise' => $entreprise_json,'edit_entreprise_form' => $edit_entreprise_form], Response::HTTP_OK);
         }
     }
 
