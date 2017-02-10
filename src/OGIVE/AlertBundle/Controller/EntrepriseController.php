@@ -127,7 +127,7 @@ class EntrepriseController extends Controller {
 //            $entreprise_json = $serializer->serialize($entreprise, 'json');
 //            $entreprise_content_grid = $this->renderView('OGIVEAlertBundle:entreprise:entreprise-grid.html.twig', array('entreprise' => $entreprise));
 //            $entreprise_content_list = $this->renderView('OGIVEAlertBundle:entreprise:entreprise-list.html.twig', array('entreprise' => $entreprise));
-            $view = View::create(["message" => 'Entreprise ajouté avec succès']);
+            $view = View::create(["message" => 'Entreprise ajoutée avec succès']);
             $view->setFormat('json');
             return $view;
             //return new JsonResponse(["code" => 200, 'entreprise_content_grid' => $entreprise_content_grid, 'entreprise_content_list' => $entreprise_content_list], Response::HTTP_CREATED);

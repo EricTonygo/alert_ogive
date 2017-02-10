@@ -172,30 +172,30 @@ $(function () {
                                     $('#error_name_header').html("Echec de la validation");
                                     $('#error_name_list').html('<li>' + myerrors.message + '</li>');
                                     $('#error_name_message').show();
-                                }else{
+                                } else {
                                     $('#error_name_header').html("Echec de la validation. Veuillez verifier à nouveau vos données");
                                     $('#error_name_message').show();
                                 }
                             }
                         },
                         success: function (response, textStatus, jqXHR) {
-                            if (response.code === 200) {
-                                $('#cancel_add_additive').removeClass('disabled');
-                                $('#submit_additive').removeClass('disabled');
-                                $('#add_additive_form.ui.form').removeClass('loading');
-                                $('#list_as_grid_content').prepend(response.additive_content_grid);
-                                $('#list_as_table_content').prepend(response.additive_content_list);
-                                $('.ui.dropdown').dropdown({
-                                    on: 'hover'
-                                });
-                                $('#add_additive.ui.modal').modal('hide');
-                                $('#message_success>div.header').html('Additif ajouté avec succès !');
-                                $('#message_success').show();
-                                window.location.replace(Routing.generate('additive_index'));
-                                setTimeout(function () {
-                                    $('#message_success').hide();
-                                }, 4000);
-                            }
+
+                            $('#cancel_add_additive').removeClass('disabled');
+                            $('#submit_additive').removeClass('disabled');
+                            $('#add_additive_form.ui.form').removeClass('loading');
+//                                $('#list_as_grid_content').prepend(response.additive_content_grid);
+//                                $('#list_as_table_content').prepend(response.additive_content_list);
+//                                $('.ui.dropdown').dropdown({
+//                                    on: 'hover'
+//                                });
+                            $('#add_additive.ui.modal').modal('hide');
+                            $('#message_success>div.header').html(response.message);
+                            $('#message_success').show();
+                            window.location.replace(Routing.generate('additive_index'));
+                            setTimeout(function () {
+                                $('#message_success').hide();
+                            }, 4000);
+
 
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
@@ -239,45 +239,42 @@ function edit_additive(id) {
             }
         },
         success: function (response, textStatus, jqXHR) {
-            if (response.code === 200) {
-                $('#edit_additive').remove();
-                $('#edit_additive_content').html(response.edit_additive_form);
-                $('#edit_additive.ui.modal').modal('setting', {
-                    autofocus: false,
-                    inverted: true,
-                    closable: false
-                });
-                $('#ogive_alertbundle_additive_domain.ui.dropdown').dropdown({
-                    on: 'click'
-                });
-                $('#ogive_alertbundle_additive_callOffer.ui.dropdown').dropdown({
-                    on: 'click'
-                });
-                $('#ogive_alertbundle_additive_expressionInterest.ui.dropdown').dropdown({
-                    on: 'click'
-                });
-                $('#checkbox_aao_edit').change(function () {
-                    if ($(this).is(':checked')) {
-                        $('#field_aao_edit').show();
-                        $('#field_asmi_edit').hide();
-                        $('#field_asmi_edit>.ui.dropdown').dropdown('clear');
-                    }
-                });
+            $('#edit_additive').remove();
+            $('#edit_additive_content').html(response.edit_additive_form);
+            $('#edit_additive.ui.modal').modal('setting', {
+                autofocus: false,
+                inverted: true,
+                closable: false
+            });
 
-                $('#checkbox_asmi_edit').change(function () {
-                    if ($(this).is(':checked')) {
-                        $('#field_asmi_edit').show();
-                        $('#field_aao_edit').hide();
-                        $('#field_aao_edit>.ui.dropdown').dropdown('clear');
-                    }
-                });
-                $('#cancel_edit_additive').click(function () {
-                    window.location.replace(Routing.generate('additive_index'));
-                });
+            $('#ogive_alertbundle_additive_callOffer.ui.dropdown').dropdown({
+                on: 'click'
+            });
+            $('#ogive_alertbundle_additive_expressionInterest.ui.dropdown').dropdown({
+                on: 'click'
+            });
+            $('#checkbox_aao_edit').change(function () {
+                if ($(this).is(':checked')) {
+                    $('#field_aao_edit').show();
+                    $('#field_asmi_edit').hide();
+                    $('#field_asmi_edit>.ui.dropdown').dropdown('clear');
+                }
+            });
 
-                $('#edit_additive.ui.modal').modal('show');
-                execute_edit(id);
-            }
+            $('#checkbox_asmi_edit').change(function () {
+                if ($(this).is(':checked')) {
+                    $('#field_asmi_edit').show();
+                    $('#field_aao_edit').hide();
+                    $('#field_aao_edit>.ui.dropdown').dropdown('clear');
+                }
+            });
+            $('#cancel_edit_additive').click(function () {
+                window.location.replace(Routing.generate('additive_index'));
+            });
+
+            $('#edit_additive.ui.modal').modal('show');
+            execute_edit(id);
+
             $('#message_loading').hide();
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -427,7 +424,7 @@ function execute_edit(id) {
                                     $('#error_name_header_edit').html("Echec de la validation");
                                     $('#error_name_list_edit').html('<li>' + myerrors.message + '</li>');
                                     $('#error_name_message_edit').show();
-                                }else{
+                                } else {
                                     $('#error_name_header_edit').html("Echec de la validation. Veuillez vérifier vos données");
                                     $('#error_name_message_edit').show();
                                 }
@@ -435,48 +432,27 @@ function execute_edit(id) {
                             }
                         },
                         success: function (response, textStatus, jqXHR) {
-                            if (response.code === 200) {
                                 $('#submit_edit_additive').removeClass('disabled');
                                 $('#cancel_edit_additive').removeClass('disabled');
                                 $('#edit_additive_form.ui.form').removeClass('loading');
                                 $('#cancel_details_additive').removeClass('disabled');
                                 $('#disable_additive').removeClass('disabled');
                                 $('#enable_additive').removeClass('disabled');
-                                $('#additive_grid' + id).html(response.additive_content_grid);
-                                $('#additive_list' + id).html(response.additive_content_list);
-                                $('.ui.dropdown').dropdown({
-                                    on: 'hover'
-                                });
-                                $('#ogive_alertbundle_additive_callOffer.ui.dropdown').dropdown({
-                                    on: 'click'
-                                });
-                                $('#ogive_alertbundle_additive_expressionInterest.ui.dropdown').dropdown({
-                                    on: 'click'
-                                });
-                                $('#checkbox_aao_edit').change(function () {
-                                    if ($(this).is(':checked')) {
-                                        $('#field_aao_edit').show();
-                                        $('#field_asmi_edit').hide();
-                                        $('#field_asmi_edit>.ui.dropdown').dropdown('clear');
-                                    }
-                                });
+//                                $('#additive_grid' + id).html(response.additive_content_grid);
+//                                $('#additive_list' + id).html(response.additive_content_list);
+//                                $('.ui.dropdown').dropdown({
+//                                    on: 'hover'
+//                                });
 
-                                $('#checkbox_asmi_edit').change(function () {
-                                    if ($(this).is(':checked')) {
-                                        $('#field_asmi_edit').show();
-                                        $('#field_aao_edit').hide();
-                                        $('#field_aao_edit>.ui.dropdown').dropdown('clear');
-                                    }
-                                });
                                 $('#edit_additive.ui.modal').modal('hide');
-                                $('#message_success>div.header').html('Additif modifié avec succès !');
+                                $('#message_success>div.header').html(response.message);
                                 $('#message_success').show();
                                 window.location.replace(Routing.generate('additive_index'));
                                 setTimeout(function () {
                                     $('#message_success').hide();
                                 }, 4000);
                                 $('#edit_additive').remove();
-                            }
+                            
 
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
@@ -568,37 +544,57 @@ function show_additive(id) {
             }
         },
         success: function (response, textStatus, jqXHR) {
-            if (response.code === 200) {
-                $('#edit_additive').remove();
-                $('#edit_additive_content').html(response.additive_details);
-                $('#edit_additive.ui.modal').modal('setting', {
-                    autofocus: false,
-                    inverted: true,
-                    closable: false
-                });
-                $('#ogive_alertbundle_additive_domain.ui.dropdown').dropdown({
-                    on: 'click'
-                });
-                $('#cancel_details_additive').click(function () {
-                    window.location.replace(Routing.generate('additive_index'));
-                });
-                $('#edit_additive.ui.modal').modal('show');
-                execute_edit(id);
-                $('#edit_additive_btn').click(function () {
-                    $('#block_details').hide();
-                    $('#block_form_edit').show();
-                    $('#cancel_edit_additive').show();
-                    $('#submit_edit_additive').show();
-                    $(this).hide();
-                });
-                $('#cancel_edit_additive').click(function () {
-                    $('#block_details').show();
-                    $('#block_form_edit').hide();
-                    $('#edit_additive_btn').show();
-                    $('#submit_edit_additive').hide();
-                    $(this).hide();
-                });
-            }
+            $('#edit_additive').remove();
+            $('#edit_additive_content').html(response.additive_details);
+            $('#edit_additive.ui.modal').modal('setting', {
+                autofocus: false,
+                inverted: true,
+                closable: false
+            });
+            $('#ogive_alertbundle_additive_domain.ui.dropdown').dropdown({
+                on: 'click'
+            });
+            $('#ogive_alertbundle_additive_callOffer.ui.dropdown').dropdown({
+                on: 'click'
+            });
+            $('#ogive_alertbundle_additive_expressionInterest.ui.dropdown').dropdown({
+                on: 'click'
+            });
+            $('#checkbox_aao_edit').change(function () {
+                if ($(this).is(':checked')) {
+                    $('#field_aao_edit').show();
+                    $('#field_asmi_edit').hide();
+                    $('#field_asmi_edit>.ui.dropdown').dropdown('clear');
+                }
+            });
+
+            $('#checkbox_asmi_edit').change(function () {
+                if ($(this).is(':checked')) {
+                    $('#field_asmi_edit').show();
+                    $('#field_aao_edit').hide();
+                    $('#field_aao_edit>.ui.dropdown').dropdown('clear');
+                }
+            });
+            $('#cancel_details_additive').click(function () {
+                window.location.replace(Routing.generate('additive_index'));
+            });
+            $('#edit_additive.ui.modal').modal('show');
+            execute_edit(id);
+            $('#edit_additive_btn').click(function () {
+                $('#block_details').hide();
+                $('#block_form_edit').show();
+                $('#cancel_edit_additive').show();
+                $('#submit_edit_additive').show();
+                $(this).hide();
+            });
+            $('#cancel_edit_additive').click(function () {
+                $('#block_details').show();
+                $('#block_form_edit').hide();
+                $('#edit_additive_btn').show();
+                $('#submit_edit_additive').hide();
+                $(this).hide();
+            });
+
             $('#message_loading').hide();
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -645,7 +641,7 @@ function enable_additive(id) {
             }
         },
         success: function (response, textStatus, jqXHR) {
-            console.log(response);
+ 
             $('#message_loading').hide();
             $('#enable_additive_grid' + id).hide();
             $('#disable_additive_grid' + id).show();
@@ -700,7 +696,7 @@ function disable_additive(id) {
             }
         },
         success: function (response, textStatus, jqXHR) {
-            console.log(response);
+            
             $('#message_loading').hide();
             $('#disable_additive_grid' + id).hide();
             $('#enable_additive_grid' + id).show();
