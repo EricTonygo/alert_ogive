@@ -59,7 +59,7 @@ class EntrepriseController extends Controller {
             'entreprise' => $entreprise,
             'form' => $form->createView()
         ));
-        $view = View::create(["code" => 200, 'entreprise_details' => $entreprise_details]);
+        $view = View::create(['entreprise_details' => $entreprise_details]);
         $view->setFormat('json');
         return $view;
         //return new JsonResponse(["code" => 200, 'entreprise_details' => $entreprise_details], Response::HTTP_OK);
@@ -124,10 +124,10 @@ class EntrepriseController extends Controller {
                     }
                 }
             }
-            $entreprise_json = $serializer->serialize($entreprise, 'json');
-            $entreprise_content_grid = $this->renderView('OGIVEAlertBundle:entreprise:entreprise-grid.html.twig', array('entreprise' => $entreprise));
-            $entreprise_content_list = $this->renderView('OGIVEAlertBundle:entreprise:entreprise-list.html.twig', array('entreprise' => $entreprise));
-            $view = View::create(["code" => 200, 'entreprise_content_grid' => $entreprise_content_grid, 'entreprise_content_list' => $entreprise_content_list]);
+//            $entreprise_json = $serializer->serialize($entreprise, 'json');
+//            $entreprise_content_grid = $this->renderView('OGIVEAlertBundle:entreprise:entreprise-grid.html.twig', array('entreprise' => $entreprise));
+//            $entreprise_content_list = $this->renderView('OGIVEAlertBundle:entreprise:entreprise-list.html.twig', array('entreprise' => $entreprise));
+            $view = View::create(["message" => 'Entreprise ajouté avec succès']);
             $view->setFormat('json');
             return $view;
             //return new JsonResponse(["code" => 200, 'entreprise_content_grid' => $entreprise_content_grid, 'entreprise_content_list' => $entreprise_content_list], Response::HTTP_CREATED);
@@ -328,16 +328,16 @@ class EntrepriseController extends Controller {
                 }
             }
             //$entreprise->upload();
-            $entreprise_content_grid = $this->renderView('OGIVEAlertBundle:entreprise:entreprise-grid-edit.html.twig', array('entreprise' => $entreprise));
-            $entreprise_content_list = $this->renderView('OGIVEAlertBundle:entreprise:entreprise-list-edit.html.twig', array('entreprise' => $entreprise));
-
-            $view = View::create(["code" => 200, 'entreprise_content_grid' => $entreprise_content_grid, 'entreprise_content_list' => $entreprise_content_list]);
+//            $entreprise_content_grid = $this->renderView('OGIVEAlertBundle:entreprise:entreprise-grid-edit.html.twig', array('entreprise' => $entreprise));
+//            $entreprise_content_list = $this->renderView('OGIVEAlertBundle:entreprise:entreprise-list-edit.html.twig', array('entreprise' => $entreprise));
+              //$view = View::create(["code" => 200, 'entreprise_content_grid' => $entreprise_content_grid, 'entreprise_content_list' => $entreprise_content_list]);
+            $view = View::create(["message" => 'Entreprise modifiée avec succès']);
             $view->setFormat('json');
             return $view;
             //return new JsonResponse(["code" => 200,'entreprise_content_grid' => $entreprise_content_grid, 'entreprise_content_list' => $entreprise_content_list], Response::HTTP_OK);
         } else {
             $edit_entreprise_form = $this->renderView('OGIVEAlertBundle:entreprise:edit.html.twig', array('form' => $form->createView(), 'entreprise' => $entreprise));
-            $view = View::create(["code" => 200, 'edit_entreprise_form' => $edit_entreprise_form]);
+            $view = View::create(['edit_entreprise_form' => $edit_entreprise_form]);
             $view->setFormat('json');
             return $view;
             //return new JsonResponse(["code" => 200, 'edit_entreprise_form' => $edit_entreprise_form], Response::HTTP_OK);
