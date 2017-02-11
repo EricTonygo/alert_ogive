@@ -46,7 +46,7 @@ class TelephoneController extends Controller {
             $historiqueAlertSubscriber->setSubscriber($subscriber);
             $historiqueAlertSubscriber->setAlertType("SMS");
             $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
-            $view = View::create(["code" => 200, 'messages_twilio' => $message, 'message' => "SMS envoyé avec succès"]);
+            $view = View::create(['message' => "SMS envoyé avec succès"]);
             $view->setFormat('json');
             return $view;
         } elseif ($form->isSubmitted() && !$form->isValid()) {
@@ -56,7 +56,7 @@ class TelephoneController extends Controller {
                 'subscriber' => $subscriber,
                 'form' => $form->createView()
             ));
-            $view = View::create(["code" => 200, 'send_sms_subscriber_form' => $send_sms_subscriber_form]);
+            $view = View::create(['send_sms_subscriber_form' => $send_sms_subscriber_form]);
             $view->setFormat('json');
             return $view;
         }
@@ -119,7 +119,7 @@ class TelephoneController extends Controller {
             }
 //            $callOffer->setAbstract($request->get('abstract'));
 //            $callOffer = $repositoryCallOffer->updateCallOffer($callOffer);
-            $view = View::create(["code" => 200, 'messages_twilio' => $message, 'message' => "SMS envoyé avec succès"]);
+            $view = View::create(['message' => "SMS envoyés avec succès"]);
             $view->setFormat('json');
             return $view;
         } elseif ($idSubscribers && is_array($idSubscribers) && !empty($idSubscribers)) {
@@ -138,7 +138,7 @@ class TelephoneController extends Controller {
             }
 //            $callOffer->setAbstract($request->get('abstract'));
 //            $callOffer = $repositoryCallOffer->updateCallOffer($callOffer);
-            $view = View::create(["code" => 200, 'message' => "SMS envoyé avec succès"]);
+            $view = View::create(['message' => "SMS envoyés avec succès"]);
             $view->setFormat('json');
             return $view;
         } else {
@@ -182,7 +182,7 @@ class TelephoneController extends Controller {
             'subscribers' => $subscribers,
             'callOffer' => $callOffer,
         ));
-        $view = View::create(["code" => 200, 'send_notification_callOffer_form' => $send_notification_callOffer_form]);
+        $view = View::create(['send_notification_callOffer_form' => $send_notification_callOffer_form]);
         $view->setFormat('json');
         return $view;
     }
@@ -244,7 +244,7 @@ class TelephoneController extends Controller {
             }
 //            $procedureResult->setAbstract($request->get('abstract'));
 //            $procedureResult = $repositoryProcedureResult->updateProcedureResult($procedureResult);
-            $view = View::create(["code" => 200, 'messages_twilio' => $message, 'message' => "SMS envoyé avec succès"]);
+            $view = View::create(['message' => "SMS envoyés avec succès"]);
             $view->setFormat('json');
             return $view;
         } elseif ($idSubscribers && is_array($idSubscribers) && !empty($idSubscribers)) {
@@ -262,7 +262,7 @@ class TelephoneController extends Controller {
             }
 //            $procedureResult->setAbstract($request->get('abstract'));
 //            $procedureResult = $repositoryProcedureResult->updateProcedureResult($procedureResult);
-            $view = View::create(["code" => 200, 'message' => "SMS envoyé avec succès"]);
+            $view = View::create(['message' => "SMS envoyés avec succès"]);
             $view->setFormat('json');
             return $view;
         } else {
@@ -306,7 +306,7 @@ class TelephoneController extends Controller {
             'subscribers' => $subscribers,
             'procedureResult' => $procedureResult,
         ));
-        $view = View::create(["code" => 200, 'send_notification_procedureResult_form' => $send_notification_procedureResult_form]);
+        $view = View::create(['send_notification_procedureResult_form' => $send_notification_procedureResult_form]);
         $view->setFormat('json');
         return $view;
     }
@@ -368,7 +368,7 @@ class TelephoneController extends Controller {
             }
 //            $additive->setAbstract($request->get('abstract'));
 //            $additive = $repositoryAdditive->updateAdditive($additive);
-            $view = View::create(["code" => 200, 'messages_twilio' => $message, 'message' => "SMS envoyé avec succès"]);
+            $view = View::create(['message' => "SMS envoyés avec succès"]);
             $view->setFormat('json');
             return $view;
         } elseif ($idSubscribers && is_array($idSubscribers) && !empty($idSubscribers)) {
@@ -386,7 +386,7 @@ class TelephoneController extends Controller {
             }
 //            $additive->setAbstract($request->get('abstract'));
 //            $additive = $repositoryAdditive->updateAdditive($additive);
-            $view = View::create(["code" => 200, 'message' => "SMS envoyé avec succès"]);
+            $view = View::create(['message' => "SMS envoyés avec succès"]);
             $view->setFormat('json');
             return $view;
         } else {
@@ -430,7 +430,7 @@ class TelephoneController extends Controller {
             'subscribers' => $subscribers,
             'additive' => $additive,
         ));
-        $view = View::create(["code" => 200, 'send_notification_additive_form' => $send_notification_additive_form]);
+        $view = View::create(['send_notification_additive_form' => $send_notification_additive_form]);
         $view->setFormat('json');
         return $view;
     }
@@ -492,7 +492,7 @@ class TelephoneController extends Controller {
             }
 //            $expressionInterest->setAbstract($request->get('abstract'));
 //            $expressionInterest = $repositoryExpressionInterest->updateExpressionInterest($expressionInterest);
-            $view = View::create(["code" => 200, 'message' => "SMS envoyé avec succès"]);
+            $view = View::create(['message' => "SMS envoyés avec succès"]);
             $view->setFormat('json');
             return $view;
         } elseif ($idSubscribers && is_array($idSubscribers) && !empty($idSubscribers)) {
@@ -510,7 +510,7 @@ class TelephoneController extends Controller {
             }
 //            $expressionInterest->setAbstract($request->get('abstract'));
 //            $expressionInterest = $repositoryExpressionInterest->updateExpressionInterest($expressionInterest);
-            $view = View::create(["code" => 200, 'message' => "SMS envoyé avec succès"]);
+            $view = View::create(['message' => "SMS envoyés avec succès"]);
             $view->setFormat('json');
             return $view;
         } else {
@@ -554,7 +554,7 @@ class TelephoneController extends Controller {
             'subscribers' => $subscribers,
             'expressionInterest' => $expressionInterest,
         ));
-        $view = View::create(["code" => 200, 'send_notification_expressionInterest_form' => $send_notification_expressionInterest_form]);
+        $view = View::create(['send_notification_expressionInterest_form' => $send_notification_expressionInterest_form]);
         $view->setFormat('json');
         return $view;
     }
@@ -620,7 +620,7 @@ class TelephoneController extends Controller {
                 $historiqueAlertSubscriber->setAlertType("SMS");
                 $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
             }
-            $view = View::create(["code" => 200, 'messages_twilio' => $message, 'message' => "SMS envoyé avec succès"]);
+            $view = View::create(['message' => "SMS envoyés avec succès"]);
             $view->setFormat('json');
             return $view;
         } elseif ($idSubscribers && is_array($idSubscribers) && !empty($idSubscribers)) {
@@ -636,7 +636,7 @@ class TelephoneController extends Controller {
                 $historiqueAlertSubscriber->setAlertType("SMS");
                 $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
             }
-            $view = View::create(["code" => 200, 'message' => "SMS envoyé avec succès"]);
+            $view = View::create(['message' => "SMS envoyés avec succès"]);
             $view->setFormat('json');
             return $view;
         } else {
@@ -659,7 +659,7 @@ class TelephoneController extends Controller {
             'subscribers' => $subscribers,
             'specialFollowUp' => $specialFollowUp,
         ));
-        $view = View::create(["code" => 200, 'send_special_follow_up_form' => $send_special_follow_up_form]);
+        $view = View::create(['send_special_follow_up_form' => $send_special_follow_up_form]);
         $view->setFormat('json');
         return $view;
     }

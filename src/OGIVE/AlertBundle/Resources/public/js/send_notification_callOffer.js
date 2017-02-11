@@ -18,29 +18,28 @@ function send_procedure_callOffer(id) {
             }
         },
         success: function (response, textStatus, jqXHR) {
-            if (response.code === 200) {
-                $('#send_notification_callOffer').remove();
-                $('#send_notification_callOffer_content').html(response.send_notification_callOffer_form);
+            $('#send_notification_callOffer').remove();
+            $('#send_notification_callOffer_content').html(response.send_notification_callOffer_form);
 
-                $('#send_notification_callOffer.ui.modal').modal('setting', {
-                    autofocus: false,
-                    inverted: true,
-                    closable: false
-                });
-                $('#checkbox_all_subscribers').change(function () {
-                    if ($(this).is(':checked')) {
-                        $('#field_select_subscribers').hide();
-                        $('#field_select_subscribers>.ui.dropdown').dropdown('clear');
-                    } else {
-                        $('#field_select_subscribers').show();
-                    }
-                });
-                $('#subscribers.ui.dropdown').dropdown({
-                    on: 'click'
-                });
-                $('#send_notification_callOffer.ui.modal').modal('show');
-                execute_send_notification_callOffer(id);
-            }
+            $('#send_notification_callOffer.ui.modal').modal('setting', {
+                autofocus: false,
+                inverted: true,
+                closable: false
+            });
+            $('#checkbox_all_subscribers').change(function () {
+                if ($(this).is(':checked')) {
+                    $('#field_select_subscribers').hide();
+                    $('#field_select_subscribers>.ui.dropdown').dropdown('clear');
+                } else {
+                    $('#field_select_subscribers').show();
+                }
+            });
+            $('#subscribers.ui.dropdown').dropdown({
+                on: 'click'
+            });
+            $('#send_notification_callOffer.ui.modal').modal('show');
+            execute_send_notification_callOffer(id);
+
             $('#message_loading').hide();
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -102,19 +101,17 @@ function execute_send_notification_callOffer(id) {
                             }
                         },
                         success: function (response, textStatus, jqXHR) {
-                            if (response.code === 200) {
                                 $('#submit_send_notification_callOffer').removeClass('disabled');
                                 $('#cancel_send_notification_callOffer').removeClass('disabled');
                                 $('#send_notification_callOffer_form.ui.form').removeClass('loading');
                                 $('#send_notification_callOffer.ui.modal').modal('hide');
-                                $('#message_success>div.header').html('Message envoyé avec succès !');
+                                $('#message_success>div.header').html(response.message);
                                 $('#message_success').show();
                                 setTimeout(function () {
                                     $('#message_success').hide();
                                 }, 4000);
                                 $('#send_notification_callOffer').remove();
-                            }
-
+                            
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
                             $('#submit_send_notification_callOffer').removeClass('disabled');

@@ -29,14 +29,14 @@ class HistoricalAlertSubscriberRepository extends \Doctrine\ORM\EntityRepository
     public function saveHistoricalAlertSubscriber(\OGIVE\AlertBundle\Entity\HistoricalAlertSubscriber $historicalAlertSubscriber) {
         $em= $this->_em;
         $historicalAlertSubscriber->setStatus(1);
-        $em->getConnection()->beginTransaction();
+        //$em->getConnection()->beginTransaction();
         try{
             $em->persist($historicalAlertSubscriber);
             $em->flush();
-            $em->getConnection()->commit();
+            //$em->getConnection()->commit();
         } catch (Exception $ex) {
-            $em->getConnection()->rollback();
-            $em->close();
+//            $em->getConnection()->rollback();
+//            $em->close();
             throw $ex;
         }
         return $historicalAlertSubscriber;

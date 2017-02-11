@@ -18,7 +18,6 @@ function send_special_follow_up(id) {
             }
         },
         success: function (response, textStatus, jqXHR) {
-            if (response.code === 200) {
                 $('#send_special_follow_up').remove();
                 $('#send_special_follow_up_content').html(response.send_special_follow_up_form);
 
@@ -40,7 +39,7 @@ function send_special_follow_up(id) {
                 });
                 $('#send_special_follow_up.ui.modal').modal('show');
                 execute_send_special_follow_up(id);
-            }
+            
             $('#message_loading').hide();
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -102,18 +101,17 @@ function execute_send_special_follow_up(id) {
                             }
                         },
                         success: function (response, textStatus, jqXHR) {
-                            if (response.code === 200) {
                                 $('#submit_send_special_follow_up').removeClass('disabled');
                                 $('#cancel_send_special_follow_up').removeClass('disabled');
                                 $('#send_special_follow_up_form.ui.form').removeClass('loading');
                                 $('#send_special_follow_up.ui.modal').modal('hide');
-                                $('#message_success>div.header').html('Message envoyé avec succès !');
+                                $('#message_success>div.header').html(response.message);
                                 $('#message_success').show();
                                 setTimeout(function () {
                                     $('#message_success').hide();
                                 }, 4000);
                                 $('#send_special_follow_up').remove();
-                            }
+                            
 
                         },
                         error: function (jqXHR, textStatus, errorThrown) {

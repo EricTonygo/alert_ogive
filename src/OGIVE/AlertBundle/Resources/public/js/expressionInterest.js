@@ -152,7 +152,7 @@ $(function () {
                                     $('#error_name_header').html("Echec de la validation");
                                     $('#error_name_list').html('<li>' + myerrors.message + '</li>');
                                     $('#error_name_message').show();
-                                }else{
+                                } else {
                                     $('#error_name_header').html("Echec de la validation. Veuillez vérifier vos données");
                                     $('#error_name_message').show();
                                 }
@@ -160,23 +160,22 @@ $(function () {
                             }
                         },
                         success: function (response, textStatus, jqXHR) {
-                            if (response.code === 200) {
-                                $('#cancel_add_expressionInterest').removeClass('disabled');
-                                $('#submit_expressionInterest').removeClass('disabled');
-                                $('#add_expressionInterest_form.ui.form').removeClass('loading');
-                                $('#list_as_grid_content').prepend(response.expressionInterest_content_grid);
-                                $('#list_as_table_content').prepend(response.expressionInterest_content_list);
-                                $('.ui.dropdown').dropdown({
-                                    on: 'hover'
-                                });
-                                $('#add_expressionInterest.ui.modal').modal('hide');
-                                $('#message_success>div.header').html("Manifestation d'intérêt ajoutée avec succès !");
-                                $('#message_success').show();
-                                window.location.replace(Routing.generate('expressionInterest_index'));
-                                setTimeout(function () {
-                                    $('#message_success').hide();
-                                }, 4000);
-                            }
+                            $('#cancel_add_expressionInterest').removeClass('disabled');
+                            $('#submit_expressionInterest').removeClass('disabled');
+                            $('#add_expressionInterest_form.ui.form').removeClass('loading');
+//                                $('#list_as_grid_content').prepend(response.expressionInterest_content_grid);
+//                                $('#list_as_table_content').prepend(response.expressionInterest_content_list);
+//                                $('.ui.dropdown').dropdown({
+//                                    on: 'hover'
+//                                });
+                            $('#add_expressionInterest.ui.modal').modal('hide');
+                            $('#message_success>div.header').html(response.message);
+                            $('#message_success').show();
+                            window.location.replace(Routing.generate('expressionInterest_index'));
+                            setTimeout(function () {
+                                $('#message_success').hide();
+                            }, 4000);
+
 
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
@@ -216,26 +215,25 @@ function edit_expressionInterest(id) {
             }
         },
         success: function (response, textStatus, jqXHR) {
-            if (response.code === 200) {
-                $('#edit_expressionInterest').remove();
-                $('#edit_expressionInterest_content').html(response.edit_expressionInterest_form);
-                $('#edit_expressionInterest.ui.modal').modal('setting', {
-                    autofocus: false,
-                    inverted: true,
-                    closable: false
-                });
-                $('#ogive_alertbundle_expressionInterest_domain.ui.dropdown').dropdown({
-                    on: 'click'
-                });
-                $('#ogive_alertbundle_expressionInterest_subDomain.ui.dropdown').dropdown({
-                    on: 'click'
-                });
-                $('#cancel_edit_expressionInterest').click(function () {
-                    window.location.replace(Routing.generate('expressionInterest_index'));
-                });
-                $('#edit_expressionInterest.ui.modal').modal('show');
-                execute_edit(id);
-            }
+            $('#edit_expressionInterest').remove();
+            $('#edit_expressionInterest_content').html(response.edit_expressionInterest_form);
+            $('#edit_expressionInterest.ui.modal').modal('setting', {
+                autofocus: false,
+                inverted: true,
+                closable: false
+            });
+            $('#ogive_alertbundle_expressionInterest_domain.ui.dropdown').dropdown({
+                on: 'click'
+            });
+            $('#ogive_alertbundle_expressionInterest_subDomain.ui.dropdown').dropdown({
+                on: 'click'
+            });
+            $('#cancel_edit_expressionInterest').click(function () {
+                window.location.replace(Routing.generate('expressionInterest_index'));
+            });
+            $('#edit_expressionInterest.ui.modal').modal('show');
+            execute_edit(id);
+
             $('#message_loading').hide();
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -383,7 +381,7 @@ function execute_edit(id) {
                                     $('#error_name_header_edit').html("Echec de la validation");
                                     $('#error_name_list_edit').html('<li>' + myerrors.message + '</li>');
                                     $('#error_name_message_edit').show();
-                                }else{
+                                } else {
                                     $('#error_name_header_edit').html("Echec de la validation. Veuillez vérifier vos données");
                                     $('#error_name_message_edit').show();
                                 }
@@ -391,27 +389,25 @@ function execute_edit(id) {
                             }
                         },
                         success: function (response, textStatus, jqXHR) {
-                            if (response.code === 200) {
-                                $('#submit_edit_expressionInterest').removeClass('disabled');
-                                $('#cancel_edit_expressionInterest').removeClass('disabled');
-                                $('#edit_expressionInterest_form.ui.form').removeClass('loading');
-                                $('#cancel_details_expressionInterest').removeClass('disabled');
-                                $('#disable_expressionInterest').removeClass('disabled');
-                                $('#enable_expressionInterest').removeClass('disabled');
-                                $('#expressionInterest_grid' + id).html(response.expressionInterest_content_grid);
-                                $('#expressionInterest_list' + id).html(response.expressionInterest_content_list);
-                                $('.ui.dropdown').dropdown({
-                                    on: 'hover'
-                                });
-                                $('#edit_expressionInterest.ui.modal').modal('hide');
-                                $('#message_success>div.header').html("Manifestation d'intérêt modifiée avec succès !");
-                                $('#message_success').show();
-                                window.location.replace(Routing.generate('expressionInterest_index'));
-                                setTimeout(function () {
-                                    $('#message_success').hide();
-                                }, 4000);
-                                $('#edit_expressionInterest').remove();
-                            }
+                            $('#submit_edit_expressionInterest').removeClass('disabled');
+                            $('#cancel_edit_expressionInterest').removeClass('disabled');
+                            $('#edit_expressionInterest_form.ui.form').removeClass('loading');
+                            $('#cancel_details_expressionInterest').removeClass('disabled');
+                            $('#disable_expressionInterest').removeClass('disabled');
+                            $('#enable_expressionInterest').removeClass('disabled');
+//                                $('#expressionInterest_grid' + id).html(response.expressionInterest_content_grid);
+//                                $('#expressionInterest_list' + id).html(response.expressionInterest_content_list);
+//                                $('.ui.dropdown').dropdown({
+//                                    on: 'hover'
+//                                });
+                            $('#edit_expressionInterest.ui.modal').modal('hide');
+                            $('#message_success>div.header').html(response.message);
+                            $('#message_success').show();
+                            window.location.replace(Routing.generate('expressionInterest_index'));
+                            setTimeout(function () {
+                                $('#message_success').hide();
+                            }, 4000);
+                            $('#edit_expressionInterest').remove();
 
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
@@ -458,7 +454,6 @@ function delete_expressionInterest(id) {
             }
         },
         success: function (response, textStatus, jqXHR) {
-            console.log(response);
             $('#expressionInterest_grid' + id).remove();
             $('#expressionInterest_list' + id).remove();
             $('#message_loading').hide();
@@ -500,7 +495,6 @@ function show_expressionInterest(id) {
             }
         },
         success: function (response, textStatus, jqXHR) {
-            if (response.code === 200) {
                 $('#edit_expressionInterest').remove();
                 $('#edit_expressionInterest_content').html(response.expressionInterest_details);
                 $('#edit_expressionInterest.ui.modal').modal('setting', {
@@ -517,7 +511,7 @@ function show_expressionInterest(id) {
                 $('#cancel_details_expressionInterest').click(function () {
                     window.location.replace(Routing.generate('expressionInterest_index'));
                 });
-                
+
                 $('#edit_expressionInterest.ui.modal').modal('show');
                 execute_edit(id);
                 $('#edit_expressionInterest_btn').click(function () {
@@ -534,7 +528,7 @@ function show_expressionInterest(id) {
                     $('#submit_edit_expressionInterest').hide();
                     $(this).hide();
                 });
-            }
+            
             $('#message_loading').hide();
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -578,7 +572,6 @@ function enable_expressionInterest(id) {
             }
         },
         success: function (response, textStatus, jqXHR) {
-            console.log(response);
             $('#message_loading').hide();
             $('#enable_expressionInterest_grid' + id).hide();
             $('#disable_expressionInterest_grid' + id).show();
@@ -630,7 +623,6 @@ function disable_expressionInterest(id) {
             }
         },
         success: function (response, textStatus, jqXHR) {
-            console.log(response);
             $('#message_loading').hide();
             $('#disable_expressionInterest_grid' + id).hide();
             $('#enable_expressionInterest_grid' + id).show();

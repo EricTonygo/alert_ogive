@@ -18,18 +18,17 @@ function send_sms_subscriber(id) {
             }
         },
         success: function (response, textStatus, jqXHR) {
-            if (response.code === 200) {
-                $('#send_sms_subscriber').remove();
-                $('#send_sms_subscriber_content').html(response.send_sms_subscriber_form);
+            $('#send_sms_subscriber').remove();
+            $('#send_sms_subscriber_content').html(response.send_sms_subscriber_form);
 
-                $('#send_sms_subscriber.ui.modal').modal('setting', {
-                    autofocus: false,
-                    inverted: true,
-                    closable: false
-                });
-                $('#send_sms_subscriber.ui.modal').modal('show');
-                execute_send_sms_subscriber(id);
-            }
+            $('#send_sms_subscriber.ui.modal').modal('setting', {
+                autofocus: false,
+                inverted: true,
+                closable: false
+            });
+            $('#send_sms_subscriber.ui.modal').modal('show');
+            execute_send_sms_subscriber(id);
+
             $('#message_loading').hide();
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -91,18 +90,16 @@ function execute_send_sms_subscriber(id) {
                             }
                         },
                         success: function (response, textStatus, jqXHR) {
-                            if (response.code === 200) {
-                                $('#submit_send_sms_subscriber').removeClass('disabled');
-                                $('#cancel_send_sms_subscriber').removeClass('disabled');
-                                $('#send_sms_subscriber_form.ui.form').removeClass('loading');
-                                $('#send_sms_subscriber.ui.modal').modal('hide');
-                                $('#message_success>div.header').html('Message envoyé avec succès !');
-                                $('#message_success').show();
-                                setTimeout(function () {
-                                    $('#message_success').hide();
-                                }, 4000);
-                                $('#send_sms_subscriber').remove();
-                            }
+                            $('#submit_send_sms_subscriber').removeClass('disabled');
+                            $('#cancel_send_sms_subscriber').removeClass('disabled');
+                            $('#send_sms_subscriber_form.ui.form').removeClass('loading');
+                            $('#send_sms_subscriber.ui.modal').modal('hide');
+                            $('#message_success>div.header').html('Message envoyé avec succès !');
+                            $('#message_success').show();
+                            setTimeout(function () {
+                                $('#message_success').hide();
+                            }, 4000);
+                            $('#send_sms_subscriber').remove();
 
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
@@ -146,25 +143,23 @@ function send_subscription_confirmation(id) {
             }
         },
         success: function (response, textStatus, jqXHR) {
-            if (response.code === 200) {
-                $('#message_loading').hide();
-                $('#enable_subscriber_grid' + id).hide();
-                $('#disable_subscriber_grid' + id).show();
-                $('#message_success>div.header').html(response.message);
-                $('#message_success').show();
-                setTimeout(function () {
-                    $('#message_success').hide();
-                }, 4000);
-            }
+            $('#message_loading').hide();
+            $('#enable_subscriber_grid' + id).hide();
+            $('#disable_subscriber_grid' + id).show();
+            $('#message_success>div.header').html(response.message);
+            $('#message_success').show();
+            setTimeout(function () {
+                $('#message_success').hide();
+            }, 4000);
 
         },
         error: function (jqXHR, textStatus, errorThrown) {
-             $('#message_loading').hide();
-             $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
-                $('#message_error').show();
-                setTimeout(function () {
-                    $('#message_error').hide();
-                }, 4000);
+            $('#message_loading').hide();
+            $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
+            $('#message_error').show();
+            setTimeout(function () {
+                $('#message_error').hide();
+            }, 4000);
             /*alertify.error("Internal Server Error");*/
         }
     });

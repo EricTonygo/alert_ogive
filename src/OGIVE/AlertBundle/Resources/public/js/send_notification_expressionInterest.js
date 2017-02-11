@@ -18,7 +18,6 @@ function send_procedure_expressionInterest(id) {
             }
         },
         success: function (response, textStatus, jqXHR) {
-            if (response.code === 200) {
                 $('#send_notification_expressionInterest').remove();
                 $('#send_notification_expressionInterest_content').html(response.send_notification_expressionInterest_form);
 
@@ -40,7 +39,7 @@ function send_procedure_expressionInterest(id) {
                 });
                 $('#send_notification_expressionInterest.ui.modal').modal('show');
                 execute_send_notification_expressionInterest(id);
-            }
+            
             $('#message_loading').hide();
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -102,19 +101,17 @@ function execute_send_notification_expressionInterest(id) {
                             }
                         },
                         success: function (response, textStatus, jqXHR) {
-                            if (response.code === 200) {
                                 $('#submit_send_notification_expressionInterest').removeClass('disabled');
                                 $('#cancel_send_notification_expressionInterest').removeClass('disabled');
                                 $('#send_notification_expressionInterest_form.ui.form').removeClass('loading');
                                 $('#send_notification_expressionInterest.ui.modal').modal('hide');
-                                $('#message_success>div.header').html('Message envoyé avec succès !');
+                                $('#message_success>div.header').html(response.message);
                                 $('#message_success').show();
                                 setTimeout(function () {
                                     $('#message_success').hide();
                                 }, 4000);
                                 $('#send_notification_expressionInterest').remove();
-                            }
-
+                            
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
                             $('#submit_send_notification_expressionInterest').removeClass('disabled');

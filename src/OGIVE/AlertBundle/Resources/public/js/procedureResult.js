@@ -145,7 +145,7 @@ $(function () {
                                     $('#error_name_header').html("Echec de la validation");
                                     $('#error_name_list').html('<li>' + myerrors.message + '</li>');
                                     $('#error_name_message').show();
-                                }else{
+                                } else {
                                     $('#error_name_header').html("Echec de la validation. Veuillez vérifier vos données");
                                     $('#error_name_message').show();
                                 }
@@ -153,23 +153,21 @@ $(function () {
                             }
                         },
                         success: function (response, textStatus, jqXHR) {
-                            if (response.code === 200) {
-                                $('#cancel_add_procedureResult').removeClass('disabled');
-                                $('#submit_procedureResult').removeClass('disabled');
-                                $('#add_procedureResult_form.ui.form').removeClass('loading');
-                                $('#list_as_grid_content').prepend(response.procedureResult_content_grid);
-                                $('#list_as_table_content').prepend(response.procedureResult_content_list);
-                                $('.ui.dropdown').dropdown({
-                                    on: 'hover'
-                                });
-                                $('#add_procedureResult.ui.modal').modal('hide');
-                                $('#message_success>div.header').html('Attribution ajoutée avec succès !');
-                                $('#message_success').show();
-                                 window.location.replace(Routing.generate('procedureResult_index'));
-                                setTimeout(function () {
-                                    $('#message_success').hide();
-                                }, 4000);
-                            }
+                            $('#cancel_add_procedureResult').removeClass('disabled');
+                            $('#submit_procedureResult').removeClass('disabled');
+                            $('#add_procedureResult_form.ui.form').removeClass('loading');
+//                                $('#list_as_grid_content').prepend(response.procedureResult_content_grid);
+//                                $('#list_as_table_content').prepend(response.procedureResult_content_list);
+//                                $('.ui.dropdown').dropdown({
+//                                    on: 'hover'
+//                                });
+                            $('#add_procedureResult.ui.modal').modal('hide');
+                            $('#message_success>div.header').html(response.message);
+                            $('#message_success').show();
+                            window.location.replace(Routing.generate('procedureResult_index'));
+                            setTimeout(function () {
+                                $('#message_success').hide();
+                            }, 4000);
 
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
@@ -209,42 +207,41 @@ function edit_procedureResult(id) {
             }
         },
         success: function (response, textStatus, jqXHR) {
-            if (response.code === 200) {
-                $('#edit_procedureResult').remove();
-                $('#edit_procedureResult_content').html(response.edit_procedureResult_form);
-                $('#edit_procedureResult.ui.modal').modal('setting', {
-                    autofocus: false,
-                    inverted: true,
-                    closable: false
-                });
-                $('#ogive_alertbundle_procedureResult_callOffer.ui.dropdown').dropdown({
-                    on: 'click'
-                });
-                $('#ogive_alertbundle_procedureResult_expressionInterest.ui.dropdown').dropdown({
-                    on: 'click'
-                });
-                $('#checkbox_aao_edit').change(function () {
-                    if ($(this).is(':checked')) {
-                        $('#field_aao_edit').show();
-                        $('#field_asmi_edit').hide();
-                        $('#field_asmi_edit>.ui.dropdown').dropdown('clear');
-                    }
-                });
+            $('#edit_procedureResult').remove();
+            $('#edit_procedureResult_content').html(response.edit_procedureResult_form);
+            $('#edit_procedureResult.ui.modal').modal('setting', {
+                autofocus: false,
+                inverted: true,
+                closable: false
+            });
+            $('#ogive_alertbundle_procedureResult_callOffer.ui.dropdown').dropdown({
+                on: 'click'
+            });
+            $('#ogive_alertbundle_procedureResult_expressionInterest.ui.dropdown').dropdown({
+                on: 'click'
+            });
+            $('#checkbox_aao_edit').change(function () {
+                if ($(this).is(':checked')) {
+                    $('#field_aao_edit').show();
+                    $('#field_asmi_edit').hide();
+                    $('#field_asmi_edit>.ui.dropdown').dropdown('clear');
+                }
+            });
 
-                $('#checkbox_asmi_edit').change(function () {
-                    if ($(this).is(':checked')) {
-                        $('#field_asmi_edit').show();
-                        $('#field_aao_edit').hide();
-                        $('#field_aao_edit>.ui.dropdown').dropdown('clear');
-                    }
-                });
-                $('#cancel_edit_procedureResult').click(function () {
-                    window.location.replace(Routing.generate('procedureResult_index'));
-                });
-                $('#edit_procedureResult.ui.modal').modal('show');
+            $('#checkbox_asmi_edit').change(function () {
+                if ($(this).is(':checked')) {
+                    $('#field_asmi_edit').show();
+                    $('#field_aao_edit').hide();
+                    $('#field_aao_edit>.ui.dropdown').dropdown('clear');
+                }
+            });
+            $('#cancel_edit_procedureResult').click(function () {
+                window.location.replace(Routing.generate('procedureResult_index'));
+            });
+            $('#edit_procedureResult.ui.modal').modal('show');
 
-                execute_edit(id);
-            }
+            execute_edit(id);
+
             $('#message_loading').hide();
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -369,7 +366,7 @@ function execute_edit(id) {
                                     $('#error_name_header_edit').html("Echec de la validation");
                                     $('#error_name_list_edit').html('<li>' + myerrors.message + '</li>');
                                     $('#error_name_message_edit').show();
-                                }else{
+                                } else {
                                     $('#error_name_header_edit').html("Echec de la validation. Veuillez vérifier vos données");
                                     $('#error_name_message_edit').show();
                                 }
@@ -377,27 +374,26 @@ function execute_edit(id) {
                             }
                         },
                         success: function (response, textStatus, jqXHR) {
-                            if (response.code === 200) {
-                                $('#submit_edit_procedureResult').removeClass('disabled');
-                                $('#cancel_edit_procedureResult').removeClass('disabled');
-                                $('#edit_procedureResult_form.ui.form').removeClass('loading');
-                                $('#cancel_details_procedureResult').removeClass('disabled');
-                                $('#disable_procedureResult').removeClass('disabled');
-                                $('#enable_procedureResult').removeClass('disabled');
-                                $('#procedureResult_grid' + id).html(response.procedureResult_content_grid);
-                                $('#procedureResult_list' + id).html(response.procedureResult_content_list);
-                                $('.ui.dropdown').dropdown({
-                                    on: 'hover'
-                                });
-                                $('#edit_procedureResult.ui.modal').modal('hide');
-                                $('#message_success>div.header').html('Attribution modifiée avec succès !');
-                                $('#message_success').show();
-                                 window.location.replace(Routing.generate('procedureResult_index'));
-                                setTimeout(function () {
-                                    $('#message_success').hide();
-                                }, 4000);
-                                $('#edit_procedureResult').remove();
-                            }
+                            $('#submit_edit_procedureResult').removeClass('disabled');
+                            $('#cancel_edit_procedureResult').removeClass('disabled');
+                            $('#edit_procedureResult_form.ui.form').removeClass('loading');
+                            $('#cancel_details_procedureResult').removeClass('disabled');
+                            $('#disable_procedureResult').removeClass('disabled');
+                            $('#enable_procedureResult').removeClass('disabled');
+//                                $('#procedureResult_grid' + id).html(response.procedureResult_content_grid);
+//                                $('#procedureResult_list' + id).html(response.procedureResult_content_list);
+//                                $('.ui.dropdown').dropdown({
+//                                    on: 'hover'
+//                                });
+                            $('#edit_procedureResult.ui.modal').modal('hide');
+                            $('#message_success>div.header').html(response.message);
+                            $('#message_success').show();
+                            window.location.replace(Routing.generate('procedureResult_index'));
+                            setTimeout(function () {
+                                $('#message_success').hide();
+                            }, 4000);
+                            $('#edit_procedureResult').remove();
+
 
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
@@ -444,13 +440,12 @@ function delete_procedureResult(id) {
             }
         },
         success: function (response, textStatus, jqXHR) {
-            console.log(response);
             $('#procedureResult_grid' + id).remove();
             $('#procedureResult_list' + id).remove();
             $('#message_loading').hide();
             $('#message_success>div.header').html(response.message);
             $('#message_success').show();
-             window.location.replace(Routing.generate('procedureResult_index'));
+            window.location.replace(Routing.generate('procedureResult_index'));
             setTimeout(function () {
                 $('#message_success').hide();
             }, 4000);
@@ -486,59 +481,58 @@ function show_procedureResult(id) {
             }
         },
         success: function (response, textStatus, jqXHR) {
-            if (response.code === 200) {
-                $('#edit_procedureResult').remove();
-                $('#edit_procedureResult_content').html(response.procedureResult_details);
-                $('#edit_procedureResult.ui.modal').modal('setting', {
-                    autofocus: false,
-                    inverted: true,
-                    closable: false
-                });
-                $('#ogive_alertbundle_procedureResult_domain.ui.dropdown').dropdown({
-                    on: 'click'
-                });
-                $('#ogive_alertbundle_procedureResult_callOffer.ui.dropdown').dropdown({
-                    on: 'click'
-                });
-                $('#ogive_alertbundle_procedureResult_expressionInterest.ui.dropdown').dropdown({
-                    on: 'click'
-                });
-                $('#checkbox_aao_edit').change(function () {
-                    if ($(this).is(':checked')) {
-                        $('#field_aao_edit').show();
-                        $('#field_asmi_edit').hide();
-                        $('#field_asmi_edit>.ui.dropdown').dropdown('clear');
-                    }
-                });
+            $('#edit_procedureResult').remove();
+            $('#edit_procedureResult_content').html(response.procedureResult_details);
+            $('#edit_procedureResult.ui.modal').modal('setting', {
+                autofocus: false,
+                inverted: true,
+                closable: false
+            });
+            $('#ogive_alertbundle_procedureResult_domain.ui.dropdown').dropdown({
+                on: 'click'
+            });
+            $('#ogive_alertbundle_procedureResult_callOffer.ui.dropdown').dropdown({
+                on: 'click'
+            });
+            $('#ogive_alertbundle_procedureResult_expressionInterest.ui.dropdown').dropdown({
+                on: 'click'
+            });
+            $('#checkbox_aao_edit').change(function () {
+                if ($(this).is(':checked')) {
+                    $('#field_aao_edit').show();
+                    $('#field_asmi_edit').hide();
+                    $('#field_asmi_edit>.ui.dropdown').dropdown('clear');
+                }
+            });
 
-                $('#checkbox_asmi_edit').change(function () {
-                    if ($(this).is(':checked')) {
-                        $('#field_asmi_edit').show();
-                        $('#field_aao_edit').hide();
-                        $('#field_aao_edit>.ui.dropdown').dropdown('clear');
-                    }
-                });
-                $('#cancel_details_procedureResult').click(function () {
-                    window.location.replace(Routing.generate('procedureResult_index'));
-                });
-                
-                $('#edit_procedureResult.ui.modal').modal('show');
-                execute_edit(id);
-                $('#edit_procedureResult_btn').click(function () {
-                    $('#block_details').hide();
-                    $('#block_form_edit').show();
-                    $('#cancel_edit_procedureResult').show();
-                    $('#submit_edit_procedureResult').show();
-                    $(this).hide();
-                });
-                $('#cancel_edit_procedureResult').click(function () {
-                    $('#block_details').show();
-                    $('#block_form_edit').hide();
-                    $('#edit_procedureResult_btn').show();
-                    $('#submit_edit_procedureResult').hide();
-                    $(this).hide();
-                });
-            }
+            $('#checkbox_asmi_edit').change(function () {
+                if ($(this).is(':checked')) {
+                    $('#field_asmi_edit').show();
+                    $('#field_aao_edit').hide();
+                    $('#field_aao_edit>.ui.dropdown').dropdown('clear');
+                }
+            });
+            $('#cancel_details_procedureResult').click(function () {
+                window.location.replace(Routing.generate('procedureResult_index'));
+            });
+
+            $('#edit_procedureResult.ui.modal').modal('show');
+            execute_edit(id);
+            $('#edit_procedureResult_btn').click(function () {
+                $('#block_details').hide();
+                $('#block_form_edit').show();
+                $('#cancel_edit_procedureResult').show();
+                $('#submit_edit_procedureResult').show();
+                $(this).hide();
+            });
+            $('#cancel_edit_procedureResult').click(function () {
+                $('#block_details').show();
+                $('#block_form_edit').hide();
+                $('#edit_procedureResult_btn').show();
+                $('#submit_edit_procedureResult').hide();
+                $(this).hide();
+            });
+
             $('#message_loading').hide();
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -582,13 +576,12 @@ function enable_procedureResult(id) {
             }
         },
         success: function (response, textStatus, jqXHR) {
-            console.log(response);
             $('#message_loading').hide();
             $('#enable_procedureResult_grid' + id).hide();
             $('#disable_procedureResult_grid' + id).show();
             $('#message_success>div.header').html(response.message);
             $('#message_success').show();
-             window.location.replace(Routing.generate('procedureResult_index'));
+            window.location.replace(Routing.generate('procedureResult_index'));
             setTimeout(function () {
                 $('#message_success').hide();
             }, 4000);
@@ -634,13 +627,12 @@ function disable_procedureResult(id) {
             }
         },
         success: function (response, textStatus, jqXHR) {
-            console.log(response);
             $('#message_loading').hide();
             $('#disable_procedureResult_grid' + id).hide();
             $('#enable_procedureResult_grid' + id).show();
             $('#message_success>div.header').html(response.message);
             $('#message_success').show();
-             window.location.replace(Routing.generate('procedureResult_index'));
+            window.location.replace(Routing.generate('procedureResult_index'));
             setTimeout(function () {
                 $('#message_success').hide();
             }, 4000);

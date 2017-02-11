@@ -57,7 +57,7 @@ class SubscriptionController extends Controller {
             'subscription' => $subscription,
             'form' => $form->createView()
         ));
-        $view = View::create(["code" => 200, 'subscription_details' => $subscription_details]);
+        $view = View::create(['subscription_details' => $subscription_details]);
         $view->setFormat('json');
         return $view;
     }
@@ -91,9 +91,10 @@ class SubscriptionController extends Controller {
             }
             
             $subscription = $repositorySubscription->saveSubscription($subscription);
-            $subscription_content_grid = $this->renderView('OGIVEAlertBundle:subscription:subscription-grid.html.twig', array('subscription' => $subscription));
-            $subscription_content_list = $this->renderView('OGIVEAlertBundle:subscription:subscription-list.html.twig', array('subscription' => $subscription));
-            $view = View::create(["code" => 200, 'subscription_content_grid' => $subscription_content_grid, 'subscription_content_list' => $subscription_content_list]);
+//            $subscription_content_grid = $this->renderView('OGIVEAlertBundle:subscription:subscription-grid.html.twig', array('subscription' => $subscription));
+//            $subscription_content_list = $this->renderView('OGIVEAlertBundle:subscription:subscription-list.html.twig', array('subscription' => $subscription));
+//            $view = View::create(["code" => 200, 'subscription_content_grid' => $subscription_content_grid, 'subscription_content_list' => $subscription_content_list]);
+            $view = View::create(["message" => 'Abonnement ajouté avec succès']);
             $view->setFormat('json');
             return $view;
             //return new JsonResponse(["success" => true, 'subscription' => $subscription, 'subscription_content_grid' => $subscription_content_grid, 'subscription_content_list' => $subscription_content_list], Response::HTTP_OK);
@@ -116,7 +117,7 @@ class SubscriptionController extends Controller {
         $repositorySubscription = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Subscription');
         if ($subscription) {
             $repositorySubscription->deleteSubscription($subscription);
-            $view = View::create(['subscription' => $subscription, "message" => 'Abonnement supprimé avec succès']);
+            $view = View::create(["message" => 'Abonnement supprimé avec succès']);
             $view->setFormat('json');
             return $view;
         } else {
@@ -177,16 +178,17 @@ class SubscriptionController extends Controller {
             }
             
             $subscription = $repositorySubscription->updateSubscription($subscription);
-            $subscription_content_grid = $this->renderView('OGIVEAlertBundle:subscription:subscription-grid-edit.html.twig', array('subscription' => $subscription));
-            $subscription_content_list = $this->renderView('OGIVEAlertBundle:subscription:subscription-list-edit.html.twig', array('subscription' => $subscription));
-            $view = View::create(["code" => 200, 'subscription_content_grid' => $subscription_content_grid, 'subscription_content_list' => $subscription_content_list]);
+//            $subscription_content_grid = $this->renderView('OGIVEAlertBundle:subscription:subscription-grid-edit.html.twig', array('subscription' => $subscription));
+//            $subscription_content_list = $this->renderView('OGIVEAlertBundle:subscription:subscription-list-edit.html.twig', array('subscription' => $subscription));
+//            $view = View::create(["code" => 200, 'subscription_content_grid' => $subscription_content_grid, 'subscription_content_list' => $subscription_content_list]);
+            $view = View::create(["message" => 'Abonnement modifié avec succès']);
             $view->setFormat('json');
             return $view;
         } elseif ($form->isSubmitted() && !$form->isValid()) {
             return $form;
         } else {
             $edit_subscription_form = $this->renderView('OGIVEAlertBundle:subscription:edit.html.twig', array('form' => $form->createView(), 'subscription' => $subscription));
-            $view = View::create(["code" => 200, 'edit_subscription_form' => $edit_subscription_form]);
+            $view = View::create(['edit_subscription_form' => $edit_subscription_form]);
             $view->setFormat('json');
             return $view;
         }

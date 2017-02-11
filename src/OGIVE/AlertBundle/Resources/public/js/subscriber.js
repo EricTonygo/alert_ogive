@@ -107,7 +107,7 @@ $(function () {
                                     $('#error_name_header').html("Echec de la validation");
                                     $('#error_name_list').html('<li>' + myerrors.message + '</li>');
                                     $('#error_name_message').show();
-                                }else{
+                                } else {
                                     $('#error_name_header').html("Echec de la validation. Veuillez vérifier vos données");
                                     $('#error_name_message').show();
                                 }
@@ -115,23 +115,21 @@ $(function () {
                             }
                         },
                         success: function (response, textStatus, jqXHR) {
-                            if (response.code === 200) {
-                                $('#cancel_add_subscriber').removeClass('disabled');
-                                $('#submit_subscriber').removeClass('disabled');
-                                $('#add_subscriber_form.ui.form').removeClass('loading');
-                                $('#list_as_grid_content').prepend(response.subscriber_content_grid);
-                                $('#list_as_table_content').prepend(response.subscriber_content_list);
-                                $('.ui.dropdown').dropdown({
-                                    on: 'hover'
-                                });
-                                $('#add_subscriber.ui.modal').modal('hide');
-                                $('#message_success>div.header').html('Abonné ajouté avec succès !');
-                                $('#message_success').show();
-                                window.location.replace(Routing.generate('subscriber_index'));
-                                setTimeout(function () {
-                                    $('#message_success').hide();
-                                }, 4000);
-                            }
+                            $('#cancel_add_subscriber').removeClass('disabled');
+                            $('#submit_subscriber').removeClass('disabled');
+                            $('#add_subscriber_form.ui.form').removeClass('loading');
+                            $('#list_as_grid_content').prepend(response.subscriber_content_grid);
+                            $('#list_as_table_content').prepend(response.subscriber_content_list);
+                            $('.ui.dropdown').dropdown({
+                                on: 'hover'
+                            });
+                            $('#add_subscriber.ui.modal').modal('hide');
+                            $('#message_success>div.header').html('Abonné ajouté avec succès !');
+                            $('#message_success').show();
+                            window.location.replace(Routing.generate('subscriber_index'));
+                            setTimeout(function () {
+                                $('#message_success').hide();
+                            }, 4000);
 
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
@@ -171,29 +169,28 @@ function edit_subscriber(id) {
             }
         },
         success: function (response, textStatus, jqXHR) {
-            if (response.code === 200) {
-                $('#edit_subscriber').remove();
-                $('#edit_subscriber_content').html(response.edit_subscriber_form);
-                $('#ogive_alertbundle_subscriber_entreprise.ui.dropdown').dropdown({
-                    on: 'click'
-                });
-                $('#ogive_alertbundle_subscriber_subscription.ui.dropdown').dropdown({
-                    on: 'click'
-                });
-                $('#edit_subscriber.ui.modal').modal('setting', {
-                    autofocus: false,
-                    inverted: true,
-                    closable: false
-                });
-                $('#cancel_edit_subscriber').click(function () {
-                    window.location.replace(Routing.generate('subscriber_index'));
-                });
-                $('#cancel_details_subscriber').click(function () {
-                    window.location.replace(Routing.generate('subscriber_index'));
-                });
-                $('#edit_subscriber.ui.modal').modal('show');
-                execute_edit(id);
-            }
+            $('#edit_subscriber').remove();
+            $('#edit_subscriber_content').html(response.edit_subscriber_form);
+            $('#ogive_alertbundle_subscriber_entreprise.ui.dropdown').dropdown({
+                on: 'click'
+            });
+            $('#ogive_alertbundle_subscriber_subscription.ui.dropdown').dropdown({
+                on: 'click'
+            });
+            $('#edit_subscriber.ui.modal').modal('setting', {
+                autofocus: false,
+                inverted: true,
+                closable: false
+            });
+            $('#cancel_edit_subscriber').click(function () {
+                window.location.replace(Routing.generate('subscriber_index'));
+            });
+            $('#cancel_details_subscriber').click(function () {
+                window.location.replace(Routing.generate('subscriber_index'));
+            });
+            $('#edit_subscriber.ui.modal').modal('show');
+            execute_edit(id);
+
             $('#message_loading').hide();
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -297,7 +294,7 @@ function execute_edit(id) {
                                     $('#error_name_header_edit').html("Echec de la validation");
                                     $('#error_name_list_edit').html('<li>' + myerrors.message + '</li>');
                                     $('#error_name_message_edit').show();
-                                }else{
+                                } else {
                                     $('#error_name_header_edit').html("Echec de la validation. Veuillez vérifier vos données");
                                     $('#error_name_message_edit').show();
                                 }
@@ -305,27 +302,25 @@ function execute_edit(id) {
                             }
                         },
                         success: function (response, textStatus, jqXHR) {
-                            if (response.code === 200) {
-                                $('#submit_edit_subscriber').removeClass('disabled');
-                                $('#cancel_edit_subscriber').removeClass('disabled');
-                                $('#edit_subscriber_form.ui.form').removeClass('loading');
-                                $('#cancel_details_subscriber').removeClass('disabled');
-                                $('#disable_subscriber').removeClass('disabled');
-                                $('#enable_subscriber').removeClass('disabled');
-                                $('#subscriber_grid' + id).html(response.subscriber_content_grid);
-                                $('#subscriber_list' + id).html(response.subscriber_content_list);
-                                $('.ui.dropdown').dropdown({
-                                    on: 'hover'
-                                });
-                                $('#edit_subscriber.ui.modal').modal('hide');
-                                $('#message_success>div.header').html('Abonné modifié avec succès !');
-                                $('#message_success').show();
-                                window.location.replace(Routing.generate('subscriber_index'));
-                                setTimeout(function () {
-                                    $('#message_success').hide();
-                                }, 4000);
-                                $('#edit_subscriber').remove();
-                            }
+                            $('#submit_edit_subscriber').removeClass('disabled');
+                            $('#cancel_edit_subscriber').removeClass('disabled');
+                            $('#edit_subscriber_form.ui.form').removeClass('loading');
+                            $('#cancel_details_subscriber').removeClass('disabled');
+                            $('#disable_subscriber').removeClass('disabled');
+                            $('#enable_subscriber').removeClass('disabled');
+                            $('#subscriber_grid' + id).html(response.subscriber_content_grid);
+                            $('#subscriber_list' + id).html(response.subscriber_content_list);
+                            $('.ui.dropdown').dropdown({
+                                on: 'hover'
+                            });
+                            $('#edit_subscriber.ui.modal').modal('hide');
+                            $('#message_success>div.header').html('Abonné modifié avec succès !');
+                            $('#message_success').show();
+                            window.location.replace(Routing.generate('subscriber_index'));
+                            setTimeout(function () {
+                                $('#message_success').hide();
+                            }, 4000);
+                            $('#edit_subscriber').remove();
 
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
@@ -373,7 +368,6 @@ function delete_subscriber(id) {
             }
         },
         success: function (response, textStatus, jqXHR) {
-            console.log(response);
             $('#subscriber_grid' + id).remove();
             $('#subscriber_list' + id).remove();
             $('#message_loading').hide();
@@ -386,10 +380,10 @@ function delete_subscriber(id) {
         error: function (jqXHR, textStatus, errorThrown) {
             $('#message_loading').hide();
             $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
-                $('#message_error').show();
-                setTimeout(function () {
-                    $('#message_error').hide();
-                }, 4000);
+            $('#message_error').show();
+            setTimeout(function () {
+                $('#message_error').hide();
+            }, 4000);
             /*alertify.error("Internal Server Error");*/
         }
     });
@@ -423,7 +417,6 @@ function show_subscriber(id) {
             }
         },
         success: function (response, textStatus, jqXHR) {
-            if (response.code === 200) {
                 $('#edit_subscriber').remove();
                 $('#edit_subscriber_content').html(response.subscriber_details);
                 $('#ogive_alertbundle_subscriber_periodicity.ui.dropdown').dropdown({
@@ -437,7 +430,7 @@ function show_subscriber(id) {
                     inverted: true,
                     closable: false
                 });
-                
+
                 $('#cancel_details_subscriber').click(function () {
                     window.location.replace(Routing.generate('subscriber_index'));
                 });
@@ -457,16 +450,16 @@ function show_subscriber(id) {
                     $('#submit_edit_subscriber').hide();
                     $(this).hide();
                 });
-            }
+            
             $('#message_loading').hide();
         },
         error: function (jqXHR, textStatus, errorThrown) {
             $('#message_loading').hide();
             $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
-                $('#message_error').show();
-                setTimeout(function () {
-                    $('#message_error').hide();
-                }, 4000);
+            $('#message_error').show();
+            setTimeout(function () {
+                $('#message_error').hide();
+            }, 4000);
             /*alertify.error("Internal Server Error");*/
         }
     });
@@ -507,7 +500,6 @@ function enable_subscriber(id) {
             }
         },
         success: function (response, textStatus, jqXHR) {
-            console.log(response);
             $('#message_loading').hide();
             $('#enable_subscriber_grid' + id).hide();
             $('#disable_subscriber_grid' + id).show();
@@ -521,10 +513,10 @@ function enable_subscriber(id) {
         error: function (jqXHR, textStatus, errorThrown) {
             $('#message_loading').hide();
             $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
-                $('#message_error').show();
-                setTimeout(function () {
-                    $('#message_error').hide();
-                }, 4000);
+            $('#message_error').show();
+            setTimeout(function () {
+                $('#message_error').hide();
+            }, 4000);
             /*alertify.error("Internal Server Error");*/
         }
     });

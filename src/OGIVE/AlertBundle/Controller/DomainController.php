@@ -58,10 +58,10 @@ class DomainController extends Controller {
             'domain' => $domain,
             'form' => $form->createView()
         ));
-//        $view = View::create(["code" => 200, 'domain' => $domain, 'domain_details' => $domain_details]);
-//        $view->setFormat('json');
-//        return $view;
-         return new JsonResponse(["code" => 200,'domain_details' => $domain_details], Response::HTTP_OK);
+        $view = View::create(['domain_details' => $domain_details]);
+        $view->setFormat('json');
+        return $view;
+//         return new JsonResponse(["code" => 200,'domain_details' => $domain_details], Response::HTTP_OK);
     }
 
     /**
@@ -122,17 +122,18 @@ class DomainController extends Controller {
                 }
             }            
             $domain = $repositoryDomain->saveDomain($domain);
-            $domain_content_grid = $this->renderView('OGIVEAlertBundle:domain:domain-grid.html.twig', array('domain' => $domain));
-            $domain_content_list = $this->renderView('OGIVEAlertBundle:domain:domain-list.html.twig', array('domain' => $domain));
+//            $domain_content_grid = $this->renderView('OGIVEAlertBundle:domain:domain-grid.html.twig', array('domain' => $domain));
+//            $domain_content_list = $this->renderView('OGIVEAlertBundle:domain:domain-list.html.twig', array('domain' => $domain));
 //            $view = View::create(["code" => 200, 'domain' => $domain, 'domain_content_grid' => $domain_content_grid, 'domain_content_list' => $domain_content_list]);
-//            $view->setFormat('json');
-//            return $view;
-            return new JsonResponse(["code" => 200, 'domain_content_grid' => $domain_content_grid, 'domain_content_list' => $domain_content_list], Response::HTTP_CREATED);
+            $view = View::create(['domain' => $domain, "message" => 'Domaine Ajouté avec succès']);
+            $view->setFormat('json');
+            return $view;
+//            return new JsonResponse(["code" => 200, 'domain_content_grid' => $domain_content_grid, 'domain_content_list' => $domain_content_list], Response::HTTP_CREATED);
         } else {
-//            $view = View::create($form);
-//            $view->setFormat('json');
-//            return $view;
-            return new JsonResponse($form, Response::HTTP_BAD_REQUEST);
+            $view = View::create($form);
+            $view->setFormat('json');
+            return $view;
+//            return new JsonResponse($form, Response::HTTP_BAD_REQUEST);
         }
     }
 
@@ -149,10 +150,10 @@ class DomainController extends Controller {
         $repositoryDomain = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Domain');
         if ($domain) {
             $repositoryDomain->deleteDomain($domain);
-//            $view = View::create(['domain' => $domain, "message" => 'Domaine supprimé avec succès']);
-//            $view->setFormat('json');
-//            return $view;
-            return new JsonResponse(["message" => 'Domaine supprimé avec succès'], Response::HTTP_OK);
+            $view = View::create(['domain' => $domain, "message" => 'Domaine supprimé avec succès']);
+            $view->setFormat('json');
+            return $view;
+//            return new JsonResponse(["message" => 'Domaine supprimé avec succès'], Response::HTTP_OK);
         } else {
             return new JsonResponse(["message" => 'Domaine introuvable'], Response::HTTP_NOT_FOUND);
         }
@@ -253,21 +254,24 @@ class DomainController extends Controller {
                 }
             }
             $domain = $repositoryDomain->updateDomain($domain);
-            $domain_content_grid = $this->renderView('OGIVEAlertBundle:domain:domain-grid-edit.html.twig', array('domain' => $domain));
-            $domain_content_list = $this->renderView('OGIVEAlertBundle:domain:domain-list-edit.html.twig', array('domain' => $domain));
+//            $domain_content_grid = $this->renderView('OGIVEAlertBundle:domain:domain-grid-edit.html.twig', array('domain' => $domain));
+//            $domain_content_list = $this->renderView('OGIVEAlertBundle:domain:domain-list-edit.html.twig', array('domain' => $domain));
 //            $view = View::create(["code" => 200, 'domain' => $domain, 'domain_content_grid' => $domain_content_grid, 'domain_content_list' => $domain_content_list]);
-//            $view->setFormat('json');
-//            return $view;
-            return new JsonResponse(["code" => 200, 'domain_content_grid' => $domain_content_grid, 'domain_content_list' => $domain_content_list], Response::HTTP_OK);
+            $view = View::create(['domain' => $domain, "message" => 'Domaine modifié avec succès']);
+            $view->setFormat('json');
+            return $view;
+//            return new JsonResponse(["code" => 200, 'domain_content_grid' => $domain_content_grid, 'domain_content_list' => $domain_content_list], Response::HTTP_OK);
         } elseif ($form->isSubmitted() && !$form->isValid()) {
-//            return $form;
-            return new JsonResponse($form, Response::HTTP_BAD_REQUEST);
+            $view = View::create($form);
+            $view->setFormat('json');
+            return $view;
+//            return new JsonResponse($form, Response::HTTP_BAD_REQUEST);
         } else {
             $edit_domain_form = $this->renderView('OGIVEAlertBundle:domain:edit.html.twig', array('form' => $form->createView(), 'domain' => $domain));
-//            $view = View::create(["code" => 200, 'domain' => $domain, 'edit_domain_form' => $edit_domain_form]);
-//            $view->setFormat('json');
-//            return $view;
-            return new JsonResponse(["code" => 200, 'edit_domain_form' => $edit_domain_form], Response::HTTP_OK);
+            $view = View::create(['edit_domain_form' => $edit_domain_form]);
+            $view->setFormat('json');
+            return $view;
+//            return new JsonResponse(["code" => 200, 'edit_domain_form' => $edit_domain_form], Response::HTTP_OK);
         }
     }
 

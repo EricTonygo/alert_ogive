@@ -327,7 +327,6 @@ class EntrepriseController extends Controller {
                     }
                 }
             }
-            //$entreprise->upload();
 //            $entreprise_content_grid = $this->renderView('OGIVEAlertBundle:entreprise:entreprise-grid-edit.html.twig', array('entreprise' => $entreprise));
 //            $entreprise_content_list = $this->renderView('OGIVEAlertBundle:entreprise:entreprise-list-edit.html.twig', array('entreprise' => $entreprise));
               //$view = View::create(["code" => 200, 'entreprise_content_grid' => $entreprise_content_grid, 'entreprise_content_list' => $entreprise_content_list]);

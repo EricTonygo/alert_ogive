@@ -55,7 +55,7 @@ class ExpressionInterestController extends Controller {
             'expressionInterest' => $expressionInterest,
             'form' => $form->createView()
         ));
-        $view = View::create(["code" => 200, 'expressionInterest_details' => $expressionInterest_details]);
+        $view = View::create(['expressionInterest_details' => $expressionInterest_details]);
         $view->setFormat('json');
         return $view;
     }
@@ -85,9 +85,10 @@ class ExpressionInterestController extends Controller {
             }
             $expressionInterest->setAbstract($this->getAbstractOfExpressionInterest($expressionInterest));
             $expressionInterest = $repositoryExpressionInterest->saveExpressionInterest($expressionInterest);
-            $expressionInterest_content_grid = $this->renderView('OGIVEAlertBundle:expressionInterest:expressionInterest-grid.html.twig', array('expressionInterest' => $expressionInterest));
-            $expressionInterest_content_list = $this->renderView('OGIVEAlertBundle:expressionInterest:expressionInterest-list.html.twig', array('expressionInterest' => $expressionInterest));
-            $view = View::create(["code" => 200, 'expressionInterest_content_grid' => $expressionInterest_content_grid, 'expressionInterest_content_list' => $expressionInterest_content_list]);
+//            $expressionInterest_content_grid = $this->renderView('OGIVEAlertBundle:expressionInterest:expressionInterest-grid.html.twig', array('expressionInterest' => $expressionInterest));
+//            $expressionInterest_content_list = $this->renderView('OGIVEAlertBundle:expressionInterest:expressionInterest-list.html.twig', array('expressionInterest' => $expressionInterest));
+//            $view = View::create(["code" => 200, 'expressionInterest_content_grid' => $expressionInterest_content_grid, 'expressionInterest_content_list' => $expressionInterest_content_list]);
+            $view = View::create(["message" => "Manifestation d'intérêt ajoutée avec succès !"]);
             $view->setFormat('json');
             return $view;
         } else {
@@ -108,7 +109,7 @@ class ExpressionInterestController extends Controller {
         $repositoryExpressionInterest = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:ExpressionInterest');
         if ($expressionInterest) {
             $repositoryExpressionInterest->deleteExpressionInterest($expressionInterest);
-            $view = View::create(["message" => "Manifestation d'intérêt supprimé avec succès !"]);
+            $view = View::create(["message" => "Manifestation d'intérêt supprimée avec succès !"]);
             $view->setFormat('json');
             return $view;
         } else {
@@ -168,16 +169,19 @@ class ExpressionInterestController extends Controller {
                 }
             }
             $expressionInterest = $repositoryExpressionInterest->updateExpressionInterest($expressionInterest);
-            $expressionInterest_content_grid = $this->renderView('OGIVEAlertBundle:expressionInterest:expressionInterest-grid-edit.html.twig', array('expressionInterest' => $expressionInterest));
-            $expressionInterest_content_list = $this->renderView('OGIVEAlertBundle:expressionInterest:expressionInterest-list-edit.html.twig', array('expressionInterest' => $expressionInterest));
-            $view = View::create(["code" => 200, 'expressionInterest_content_grid' => $expressionInterest_content_grid, 'expressionInterest_content_list' => $expressionInterest_content_list]);
+//            $expressionInterest_content_grid = $this->renderView('OGIVEAlertBundle:expressionInterest:expressionInterest-grid-edit.html.twig', array('expressionInterest' => $expressionInterest));
+//            $expressionInterest_content_list = $this->renderView('OGIVEAlertBundle:expressionInterest:expressionInterest-list-edit.html.twig', array('expressionInterest' => $expressionInterest));
+//            $view = View::create(['expressionInterest_content_grid' => $expressionInterest_content_grid, 'expressionInterest_content_list' => $expressionInterest_content_list]);
+            $view = View::create(["message" => "Manifestation d'intérêt modifiée avec succès !"]);
             $view->setFormat('json');
             return $view;
         } elseif ($form->isSubmitted() && !$form->isValid()) {
-            return $form;
+            $view = View::create($form);
+            $view->setFormat('json');
+            return $view;
         } else {
             $edit_expressionInterest_form = $this->renderView('OGIVEAlertBundle:expressionInterest:edit.html.twig', array('form' => $form->createView(), 'expressionInterest' => $expressionInterest));
-            $view = View::create(["code" => 200, 'edit_expressionInterest_form' => $edit_expressionInterest_form]);
+            $view = View::create(['edit_expressionInterest_form' => $edit_expressionInterest_form]);
             $view->setFormat('json');
             return $view;
         }

@@ -55,10 +55,10 @@ class CallOfferController extends Controller {
             'callOffer' => $callOffer,
             'form' => $form->createView()
         ));
-//        $view = View::create(["code" => 200, 'callOffer' => $callOffer, 'callOffer_details' => $callOffer_details]);
-//        $view->setFormat('json');
-//        return $view;
-        return new JsonResponse(["code" => 200, 'callOffer_details' => $callOffer_details], Response::HTTP_OK);
+        $view = View::create(['callOffer_details' => $callOffer_details]);
+        $view->setFormat('json');
+        return $view;
+//        return new JsonResponse(["code" => 200, 'callOffer_details' => $callOffer_details], Response::HTTP_OK);
     }
 
     /**

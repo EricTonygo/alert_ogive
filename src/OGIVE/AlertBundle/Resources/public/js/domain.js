@@ -68,23 +68,22 @@ $(function () {
                             }
                         },
                         success: function (response, textStatus, jqXHR) {
-                            if (response.code === 200) {
                                 $('#cancel_add_domain').removeClass('disabled');
                                 $('#submit_domain').removeClass('disabled');
                                 $('#add_domain_form.ui.form').removeClass('loading');
-                                $('#list_as_grid_content').prepend(response.domain_content_grid);
-                                $('#list_as_table_content').prepend(response.domain_content_list);
-                                $('.ui.dropdown').dropdown({
-                                    on: 'hover'
-                                });
+//                                $('#list_as_grid_content').prepend(response.domain_content_grid);
+//                                $('#list_as_table_content').prepend(response.domain_content_list);
+//                                $('.ui.dropdown').dropdown({
+//                                    on: 'hover'
+//                                });
                                 $('#add_domain.ui.modal').modal('hide');
-                                $('#message_success>div.header').html('Domaine ajouté avec succès !');
+                                $('#message_success>div.header').html(response.message);
                                 $('#message_success').show();
                                 window.location.replace(Routing.generate('domain_index'));
                                 setTimeout(function () {
                                     $('#message_success').hide();
                                 }, 4000);
-                            }
+                            
 
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
@@ -128,7 +127,6 @@ function edit_domain(id) {
             }
         },
         success: function (response, textStatus, jqXHR) {
-            if (response.code === 200) {
                 $('#edit_domain').remove();
                 $('#edit_domain_content').html(response.edit_domain_form);
                 $('#edit_domain.ui.modal').modal('setting', {
@@ -142,7 +140,7 @@ function edit_domain(id) {
 
                 $('#edit_domain.ui.modal').modal('show');
                 execute_edit(id);
-            }
+            
             $('#message_loading').hide();
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -212,27 +210,26 @@ function execute_edit(id) {
                             }
                         },
                         success: function (response, textStatus, jqXHR) {
-                            if (response.code === 200) {
                                 $('#submit_edit_domain').removeClass('disabled');
                                 $('#cancel_edit_domain').removeClass('disabled');
                                 $('#edit_domain_form.ui.form').removeClass('loading');
                                 $('#cancel_details_domain').removeClass('disabled');
                                 $('#disable_domain').removeClass('disabled');
                                 $('#enable_domain').removeClass('disabled');
-                                $('#domain_grid' + id).html(response.domain_content_grid);
-                                $('#domain_list' + id).html(response.domain_content_list);
-                                $('.ui.dropdown').dropdown({
-                                    on: 'hover'
-                                });
+//                                $('#domain_grid' + id).html(response.domain_content_grid);
+//                                $('#domain_list' + id).html(response.domain_content_list);
+//                                $('.ui.dropdown').dropdown({
+//                                    on: 'hover'
+//                                });
                                 $('#edit_domain.ui.modal').modal('hide');
-                                $('#message_success>div.header').html('Domaine modifié avec succès !');
+                                $('#message_success>div.header').html(response.message);
                                 $('#message_success').show();
                                 window.location.replace(Routing.generate('domain_index'));
                                 setTimeout(function () {
                                     $('#message_success').hide();
                                 }, 4000);
                                 $('#edit_domain').remove();
-                            }
+                            
 
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
@@ -283,7 +280,6 @@ function delete_domain(id) {
             }
         },
         success: function (response, textStatus, jqXHR) {
-            console.log(response);
             $('#domain_grid' + id).remove();
             $('#domain_list' + id).remove();
             $('#message_loading').hide();
@@ -329,7 +325,6 @@ function show_domain(id) {
             }
         },
         success: function (response, textStatus, jqXHR) {
-            if (response.code === 200) {
                 $('#edit_domain').remove();
                 $('#edit_domain_content').html(response.domain_details);
                 $('#edit_domain.ui.modal').modal('setting', {
@@ -358,7 +353,7 @@ function show_domain(id) {
                     $('#submit_edit_domain').hide();
                     $(this).hide();
                 });
-            }
+            
             $('#message_loading').hide();
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -406,7 +401,6 @@ function enable_domain(id) {
             }
         },
         success: function (response, textStatus, jqXHR) {
-            console.log(response);
             $('#message_loading').hide();
             $('#enable_domain_grid' + id).hide();
             $('#disable_domain_grid' + id).show();
@@ -462,7 +456,6 @@ function disable_domain(id) {
             }
         },
         success: function (response, textStatus, jqXHR) {
-            console.log(response);
             $('#message_loading').hide();
             $('#disable_domain_grid' + id).hide();
             $('#enable_domain_grid' + id).show();

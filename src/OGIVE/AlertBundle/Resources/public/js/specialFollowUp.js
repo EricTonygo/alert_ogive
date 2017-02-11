@@ -56,7 +56,7 @@ $(function () {
                                     $('#error_name_header').html("Echec de la validation");
                                     $('#error_name_list').html('<li>' + myerrors.message + '</li>');
                                     $('#error_name_message').show();
-                                }else{
+                                } else {
                                     $('#error_name_header').html("Echec de la validation. Veuillez vérifier vos données");
                                     $('#error_name_message').show();
                                 }
@@ -64,23 +64,21 @@ $(function () {
                             }
                         },
                         success: function (response, textStatus, jqXHR) {
-                            if (response.code === 200) {
-                                $('#cancel_add_specialFollowUp').removeClass('disabled');
-                                $('#submit_specialFollowUp').removeClass('disabled');
-                                $('#add_specialFollowUp_form.ui.form').removeClass('loading');
-                                $('#list_as_grid_content').prepend(response.specialFollowUp_content_grid);
-                                $('#list_as_table_content').prepend(response.specialFollowUp_content_list);
-                                $('.ui.dropdown').dropdown({
-                                    on: 'hover'
-                                });
-                                $('#add_specialFollowUp.ui.modal').modal('hide');
-                                $('#message_success>div.header').html('Suivi spécialisé ajouté avec succès !');
-                                $('#message_success').show();
-                                window.location.replace(Routing.generate('specialFollowUp_index'));
-                                setTimeout(function () {
-                                    $('#message_success').hide();
-                                }, 4000);
-                            }
+                            $('#cancel_add_specialFollowUp').removeClass('disabled');
+                            $('#submit_specialFollowUp').removeClass('disabled');
+                            $('#add_specialFollowUp_form.ui.form').removeClass('loading');
+//                                $('#list_as_grid_content').prepend(response.specialFollowUp_content_grid);
+//                                $('#list_as_table_content').prepend(response.specialFollowUp_content_list);
+//                                $('.ui.dropdown').dropdown({
+//                                    on: 'hover'
+//                                });
+                            $('#add_specialFollowUp.ui.modal').modal('hide');
+                            $('#message_success>div.header').html(response.message);
+                            $('#message_success').show();
+                            window.location.replace(Routing.generate('specialFollowUp_index'));
+                            setTimeout(function () {
+                                $('#message_success').hide();
+                            }, 4000);
 
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
@@ -120,20 +118,19 @@ function edit_specialFollowUp(id) {
             }
         },
         success: function (response, textStatus, jqXHR) {
-            if (response.code === 200) {
-                $('#edit_specialFollowUp').remove();
-                $('#edit_specialFollowUp_content').html(response.edit_specialFollowUp_form);
-                $('#edit_specialFollowUp.ui.modal').modal('setting', {
-                    autofocus: false,
-                    inverted: true,
-                    closable: false
-                });
-                $('#cancel_edit_specialFollowUp').click(function () {
-                    window.location.replace(Routing.generate('specialFollowUp_index'));
-                });
-                $('#edit_specialFollowUp.ui.modal').modal('show');
-                execute_edit(id);
-            }
+            $('#edit_specialFollowUp').remove();
+            $('#edit_specialFollowUp_content').html(response.edit_specialFollowUp_form);
+            $('#edit_specialFollowUp.ui.modal').modal('setting', {
+                autofocus: false,
+                inverted: true,
+                closable: false
+            });
+            $('#cancel_edit_specialFollowUp').click(function () {
+                window.location.replace(Routing.generate('specialFollowUp_index'));
+            });
+            $('#edit_specialFollowUp.ui.modal').modal('show');
+            execute_edit(id);
+
             $('#message_loading').hide();
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -201,7 +198,7 @@ function execute_edit(id) {
                                     $('#error_name_header_edit').html("Echec de la validation");
                                     $('#error_name_list_edit').html('<li>' + myerrors.message + '</li>');
                                     $('#error_name_message_edit').show();
-                                }else{
+                                } else {
                                     $('#error_name_header_edit').html("Echec de la validation. Veuillez vérifier vos données");
                                     $('#error_name_message_edit').show();
                                 }
@@ -209,28 +206,26 @@ function execute_edit(id) {
                             }
                         },
                         success: function (response, textStatus, jqXHR) {
-                            if (response.code === 200) {
                                 $('#submit_edit_specialFollowUp').removeClass('disabled');
                                 $('#cancel_edit_specialFollowUp').removeClass('disabled');
                                 $('#edit_specialFollowUp_form.ui.form').removeClass('loading');
                                 $('#cancel_details_specialFollowUp').removeClass('disabled');
                                 $('#disable_specialFollowUp').removeClass('disabled');
                                 $('#enable_specialFollowUp').removeClass('disabled');
-                                $('#specialFollowUp_grid' + id).html(response.specialFollowUp_content_grid);
-                                $('#specialFollowUp_list' + id).html(response.specialFollowUp_content_list);
-                                $('.ui.dropdown').dropdown({
-                                    on: 'hover'
-                                });
+//                                $('#specialFollowUp_grid' + id).html(response.specialFollowUp_content_grid);
+//                                $('#specialFollowUp_list' + id).html(response.specialFollowUp_content_list);
+//                                $('.ui.dropdown').dropdown({
+//                                    on: 'hover'
+//                                });
                                 $('#edit_specialFollowUp.ui.modal').modal('hide');
-                                $('#message_success>div.header').html('Suivi spécialisé modifié avec succès !');
+                                $('#message_success>div.header').html(response.message);
                                 $('#message_success').show();
                                 window.location.replace(Routing.generate('specialFollowUp_index'));
                                 setTimeout(function () {
                                     $('#message_success').hide();
                                 }, 4000);
                                 $('#edit_specialFollowUp').remove();
-                            }
-
+                            
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
                             $('#submit_edit_specialFollowUp').removeClass('disabled');
@@ -276,7 +271,6 @@ function delete_specialFollowUp(id) {
             }
         },
         success: function (response, textStatus, jqXHR) {
-            console.log(response);
             $('#specialFollowUp_grid' + id).remove();
             $('#specialFollowUp_list' + id).remove();
             $('#message_loading').hide();
@@ -318,7 +312,6 @@ function show_specialFollowUp(id) {
             }
         },
         success: function (response, textStatus, jqXHR) {
-            if (response.code === 200) {
                 $('#edit_specialFollowUp').remove();
                 $('#edit_specialFollowUp_content').html(response.specialFollowUp_details);
                 $('#edit_specialFollowUp.ui.modal').modal('setting', {
@@ -329,7 +322,7 @@ function show_specialFollowUp(id) {
                 $('#cancel_details_specialFollowUp').click(function () {
                     window.location.replace(Routing.generate('specialFollowUp_index'));
                 });
-                
+
                 $('#edit_specialFollowUp.ui.modal').modal('show');
                 execute_edit(id);
                 $('#edit_specialFollowUp_btn').click(function () {
@@ -346,7 +339,7 @@ function show_specialFollowUp(id) {
                     $('#submit_edit_specialFollowUp').hide();
                     $(this).hide();
                 });
-            }
+            
             $('#message_loading').hide();
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -390,7 +383,6 @@ function enable_specialFollowUp(id) {
             }
         },
         success: function (response, textStatus, jqXHR) {
-            console.log(response);
             $('#message_loading').hide();
             $('#enable_specialFollowUp_grid' + id).hide();
             $('#disable_specialFollowUp_grid' + id).show();
@@ -442,7 +434,6 @@ function disable_specialFollowUp(id) {
             }
         },
         success: function (response, textStatus, jqXHR) {
-            console.log(response);
             $('#message_loading').hide();
             $('#disable_specialFollowUp_grid' + id).hide();
             $('#enable_specialFollowUp_grid' + id).show();

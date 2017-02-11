@@ -57,7 +57,7 @@ class SpecialFollowUpController extends Controller {
             'specialFollowUp' => $specialFollowUp,
             'form' => $form->createView()
         ));
-        $view = View::create(["code" => 200, 'specialFollowUp_details' => $specialFollowUp_details]);
+        $view = View::create(['specialFollowUp_details' => $specialFollowUp_details]);
         $view->setFormat('json');
         return $view;
     }
@@ -86,9 +86,10 @@ class SpecialFollowUpController extends Controller {
                 }
             }
             $specialFollowUp = $repositorySpecialFollowUp->saveSpecialFollowUp($specialFollowUp);
-            $specialFollowUp_content_grid = $this->renderView('OGIVEAlertBundle:specialFollowUp:specialFollowUp-grid.html.twig', array('specialFollowUp' => $specialFollowUp));
-            $specialFollowUp_content_list = $this->renderView('OGIVEAlertBundle:specialFollowUp:specialFollowUp-list.html.twig', array('specialFollowUp' => $specialFollowUp));
-            $view = View::create(["code" => 200, 'specialFollowUp_content_grid' => $specialFollowUp_content_grid, 'specialFollowUp_content_list' => $specialFollowUp_content_list]);
+//            $specialFollowUp_content_grid = $this->renderView('OGIVEAlertBundle:specialFollowUp:specialFollowUp-grid.html.twig', array('specialFollowUp' => $specialFollowUp));
+//            $specialFollowUp_content_list = $this->renderView('OGIVEAlertBundle:specialFollowUp:specialFollowUp-list.html.twig', array('specialFollowUp' => $specialFollowUp));
+//            $view = View::create(["code" => 200, 'specialFollowUp_content_grid' => $specialFollowUp_content_grid, 'specialFollowUp_content_list' => $specialFollowUp_content_list]);
+            $view = View::create(["message" => 'Suivi spécialisé ajouté avec succès']);
             $view->setFormat('json');
             return $view;
             //return new JsonResponse(["success" => true, 'specialFollowUp' => $specialFollowUp, 'specialFollowUp_content_grid' => $specialFollowUp_content_grid, 'specialFollowUp_content_list' => $specialFollowUp_content_list], Response::HTTP_OK);
@@ -170,16 +171,19 @@ class SpecialFollowUpController extends Controller {
                 }
             }
             $specialFollowUp = $repositorySpecialFollowUp->updateSpecialFollowUp($specialFollowUp);
-            $specialFollowUp_content_grid = $this->renderView('OGIVEAlertBundle:specialFollowUp:specialFollowUp-grid-edit.html.twig', array('specialFollowUp' => $specialFollowUp));
-            $specialFollowUp_content_list = $this->renderView('OGIVEAlertBundle:specialFollowUp:specialFollowUp-list-edit.html.twig', array('specialFollowUp' => $specialFollowUp));
-            $view = View::create(["code" => 200, 'specialFollowUp_content_grid' => $specialFollowUp_content_grid, 'specialFollowUp_content_list' => $specialFollowUp_content_list]);
+//            $specialFollowUp_content_grid = $this->renderView('OGIVEAlertBundle:specialFollowUp:specialFollowUp-grid-edit.html.twig', array('specialFollowUp' => $specialFollowUp));
+//            $specialFollowUp_content_list = $this->renderView('OGIVEAlertBundle:specialFollowUp:specialFollowUp-list-edit.html.twig', array('specialFollowUp' => $specialFollowUp));
+//            $view = View::create(["code" => 200, 'specialFollowUp_content_grid' => $specialFollowUp_content_grid, 'specialFollowUp_content_list' => $specialFollowUp_content_list]);
+            $view = View::create(["message" => 'Suivi spécialisé modifié avec succès']);
             $view->setFormat('json');
             return $view;
         } elseif ($form->isSubmitted() && !$form->isValid()) {
-            return $form;
+            $view = View::create($form);
+            $view->setFormat('json');
+            return $view;
         } else {
             $edit_specialFollowUp_form = $this->renderView('OGIVEAlertBundle:specialFollowUp:edit.html.twig', array('form' => $form->createView(), 'specialFollowUp' => $specialFollowUp));
-            $view = View::create(["code" => 200, 'edit_specialFollowUp_form' => $edit_specialFollowUp_form]);
+            $view = View::create(['edit_specialFollowUp_form' => $edit_specialFollowUp_form]);
             $view->setFormat('json');
             return $view;
         }

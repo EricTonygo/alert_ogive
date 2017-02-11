@@ -58,7 +58,7 @@ class SubscriberController extends Controller {
             'subscriber' => $subscriber,
             'form' => $form->createView()
         ));
-        $view = View::create(["code" => 200, 'subscriber_details' => $subscriber_details]);
+        $view = View::create(['subscriber_details' => $subscriber_details]);
         $view->setFormat('json');
         return $view;
     }
@@ -97,9 +97,10 @@ class SubscriberController extends Controller {
                     $this->sendSubscriptionConfirmation($subscriber);
                 }
             }
-            $subscriber_content_grid = $this->renderView('OGIVEAlertBundle:subscriber:subscriber-grid.html.twig', array('subscriber' => $subscriber));
-            $subscriber_content_list = $this->renderView('OGIVEAlertBundle:subscriber:subscriber-list.html.twig', array('subscriber' => $subscriber));
-            $view = View::create(["code" => 200, 'subscriber_content_grid' => $subscriber_content_grid, 'subscriber_content_list' => $subscriber_content_list]);
+//            $subscriber_content_grid = $this->renderView('OGIVEAlertBundle:subscriber:subscriber-grid.html.twig', array('subscriber' => $subscriber));
+//            $subscriber_content_list = $this->renderView('OGIVEAlertBundle:subscriber:subscriber-list.html.twig', array('subscriber' => $subscriber));
+//            $view = View::create(["code" => 200, 'subscriber_content_grid' => $subscriber_content_grid, 'subscriber_content_list' => $subscriber_content_list]);
+            $view = View::create(["message" => 'Abonné ajouté avec succès']);
             $view->setFormat('json');
             return $view;
             //return new JsonResponse(["success" => true, 'subscriber' => $subscriber, 'subscriber_content_grid' => $subscriber_content_grid, 'subscriber_content_list' => $subscriber_content_list], Response::HTTP_OK);
@@ -199,16 +200,17 @@ class SubscriberController extends Controller {
                 }
             }
 
-            $subscriber_content_grid = $this->renderView('OGIVEAlertBundle:subscriber:subscriber-grid-edit.html.twig', array('subscriber' => $subscriber));
-            $subscriber_content_list = $this->renderView('OGIVEAlertBundle:subscriber:subscriber-list-edit.html.twig', array('subscriber' => $subscriber));
-            $view = View::create(["code" => 200, 'subscriber_content_grid' => $subscriber_content_grid, 'subscriber_content_list' => $subscriber_content_list]);
+//            $subscriber_content_grid = $this->renderView('OGIVEAlertBundle:subscriber:subscriber-grid-edit.html.twig', array('subscriber' => $subscriber));
+//            $subscriber_content_list = $this->renderView('OGIVEAlertBundle:subscriber:subscriber-list-edit.html.twig', array('subscriber' => $subscriber));
+//            $view = View::create(["code" => 200, 'subscriber_content_grid' => $subscriber_content_grid, 'subscriber_content_list' => $subscriber_content_list]);
+            $view = View::create(["message" => 'Abonné modifié avec succès']);
             $view->setFormat('json');
             return $view;
         } elseif ($form->isSubmitted() && !$form->isValid()) {
             return $form;
         } else {
             $edit_subscriber_form = $this->renderView('OGIVEAlertBundle:subscriber:edit.html.twig', array('form' => $form->createView(), 'subscriber' => $subscriber));
-            $view = View::create(["code" => 200, 'edit_subscriber_form' => $edit_subscriber_form]);
+            $view = View::create(['edit_subscriber_form' => $edit_subscriber_form]);
             $view->setFormat('json');
             return $view;
         }
@@ -262,7 +264,7 @@ class SubscriberController extends Controller {
         if (empty($historical)) {
             return new JsonResponse(['message' => "Error lors de l'envoi du message"], Response::HTTP_NOT_FOUND);
         }
-        $view = View::create(["code" => 200, 'message' => "Accusé de reception envoyé avec succès"]);
+        $view = View::create(['message' => "Accusé de reception envoyé avec succès"]);
         $view->setFormat('json');
         return $view;
     }

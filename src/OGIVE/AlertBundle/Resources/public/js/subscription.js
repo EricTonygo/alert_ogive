@@ -79,7 +79,7 @@ $(function () {
                                     $('#error_name_header').html("Echec de la validation");
                                     $('#error_name_list').html('<li>' + myerrors.message + '</li>');
                                     $('#error_name_message').show();
-                                }else{
+                                } else {
                                     $('#error_name_header').html("Echec de la validation. Veuillez vérifier vos données");
                                     $('#error_name_message').show();
                                 }
@@ -87,23 +87,21 @@ $(function () {
                             }
                         },
                         success: function (response, textStatus, jqXHR) {
-                            if (response.code === 200) {
-                                $('#cancel_add_subscription').removeClass('disabled');
-                                $('#submit_subscription').removeClass('disabled');
-                                $('#add_subscription_form.ui.form').removeClass('loading');
-                                $('#list_as_grid_content').prepend(response.subscription_content_grid);
-                                $('#list_as_table_content').prepend(response.subscription_content_list);
-                                $('.ui.dropdown').dropdown({
-                                    on: 'hover'
-                                });
-                                $('#add_subscription.ui.modal').modal('hide');
-                                $('#message_success>div.header').html('Abonnement ajouté avec succès !');
-                                $('#message_success').show();
-                                window.location.replace(Routing.generate('subscription_index'));
-                                setTimeout(function () {
-                                    $('#message_success').hide();
-                                }, 4000);
-                            }
+                            $('#cancel_add_subscription').removeClass('disabled');
+                            $('#submit_subscription').removeClass('disabled');
+                            $('#add_subscription_form.ui.form').removeClass('loading');
+//                                $('#list_as_grid_content').prepend(response.subscription_content_grid);
+//                                $('#list_as_table_content').prepend(response.subscription_content_list);
+//                                $('.ui.dropdown').dropdown({
+//                                    on: 'hover'
+//                                });
+                            $('#add_subscription.ui.modal').modal('hide');
+                            $('#message_success>div.header').html(response.message);
+                            $('#message_success').show();
+                            window.location.replace(Routing.generate('subscription_index'));
+                            setTimeout(function () {
+                                $('#message_success').hide();
+                            }, 4000);
 
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
@@ -143,26 +141,24 @@ function edit_subscription(id) {
             }
         },
         success: function (response, textStatus, jqXHR) {
-            if (response.code === 200) {
-                $('#edit_subscription').remove();
-                $('#edit_subscription_content').html(response.edit_subscription_form);
-                $('#ogive_alertbundle_subscription_periodicity.ui.dropdown').dropdown({
-                    on: 'click'
-                });
-                $('#ogive_alertbundle_subscription_currency.ui.dropdown').dropdown({
-                    on: 'click'
-                });
-                $('#edit_subscription.ui.modal').modal('setting', {
-                    autofocus: false,
-                    inverted: true,
-                    closable: false
-                });
-                $('#cancel_edit_subscription').click(function () {
-                    window.location.replace(Routing.generate('subscription_index'));
-                });
-                $('#edit_subscription.ui.modal').modal('show');
-                execute_edit(id);
-            }
+            $('#edit_subscription').remove();
+            $('#edit_subscription_content').html(response.edit_subscription_form);
+            $('#ogive_alertbundle_subscription_periodicity.ui.dropdown').dropdown({
+                on: 'click'
+            });
+            $('#ogive_alertbundle_subscription_currency.ui.dropdown').dropdown({
+                on: 'click'
+            });
+            $('#edit_subscription.ui.modal').modal('setting', {
+                autofocus: false,
+                inverted: true,
+                closable: false
+            });
+            $('#cancel_edit_subscription').click(function () {
+                window.location.replace(Routing.generate('subscription_index'));
+            });
+            $('#edit_subscription.ui.modal').modal('show');
+            execute_edit(id);
             $('#message_loading').hide();
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -242,7 +238,7 @@ function execute_edit(id) {
                                     $('#error_name_header_edit').html("Echec de la validation");
                                     $('#error_name_list_edit').html('<li>' + myerrors.message + '</li>');
                                     $('#error_name_message_edit').show();
-                                }else{
+                                } else {
                                     $('#error_name_header_edit').html("Echec de la validation. Veuillez vérifier vos données");
                                     $('#error_name_message_edit').show();
                                 }
@@ -250,27 +246,25 @@ function execute_edit(id) {
                             }
                         },
                         success: function (response, textStatus, jqXHR) {
-                            if (response.code === 200) {
-                                $('#submit_edit_subscription').removeClass('disabled');
-                                $('#cancel_edit_subscription').removeClass('disabled');
-                                $('#edit_subscription_form.ui.form').removeClass('loading');
-                                $('#cancel_details_subscription').removeClass('disabled');
-                                $('#disable_subscription').removeClass('disabled');
-                                $('#enable_subscription').removeClass('disabled');
-                                $('#subscription_grid' + id).html(response.subscription_content_grid);
-                                $('#subscription_list' + id).html(response.subscription_content_list);
-                                $('.ui.dropdown').dropdown({
-                                    on: 'hover'
-                                });
-                                $('#edit_subscription.ui.modal').modal('hide');
-                                $('#message_success>div.header').html('Abonnement modifié avec succès !');
-                                $('#message_success').show();
-                                window.location.replace(Routing.generate('subscription_index'));
-                                setTimeout(function () {
-                                    $('#message_success').hide();
-                                }, 4000);
-                                $('#edit_subscription').remove();
-                            }
+                            $('#submit_edit_subscription').removeClass('disabled');
+                            $('#cancel_edit_subscription').removeClass('disabled');
+                            $('#edit_subscription_form.ui.form').removeClass('loading');
+                            $('#cancel_details_subscription').removeClass('disabled');
+                            $('#disable_subscription').removeClass('disabled');
+                            $('#enable_subscription').removeClass('disabled');
+//                                $('#subscription_grid' + id).html(response.subscription_content_grid);
+//                                $('#subscription_list' + id).html(response.subscription_content_list);
+//                                $('.ui.dropdown').dropdown({
+//                                    on: 'hover'
+//                                });
+                            $('#edit_subscription.ui.modal').modal('hide');
+                            $('#message_success>div.header').html(response.message);
+                            $('#message_success').show();
+                            window.location.replace(Routing.generate('subscription_index'));
+                            setTimeout(function () {
+                                $('#message_success').hide();
+                            }, 4000);
+                            $('#edit_subscription').remove();
 
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
@@ -317,7 +311,6 @@ function delete_subscription(id) {
             }
         },
         success: function (response, textStatus, jqXHR) {
-            console.log(response);
             $('#subscription_grid' + id).remove();
             $('#subscription_list' + id).remove();
             $('#message_loading').hide();
@@ -359,41 +352,40 @@ function show_subscription(id) {
             }
         },
         success: function (response, textStatus, jqXHR) {
-            if (response.code === 200) {
-                $('#edit_subscription').remove();
-                $('#edit_subscription_content').html(response.subscription_details);
-                $('#ogive_alertbundle_subscription_periodicity.ui.dropdown').dropdown({
-                    on: 'click'
-                });
-                $('#ogive_alertbundle_subscription_currency.ui.dropdown').dropdown({
-                    on: 'click'
-                });
-                $('#edit_subscription.ui.modal').modal('setting', {
-                    autofocus: false,
-                    inverted: true,
-                    closable: false
-                });
-                $('#cancel_details_subscription').click(function () {
-                    window.location.replace(Routing.generate('subscription_index'));
-                });
-                
-                $('#edit_subscription.ui.modal').modal('show');
-                execute_edit(id);
-                $('#edit_subscription_btn').click(function () {
-                    $('#block_details').hide();
-                    $('#block_form_edit').show();
-                    $('#cancel_edit_subscription').show();
-                    $('#submit_edit_subscription').show();
-                    $(this).hide();
-                });
-                $('#cancel_edit_subscription').click(function () {
-                    $('#block_details').show();
-                    $('#block_form_edit').hide();
-                    $('#edit_subscription_btn').show();
-                    $('#submit_edit_subscription').hide();
-                    $(this).hide();
-                });
-            }
+            $('#edit_subscription').remove();
+            $('#edit_subscription_content').html(response.subscription_details);
+            $('#ogive_alertbundle_subscription_periodicity.ui.dropdown').dropdown({
+                on: 'click'
+            });
+            $('#ogive_alertbundle_subscription_currency.ui.dropdown').dropdown({
+                on: 'click'
+            });
+            $('#edit_subscription.ui.modal').modal('setting', {
+                autofocus: false,
+                inverted: true,
+                closable: false
+            });
+            $('#cancel_details_subscription').click(function () {
+                window.location.replace(Routing.generate('subscription_index'));
+            });
+
+            $('#edit_subscription.ui.modal').modal('show');
+            execute_edit(id);
+            $('#edit_subscription_btn').click(function () {
+                $('#block_details').hide();
+                $('#block_form_edit').show();
+                $('#cancel_edit_subscription').show();
+                $('#submit_edit_subscription').show();
+                $(this).hide();
+            });
+            $('#cancel_edit_subscription').click(function () {
+                $('#block_details').show();
+                $('#block_form_edit').hide();
+                $('#edit_subscription_btn').show();
+                $('#submit_edit_subscription').hide();
+                $(this).hide();
+            });
+
             $('#message_loading').hide();
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -437,7 +429,6 @@ function enable_subscription(id) {
             }
         },
         success: function (response, textStatus, jqXHR) {
-            console.log(response);
             $('#message_loading').hide();
             $('#enable_subscription_grid' + id).hide();
             $('#disable_subscription_grid' + id).show();
@@ -489,7 +480,6 @@ function disable_subscription(id) {
             }
         },
         success: function (response, textStatus, jqXHR) {
-            console.log(response);
             $('#message_loading').hide();
             $('#disable_subscription_grid' + id).hide();
             $('#enable_subscription_grid' + id).show();
