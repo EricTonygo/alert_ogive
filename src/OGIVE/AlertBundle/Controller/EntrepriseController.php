@@ -247,7 +247,7 @@ class EntrepriseController extends Controller {
             foreach ($originalDomains as $domain) {
                 if (false === $entreprise->getDomains()->contains($domain)) {
                     // remove the entreprise from the subscriber
-                    $entreprise->getDomains()->removeElement($domain);
+                    $domain->getEntreprises()->removeElement($entreprise);
                     // if it was a many-to-one relationship, remove the relationship like this
 
                     $repositoryDomain->updateDomain($domain);
@@ -268,9 +268,8 @@ class EntrepriseController extends Controller {
             foreach ($originalSubDomains as $subDomain) {
                 if (false === $entreprise->getSubDomains()->contains($subDomain)) {
                     // remove the entreprise from the subscriber
-                    $entreprise->getSubDomains()->removeElement($subDomain);
+                    $subDomain->getEntreprises()->removeElement($entreprise);
                     // if it was a many-to-one relationship, remove the relationship like this
-
                     $repositorySubDomain->updateSubDomain($subDomain);
                     // if you wanted to delete the Subscriber entirely, you can also do that
                     // $em->remove($domain);
