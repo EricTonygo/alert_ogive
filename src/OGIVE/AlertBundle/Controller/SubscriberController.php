@@ -238,7 +238,7 @@ class SubscriberController extends Controller {
         $twilio = $this->get('twilio.api');
         //$messages = $twilio->account->messages->read();
         $message = $twilio->account->messages->sendMessage(
-                'ALERT MP', // From a Twilio number in your account
+                'MG8e369c4e5ea49ce989834c5355a1f02f', // From a Twilio number in your account
                 $subscriber->getPhoneNumber(), // Text any number
                 $content
         );
