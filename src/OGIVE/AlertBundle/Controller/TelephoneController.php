@@ -38,11 +38,12 @@ class TelephoneController extends Controller {
         if ($form->isSubmitted() && $form->isValid()) {
             $twilio = $this->get('twilio.api');
             //$messages = $twilio->account->messages->read();
-            $message = $twilio->account->messages->sendMessage(
-                    'SI OGIVE', // From a Twilio number in your account
-                    $subscriber->getPhoneNumber(), // Text any number
-                    $historiqueAlertSubscriber->getMessage()
-            );
+//            $message = $twilio->account->messages->sendMessage(
+//                    'SI OGIVE', // From a Twilio number in your account
+//                    $subscriber->getPhoneNumber(), // Text any number
+//                    $historiqueAlertSubscriber->getMessage()
+//            );
+            $this->sendEmailSubscriber($subscriber);
             $historiqueAlertSubscriber->setSubscriber($subscriber);
             $historiqueAlertSubscriber->setAlertType("SMS");
             $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
@@ -662,6 +663,17 @@ class TelephoneController extends Controller {
         $view = View::create(['send_special_follow_up_form' => $send_special_follow_up_form]);
         $view->setFormat('json');
         return $view;
+    }
+    
+    public function sendEmailSubscriber(Subscriber $subscriber){
+        $message = \Swift_Message::newInstance()
+        ->setSubject('Test email')
+        ->setFrom('tonye.eric@gmail.com')
+        ->setTo('erictonyelissouck@yahoo.fr')
+        ->setBody(
+            "Test d'envoi de mail"
+        );
+         $this->get('mailer')->send($message);
     }
 
 }
