@@ -40,7 +40,7 @@ class TelephoneController extends Controller {
             //$messages = $twilio->account->messages->read();
             $this->sendEmailSubscriber($subscriber);
 //            $message = $twilio->account->messages->sendMessage(
-//                    'MG8e369c4e5ea49ce989834c5355a1f02f', // From a Twilio number in your account
+//                    'OGIVE INFOS', // From a Twilio number in your account
 //                    $subscriber->getPhoneNumber(), // Text any number
 //                    $historiqueAlertSubscriber->getMessage()
 //            );
@@ -110,7 +110,7 @@ class TelephoneController extends Controller {
             }
             foreach ($subscribers as $subscriber) {
                 $message = $twilio->account->messages->sendMessage(
-                        'MG8e369c4e5ea49ce989834c5355a1f02f', // From a Twilio number in your account
+                        'OGIVE INFOS', // From a Twilio number in your account
                         $subscriber->getPhoneNumber(), // Text any number
                         $request->get('abstract')
                 );
@@ -129,7 +129,7 @@ class TelephoneController extends Controller {
                 $idSubscriber = (int)$idSubscriber;
                 $subscriber = $repositorySubscriber->find($idSubscriber);
                 $message = $twilio->account->messages->sendMessage(
-                        'MG8e369c4e5ea49ce989834c5355a1f02f', // From a Twilio number in your account
+                        'OGIVE INFOS', // From a Twilio number in your account
                         $subscriber->getPhoneNumber(), // Text any number
                         $request->get('abstract')
                 );
@@ -235,7 +235,7 @@ class TelephoneController extends Controller {
             }
             foreach ($subscribers as $subscriber) {
                 $message = $twilio->account->messages->sendMessage(
-                        'MG8e369c4e5ea49ce989834c5355a1f02f', // From a Twilio number in your account
+                        'OGIVE INFOS', // From a Twilio number in your account
                         $subscriber->getPhoneNumber(), // Text any number
                         $request->get('abstract')
                 );
@@ -253,7 +253,7 @@ class TelephoneController extends Controller {
             foreach ($idSubscribers as $idSubscriber) {
                 $subscriber = $repositorySubscriber->find((int) $idSubscriber);
                 $message = $twilio->account->messages->sendMessage(
-                        'MG8e369c4e5ea49ce989834c5355a1f02f', // From a Twilio number in your account
+                        'OGIVE INFOS', // From a Twilio number in your account
                         $subscriber->getPhoneNumber(), // Text any number
                         $request->get('abstract')
                 );
@@ -359,7 +359,7 @@ class TelephoneController extends Controller {
             }
             foreach ($subscribers as $subscriber) {
                 $message = $twilio->account->messages->sendMessage(
-                        'MG8e369c4e5ea49ce989834c5355a1f02f', // From a Twilio number in your account
+                        'OGIVE INFOS', // From a Twilio number in your account
                         $subscriber->getPhoneNumber(), // Text any number
                         $request->get('abstract')
                 );
@@ -377,7 +377,7 @@ class TelephoneController extends Controller {
             foreach ($idSubscribers as $idSubscriber) {
                 $subscriber = $repositorySubscriber->find((int) $idSubscriber);
                 $message = $twilio->account->messages->sendMessage(
-                        'MG8e369c4e5ea49ce989834c5355a1f02f', // From a Twilio number in your account
+                        'OGIVE INFOS', // From a Twilio number in your account
                         $subscriber->getPhoneNumber(), // Text any number
                         $request->get('abstract')
                 );
@@ -483,7 +483,7 @@ class TelephoneController extends Controller {
             }
             foreach ($subscribers as $subscriber) {
                 $message = $twilio->account->messages->sendMessage(
-                        'MG8e369c4e5ea49ce989834c5355a1f02f', // From a Twilio number in your account
+                        'OGIVE INFOS', // From a Twilio number in your account
                         $subscriber->getPhoneNumber(), // Text any number
                         $request->get('abstract')
                 );
@@ -501,7 +501,7 @@ class TelephoneController extends Controller {
             foreach ($idSubscribers as $idSubscriber) {
                 $subscriber = $repositorySubscriber->find((int) $idSubscriber);
                 $message = $twilio->account->messages->sendMessage(
-                        'MG8e369c4e5ea49ce989834c5355a1f02f', // From a Twilio number in your account
+                        'OGIVE INFOS', // From a Twilio number in your account
                         $subscriber->getPhoneNumber(), // Text any number
                         $request->get('abstract')
                 );
@@ -579,7 +579,7 @@ class TelephoneController extends Controller {
         $twilio = $this->get('twilio.api');
         //$messages = $twilio->account->messages->read();
         $message = $twilio->account->messages->sendMessage(
-                'MG8e369c4e5ea49ce989834c5355a1f02f', // From a Twilio number in your account
+                'OGIVE INFOS', // From a Twilio number in your account
                 $subscriber->getPhoneNumber(), // Text any number
                 $content
         );
@@ -613,7 +613,7 @@ class TelephoneController extends Controller {
             $subscribers = $repositorySubscriber->getAll();
             foreach ($subscribers as $subscriber) {
                 $message = $twilio->account->messages->sendMessage(
-                        'MG8e369c4e5ea49ce989834c5355a1f02f', // From a Twilio number in your account
+                        'OGIVE INFOS', // From a Twilio number in your account
                         $subscriber->getPhoneNumber(), // Text any number
                         $request->get('abstract')
                 );
@@ -629,7 +629,7 @@ class TelephoneController extends Controller {
             foreach ($idSubscribers as $idSubscriber) {
                 $subscriber = $repositorySubscriber->find((int) $idSubscriber);
                 $message = $twilio->account->messages->sendMessage(
-                        'MG8e369c4e5ea49ce989834c5355a1f02f', // From a Twilio number in your account
+                        'OGIVE INFOS', // From a Twilio number in your account
                         $subscriber->getPhoneNumber(), // Text any number
                         $request->get('abstract')
                 );
