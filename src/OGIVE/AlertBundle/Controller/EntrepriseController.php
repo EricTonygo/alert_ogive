@@ -82,8 +82,8 @@ class EntrepriseController extends Controller {
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($repositoryEntreprise->findOneBy(array('name' => $entreprise->getName(), 'status' => 1))) {
-                return new JsonResponse(["success" => false, 'message' => 'Une entreprise avec ce nom existe dejà'], Response::HTTP_BAD_REQUEST);
+            if ($repositoryEntreprise->findOneBy(array('phoneNumber' => $entreprise->getPhoneNumber(), 'status' => 1))) {
+                return new JsonResponse(["success" => false, 'message' => 'Une entreprise avec ce numéro de téléphone existe dejà'], Response::HTTP_BAD_REQUEST);
             }
             if(empty($entreprise->getSubscribers())){
                 return new JsonResponse(["success" => false, 'message' => 'Veuillez ajouter un abonné à cette entreprise'], Response::HTTP_BAD_REQUEST);
@@ -117,6 +117,7 @@ class EntrepriseController extends Controller {
                     $subscriber->setEntreprise($entreprise);
                 }
             }
+            $entreprise->setPhoneNumber($entreprise->getAddress()->getPhone());
             $entreprise = $repositoryEntreprise->saveEntreprise($entreprise);
             $sendConfirmation = $request->get('send_confirmation');
             if ($sendConfirmation && $sendConfirmation === 'on') {
@@ -230,9 +231,9 @@ class EntrepriseController extends Controller {
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entrepriseUnique = $repositoryEntreprise->findOneBy(array('name' => $entreprise->getName(), 'status' => 1));
+            $entrepriseUnique = $repositoryEntreprise->findOneBy(array('phoneNumber' => $entreprise->getPhoneNumber(), 'status' => 1));
             if ($entrepriseUnique && $entrepriseUnique->getId() != $entreprise->getId()) {
-                return new JsonResponse(["success" => false, 'message' => 'Une entreprise avec ce nom existe dejà'], Response::HTTP_BAD_REQUEST);
+                return new JsonResponse(["success" => false, 'message' => 'Une entreprise avec ce numéro de téléphone existe dejà'], Response::HTTP_BAD_REQUEST);
             }
 
             if(empty($entreprise->getSubscribers())){
@@ -320,6 +321,7 @@ class EntrepriseController extends Controller {
                     $subscriber->setEntreprise($entreprise);
                 }
             }
+            $entreprise->setPhoneNumber($entreprise->getAddress()->getPhone());
             $entreprise = $repositoryEntreprise->updateEntreprise($entreprise);
             $sendConfirmation = $request->get('send_confirmation');
             if ($sendConfirmation && $sendConfirmation === 'on') {
