@@ -6,10 +6,10 @@ parameters:
     database_user: ogive
     database_password: Ogive2017
     mailer_transport: smtp
-    mailer_host: smtp.gmail.com
+    mailer_host: gator3181.hostgator.com
     mailer_port: 465
-    mailer_user: tonye.eric@gmail.com
-    mailer_password: unhomme90
+    mailer_user: contact@si-ogive.com
+    mailer_password: Ogive2017
     mailer_encryption: ssl
-    auth_mode: login
+    mailer_auth_mode: login
     secret: ThisTokenIsNotSoSecretChangeIt
