@@ -44,7 +44,7 @@
             </div>
 
             <div class="field">
-                {{ form_label(form.openingDate,"Date d'ouverture de dépôt") }}
+                {{ form_label(form.openingDate,"Date de dépôt") }}
                 <div class="two fields">
                     <div class="field">
                         {{ form_widget(form.openingDate.date,{'attr':{'data-validate': 'opening_date_date'}})}}
@@ -56,7 +56,7 @@
             </div>
 
             <div class="field">
-                {{ form_label(form.deadline,"Date limite de dépôt") }}
+                {{ form_label(form.deadline,"Date d'ouverture") }}
                 <div class="two fields">
                     <div class="field">
                         {{ form_widget(form.deadline.date,{'attr':{'data-validate': 'deadline_date'}})}}
@@ -155,7 +155,7 @@
 
             <div class="two fields">
                 <div class="field">
-                    <label>Date de début de dépôt des offres : </label> 
+                    <label>Date de dépôt des offres : </label> 
                 </div>
                 <div class="field">
                     <span> {{ expressionInterest.openingDate is empty ? "" : expressionInterest.openingDate|date('d-m-Y H:i:s')}}</span>
@@ -164,7 +164,7 @@
 
             <div class="two fields">
                 <div class="field">
-                    <label>Date de fermeture de dépôt des offres : </label> 
+                    <label>Date d'ouverture : </label> 
                 </div>
                 <div class="field">
                     <span> {{ expressionInterest.deadline is empty ? "" : expressionInterest.deadline|date('d-m-Y H:i:s')}}</span>

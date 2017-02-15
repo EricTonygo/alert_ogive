@@ -669,8 +669,8 @@ class TelephoneController extends Controller {
     public function sendEmailSubscriber(Subscriber $subscriber){
         $message = \Swift_Message::newInstance()
         ->setSubject('Test email')
-        ->setFrom('tonye.eric@gmail.com')
-        ->setTo('erictonyelissouck@yahoo.fr')
+        ->setFrom(array('contact@si-ogive.com' => "Contact OGIVE"))
+        ->setTo('tonye.eric@gmail.com')
         ->setBody(
             "Test d'envoi de mail"
         );

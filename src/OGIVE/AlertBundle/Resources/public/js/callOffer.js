@@ -163,8 +163,11 @@ $(function () {
                     $.ajax({
                         type: 'post',
                         url: Routing.generate('call_offer_add'),
-                        data: fields,
+                        data: $('#add_callOffer_form.ui.form').serialize(),
                         dataType: 'json',
+                        processData: false,
+                        //contentType: false,
+                        cache: false,
                         beforeSend: function () {
                             $('#submit_callOffer').addClass('disabled');
                             $('#cancel_add_callOffer').addClass('disabled');
@@ -415,8 +418,11 @@ function execute_edit(id) {
                     $.ajax({
                         type: 'PUT',
                         url: Routing.generate('call_offer_update', {id: id}),
-                        data: fields,
+                        data: $('#edit_callOffer_form.ui.form').serialize(),
                         dataType: 'json',
+                        processData: false,
+                        //contentType: false,
+                        cache: false,
                         beforeSend: function () {
                             $('#submit_edit_callOffer').addClass('disabled');
                             $('#cancel_edit_callOffer').addClass('disabled');
