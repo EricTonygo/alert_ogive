@@ -82,10 +82,13 @@ class EntrepriseController extends Controller {
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($repositoryEntreprise->findOneBy(array('phoneNumber' => $entreprise->getPhoneNumber(), 'status' => 1))) {
-                return new JsonResponse(["success" => false, 'message' => 'Une entreprise avec ce numéro de téléphone existe dejà'], Response::HTTP_BAD_REQUEST);
+            if ($entreprise->getPhoneNumber()) {
+                if ($repositoryEntreprise->findOneBy(array('phoneNumber' => $entreprise->getPhoneNumber(), 'status' => 1))) {
+                    return new JsonResponse(["success" => false, 'message' => 'Une entreprise avec ce numéro de téléphone existe dejà'], Response::HTTP_BAD_REQUEST);
+                }
             }
-            if(empty($entreprise->getSubscribers())){
+
+            if (empty($entreprise->getSubscribers())) {
                 return new JsonResponse(["success" => false, 'message' => 'Veuillez ajouter un abonné à cette entreprise'], Response::HTTP_BAD_REQUEST);
             }
             $sendActivate = $request->get('send_activate');
@@ -139,7 +142,7 @@ class EntrepriseController extends Controller {
             $view = View::create($form);
             $view->setFormat('json');
             return $view;
-           // return new JsonResponse($form, Response::HTTP_BAD_REQUEST);
+            // return new JsonResponse($form, Response::HTTP_BAD_REQUEST);
         }
     }
 
@@ -231,12 +234,13 @@ class EntrepriseController extends Controller {
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entrepriseUnique = $repositoryEntreprise->findOneBy(array('phoneNumber' => $entreprise->getPhoneNumber(), 'status' => 1));
-            if ($entrepriseUnique && $entrepriseUnique->getId() != $entreprise->getId()) {
-                return new JsonResponse(["success" => false, 'message' => 'Une entreprise avec ce numéro de téléphone existe dejà'], Response::HTTP_BAD_REQUEST);
+            if ($entreprise->getPhoneNumber()) {
+                $entrepriseUnique = $repositoryEntreprise->findOneBy(array('phoneNumber' => $entreprise->getPhoneNumber(), 'status' => 1));
+                if ($entrepriseUnique && $entrepriseUnique->getId() != $entreprise->getId()) {
+                    return new JsonResponse(["success" => false, 'message' => 'Une entreprise avec ce numéro de téléphone existe dejà'], Response::HTTP_BAD_REQUEST);
+                }
             }
-
-            if(empty($entreprise->getSubscribers())){
+            if (empty($entreprise->getSubscribers())) {
                 return new JsonResponse(["success" => false, 'message' => 'Veuillez ajouter un abonné à cette entreprise'], Response::HTTP_BAD_REQUEST);
             }
             if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
@@ -336,7 +340,7 @@ class EntrepriseController extends Controller {
             }
 //            $entreprise_content_grid = $this->renderView('OGIVEAlertBundle:entreprise:entreprise-grid-edit.html.twig', array('entreprise' => $entreprise));
 //            $entreprise_content_list = $this->renderView('OGIVEAlertBundle:entreprise:entreprise-list-edit.html.twig', array('entreprise' => $entreprise));
-              //$view = View::create(["code" => 200, 'entreprise_content_grid' => $entreprise_content_grid, 'entreprise_content_list' => $entreprise_content_list]);
+            //$view = View::create(["code" => 200, 'entreprise_content_grid' => $entreprise_content_grid, 'entreprise_content_list' => $entreprise_content_list]);
             $view = View::create(["message" => 'Entreprise modifiée avec succès']);
             $view->setFormat('json');
             return $view;
@@ -376,7 +380,7 @@ class EntrepriseController extends Controller {
                 $subscriber->getPhoneNumber(), // Text any number
                 $content
         );
-        $this->sendEmailSubscriber($subscriber, "CONFIRMATION DE L'ABONNEMENT" ,$content);
+        $this->sendEmailSubscriber($subscriber, "CONFIRMATION DE L'ABONNEMENT", $content);
         $historiqueAlertSubscriber->setMessage($content);
         $historiqueAlertSubscriber->setSubscriber($subscriber);
         $historiqueAlertSubscriber->setAlertType("SMS_CONFIRMATION_SUBSCRIPTION");
@@ -384,7 +388,6 @@ class EntrepriseController extends Controller {
         return $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
     }
 
-    
     public function sendEmailSubscriber(Subscriber $subscriber, $subject, $content, \OGIVE\AlertBundle\Entity\AlertProcedure $procedure = null) {
         $message = \Swift_Message::newInstance()
                 ->setSubject($subject)
@@ -407,4 +410,5 @@ class EntrepriseController extends Controller {
 
         $this->get('mailer')->send($message);
     }
+
 }
