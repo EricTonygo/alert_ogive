@@ -11,4 +11,5 @@ parameters:
     mailer_user: tonye.eric@gmail.com
     mailer_password: unhomme90
     mailer_encryption: ssl
+    auth_mode: login
     secret: ThisTokenIsNotSoSecretChangeIt
