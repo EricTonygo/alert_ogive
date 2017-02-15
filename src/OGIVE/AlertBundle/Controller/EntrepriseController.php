@@ -360,7 +360,7 @@ class EntrepriseController extends Controller {
         } elseif ($subscriber->getSubscription()->getPeriodicity() === 5) {
             $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validite = 1 semaine";
         }
-        $content = $subscriber->getEntreprise()->getName() . ", votre souscription au service <<Appels d'offres Infos>> a ete effectuee avec succes. \nCout du forfait = " . $cout . ". \nOGIVE SOLUTIONS vous remercie pour votre confiance.";
+        $content = $subscriber->getEntreprise()->getName() . ", votre souscription au service <<Appels d'offres Infos>> a été éffectuée avec succès. \nCoût du forfait = " . $cout . ". \nOGIVE SOLUTIONS vous remercie pour votre confiance.";
         $twilio = $this->get('twilio.api');
         //$messages = $twilio->account->messages->read();
         $message = $twilio->account->messages->sendMessage(
@@ -368,6 +368,7 @@ class EntrepriseController extends Controller {
                 $subscriber->getPhoneNumber(), // Text any number
                 $content
         );
+        $this->sendEmailSubscriber($subscriber, "CONFIRMATION DE L'ABONNEMENT" ,$content);
         $historiqueAlertSubscriber->setMessage($content);
         $historiqueAlertSubscriber->setSubscriber($subscriber);
         $historiqueAlertSubscriber->setAlertType("SMS_CONFIRMATION_SUBSCRIPTION");
@@ -375,4 +376,27 @@ class EntrepriseController extends Controller {
         return $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
     }
 
+    
+    public function sendEmailSubscriber(Subscriber $subscriber, $subject, $content, \OGIVE\AlertBundle\Entity\AlertProcedure $procedure = null) {
+        $message = \Swift_Message::newInstance()
+                ->setSubject($subject)
+                ->setFrom(array('infos@si-ogive.com' => "OGIVE INFOS"))
+                ->setTo($subscriber->getEmail())
+                ->setBody(
+                $content
+        );
+        if ($procedure) {
+            $piecesjointes = $procedure->getPiecesjointes();
+            $originalpiecesjointes = $procedure->getOriginalpiecesjointes();
+            if (!empty($piecesjointes) && !empty($originalpiecesjointes) && count($piecesjointes) == count($originalpiecesjointes)) {
+                for ($i = 0; $i < count($piecesjointes); $i++) {
+                    $attachment = \Swift_Attachment::fromPath($procedure->getUploadRootDir() . '/' . $piecesjointes[$i])
+                            ->setFilename($originalpiecesjointes[$i]);
+                    $message->attach($attachment);
+                }
+            }
+        }
+
+        $this->get('mailer')->send($message);
+    }
 }
