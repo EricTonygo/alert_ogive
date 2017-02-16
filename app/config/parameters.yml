@@ -2,11 +2,14 @@
 parameters:
     database_host: 127.0.0.1
     database_port: 3306
-    database_name: db_alert_mp
+    database_name: db_alert_ogive
     database_user: root
     database_password: unhomme90
     mailer_transport: smtp
-    mailer_host: 127.0.0.1
-    mailer_user: null
-    mailer_password: null
+    mailer_host: gator3181.hostgator.com
+    mailer_port: 465
+    mailer_user: infos@si-ogive.com
+    mailer_password: Ogive2017
+    mailer_encription: ssl
+    mailer_auth_mode: login
     secret: 21ad404bd10dd4b66e769d80d69281b49c9b5513

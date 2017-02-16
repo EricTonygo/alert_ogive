@@ -202,7 +202,7 @@ class CallOfferController extends Controller {
             if(substr(trim($callOffer->getObject()), -1) === "."){
                 $dot = "";
             } 
-            return $callOffer->getType()." : "."N°".$callOffer->getReference()." du ".date_format($callOffer->getPublicationDate(), "d/m/Y")." lancé par ".$callOffer->getOwner()." pour ".$callOffer->getObject().$dot." Dépôt des offres le ".date_format($callOffer->getDeadline(), "d/m/Y")." à ".date_format($callOffer->getDeadline(), "H:i").'.'; 
+            return $callOffer->getType()." : "."N°".$callOffer->getReference()." du ".date_format($callOffer->getPublicationDate(), "d/m/Y")." lancé par ".$callOffer->getOwner()." pour ".$callOffer->getObject().$dot." Dépôt des offres le ".date_format($callOffer->getOpeningDate(), "d/m/Y")." à ".date_format($callOffer->getOpeningDate(), "H:i").'.'; 
         }else{
             return "";
         }

@@ -114,7 +114,7 @@ class TelephoneController extends Controller {
                         $subscriber->getPhoneNumber(), // Text any number
                         $request->get('abstract')
                 );
-                $this->sendEmailSubscriber($subscriber, "Appels d'offre Infos" ,$request->get('abstract'), $callOffer);
+                $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRE INFOS" ,$request->get('abstract'), $callOffer);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("SMS");
@@ -134,7 +134,7 @@ class TelephoneController extends Controller {
                         $subscriber->getPhoneNumber(), // Text any number
                         $request->get('abstract')
                 );
-                $this->sendEmailSubscriber($subscriber, "Appels d'offre Infos" ,$request->get('abstract'), $callOffer);
+                $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRE INFOS" ,$request->get('abstract'), $callOffer);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("SMS");
@@ -241,7 +241,7 @@ class TelephoneController extends Controller {
                         $subscriber->getPhoneNumber(), // Text any number
                         $request->get('abstract')
                 );
-                $this->sendEmailSubscriber($subscriber, "Appels d'offre Infos" ,$request->get('abstract'), $procedureResult);
+                $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRE INFOS" ,$request->get('abstract'), $procedureResult);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("SMS");
@@ -260,7 +260,7 @@ class TelephoneController extends Controller {
                         $subscriber->getPhoneNumber(), // Text any number
                         $request->get('abstract')
                 );
-                $this->sendEmailSubscriber($subscriber, "Appels d'offre Infos" ,$request->get('abstract'), $procedureResult);
+                $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRE INFOS" ,$request->get('abstract'), $procedureResult);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("SMS");
@@ -367,7 +367,7 @@ class TelephoneController extends Controller {
                         $subscriber->getPhoneNumber(), // Text any number
                         $request->get('abstract')
                 );
-                $this->sendEmailSubscriber($subscriber, "Appels d'offre Infos" ,$request->get('abstract'), $additive);
+                $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRE INFOS" ,$request->get('abstract'), $additive);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("SMS");
@@ -386,7 +386,7 @@ class TelephoneController extends Controller {
                         $subscriber->getPhoneNumber(), // Text any number
                         $request->get('abstract')
                 );
-                $this->sendEmailSubscriber($subscriber, "Appels d'offre Infos" ,$request->get('abstract'), $additive);
+                $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRE INFOS" ,$request->get('abstract'), $additive);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("SMS");
@@ -493,7 +493,7 @@ class TelephoneController extends Controller {
                         $subscriber->getPhoneNumber(), // Text any number
                         $request->get('abstract')
                 );
-                $this->sendEmailSubscriber($subscriber, "Appels d'offre Infos" ,$request->get('abstract'), $expressionInterest);
+                $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRE INFOS" ,$request->get('abstract'), $expressionInterest);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("SMS");
@@ -512,7 +512,7 @@ class TelephoneController extends Controller {
                         $subscriber->getPhoneNumber(), // Text any number
                         $request->get('abstract')
                 );
-                $this->sendEmailSubscriber($subscriber, "Appels d'offre Infos" ,$request->get('abstract'), $additive);
+                $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRE INFOS" ,$request->get('abstract'), $additive);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("SMS");
