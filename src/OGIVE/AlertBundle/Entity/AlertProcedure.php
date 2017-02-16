@@ -515,6 +515,15 @@ class AlertProcedure {
         return $this->piecesjointes;
     }
 
+    /**
+     * Get piecesjointes
+     *
+     * @return array 
+     */
+    public function getOriginalpiecesjointes() {
+        return $this->originalpiecesjointes;
+    }
+    
     protected function getUploadRootDir() {
         return __DIR__ . '/../../../web/uploads/procedures';
     }

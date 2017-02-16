@@ -30,6 +30,13 @@ class Entreprise {
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="phone_number", type="string", length=255)
+     */
+    private $phoneNumber;
 
     /**
      * @var string
@@ -538,6 +545,30 @@ class Entreprise {
         $this->lastUpdateDate = new \DateTime('now');
         $this->status = 1;
         $this->preUpload();
+    }
+    
+    /**
+     * Set phoneNumber
+     *
+     * @param string $phoneNumber
+     *
+     * @return Entreprise
+     */
+    public function setPhoneNumber($phoneNumber)
+    {
+        $this->phoneNumber = $phoneNumber;
+
+        return $this;
+    }
+
+    /**
+     * Get phoneNumber
+     *
+     * @return string
+     */
+    public function getPhoneNumber()
+    {
+        return $this->phoneNumber;
     }
 
 }
