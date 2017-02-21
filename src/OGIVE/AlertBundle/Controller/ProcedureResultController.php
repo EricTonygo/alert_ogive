@@ -70,6 +70,16 @@ class ProcedureResultController extends Controller {
         }
         $procedureResult = new ProcedureResult();
         $repositoryProcedureResult = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:ProcedureResult');
+
+        if ($request->get('testunicity') == 'yes' && $request->get('reference')) {
+            $reference = $request->get('reference');
+            if ($repositoryProcedureResult->findOneBy(array('reference' => $reference, 'status' => 1))) {
+                return new JsonResponse(["success" => false, 'message' => "Une attribution avec ce numéro existe dejà !"], Response::HTTP_BAD_REQUEST);
+            } else {
+                return new JsonResponse(['message' => "Update Procedure result is possible !"], Response::HTTP_OK);
+            }
+        }
+
         $form = $this->createForm('OGIVE\AlertBundle\Form\ProcedureResultType', $procedureResult);
         $form->handleRequest($request);
 
@@ -97,11 +107,8 @@ class ProcedureResultController extends Controller {
                 $procedureResult->setObject($procedureResult->getExpressionInterest()->getObject());
             }
             $procedureResult = $repositoryProcedureResult->saveProcedureResult($procedureResult);
-//            $procedureResult_content_grid = $this->renderView('OGIVEAlertBundle:procedureResult:procedureResult-grid.html.twig', array('procedureResult' => $procedureResult));
-//            $procedureResult_content_list = $this->renderView('OGIVEAlertBundle:procedureResult:procedureResult-list.html.twig', array('procedureResult' => $procedureResult));
-//            $view = View::create(["code" => 200, 'procedureResult_content_grid' => $procedureResult_content_grid, 'procedureResult_content_list' => $procedureResult_content_list]);
-            $view = View::create(["message" => "Attribution ajoutée avec succès !"]);
-            $view->setFormat('json');
+            $view = View::createRedirect($this->generateUrl('procedureResult_index'));
+            $view->setFormat('html');
             return $view;
         } else {
             $view = View::create($form);
@@ -149,6 +156,16 @@ class ProcedureResultController extends Controller {
             return new JsonResponse(['message' => "Attribution introuvable"], Response::HTTP_NOT_FOUND);
         }
 
+        if ($request->get('testunicity') == 'yes' && $request->get('reference')) {
+            $reference = $request->get('reference');
+            $procedureResultUnique = $repositoryProcedureResult->findOneBy(array('reference' => $reference, 'status' => 1));
+            if ($procedureResultUnique && $procedureResultUnique->getId() != $procedureResult->getId()) {
+                return new JsonResponse(["success" => false, 'message' => "Une attribution avec ce numéro existe dejà"], Response::HTTP_BAD_REQUEST);
+            } else {
+                return new JsonResponse(['message' => "Update Procedure result is possible !"], Response::HTTP_OK);
+            }
+        }
+
         if ($request->get('action') == 'enable') {
             $procedureResult->setState(1);
             $procedureResult = $repositoryProcedureResult->updateProcedureResult($procedureResult);
@@ -193,11 +210,8 @@ class ProcedureResultController extends Controller {
                 }
             }
             $procedureResult = $repositoryProcedureResult->updateProcedureResult($procedureResult);
-//            $procedureResult_content_grid = $this->renderView('OGIVEAlertBundle:procedureResult:procedureResult-grid-edit.html.twig', array('procedureResult' => $procedureResult));
-//            $procedureResult_content_list = $this->renderView('OGIVEAlertBundle:procedureResult:procedureResult-list-edit.html.twig', array('procedureResult' => $procedureResult));
-//            $view = View::create(["code" => 200, 'procedureResult_content_grid' => $procedureResult_content_grid, 'procedureResult_content_list' => $procedureResult_content_list]);
-            $view = View::create(["message" => "Attribution modifiée avec succès !"]);
-            $view->setFormat('json');
+            $view = View::createRedirect($this->generateUrl('procedureResult_index'));
+            $view->setFormat('html');
             return $view;
         } elseif ($form->isSubmitted() && !$form->isValid()) {
             return $form;
@@ -212,9 +226,9 @@ class ProcedureResultController extends Controller {
     public function getAbstractOfProcedureResult(ProcedureResult $procedureResult) {
         $contact = "Contacts: 694200310 - 694202013";
         if ($procedureResult && $procedureResult->getCallOffer()) {
-            return "Décision " . "N°".$procedureResult->getReference(). "/D/" . $procedureResult->getCallOffer()->getOwner() . "/" . date_format($procedureResult->getPublicationDate(), "Y") . " portant " . $procedureResult->getObject() . " de l'" . $procedureResult->getCallOffer()->getType() . " N°" . $procedureResult->getCallOffer()->getReference() . "/" . $procedureResult->getCallOffer()->getType() . "/" . $procedureResult->getCallOffer()->getOwner() . "/" . date_format($procedureResult->getCallOffer()->getPublicationDate(), "Y") . " du " . date_format($procedureResult->getCallOffer()->getPublicationDate(), "d/m/Y").".";
+            return "Décision " . "N°" . $procedureResult->getReference() . "/D/" . $procedureResult->getCallOffer()->getOwner() . "/" . date_format($procedureResult->getPublicationDate(), "Y") . " portant " . $procedureResult->getObject() . " de l'" . $procedureResult->getCallOffer()->getType() . " N°" . $procedureResult->getCallOffer()->getReference() . "/" . $procedureResult->getCallOffer()->getType() . "/" . $procedureResult->getCallOffer()->getOwner() . "/" . date_format($procedureResult->getCallOffer()->getPublicationDate(), "Y") . " du " . date_format($procedureResult->getCallOffer()->getPublicationDate(), "d/m/Y") . ".";
         } elseif ($procedureResult && $procedureResult->getExpressionInterest()) {
-            return "Décision ".$procedureResult->getReference(). " : " . "N°" . $procedureResult->getReference() . "/D/" . $procedureResult->getExpressionInterest()->getOwner() . "/" . date_format($procedureResult->getPublicationDate(), "Y") . " portant " . $procedureResult->getObject() . " de l'" . $procedureResult->getExpressionInterest()->getType() . " N°" . $procedureResult->getExpressionInterest()->getReference() . "/" . $procedureResult->getExpressionInterest()->getType() . "/" . $procedureResult->getExpressionInterest()->getOwner() . "/" . date_format($procedureResult->getExpressionInterest()->getPublicationDate(), "Y") . " du " . date_format($procedureResult->getExpressionInterest()->getPublicationDate(), "d/m/Y").".";
+            return "Décision " . $procedureResult->getReference() . " : " . "N°" . $procedureResult->getReference() . "/D/" . $procedureResult->getExpressionInterest()->getOwner() . "/" . date_format($procedureResult->getPublicationDate(), "Y") . " portant " . $procedureResult->getObject() . " de l'" . $procedureResult->getExpressionInterest()->getType() . " N°" . $procedureResult->getExpressionInterest()->getReference() . "/" . $procedureResult->getExpressionInterest()->getType() . "/" . $procedureResult->getExpressionInterest()->getOwner() . "/" . date_format($procedureResult->getExpressionInterest()->getPublicationDate(), "Y") . " du " . date_format($procedureResult->getExpressionInterest()->getPublicationDate(), "d/m/Y") . ".";
         } else {
             return "";
         }

@@ -71,13 +71,21 @@ class CallOfferController extends Controller {
         }
         $callOffer = new CallOffer();
         $repositoryCallOffer = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:CallOffer');
+
+        if ($request->get('testunicity') == 'yes' && $request->get('reference')) {
+            $reference = $request->get('reference');
+            if ($repositoryCallOffer->findOneBy(array('reference' => $reference, 'status' => 1))) {
+                return new JsonResponse(["success" => false, 'message' => "Un appel d'offre avec cette référence existe dejà !"], Response::HTTP_BAD_REQUEST);
+            } else {
+                return new JsonResponse(['message' => "Add Call offer is possible !"], Response::HTTP_OK);
+            }
+        }
+
         $form = $this->createForm('OGIVE\AlertBundle\Form\CallOfferType', $callOffer);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($repositoryCallOffer->findOneBy(array('reference' => $callOffer->getReference(), 'status' => 1))) {
-                return new JsonResponse(["success" => false, 'message' => "Un appel d'offre avec cette référence existe dejà !"], Response::HTTP_BAD_REQUEST);
-            }
+
             if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
                 $sendActivate = $request->get('send_activate');
                 if ($sendActivate && $sendActivate === 'on') {
@@ -87,13 +95,9 @@ class CallOfferController extends Controller {
             $callOffer->setType($request->get('call_offer_type'));
             $callOffer->setAbstract($this->getAbstractOfCallOffer($callOffer));
             $callOffer = $repositoryCallOffer->saveCallOffer($callOffer);
-//            $callOffer_content_grid = $this->renderView('OGIVEAlertBundle:callOffer:callOffer-grid.html.twig', array('callOffer' => $callOffer));
-//            $callOffer_content_list = $this->renderView('OGIVEAlertBundle:callOffer:callOffer-list.html.twig', array('callOffer' => $callOffer));
-//            $view = View::create(["code" => 200, 'callOffer' => $callOffer, 'callOffer_content_grid' => $callOffer_content_grid, 'callOffer_content_list' => $callOffer_content_list]);
-            $view = View::create(["message" => "Appel d'offre ajouté avec succès !"]);
-            $view->setFormat('json');
+            $view = View::createRedirect($this->generateUrl('call_offer_index'));
+            $view->setFormat('html');
             return $view;
-//            return new JsonResponse(["code" => 200, 'callOffer_content_grid' => $callOffer_content_grid, 'callOffer_content_list' => $callOffer_content_list], Response::HTTP_CREATED);
         } else {
             $view = View::create($form);
             $view->setFormat('json');
@@ -141,28 +145,35 @@ class CallOfferController extends Controller {
         if (empty($callOffer)) {
             return new JsonResponse(['message' => "Appel d'offre introuvable"], Response::HTTP_NOT_FOUND);
         }
-        
-        if($request->get('action')== 'enable'){
+
+        if ($request->get('testunicity') == 'yes' && $request->get('reference')) {
+            $reference = $request->get('reference');
+            $callOfferUnique = $repositoryCallOffer->findOneBy(array('reference' => $reference, 'status' => 1));
+            if ($callOfferUnique && $callOfferUnique->getId() != $callOffer->getId()) {
+                return new JsonResponse(["success" => false, 'message' => "Un appel d'offre avec cette référence existe dejà"], Response::HTTP_BAD_REQUEST);
+            } else {
+                return new JsonResponse(['message' => "Update Call offer is possible !"], Response::HTTP_OK);
+            }
+        }
+
+        if ($request->get('action') == 'enable') {
             $callOffer->setState(1);
             $callOffer = $repositoryCallOffer->updateCallOffer($callOffer);
             return new JsonResponse(['message' => "Appel d'offre activé avec succcès !"], Response::HTTP_OK);
         }
-        
-        if($request->get('action')== 'disable'){
+
+        if ($request->get('action') == 'disable') {
             $callOffer->setState(0);
             $callOffer = $repositoryCallOffer->updateCallOffer($callOffer);
             return new JsonResponse(['message' => "Appel d'offre désactivé avec succcès !"], Response::HTTP_OK
-                    );
+            );
         }
         $form = $this->createForm('OGIVE\AlertBundle\Form\CallOfferType', $callOffer, array('method' => 'PUT'));
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $callOfferUnique = $repositoryCallOffer->findOneBy(array('reference' => $callOffer->getReference(), 'status' => 1));
-            if ($callOfferUnique && $callOfferUnique->getId() != $callOffer->getId()) {
-                return new JsonResponse(["success" => false, 'message' => "Un appel d'offre avec cette référence existe dejà"], Response::HTTP_BAD_REQUEST);
-            }
+
             $callOffer->setType($request->get('call_offer_type'));
             $callOffer->setAbstract($this->getAbstractOfCallOffer($callOffer));
             if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
@@ -174,13 +185,10 @@ class CallOfferController extends Controller {
                 }
             }
             $callOffer = $repositoryCallOffer->updateCallOffer($callOffer);
-//            $callOffer_content_grid = $this->renderView('OGIVEAlertBundle:callOffer:callOffer-grid-edit.html.twig', array('callOffer' => $callOffer));
-//            $callOffer_content_list = $this->renderView('OGIVEAlertBundle:callOffer:callOffer-list-edit.html.twig', array('callOffer' => $callOffer));
-//            $view = View::create(["code" => 200, 'callOffer' => $callOffer, 'callOffer_content_grid' => $callOffer_content_grid, 'callOffer_content_list' => $callOffer_content_list]);
-            $view = View::create(["message" => "Appel d'offre modifié avec succès !"]);
-            $view->setFormat('json');
+            //$this->redirect($this->generateUrl('call_offer_index'));
+            $view = View::createRedirect($this->generateUrl('call_offer_index'));
+            $view->setFormat('html');
             return $view;
-//            return new JsonResponse(["code" => 200, 'callOffer_content_grid' => $callOffer_content_grid, 'callOffer_content_list' => $callOffer_content_list], Response::HTTP_OK);
         } elseif ($form->isSubmitted() && !$form->isValid()) {
             $view = View::create($form);
             $view->setFormat('json');
@@ -194,16 +202,16 @@ class CallOfferController extends Controller {
             //return new JsonResponse(["code" => 200, 'edit_callOffer_form' => $edit_callOffer_form], Response::HTTP_OK);
         }
     }
-    
-    public function getAbstractOfCallOffer(CallOffer $callOffer){
+
+    public function getAbstractOfCallOffer(CallOffer $callOffer) {
         $contact = "Contacts: 694200310 - 694202013";
-        if($callOffer ){
+        if ($callOffer) {
             $dot = ".";
-            if(substr(trim($callOffer->getObject()), -1) === "."){
-                   $dot = "";
-            } 
-            return $callOffer->getType()." : "."N°".$callOffer->getReference()." du ".date_format($callOffer->getPublicationDate(), "d/m/Y")." lancé par ".$callOffer->getOwner()." pour ".$callOffer->getObject().$dot." Dépôt des offres le ".date_format($callOffer->getOpeningDate(), "d/m/Y")." à ".date_format($callOffer->getOpeningDate(), "H:i").'.'; 
-        }else{
+            if (substr(trim($callOffer->getObject()), -1) === ".") {
+                $dot = "";
+            }
+            return $callOffer->getType() . " : " . "N°" . $callOffer->getReference() . " du " . date_format($callOffer->getPublicationDate(), "d/m/Y") . " lancé par " . $callOffer->getOwner() . " pour " . $callOffer->getObject() . $dot . " Dépôt des offres le " . date_format($callOffer->getOpeningDate(), "d/m/Y") . " à " . date_format($callOffer->getOpeningDate(), "H:i") . '.';
+        } else {
             return "";
         }
     }

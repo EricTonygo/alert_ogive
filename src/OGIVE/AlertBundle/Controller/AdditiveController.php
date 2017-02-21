@@ -71,13 +71,21 @@ class AdditiveController extends Controller {
         }
         $additive = new Additive();
         $repositoryAdditive = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Additive');
+        
+        if ($request->get('testunicity') == 'yes' && $request->get('reference')) {
+            $reference = $request->get('reference');
+            if ($repositoryAdditive->findOneBy(array('reference' => $reference, 'status' => 1))) {
+                return new JsonResponse(["success" => false, 'message' => "Un additif avec cette référence existe dejà !"], Response::HTTP_BAD_REQUEST);
+            } else {
+                return new JsonResponse(['message' => "Add Additive is possible !"], Response::HTTP_OK);
+            }
+        }
+        
         $form = $this->createForm('OGIVE\AlertBundle\Form\AdditiveType', $additive);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($repositoryAdditive->findOneBy(array('reference' => $additive->getReference(), 'status' => 1))) {
-                return new JsonResponse(["success" => false, 'message' => "Un additif avec cette référence existe dejà !"], Response::HTTP_BAD_REQUEST);
-            }
+            
             if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
                 $sendActivate = $request->get('send_activate');
                 if ($sendActivate && $sendActivate === 'on') {
@@ -99,13 +107,9 @@ class AdditiveController extends Controller {
                 $additive->setObject($additive->getExpressionInterest()->getObject());
             }
             $additive = $repositoryAdditive->saveAdditive($additive);
-//            $additive_content_grid = $this->renderView('OGIVEAlertBundle:additive:additive-grid.html.twig', array('additive' => $additive));
-//            $additive_content_list = $this->renderView('OGIVEAlertBundle:additive:additive-list.html.twig', array('additive' => $additive));
-//            $view = View::create(["code" => 200, 'additive' => $additive, 'additive_content_grid' => $additive_content_grid, 'additive_content_list' => $additive_content_list]);
-            $view = View::create(["message" => "Additif ajouté avec succès !"]);
-            $view->setFormat('json');
+            $view = View::createRedirect($this->generateUrl('additive_index'));
+            $view->setFormat('html');
             return $view;
-            //return new JsonResponse(["code" => 200, 'additive_content_grid' => $additive_content_grid, 'additive_content_list' => $additive_content_list], Response::HTTP_CREATED);
         } else {
             $view = View::create($form);
             $view->setFormat('json');
@@ -154,6 +158,16 @@ class AdditiveController extends Controller {
             return new JsonResponse(['message' => "Additif introuvable"], Response::HTTP_NOT_FOUND);
         }
         
+        if ($request->get('testunicity') == 'yes' && $request->get('reference')) {
+            $reference = $request->get('reference');
+            $additiveUnique = $repositoryAdditive->findOneBy(array('reference' => $reference, 'status' => 1));
+            if ($additiveUnique && $additiveUnique->getId() != $additive->getId()) {
+                return new JsonResponse(["success" => false, 'message' => "Un additif avec cette référence existe dejà"], Response::HTTP_BAD_REQUEST);
+            } else {
+                return new JsonResponse(['message' => "Update Additive is possible !"], Response::HTTP_OK);
+            }
+        }
+        
         if($request->get('action')== 'enable'){
             $additive->setState(1);
             $additive = $repositoryAdditive->updateAdditive($additive);
@@ -172,10 +186,7 @@ class AdditiveController extends Controller {
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $additiveUnique = $repositoryAdditive->findOneBy(array('reference' => $additive->getReference(), 'status' => 1));
-            if ($additiveUnique && $additiveUnique->getId() != $additive->getId()) {
-                return new JsonResponse(["success" => false, 'message' => "Un additif avec cette référence existe dejà"], Response::HTTP_BAD_REQUEST);
-            }
+            
             $additive->setAbstract($this->getAbstractOfAdditive($additive));
             if($additive->getCallOffer()){
                 $additive->setDomain($additive->getCallOffer()->getDomain());
@@ -194,13 +205,9 @@ class AdditiveController extends Controller {
             }
             
             $additive = $repositoryAdditive->updateAdditive($additive);
-//            $additive_content_grid = $this->renderView('OGIVEAlertBundle:additive:additive-grid-edit.html.twig', array('additive' => $additive));
-//            $additive_content_list = $this->renderView('OGIVEAlertBundle:additive:additive-list-edit.html.twig', array('additive' => $additive));
-//            $view = View::create(["code" => 200, 'additive' => $additive, 'additive_content_grid' => $additive_content_grid, 'additive_content_list' => $additive_content_list]);
-            $view = View::create(["message" => "Additif modifié avec succès !"]);
-            $view->setFormat('json');
+            $view = View::createRedirect($this->generateUrl('additive_index'));
+            $view->setFormat('html');
             return $view;
-            //return new JsonResponse(["code" => 200, 'additive_content_grid' => $additive_content_grid, 'additive_content_list' => $additive_content_list], Response::HTTP_OK);
         } elseif ($form->isSubmitted() && !$form->isValid()) {
             return new JsonResponse($form, Response::HTTP_BAD_REQUEST);
         } else {

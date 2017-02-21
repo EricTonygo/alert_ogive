@@ -16,14 +16,7 @@ $(function () {
     $('#cancel_add_expressionInterest').click(function () {
         window.location.replace(Routing.generate('expressionInterest_index'));
     });
-    $('#submit_expressionInterest').click(function (e) {
-        e.preventDefault();
-        $('#server_error_message').hide();
-        $('#message_error').hide();
-        $('#message_success').hide();
-        $('#error_name_message').hide();
-        $('#add_expressionInterest_form.ui.form').submit();
-    });
+
     $('#add_expressionInterest_form.ui.form')
             .form({
                 fields: {
@@ -129,66 +122,111 @@ $(function () {
 
                 },
                 inline: true,
-                on: 'blur',
-                onSuccess: function (event, fields) {
-                    $.ajax({
-                        type: 'post',
-                        url: Routing.generate('expressionInterest_add'),
-                        data: fields,
-                        dataType: 'json',
-                        beforeSend: function () {
-                            $('#submit_expressionInterest').addClass('disabled');
-                            $('#cancel_add_expressionInterest').addClass('disabled');
-                            $('#add_expressionInterest_form.ui.form').addClass('loading');
-                        },
-                        statusCode: {
-                            500: function (xhr) {
-                                $('#server_error_message').show();
-                            },
-                            400: function (response, textStatus, jqXHR) {
-                                console.log(response);
-                                var myerrors = response.responseJSON;
-                                if (myerrors.success === false) {
-                                    $('#error_name_header').html("Echec de la validation");
-                                    $('#error_name_list').html('<li>' + myerrors.message + '</li>');
-                                    $('#error_name_message').show();
-                                } else {
-                                    $('#error_name_header').html("Echec de la validation. Veuillez vérifier vos données");
-                                    $('#error_name_message').show();
-                                }
-
-                            }
-                        },
-                        success: function (response, textStatus, jqXHR) {
-                            $('#cancel_add_expressionInterest').removeClass('disabled');
-                            $('#submit_expressionInterest').removeClass('disabled');
-                            $('#add_expressionInterest_form.ui.form').removeClass('loading');
-//                                $('#list_as_grid_content').prepend(response.expressionInterest_content_grid);
-//                                $('#list_as_table_content').prepend(response.expressionInterest_content_list);
-//                                $('.ui.dropdown').dropdown({
-//                                    on: 'hover'
-//                                });
-                            $('#add_expressionInterest.ui.modal').modal('hide');
-                            $('#message_success>div.header').html(response.message);
-                            $('#message_success').show();
-                            window.location.replace(Routing.generate('expressionInterest_index'));
-                            setTimeout(function () {
-                                $('#message_success').hide();
-                            }, 4000);
-
-
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            $('#cancel_add_expressionInterest').removeClass('disabled');
-                            $('#submit_expressionInterest').removeClass('disabled');
-                            $('#add_expressionInterest_form.ui.form').removeClass('loading');
-                            /*alertify.error("Internal Server Error");*/
-                        }
-                    });
-                    return false;
-                }
+                on: 'change'
+//                onSuccess: function (event, fields) {
+//                    $.ajax({
+//                        type: 'post',
+//                        url: Routing.generate('expressionInterest_add'),
+//                        data: fields,
+//                        dataType: 'json',
+//                        beforeSend: function () {
+//                            $('#submit_expressionInterest').addClass('disabled');
+//                            $('#cancel_add_expressionInterest').addClass('disabled');
+//                            $('#add_expressionInterest_form.ui.form').addClass('loading');
+//                        },
+//                        statusCode: {
+//                            500: function (xhr) {
+//                                $('#server_error_message').show();
+//                            },
+//                            400: function (response, textStatus, jqXHR) {
+//                                console.log(response);
+//                                var myerrors = response.responseJSON;
+//                                if (myerrors.success === false) {
+//                                    $('#error_name_header').html("Echec de la validation");
+//                                    $('#error_name_list').html('<li>' + myerrors.message + '</li>');
+//                                    $('#error_name_message').show();
+//                                } else {
+//                                    $('#error_name_header').html("Echec de la validation. Veuillez vérifier vos données");
+//                                    $('#error_name_message').show();
+//                                }
+//
+//                            }
+//                        },
+//                        success: function (response, textStatus, jqXHR) {
+//                            $('#cancel_add_expressionInterest').removeClass('disabled');
+//                            $('#submit_expressionInterest').removeClass('disabled');
+//                            $('#add_expressionInterest_form.ui.form').removeClass('loading');
+////                                $('#list_as_grid_content').prepend(response.expressionInterest_content_grid);
+////                                $('#list_as_table_content').prepend(response.expressionInterest_content_list);
+////                                $('.ui.dropdown').dropdown({
+////                                    on: 'hover'
+////                                });
+//                            $('#add_expressionInterest.ui.modal').modal('hide');
+//                            $('#message_success>div.header').html(response.message);
+//                            $('#message_success').show();
+//                            window.location.replace(Routing.generate('expressionInterest_index'));
+//                            setTimeout(function () {
+//                                $('#message_success').hide();
+//                            }, 4000);
+//
+//
+//                        },
+//                        error: function (jqXHR, textStatus, errorThrown) {
+//                            $('#cancel_add_expressionInterest').removeClass('disabled');
+//                            $('#submit_expressionInterest').removeClass('disabled');
+//                            $('#add_expressionInterest_form.ui.form').removeClass('loading');
+//                            /*alertify.error("Internal Server Error");*/
+//                        }
+//                    });
+//                    return false;
+//                }
             }
             );
+
+    $('#submit_expressionInterest').click(function (e) {
+        e.preventDefault();
+        $('#server_error_message').hide();
+        if ($('#add_expressionInterest_form.ui.form').form('is valid')) {
+            $.ajax({
+                type: 'post',
+                url: Routing.generate('expressionInterest_add'),
+                data: {'testunicity': 'yes', 'reference': $('#add_expressionInterest_form.ui.form input[name*="reference"]').val()},
+                dataType: 'json',
+                beforeSend: function () {
+                    $('#submit_expressionInterest').addClass('disabled');
+                    $('#cancel_add_expressionInterest').addClass('disabled');
+                    $('#add_expressionInterest_form.ui.form').addClass('loading');
+                },
+                statusCode: {
+                    500: function (xhr) {
+                        $('#server_error_message').show();
+                    },
+                    400: function (response, textStatus, jqXHR) {
+                        console.log(response);
+                        var myerrors = response.responseJSON;
+                        if (myerrors.success === false) {
+                            $('#error_name_header').html("Echec de la validation");
+                            $('#error_name_list').html('<li>' + myerrors.message + '</li>');
+                            $('#error_name_message').show();
+                        } else {
+                            $('#error_name_header').html("Echec de la validation. Veuillez vérifier vos données");
+                            $('#error_name_message').show();
+                        }
+
+                    }
+                },
+                success: function (response, textStatus, jqXHR) {
+                    $('#add_expressionInterest_form.ui.form').submit();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    $('#cancel_add_expressionInterest').removeClass('disabled');
+                    $('#submit_expressionInterest').removeClass('disabled');
+                    $('#add_expressionInterest_form.ui.form').removeClass('loading');
+                    /*alertify.error("Internal Server Error");*/
+                }
+            });
+        }
+    });
 });
 
 function edit_expressionInterest(id) {
@@ -244,14 +282,7 @@ function edit_expressionInterest(id) {
 }
 
 function execute_edit(id) {
-    $('#submit_edit_expressionInterest').click(function (e) {
-        e.preventDefault();
-        $('#server_error_message').hide();
-        $('#message_error').hide();
-        $('#message_success').hide();
-        $('#error_name_message').hide();
-        $('#edit_expressionInterest_form.ui.form').submit();
-    });
+
     $('#edit_expressionInterest_form.ui.form')
             .form({
                 fields: {
@@ -356,71 +387,118 @@ function execute_edit(id) {
                     }
                 },
                 inline: true,
-                on: 'blur',
-                onSuccess: function (event, fields) {
-                    $.ajax({
-                        type: 'PUT',
-                        url: Routing.generate('expressionInterest_update', {id: id}),
-                        data: fields,
-                        dataType: 'json',
-                        beforeSend: function () {
-                            $('#submit_edit_expressionInterest').addClass('disabled');
-                            $('#cancel_edit_expressionInterest').addClass('disabled');
-                            $('#edit_expressionInterest_form.ui.form').addClass('loading');
-                            $('#cancel_details_expressionInterest').addClass('disabled');
-                            $('#disable_expressionInterest').addClass('disabled');
-                            $('#enable_expressionInterest').addClass('disabled');
-                        },
-                        statusCode: {
-                            500: function (xhr) {
-                                $('#server_error_message_edit').show();
-                            },
-                            400: function (response, textStatus, jqXHR) {
-                                var myerrors = response.responseJSON;
-                                if (myerrors.success === false) {
-                                    $('#error_name_header_edit').html("Echec de la validation");
-                                    $('#error_name_list_edit').html('<li>' + myerrors.message + '</li>');
-                                    $('#error_name_message_edit').show();
-                                } else {
-                                    $('#error_name_header_edit').html("Echec de la validation. Veuillez vérifier vos données");
-                                    $('#error_name_message_edit').show();
-                                }
-
-                            }
-                        },
-                        success: function (response, textStatus, jqXHR) {
-                            $('#submit_edit_expressionInterest').removeClass('disabled');
-                            $('#cancel_edit_expressionInterest').removeClass('disabled');
-                            $('#edit_expressionInterest_form.ui.form').removeClass('loading');
-                            $('#cancel_details_expressionInterest').removeClass('disabled');
-                            $('#disable_expressionInterest').removeClass('disabled');
-                            $('#enable_expressionInterest').removeClass('disabled');
-//                                $('#expressionInterest_grid' + id).html(response.expressionInterest_content_grid);
-//                                $('#expressionInterest_list' + id).html(response.expressionInterest_content_list);
-//                                $('.ui.dropdown').dropdown({
-//                                    on: 'hover'
-//                                });
-                            $('#edit_expressionInterest.ui.modal').modal('hide');
-                            $('#message_success>div.header').html(response.message);
-                            $('#message_success').show();
-                            window.location.replace(Routing.generate('expressionInterest_index'));
-                            setTimeout(function () {
-                                $('#message_success').hide();
-                            }, 4000);
-                            $('#edit_expressionInterest').remove();
-
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            $('#submit_edit_expressionInterest').removeClass('disabled');
-                            $('#cancel_edit_expressionInterest').removeClass('disabled');
-                            $('#edit_expressionInterest_form.ui.form').removeClass('loading');
-                            /*alertify.error("Internal Server Error");*/
-                        }
-                    });
-                    return false;
-                }
+                on: 'change'
+//                onSuccess: function (event, fields) {
+//                    $.ajax({
+//                        type: 'PUT',
+//                        url: Routing.generate('expressionInterest_update', {id: id}),
+//                        data: fields,
+//                        dataType: 'json',
+//                        beforeSend: function () {
+//                            $('#submit_edit_expressionInterest').addClass('disabled');
+//                            $('#cancel_edit_expressionInterest').addClass('disabled');
+//                            $('#edit_expressionInterest_form.ui.form').addClass('loading');
+//                            $('#cancel_details_expressionInterest').addClass('disabled');
+//                            $('#disable_expressionInterest').addClass('disabled');
+//                            $('#enable_expressionInterest').addClass('disabled');
+//                        },
+//                        statusCode: {
+//                            500: function (xhr) {
+//                                $('#server_error_message_edit').show();
+//                            },
+//                            400: function (response, textStatus, jqXHR) {
+//                                var myerrors = response.responseJSON;
+//                                if (myerrors.success === false) {
+//                                    $('#error_name_header_edit').html("Echec de la validation");
+//                                    $('#error_name_list_edit').html('<li>' + myerrors.message + '</li>');
+//                                    $('#error_name_message_edit').show();
+//                                } else {
+//                                    $('#error_name_header_edit').html("Echec de la validation. Veuillez vérifier vos données");
+//                                    $('#error_name_message_edit').show();
+//                                }
+//
+//                            }
+//                        },
+//                        success: function (response, textStatus, jqXHR) {
+//                            $('#submit_edit_expressionInterest').removeClass('disabled');
+//                            $('#cancel_edit_expressionInterest').removeClass('disabled');
+//                            $('#edit_expressionInterest_form.ui.form').removeClass('loading');
+//                            $('#cancel_details_expressionInterest').removeClass('disabled');
+//                            $('#disable_expressionInterest').removeClass('disabled');
+//                            $('#enable_expressionInterest').removeClass('disabled');
+////                                $('#expressionInterest_grid' + id).html(response.expressionInterest_content_grid);
+////                                $('#expressionInterest_list' + id).html(response.expressionInterest_content_list);
+////                                $('.ui.dropdown').dropdown({
+////                                    on: 'hover'
+////                                });
+//                            $('#edit_expressionInterest.ui.modal').modal('hide');
+//                            $('#message_success>div.header').html(response.message);
+//                            $('#message_success').show();
+//                            window.location.replace(Routing.generate('expressionInterest_index'));
+//                            setTimeout(function () {
+//                                $('#message_success').hide();
+//                            }, 4000);
+//                            $('#edit_expressionInterest').remove();
+//
+//                        },
+//                        error: function (jqXHR, textStatus, errorThrown) {
+//                            $('#submit_edit_expressionInterest').removeClass('disabled');
+//                            $('#cancel_edit_expressionInterest').removeClass('disabled');
+//                            $('#edit_expressionInterest_form.ui.form').removeClass('loading');
+//                            /*alertify.error("Internal Server Error");*/
+//                        }
+//                    });
+//                    return false;
+//                }
             }
             );
+
+    $('#submit_edit_expressionInterest').click(function (e) {
+        e.preventDefault();
+        $('#server_error_message').hide();
+        if ($('#edit_expressionInterest_form.ui.form').form('is valid')) {
+            $.ajax({
+                type: 'PUT',
+                url: Routing.generate('expressionInterest_update', {id: id}),
+                data: {'testunicity': 'yes', 'reference': $('#edit_expressionInterest_form.ui.form input[name*="reference"]').val()},
+                dataType: 'json',
+                beforeSend: function () {
+                    $('#submit_edit_expressionInterest').addClass('disabled');
+                    $('#cancel_edit_expressionInterest').addClass('disabled');
+                    $('#edit_expressionInterest_form.ui.form').addClass('loading');
+                    $('#cancel_details_expressionInterest').addClass('disabled');
+                    $('#disable_expressionInterest').addClass('disabled');
+                    $('#enable_expressionInterest').addClass('disabled');
+                },
+                statusCode: {
+                    500: function (xhr) {
+                        $('#server_error_message_edit').show();
+                    },
+                    400: function (response, textStatus, jqXHR) {
+                        var myerrors = response.responseJSON;
+                        if (myerrors.success === false) {
+                            $('#error_name_header_edit').html("Echec de la validation");
+                            $('#error_name_list_edit').html('<li>' + myerrors.message + '</li>');
+                            $('#error_name_message_edit').show();
+                        } else {
+                            $('#error_name_header_edit').html("Echec de la validation. Veuillez vérifier vos données");
+                            $('#error_name_message_edit').show();
+                        }
+
+                    }
+                },
+                success: function (response, textStatus, jqXHR) {
+                    $('#submit_edit_expressionInterest').submit();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    $('#submit_edit_expressionInterest').removeClass('disabled');
+                    $('#cancel_edit_expressionInterest').removeClass('disabled');
+                    $('#edit_expressionInterest_form.ui.form').removeClass('loading');
+                    /*alertify.error("Internal Server Error");*/
+                }
+            });
+        }
+    });
 }
 
 function delete_expressionInterest(id) {
@@ -495,40 +573,40 @@ function show_expressionInterest(id) {
             }
         },
         success: function (response, textStatus, jqXHR) {
-                $('#edit_expressionInterest').remove();
-                $('#edit_expressionInterest_content').html(response.expressionInterest_details);
-                $('#edit_expressionInterest.ui.modal').modal('setting', {
-                    autofocus: false,
-                    inverted: true,
-                    closable: false
-                });
-                $('#ogive_alertbundle_expressionInterest_domain.ui.dropdown').dropdown({
-                    on: 'click'
-                });
-                $('#ogive_alertbundle_expressionInterest_subDomain.ui.dropdown').dropdown({
-                    on: 'click'
-                });
-                $('#cancel_details_expressionInterest').click(function () {
-                    window.location.replace(Routing.generate('expressionInterest_index'));
-                });
+            $('#edit_expressionInterest').remove();
+            $('#edit_expressionInterest_content').html(response.expressionInterest_details);
+            $('#edit_expressionInterest.ui.modal').modal('setting', {
+                autofocus: false,
+                inverted: true,
+                closable: false
+            });
+            $('#ogive_alertbundle_expressionInterest_domain.ui.dropdown').dropdown({
+                on: 'click'
+            });
+            $('#ogive_alertbundle_expressionInterest_subDomain.ui.dropdown').dropdown({
+                on: 'click'
+            });
+            $('#cancel_details_expressionInterest').click(function () {
+                window.location.replace(Routing.generate('expressionInterest_index'));
+            });
 
-                $('#edit_expressionInterest.ui.modal').modal('show');
-                execute_edit(id);
-                $('#edit_expressionInterest_btn').click(function () {
-                    $('#block_details').hide();
-                    $('#block_form_edit').show();
-                    $('#cancel_edit_expressionInterest').show();
-                    $('#submit_edit_expressionInterest').show();
-                    $(this).hide();
-                });
-                $('#cancel_edit_expressionInterest').click(function () {
-                    $('#block_details').show();
-                    $('#block_form_edit').hide();
-                    $('#edit_expressionInterest_btn').show();
-                    $('#submit_edit_expressionInterest').hide();
-                    $(this).hide();
-                });
-            
+            $('#edit_expressionInterest.ui.modal').modal('show');
+            execute_edit(id);
+            $('#edit_expressionInterest_btn').click(function () {
+                $('#block_details').hide();
+                $('#block_form_edit').show();
+                $('#cancel_edit_expressionInterest').show();
+                $('#submit_edit_expressionInterest').show();
+                $(this).hide();
+            });
+            $('#cancel_edit_expressionInterest').click(function () {
+                $('#block_details').show();
+                $('#block_form_edit').hide();
+                $('#edit_expressionInterest_btn').show();
+                $('#submit_edit_expressionInterest').hide();
+                $(this).hide();
+            });
+
             $('#message_loading').hide();
         },
         error: function (jqXHR, textStatus, errorThrown) {

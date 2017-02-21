@@ -98,11 +98,11 @@
                 <label> Activer l'additif</label>
             </div>
         </div>
-        {#<div class="field">
+        <div class="field">
             {{ form_label(form.uploadedFiles, "Fichiers attachés")}}           
                 {{ form_errors(form.uploadedFiles, {'attr': {'class': 'list'}})}}           
             {{ form_widget(form.uploadedFiles) }}
-        </div>#}
+        </div>
 
         <div class="field">
             {{form_rest(form)}}

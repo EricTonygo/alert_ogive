@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class ProcedureResultType extends AbstractType {
 
@@ -29,11 +30,11 @@ class ProcedureResultType extends AbstractType {
 //                    'required' => false,
 //                ))
                 ->add('object', null, array('required' => false))
-//                ->add('uploadedFiles', FileType::class, array(
-//                    "multiple" => true,
-//                    'data_class' => null,
-//                    'required' => false
-//                ))
+                ->add('uploadedFiles', FileType::class, array(
+                    "multiple" => true,
+                    'data_class' => null,
+                    'required' => false
+                ))
                 ->add('callOffer', 'entity', array(
                     'class' => 'OGIVEAlertBundle:CallOffer',
                     'property' => 'reference',
