@@ -488,7 +488,7 @@ function execute_edit(id) {
                     }
                 },
                 success: function (response, textStatus, jqXHR) {
-                    $('#submit_edit_expressionInterest').submit();
+                    $('#edit_expressionInterest_form.ui.form').submit();
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     $('#submit_edit_expressionInterest').removeClass('disabled');
