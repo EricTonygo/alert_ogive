@@ -76,7 +76,7 @@ class ProcedureResultController extends Controller {
             if ($repositoryProcedureResult->findOneBy(array('reference' => $reference, 'status' => 1))) {
                 return new JsonResponse(["success" => false, 'message' => "Une attribution avec ce numéro existe dejà !"], Response::HTTP_BAD_REQUEST);
             } else {
-                return new JsonResponse(['message' => "Update Procedure result is possible !"], Response::HTTP_OK);
+                return new JsonResponse(['message' => "Add Procedure result is possible !"], Response::HTTP_OK);
             }
         }
 
@@ -84,9 +84,7 @@ class ProcedureResultController extends Controller {
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($repositoryProcedureResult->findOneBy(array('reference' => $procedureResult->getReference(), 'status' => 1))) {
-                return new JsonResponse(["success" => false, 'message' => "Une attribution avec ce numéro existe dejà !"], Response::HTTP_BAD_REQUEST);
-            }
+            
             if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
                 $sendActivate = $request->get('send_activate');
                 if ($sendActivate && $sendActivate === 'on') {
@@ -184,10 +182,7 @@ class ProcedureResultController extends Controller {
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $procedureResultUnique = $repositoryProcedureResult->findOneBy(array('reference' => $procedureResult->getReference(), 'status' => 1));
-            if ($procedureResultUnique && $procedureResultUnique->getId() != $procedureResult->getId()) {
-                return new JsonResponse(["success" => false, 'message' => "Une attribution avec ce numéro existe dejà"], Response::HTTP_BAD_REQUEST);
-            }
+            
             $procedureResult->setAbstract($this->getAbstractOfProcedureResult($procedureResult));
             $procedureResult->setType($request->get('attribution_type'));
             if ($procedureResult->getCallOffer()) {
