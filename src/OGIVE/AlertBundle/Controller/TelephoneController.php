@@ -512,7 +512,7 @@ class TelephoneController extends Controller {
                         $subscriber->getPhoneNumber(), // Text any number
                         $request->get('abstract')
                 );
-                $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRE INFOS" ,$request->get('abstract'), $additive);
+                $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRE INFOS" ,$request->get('abstract'), $expressionInterest);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("SMS");
