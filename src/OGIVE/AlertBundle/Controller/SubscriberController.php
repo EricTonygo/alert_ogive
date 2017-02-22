@@ -78,7 +78,7 @@ class SubscriberController extends Controller {
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($repositorySubscriber->findOneBy(array('phoneNumber' => $subscriber->getPhoneNumber(), 'email' => $subscriber->getEmail(), 'status' => 1))) {
+            if ($repositorySubscriber->findOneBy(array('phoneNumber' => $subscriber->getPhoneNumber(), 'status' => 1))) {
                 return new JsonResponse(["success" => false, 'message' => 'Un abonné avec ce numero existe dejà'], Response::HTTP_BAD_REQUEST);
             }
             if ($this->get('security.context')->isGranted('ROLE_ADMIN') && $subscriber->getSubscription()) {
@@ -175,7 +175,7 @@ class SubscriberController extends Controller {
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $subscriberUnique = $repositorySubscriber->findOneBy(array('phoneNumber' => $subscriber->getPhoneNumber(), 'email' => $subscriber->getEmail(), 'status' => 1));
+            $subscriberUnique = $repositorySubscriber->findOneBy(array('phoneNumber' => $subscriber->getPhoneNumber(), 'status' => 1));
             if ($subscriberUnique && $subscriberUnique->getId() != $subscriber->getId()) {
                 return new JsonResponse(["success" => false, 'message' => 'Un abonné avec ce numero existe dejà'], Response::HTTP_BAD_REQUEST);
             }
