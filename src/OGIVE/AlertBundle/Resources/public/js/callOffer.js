@@ -40,14 +40,6 @@ $(function () {
         $('#add_callOffer.ui.modal').modal('show');
     });
 
-    $('#submit_callOffer').click(function (e) {
-        e.preventDefault();
-        $('#server_error_message').hide();
-        $('#message_error').hide();
-        $('#message_success').hide();
-        $('#error_name_message').hide();
-        $('#add_callOffer_form.ui.form').submit();
-    });
 
     $('#cancel_add_callOffer').click(function () {
         window.location.replace(Routing.generate('call_offer_index'));
@@ -158,68 +150,113 @@ $(function () {
 
                 },
                 inline: true,
-                on: 'blur',
-                onSuccess: function (event, fields) {
-                    $.ajax({
-                        type: 'post',
-                        url: Routing.generate('call_offer_add'),
-                        data: $('#add_callOffer_form.ui.form').serialize(),
-                        dataType: 'json',
-                        processData: false,
-                        //contentType: false,
-                        cache: false,
-                        beforeSend: function () {
-                            $('#submit_callOffer').addClass('disabled');
-                            $('#cancel_add_callOffer').addClass('disabled');
-                            $('#add_callOffer_form.ui.form').addClass('loading');
-                        },
-                        statusCode: {
-                            500: function (xhr) {
-                                $('#server_error_message').show();
-                            },
-                            400: function (response, textStatus, jqXHR) {
-                                var myerrors = response.responseJSON;
-                                if (myerrors.success === false) {
-                                    $('#error_name_header').html("Echec de la validation");
-                                    $('#error_name_list').html('<li>' + myerrors.message + '</li>');
-                                    $('#error_name_message').show();
-                                } else {
-                                    $('#error_name_header').html("Echec de la validation");
-                                    $('#error_name_message').show();
-                                }
-
-                            }
-                        },
-                        success: function (response, textStatus, jqXHR) {
-                            $('#cancel_add_callOffer').removeClass('disabled');
-                            $('#submit_callOffer').removeClass('disabled');
-                            $('#add_callOffer_form.ui.form').removeClass('loading');
-//                                $('#list_as_grid_content').prepend(response.callOffer_content_grid);
-//                                $('#list_as_table_content').prepend(response.callOffer_content_list);
-//                                $('.ui.dropdown').dropdown({
-//                                    on: 'hover'
-//                                });
-                            $('#add_callOffer.ui.modal').modal('hide');
-                            $('#message_success>div.header').html(response.message);
-                            $('#message_success').show();
-                            window.location.replace(Routing.generate('call_offer_index'));
-                            setTimeout(function () {
-                                $('#message_success').hide();
-                            }, 4000);
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            $('#cancel_add_callOffer').removeClass('disabled');
-                            $('#submit_callOffer').removeClass('disabled');
-                            $('#add_callOffer_form.ui.form').removeClass('loading');
-                            /*alertify.error("Internal Server Error");*/
+                on: 'change'
+//                onSuccess: function (event, fields) {
+//                    $.ajax({
+//                        type: 'post',
+//                        url: Routing.generate('call_offer_add'),
+//                        data: $('#add_callOffer_form.ui.form').serialize(),
+//                        dataType: 'json',
+//                        processData: false,
+//                        //contentType: false,
+//                        cache: false,
+//                        beforeSend: function () {
+//                            $('#submit_callOffer').addClass('disabled');
+//                            $('#cancel_add_callOffer').addClass('disabled');
+//                            $('#add_callOffer_form.ui.form').addClass('loading');
+//                        },
+//                        statusCode: {
+//                            500: function (xhr) {
+//                                $('#server_error_message').show();
+//                            },
+//                            400: function (response, textStatus, jqXHR) {
+//                                var myerrors = response.responseJSON;
+//                                if (myerrors.success === false) {
+//                                    $('#error_name_header').html("Echec de la validation");
+//                                    $('#error_name_list').html('<li>' + myerrors.message + '</li>');
+//                                    $('#error_name_message').show();
+//                                } else {
+//                                    $('#error_name_header').html("Echec de la validation");
+//                                    $('#error_name_message').show();
+//                                }
+//
+//                            }
+//                        },
+//                        success: function (response, textStatus, jqXHR) {
+//                            $('#cancel_add_callOffer').removeClass('disabled');
+//                            $('#submit_callOffer').removeClass('disabled');
+//                            $('#add_callOffer_form.ui.form').removeClass('loading');
+////                                $('#list_as_grid_content').prepend(response.callOffer_content_grid);
+////                                $('#list_as_table_content').prepend(response.callOffer_content_list);
+////                                $('.ui.dropdown').dropdown({
+////                                    on: 'hover'
+////                                });
+//                            $('#add_callOffer.ui.modal').modal('hide');
+//                            $('#message_success>div.header').html(response.message);
+//                            $('#message_success').show();
+//                            window.location.replace(Routing.generate('call_offer_index'));
+//                            setTimeout(function () {
+//                                $('#message_success').hide();
+//                            }, 4000);
+//                        },
+//                        error: function (jqXHR, textStatus, errorThrown) {
+//                            $('#cancel_add_callOffer').removeClass('disabled');
+//                            $('#submit_callOffer').removeClass('disabled');
+//                            $('#add_callOffer_form.ui.form').removeClass('loading');
+//                            /*alertify.error("Internal Server Error");*/
+//                        }
+//                    });
+//                    return false;
+//                }
+            });
+    $('#submit_callOffer').click(function (e) {
+        e.preventDefault();
+        $('#server_error_message').hide();
+        if ($('#add_callOffer_form.ui.form').form('is valid')) {
+            $.ajax({
+                type: 'post',
+                url: Routing.generate('call_offer_add'),
+                data: {'testunicity': 'yes', 'reference': $('#add_callOffer_form.ui.form input[name*="reference"]').val()},
+                dataType: 'json',
+                processData: false,
+                //contentType: false,
+                cache: false,
+                beforeSend: function () {
+                    $('#submit_callOffer').addClass('disabled');
+                    $('#cancel_add_callOffer').addClass('disabled');
+                    $('#add_callOffer_form.ui.form').addClass('loading');
+                },
+                statusCode: {
+                    500: function (xhr) {
+                        $('#server_error_message').show();
+                    },
+                    400: function (response, textStatus, jqXHR) {
+                        var myerrors = response.responseJSON;
+                        if (myerrors.success === false) {
+                            $('#error_name_header').html("Echec de la validation");
+                            $('#error_name_list').html('<li>' + myerrors.message + '</li>');
+                            $('#error_name_message').show();
+                        } else {
+                            $('#error_name_header').html("Echec de la validation");
+                            $('#error_name_message').show();
                         }
-                    });
-                    return false;
+
+                    }
+                },
+                success: function (response, textStatus, jqXHR) {
+                    $('#add_callOffer_form.ui.form').submit();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    $('#cancel_add_callOffer').removeClass('disabled');
+                    $('#submit_callOffer').removeClass('disabled');
+                    $('#add_callOffer_form.ui.form').removeClass('loading');
                 }
-            }
-            );
+            });
+        }
+    });
 
 });
+
 
 
 function edit_callOffer(id) {
@@ -301,14 +338,6 @@ function edit_callOffer(id) {
 }
 
 function execute_edit(id) {
-    $('#submit_edit_callOffer').click(function (e) {
-        e.preventDefault();
-        $('#server_error_message').hide();
-        $('#message_error').hide();
-        $('#message_success').hide();
-        $('#error_name_message').hide();
-        $('#edit_callOffer_form.ui.form').submit();
-    });
     $('#edit_callOffer_form.ui.form')
             .form({
                 fields: {
@@ -413,75 +442,124 @@ function execute_edit(id) {
                     }
                 },
                 inline: true,
-                on: 'blur',
-                onSuccess: function (event, fields) {
-                    $.ajax({
-                        type: 'PUT',
-                        url: Routing.generate('call_offer_update', {id: id}),
-                        data: $('#edit_callOffer_form.ui.form').serialize(),
-                        dataType: 'json',
-                        processData: false,
-                        //contentType: false,
-                        cache: false,
-                        beforeSend: function () {
-                            $('#submit_edit_callOffer').addClass('disabled');
-                            $('#cancel_edit_callOffer').addClass('disabled');
-                            $('#edit_callOffer_form.ui.form').addClass('loading');
-                            $('#cancel_details_callOffer').addClass('disabled');
-                            $('#disable_callOffer').addClass('disabled');
-                            $('#enable_callOffer').addClass('disabled');
-                        },
-                        statusCode: {
-                            500: function (xhr) {
-                                $('#server_error_message_edit').show();
-                            },
-                            400: function (response, textStatus, jqXHR) {
-                                var myerrors = response.responseJSON;
-                                if (myerrors.success === false) {
-                                    $('#error_name_header_edit').html("Echec de la validation");
-                                    $('#error_name_list_edit').html('<li>' + myerrors.message + '</li>');
-                                    $('#error_name_message_edit').show();
-                                } else {
-                                    $('#error_name_header_edit').html("Echec de la validation");
-                                    $('#error_name_message_edit').show();
-                                }
-
-                            }
-                        },
-                        success: function (response, textStatus, jqXHR) {
-                                $('#submit_edit_callOffer').removeClass('disabled');
-                                $('#cancel_edit_callOffer').removeClass('disabled');
-                                $('#edit_callOffer_form.ui.form').removeClass('loading');
-                                $('#cancel_details_callOffer').removeClass('disabled');
-                                $('#disable_callOffer').removeClass('disabled');
-                                $('#enable_callOffer').removeClass('disabled');
-//                                $('#callOffer_grid' + id).html(response.callOffer_content_grid);
-//                                $('#callOffer_list' + id).html(response.callOffer_content_list);
-//                                $('.ui.dropdown').dropdown({
-//                                    on: 'hover'
-//                                });
-                                $('#edit_callOffer.ui.modal').modal('hide');
-                                $('#message_success>div.header').html(response.message);
-                                $('#message_success').show();
-                                window.location.replace(Routing.generate('call_offer_index'));
-                                setTimeout(function () {
-                                    $('#message_success').hide();
-                                }, 4000);
-                                $('#edit_callOffer').remove();
-                            
-
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            $('#submit_edit_callOffer').removeClass('disabled');
-                            $('#cancel_edit_callOffer').removeClass('disabled');
-                            $('#edit_callOffer_form.ui.form').removeClass('loading');
-                            /*alertify.error("Internal Server Error");*/
-                        }
-                    });
-                    return false;
-                }
+                on: 'change'
+//                onSuccess: function (event, fields) {
+//                    $.ajax({
+//                        type: 'PUT',
+//                        url: Routing.generate('call_offer_update', {id: id}),
+//                        data: $('#edit_callOffer_form.ui.form').serialize(),
+//                        dataType: 'json',
+//                        processData: false,
+//                        //contentType: false,
+//                        cache: false,
+//                        beforeSend: function () {
+//                            $('#submit_edit_callOffer').addClass('disabled');
+//                            $('#cancel_edit_callOffer').addClass('disabled');
+//                            $('#edit_callOffer_form.ui.form').addClass('loading');
+//                            $('#cancel_details_callOffer').addClass('disabled');
+//                            $('#disable_callOffer').addClass('disabled');
+//                            $('#enable_callOffer').addClass('disabled');
+//                        },
+//                        statusCode: {
+//                            500: function (xhr) {
+//                                $('#server_error_message_edit').show();
+//                            },
+//                            400: function (response, textStatus, jqXHR) {
+//                                var myerrors = response.responseJSON;
+//                                if (myerrors.success === false) {
+//                                    $('#error_name_header_edit').html("Echec de la validation");
+//                                    $('#error_name_list_edit').html('<li>' + myerrors.message + '</li>');
+//                                    $('#error_name_message_edit').show();
+//                                } else {
+//                                    $('#error_name_header_edit').html("Echec de la validation");
+//                                    $('#error_name_message_edit').show();
+//                                }
+//
+//                            }
+//                        },
+//                        success: function (response, textStatus, jqXHR) {
+//                            $('#submit_edit_callOffer').removeClass('disabled');
+//                            $('#cancel_edit_callOffer').removeClass('disabled');
+//                            $('#edit_callOffer_form.ui.form').removeClass('loading');
+//                            $('#cancel_details_callOffer').removeClass('disabled');
+//                            $('#disable_callOffer').removeClass('disabled');
+//                            $('#enable_callOffer').removeClass('disabled');
+////                                $('#callOffer_grid' + id).html(response.callOffer_content_grid);
+////                                $('#callOffer_list' + id).html(response.callOffer_content_list);
+////                                $('.ui.dropdown').dropdown({
+////                                    on: 'hover'
+////                                });
+//                            $('#edit_callOffer.ui.modal').modal('hide');
+//                            $('#message_success>div.header').html(response.message);
+//                            $('#message_success').show();
+//                            window.location.replace(Routing.generate('call_offer_index'));
+//                            setTimeout(function () {
+//                                $('#message_success').hide();
+//                            }, 4000);
+//                            $('#edit_callOffer').remove();
+//
+//
+//                        },
+//                        error: function (jqXHR, textStatus, errorThrown) {
+//                            $('#submit_edit_callOffer').removeClass('disabled');
+//                            $('#cancel_edit_callOffer').removeClass('disabled');
+//                            $('#edit_callOffer_form.ui.form').removeClass('loading');
+//                            /*alertify.error("Internal Server Error");*/
+//                        }
+//                    });
+//                    return false;
+//                }
             }
             );
+    $('#submit_edit_callOffer').click(function (e) {
+        e.preventDefault();
+        $('#server_error_message').hide();
+        if ($('#edit_callOffer_form.ui.form').form('is valid')) {
+            $.ajax({
+                type: 'PUT',
+                url: Routing.generate('call_offer_update', {id: id}),
+                data: {'testunicity': 'yes', 'reference': $('#edit_callOffer_form.ui.form input[name*="reference"]').val()},
+                dataType: 'json',
+                processData: false,
+                //contentType: false,
+                cache: false,
+                beforeSend: function () {
+                    $('#submit_edit_callOffer').addClass('disabled');
+                    $('#cancel_edit_callOffer').addClass('disabled');
+                    $('#edit_callOffer_form.ui.form').addClass('loading');
+                    $('#cancel_details_callOffer').addClass('disabled');
+                    $('#disable_callOffer').addClass('disabled');
+                    $('#enable_callOffer').addClass('disabled');
+                },
+                statusCode: {
+                    500: function (xhr) {
+                        $('#server_error_message_edit').show();
+                    },
+                    400: function (response, textStatus, jqXHR) {
+                        var myerrors = response.responseJSON;
+                        if (myerrors.success === false) {
+                            $('#error_name_header_edit').html("Echec de la validation");
+                            $('#error_name_list_edit').html('<li>' + myerrors.message + '</li>');
+                            $('#error_name_message_edit').show();
+                        } else {
+                            $('#error_name_header_edit').html("Echec de la validation");
+                            $('#error_name_message_edit').show();
+                        }
+
+                    }
+                },
+                success: function (response, textStatus, jqXHR) {
+                   $('#edit_callOffer_form.ui.form').submit();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    $('#submit_edit_callOffer').removeClass('disabled');
+                    $('#cancel_edit_callOffer').removeClass('disabled');
+                    $('#edit_callOffer_form.ui.form').removeClass('loading');
+                    /*alertify.error("Internal Server Error");*/
+                }
+            });
+        }
+    });
 }
 
 function delete_callOffer(id) {
@@ -556,65 +634,65 @@ function show_callOffer(id) {
             }
         },
         success: function (response, textStatus, jqXHR) {
-                $('#edit_callOffer').remove();
-                $('#edit_callOffer_content').html(response.callOffer_details);
-                $('#edit_callOffer.ui.modal').modal('setting', {
-                    autofocus: false,
-                    inverted: true,
-                    closable: false
-                });
-                $('#ogive_alertbundle_calloffer_domain.ui.dropdown').dropdown({
-                    on: 'click'
-                });
-                $('#ogive_alertbundle_calloffer_subDomain.ui.dropdown').dropdown({
-                    on: 'click'
-                });
-                $('#checkbox_aono_edit').change(function () {
-                    if ($(this).is(':checked')) {
-                        $('#field_asmi_edit').hide();
-                        $('#field_asmi_edit>.ui.dropdown').dropdown('clear');
-                    }
-                });
+            $('#edit_callOffer').remove();
+            $('#edit_callOffer_content').html(response.callOffer_details);
+            $('#edit_callOffer.ui.modal').modal('setting', {
+                autofocus: false,
+                inverted: true,
+                closable: false
+            });
+            $('#ogive_alertbundle_calloffer_domain.ui.dropdown').dropdown({
+                on: 'click'
+            });
+            $('#ogive_alertbundle_calloffer_subDomain.ui.dropdown').dropdown({
+                on: 'click'
+            });
+            $('#checkbox_aono_edit').change(function () {
+                if ($(this).is(':checked')) {
+                    $('#field_asmi_edit').hide();
+                    $('#field_asmi_edit>.ui.dropdown').dropdown('clear');
+                }
+            });
 
-                $('#checkbox_aonr_edit').change(function () {
-                    if ($(this).is(':checked')) {
-                        $('#field_asmi_edit').show();
-                    }
-                });
+            $('#checkbox_aonr_edit').change(function () {
+                if ($(this).is(':checked')) {
+                    $('#field_asmi_edit').show();
+                }
+            });
 
-                $('#checkbox_aoio_edit').change(function () {
-                    if ($(this).is(':checked')) {
-                        $('#field_asmi_edit').hide();
-                        $('#field_asmi_edit>.ui.dropdown').dropdown('clear');
-                    }
-                });
+            $('#checkbox_aoio_edit').change(function () {
+                if ($(this).is(':checked')) {
+                    $('#field_asmi_edit').hide();
+                    $('#field_asmi_edit>.ui.dropdown').dropdown('clear');
+                }
+            });
 
-                $('#checkbox_aoir_edit').change(function () {
-                    if ($(this).is(':checked')) {
-                        $('#field_asmi_edit').show();
-                    }
-                });
-                $('#cancel_details_callOffer').click(function () {
-                    window.location.replace(Routing.generate('call_offer_index'));
-                });
+            $('#checkbox_aoir_edit').change(function () {
+                if ($(this).is(':checked')) {
+                    $('#field_asmi_edit').show();
+                }
+            });
+            $('#cancel_details_callOffer').click(function () {
+                window.location.replace(Routing.generate('call_offer_index'));
+            });
 
-                $('#edit_callOffer.ui.modal').modal('show');
-                execute_edit(id);
-                $('#edit_callOffer_btn').click(function () {
-                    $('#block_details').hide();
-                    $('#block_form_edit').show();
-                    $('#cancel_edit_callOffer').show();
-                    $('#submit_edit_callOffer').show();
-                    $(this).hide();
-                });
-                $('#cancel_edit_callOffer').click(function () {
-                    $('#block_details').show();
-                    $('#block_form_edit').hide();
-                    $('#edit_callOffer_btn').show();
-                    $('#submit_edit_callOffer').hide();
-                    $(this).hide();
-                });
-            
+            $('#edit_callOffer.ui.modal').modal('show');
+            execute_edit(id);
+            $('#edit_callOffer_btn').click(function () {
+                $('#block_details').hide();
+                $('#block_form_edit').show();
+                $('#cancel_edit_callOffer').show();
+                $('#submit_edit_callOffer').show();
+                $(this).hide();
+            });
+            $('#cancel_edit_callOffer').click(function () {
+                $('#block_details').show();
+                $('#block_form_edit').hide();
+                $('#edit_callOffer_btn').show();
+                $('#submit_edit_callOffer').hide();
+                $(this).hide();
+            });
+
             $('#message_loading').hide();
         },
         error: function (jqXHR, textStatus, errorThrown) {

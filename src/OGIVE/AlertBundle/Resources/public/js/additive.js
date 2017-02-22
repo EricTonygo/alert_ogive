@@ -37,14 +37,7 @@ $(function () {
         $('#add_additive.ui.modal').modal('show');
     });
 
-    $('#submit_additive').click(function (e) {
-        e.preventDefault();
-        $('#server_error_message').hide();
-        $('#message_error').hide();
-        $('#message_success').hide();
-        $('#error_name_message').hide();
-        $('#add_additive_form.ui.form').submit();
-    });
+
     $('#add_additive_form.ui.form')
             .form({
                 fields: {
@@ -150,65 +143,107 @@ $(function () {
 
                 },
                 inline: true,
-                on: 'blur',
-                onSuccess: function (event, fields) {
-                    $.ajax({
-                        type: 'post',
-                        url: Routing.generate('additive_add'),
-                        data: fields,
-                        dataType: 'json',
-                        beforeSend: function () {
-                            $('#submit_additive').addClass('disabled');
-                            $('#cancel_add_additive').addClass('disabled');
-                            $('#add_additive_form.ui.form').addClass('loading');
-                        },
-                        statusCode: {
-                            500: function (xhr) {
-                                $('#server_error_message').show();
-                            },
-                            400: function (response, textStatus, jqXHR) {
-                                var myerrors = response.responseJSON;
-                                if (myerrors.success === false) {
-                                    $('#error_name_header').html("Echec de la validation");
-                                    $('#error_name_list').html('<li>' + myerrors.message + '</li>');
-                                    $('#error_name_message').show();
-                                } else {
-                                    $('#error_name_header').html("Echec de la validation. Veuillez verifier à nouveau vos données");
-                                    $('#error_name_message').show();
-                                }
-                            }
-                        },
-                        success: function (response, textStatus, jqXHR) {
-
-                            $('#cancel_add_additive').removeClass('disabled');
-                            $('#submit_additive').removeClass('disabled');
-                            $('#add_additive_form.ui.form').removeClass('loading');
-//                                $('#list_as_grid_content').prepend(response.additive_content_grid);
-//                                $('#list_as_table_content').prepend(response.additive_content_list);
-//                                $('.ui.dropdown').dropdown({
-//                                    on: 'hover'
-//                                });
-                            $('#add_additive.ui.modal').modal('hide');
-                            $('#message_success>div.header').html(response.message);
-                            $('#message_success').show();
-                            window.location.replace(Routing.generate('additive_index'));
-                            setTimeout(function () {
-                                $('#message_success').hide();
-                            }, 4000);
-
-
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            $('#cancel_add_additive').removeClass('disabled');
-                            $('#submit_additive').removeClass('disabled');
-                            $('#add_additive_form.ui.form').removeClass('loading');
-                            /*alertify.error("Internal Server Error");*/
-                        }
-                    });
-                    return false;
-                }
+                on: 'change'
+//                onSuccess: function (event, fields) {
+//                    $.ajax({
+//                        type: 'post',
+//                        url: Routing.generate('additive_add'),
+//                        data: fields,
+//                        dataType: 'json',
+//                        beforeSend: function () {
+//                            $('#submit_additive').addClass('disabled');
+//                            $('#cancel_add_additive').addClass('disabled');
+//                            $('#add_additive_form.ui.form').addClass('loading');
+//                        },
+//                        statusCode: {
+//                            500: function (xhr) {
+//                                $('#server_error_message').show();
+//                            },
+//                            400: function (response, textStatus, jqXHR) {
+//                                var myerrors = response.responseJSON;
+//                                if (myerrors.success === false) {
+//                                    $('#error_name_header').html("Echec de la validation");
+//                                    $('#error_name_list').html('<li>' + myerrors.message + '</li>');
+//                                    $('#error_name_message').show();
+//                                } else {
+//                                    $('#error_name_header').html("Echec de la validation. Veuillez verifier à nouveau vos données");
+//                                    $('#error_name_message').show();
+//                                }
+//                            }
+//                        },
+//                        success: function (response, textStatus, jqXHR) {
+//
+//                            $('#cancel_add_additive').removeClass('disabled');
+//                            $('#submit_additive').removeClass('disabled');
+//                            $('#add_additive_form.ui.form').removeClass('loading');
+////                                $('#list_as_grid_content').prepend(response.additive_content_grid);
+////                                $('#list_as_table_content').prepend(response.additive_content_list);
+////                                $('.ui.dropdown').dropdown({
+////                                    on: 'hover'
+////                                });
+//                            $('#add_additive.ui.modal').modal('hide');
+//                            $('#message_success>div.header').html(response.message);
+//                            $('#message_success').show();
+//                            window.location.replace(Routing.generate('additive_index'));
+//                            setTimeout(function () {
+//                                $('#message_success').hide();
+//                            }, 4000);
+//
+//
+//                        },
+//                        error: function (jqXHR, textStatus, errorThrown) {
+//                            $('#cancel_add_additive').removeClass('disabled');
+//                            $('#submit_additive').removeClass('disabled');
+//                            $('#add_additive_form.ui.form').removeClass('loading');
+//                            /*alertify.error("Internal Server Error");*/
+//                        }
+//                    });
+//                    return false;
+//                }
             }
             );
+    $('#submit_additive').click(function (e) {
+        e.preventDefault();
+        $('#server_error_message').hide();
+        if ($('#add_additive_form.ui.form').form('is valid')) {
+            $.ajax({
+                type: 'post',
+                url: Routing.generate('additive_add'),
+                data: {'testunicity': 'yes', 'reference': $('#add_additive_form.ui.form input[name*="reference"]').val()},
+                dataType: 'json',
+                beforeSend: function () {
+                    $('#submit_additive').addClass('disabled');
+                    $('#cancel_add_additive').addClass('disabled');
+                    $('#add_additive_form.ui.form').addClass('loading');
+                },
+                statusCode: {
+                    500: function (xhr) {
+                        $('#server_error_message').show();
+                    },
+                    400: function (response, textStatus, jqXHR) {
+                        var myerrors = response.responseJSON;
+                        if (myerrors.success === false) {
+                            $('#error_name_header').html("Echec de la validation");
+                            $('#error_name_list').html('<li>' + myerrors.message + '</li>');
+                            $('#error_name_message').show();
+                        } else {
+                            $('#error_name_header').html("Echec de la validation. Veuillez verifier à nouveau vos données");
+                            $('#error_name_message').show();
+                        }
+                    }
+                },
+                success: function (response, textStatus, jqXHR) {
+                    $('#add_additive_form.ui.form').submit();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    $('#cancel_add_additive').removeClass('disabled');
+                    $('#submit_additive').removeClass('disabled');
+                    $('#add_additive_form.ui.form').removeClass('loading');
+                    /*alertify.error("Internal Server Error");*/
+                }
+            });
+        }
+    });
 });
 
 function edit_additive(id) {
@@ -287,14 +322,7 @@ function edit_additive(id) {
 }
 
 function execute_edit(id) {
-    $('#submit_edit_additive').click(function (e) {
-        e.preventDefault();
-        $('#server_error_message').hide();
-        $('#message_error').hide();
-        $('#message_success').hide();
-        $('#error_name_message').hide();
-        $('#edit_additive_form.ui.form').submit();
-    });
+
     $('#edit_additive_form.ui.form')
             .form({
                 fields: {
@@ -399,73 +427,119 @@ function execute_edit(id) {
                     }
                 },
                 inline: true,
-                on: 'blur',
-                onSuccess: function (event, fields) {
-                    $.ajax({
-                        type: 'PUT',
-                        url: Routing.generate('additive_update', {id: id}),
-                        data: fields,
-                        dataType: 'json',
-                        beforeSend: function () {
-                            $('#submit_edit_additive').addClass('disabled');
-                            $('#cancel_edit_additive').addClass('disabled');
-                            $('#edit_additive_form.ui.form').addClass('loading');
-                            $('#cancel_details_additive').addClass('disabled');
-                            $('#disable_additive').addClass('disabled');
-                            $('#enable_additive').addClass('disabled');
-                        },
-                        statusCode: {
-                            500: function (xhr) {
-                                $('#server_error_message_edit').show();
-                            },
-                            400: function (response, textStatus, jqXHR) {
-                                var myerrors = response.responseJSON;
-                                if (myerrors.success === false) {
-                                    $('#error_name_header_edit').html("Echec de la validation");
-                                    $('#error_name_list_edit').html('<li>' + myerrors.message + '</li>');
-                                    $('#error_name_message_edit').show();
-                                } else {
-                                    $('#error_name_header_edit').html("Echec de la validation. Veuillez vérifier vos données");
-                                    $('#error_name_message_edit').show();
-                                }
-
-                            }
-                        },
-                        success: function (response, textStatus, jqXHR) {
-                                $('#submit_edit_additive').removeClass('disabled');
-                                $('#cancel_edit_additive').removeClass('disabled');
-                                $('#edit_additive_form.ui.form').removeClass('loading');
-                                $('#cancel_details_additive').removeClass('disabled');
-                                $('#disable_additive').removeClass('disabled');
-                                $('#enable_additive').removeClass('disabled');
-//                                $('#additive_grid' + id).html(response.additive_content_grid);
-//                                $('#additive_list' + id).html(response.additive_content_list);
-//                                $('.ui.dropdown').dropdown({
-//                                    on: 'hover'
-//                                });
-
-                                $('#edit_additive.ui.modal').modal('hide');
-                                $('#message_success>div.header').html(response.message);
-                                $('#message_success').show();
-                                window.location.replace(Routing.generate('additive_index'));
-                                setTimeout(function () {
-                                    $('#message_success').hide();
-                                }, 4000);
-                                $('#edit_additive').remove();
-                            
-
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            $('#submit_edit_additive').removeClass('disabled');
-                            $('#cancel_edit_additive').removeClass('disabled');
-                            $('#edit_additive_form.ui.form').removeClass('loading');
-                            /*alertify.error("Internal Server Error");*/
-                        }
-                    });
-                    return false;
-                }
+                on: 'change'
+//                onSuccess: function (event, fields) {
+//                    $.ajax({
+//                        type: 'PUT',
+//                        url: Routing.generate('additive_update', {id: id}),
+//                        data: fields,
+//                        dataType: 'json',
+//                        beforeSend: function () {
+//                            $('#submit_edit_additive').addClass('disabled');
+//                            $('#cancel_edit_additive').addClass('disabled');
+//                            $('#edit_additive_form.ui.form').addClass('loading');
+//                            $('#cancel_details_additive').addClass('disabled');
+//                            $('#disable_additive').addClass('disabled');
+//                            $('#enable_additive').addClass('disabled');
+//                        },
+//                        statusCode: {
+//                            500: function (xhr) {
+//                                $('#server_error_message_edit').show();
+//                            },
+//                            400: function (response, textStatus, jqXHR) {
+//                                var myerrors = response.responseJSON;
+//                                if (myerrors.success === false) {
+//                                    $('#error_name_header_edit').html("Echec de la validation");
+//                                    $('#error_name_list_edit').html('<li>' + myerrors.message + '</li>');
+//                                    $('#error_name_message_edit').show();
+//                                } else {
+//                                    $('#error_name_header_edit').html("Echec de la validation. Veuillez vérifier vos données");
+//                                    $('#error_name_message_edit').show();
+//                                }
+//
+//                            }
+//                        },
+//                        success: function (response, textStatus, jqXHR) {
+//                            $('#submit_edit_additive').removeClass('disabled');
+//                            $('#cancel_edit_additive').removeClass('disabled');
+//                            $('#edit_additive_form.ui.form').removeClass('loading');
+//                            $('#cancel_details_additive').removeClass('disabled');
+//                            $('#disable_additive').removeClass('disabled');
+//                            $('#enable_additive').removeClass('disabled');
+////                                $('#additive_grid' + id).html(response.additive_content_grid);
+////                                $('#additive_list' + id).html(response.additive_content_list);
+////                                $('.ui.dropdown').dropdown({
+////                                    on: 'hover'
+////                                });
+//
+//                            $('#edit_additive.ui.modal').modal('hide');
+//                            $('#message_success>div.header').html(response.message);
+//                            $('#message_success').show();
+//                            window.location.replace(Routing.generate('additive_index'));
+//                            setTimeout(function () {
+//                                $('#message_success').hide();
+//                            }, 4000);
+//                            $('#edit_additive').remove();
+//
+//
+//                        },
+//                        error: function (jqXHR, textStatus, errorThrown) {
+//                            $('#submit_edit_additive').removeClass('disabled');
+//                            $('#cancel_edit_additive').removeClass('disabled');
+//                            $('#edit_additive_form.ui.form').removeClass('loading');
+//                            /*alertify.error("Internal Server Error");*/
+//                        }
+//                    });
+//                    return false;
+//                }
             }
             );
+
+    $('#submit_edit_additive').click(function (e) {
+        e.preventDefault();
+        $('#server_error_message').hide();
+        if ($('#edit_additive_form.ui.form').form('is valid')) {
+            $.ajax({
+                type: 'PUT',
+                url: Routing.generate('additive_update', {id: id}),
+                data: {'testunicity': 'yes', 'reference': $('#edit_additive_form.ui.form input[name*="reference"]').val()},
+                dataType: 'json',
+                beforeSend: function () {
+                    $('#submit_edit_additive').addClass('disabled');
+                    $('#cancel_edit_additive').addClass('disabled');
+                    $('#edit_additive_form.ui.form').addClass('loading');
+                    $('#cancel_details_additive').addClass('disabled');
+                    $('#disable_additive').addClass('disabled');
+                    $('#enable_additive').addClass('disabled');
+                },
+                statusCode: {
+                    500: function (xhr) {
+                        $('#server_error_message_edit').show();
+                    },
+                    400: function (response, textStatus, jqXHR) {
+                        var myerrors = response.responseJSON;
+                        if (myerrors.success === false) {
+                            $('#error_name_header_edit').html("Echec de la validation");
+                            $('#error_name_list_edit').html('<li>' + myerrors.message + '</li>');
+                            $('#error_name_message_edit').show();
+                        } else {
+                            $('#error_name_header_edit').html("Echec de la validation. Veuillez vérifier vos données");
+                            $('#error_name_message_edit').show();
+                        }
+
+                    }
+                },
+                success: function (response, textStatus, jqXHR) {
+                    $('#edit_additive_form.ui.form').submit();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    $('#submit_edit_additive').removeClass('disabled');
+                    $('#cancel_edit_additive').removeClass('disabled');
+                    $('#edit_additive_form.ui.form').removeClass('loading');
+                }
+            });
+        }
+    });
 }
 
 function delete_additive(id) {
@@ -641,7 +715,7 @@ function enable_additive(id) {
             }
         },
         success: function (response, textStatus, jqXHR) {
- 
+
             $('#message_loading').hide();
             $('#enable_additive_grid' + id).hide();
             $('#disable_additive_grid' + id).show();
@@ -696,7 +770,7 @@ function disable_additive(id) {
             }
         },
         success: function (response, textStatus, jqXHR) {
-            
+
             $('#message_loading').hide();
             $('#disable_additive_grid' + id).hide();
             $('#enable_additive_grid' + id).show();

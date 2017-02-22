@@ -70,14 +70,21 @@ class ExpressionInterestController extends Controller {
         }
         $expressionInterest = new ExpressionInterest();
         $repositoryExpressionInterest = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:ExpressionInterest');
+
+        if ($request->get('testunicity') == 'yes' && $request->get('reference')) {
+            $reference = $request->get('reference');
+            if ($repositoryExpressionInterest->findOneBy(array('reference' => $reference, 'status' => 1))) {
+                return new JsonResponse(["success" => false, 'message' => "Une manifestation d'intérêt avec cette référence existe dejà !"], Response::HTTP_BAD_REQUEST);
+            } else {
+                return new JsonResponse(['message' => "Add Expression of interest is possible !"], Response::HTTP_OK);
+            }
+        }
+
         $form = $this->createForm('OGIVE\AlertBundle\Form\ExpressionInterestType', $expressionInterest);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($repositoryExpressionInterest->findOneBy(array('reference' => $expressionInterest->getReference(), 'status' => 1))) {
-                return new JsonResponse(["success" => false, 'message' => "Une manifestation d'intérêt avec cette référence existe dejà !"], Response::HTTP_BAD_REQUEST);
-            }
-           if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
                 $sendActivate = $request->get('send_activate');
                 if ($sendActivate && $sendActivate === 'on') {
                     $expressionInterest->setState(1);
@@ -85,11 +92,8 @@ class ExpressionInterestController extends Controller {
             }
             $expressionInterest->setAbstract($this->getAbstractOfExpressionInterest($expressionInterest));
             $expressionInterest = $repositoryExpressionInterest->saveExpressionInterest($expressionInterest);
-//            $expressionInterest_content_grid = $this->renderView('OGIVEAlertBundle:expressionInterest:expressionInterest-grid.html.twig', array('expressionInterest' => $expressionInterest));
-//            $expressionInterest_content_list = $this->renderView('OGIVEAlertBundle:expressionInterest:expressionInterest-list.html.twig', array('expressionInterest' => $expressionInterest));
-//            $view = View::create(["code" => 200, 'expressionInterest_content_grid' => $expressionInterest_content_grid, 'expressionInterest_content_list' => $expressionInterest_content_list]);
-            $view = View::create(["message" => "Manifestation d'intérêt ajoutée avec succès !"]);
-            $view->setFormat('json');
+            $view = View::createRedirect($this->generateUrl('expressionInterest_index'));
+            $view->setFormat('html');
             return $view;
         } else {
             $view = View::create($form);
@@ -136,29 +140,36 @@ class ExpressionInterestController extends Controller {
         if (empty($expressionInterest)) {
             return new JsonResponse(['message' => "Manifestation d'intérêt introuvable"], Response::HTTP_NOT_FOUND);
         }
-        
-        if($request->get('action')== 'enable'){
+
+        if ($request->get('testunicity') == 'yes' && $request->get('reference')) {
+            $reference = $request->get('reference');
+            $expressionInterestUnique = $repositoryExpressionInterest->findOneBy(array('reference' => $reference, 'status' => 1));
+            if ($expressionInterestUnique && $expressionInterestUnique->getId() != $expressionInterest->getId()) {
+                return new JsonResponse(["success" => false, 'message' => "Une manifestation d'intérêt avec cette référence existe dejà"], Response::HTTP_BAD_REQUEST);
+            } else {
+                return new JsonResponse(['message' => "Update Expression of interest is possible !"], Response::HTTP_OK);
+            }
+        }
+
+        if ($request->get('action') == 'enable') {
             $expressionInterest->setState(1);
             $expressionInterest = $repositoryExpressionInterest->updateExpressionInterest($expressionInterest);
             return new JsonResponse(['message' => "Manifestation d'intérêt activée avec succcès !"], Response::HTTP_OK
-                    );
+            );
         }
-        
-        if($request->get('action')== 'disable'){
+
+        if ($request->get('action') == 'disable') {
             $expressionInterest->setState(0);
             $expressionInterest = $repositoryExpressionInterest->updateExpressionInterest($expressionInterest);
             return new JsonResponse(['message' => "Manifestation d'intérêt désactivée avec succcès !"], Response::HTTP_OK
-                    );
+            );
         }
         $form = $this->createForm('OGIVE\AlertBundle\Form\ExpressionInterestType', $expressionInterest, array('method' => 'PUT'));
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $expressionInterestUnique = $repositoryExpressionInterest->findOneBy(array('reference' => $expressionInterest->getReference(), 'status' => 1));
-            if ($expressionInterestUnique && $expressionInterestUnique->getId() != $expressionInterest->getId()) {
-                return new JsonResponse(["success" => false, 'message' => "Une manifestation d'intérêt avec cette référence existe dejà"], Response::HTTP_BAD_REQUEST);
-            }            
+
             $expressionInterest->setAbstract($this->getAbstractOfExpressionInterest($expressionInterest));
             if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
                 $sendActivate = $request->get('send_activate');
@@ -169,11 +180,8 @@ class ExpressionInterestController extends Controller {
                 }
             }
             $expressionInterest = $repositoryExpressionInterest->updateExpressionInterest($expressionInterest);
-//            $expressionInterest_content_grid = $this->renderView('OGIVEAlertBundle:expressionInterest:expressionInterest-grid-edit.html.twig', array('expressionInterest' => $expressionInterest));
-//            $expressionInterest_content_list = $this->renderView('OGIVEAlertBundle:expressionInterest:expressionInterest-list-edit.html.twig', array('expressionInterest' => $expressionInterest));
-//            $view = View::create(['expressionInterest_content_grid' => $expressionInterest_content_grid, 'expressionInterest_content_list' => $expressionInterest_content_list]);
-            $view = View::create(["message" => "Manifestation d'intérêt modifiée avec succès !"]);
-            $view->setFormat('json');
+            $view = View::createRedirect($this->generateUrl('expressionInterest_index'));
+            $view->setFormat('html');
             return $view;
         } elseif ($form->isSubmitted() && !$form->isValid()) {
             $view = View::create($form);
@@ -187,16 +195,17 @@ class ExpressionInterestController extends Controller {
         }
     }
 
-    public function getAbstractOfExpressionInterest(ExpressionInterest $expressionInterest){
+    public function getAbstractOfExpressionInterest(ExpressionInterest $expressionInterest) {
         $contact = "Contacts: 694200310 - 694202013";
         $dot = ".";
-            if(substr(trim($expressionInterest->getObject()), -1) === "."){
-                $dot = "";
-            } 
-        if($expressionInterest ){
-            return $expressionInterest->getType()." : "."N°".$expressionInterest->getReference()." du ".date_format($expressionInterest->getPublicationDate(), "d/m/Y")." lancé par ".$expressionInterest->getOwner()." pour ".$expressionInterest->getObject().$dot." Dépôt des offres le ".date_format($expressionInterest->getOpeningDate(), "d/m/Y")." à ".date_format($expressionInterest->getOpeningDate(), "H:i")."."; 
-        }else{
+        if (substr(trim($expressionInterest->getObject()), -1) === ".") {
+            $dot = "";
+        }
+        if ($expressionInterest) {
+            return $expressionInterest->getType() . " : " . "N°" . $expressionInterest->getReference() . " du " . date_format($expressionInterest->getPublicationDate(), "d/m/Y") . " lancé par " . $expressionInterest->getOwner() . " pour " . $expressionInterest->getObject() . $dot . " Dépôt des offres le " . date_format($expressionInterest->getOpeningDate(), "d/m/Y") . " à " . date_format($expressionInterest->getOpeningDate(), "H:i") . ".";
+        } else {
             return "";
         }
     }
+
 }

@@ -30,14 +30,7 @@ $(function () {
         $('#add_procedureResult.ui.modal').modal('show');
     });
 
-    $('#submit_procedureResult').click(function (e) {
-        e.preventDefault();
-        $('#server_error_message').hide();
-        $('#message_error').hide();
-        $('#message_success').hide();
-        $('#error_name_message').hide();
-        $('#add_procedureResult_form.ui.form').submit();
-    });
+
     $('#cancel_add_procedureResult').click(function () {
         window.location.replace(Routing.generate('procedureResult_index'));
     });
@@ -63,24 +56,6 @@ $(function () {
                         ]
                     },
 
-//                    callOffer: {
-//                        identifier: 'callOffer',
-//                        rules: [
-//                            {
-//                                type: 'empty',
-//                                prompt: "Veuillez selectionner l'appel d'offre"
-//                            }
-//                        ]
-//                    },
-//                    expressionInterest: {
-//                        identifier: 'expressionInterest',
-//                        rules: [
-//                            {
-//                                type: 'empty',
-//                                prompt: "Veuillez selectionner la manisfestation d'intérêt"
-//                            }
-//                        ]
-//                    },
                     publication_date_date: {
                         identifier: 'publication_date_date',
                         rules: [
@@ -122,65 +97,110 @@ $(function () {
 
                 },
                 inline: true,
-                on: 'blur',
-                onSuccess: function (event, fields) {
-                    $.ajax({
-                        type: 'post',
-                        url: Routing.generate('procedureResult_add'),
-                        data: fields,
-                        dataType: 'json',
-                        beforeSend: function () {
-                            $('#submit_procedureResult').addClass('disabled');
-                            $('#cancel_add_procedureResult').addClass('disabled');
-                            $('#add_procedureResult_form.ui.form').addClass('loading');
-                        },
-                        statusCode: {
-                            500: function (xhr) {
-                                $('#server_error_message').show();
-                            },
-                            400: function (response, textStatus, jqXHR) {
-                                console.log(response);
-                                var myerrors = response.responseJSON;
-                                if (myerrors.success === false) {
-                                    $('#error_name_header').html("Echec de la validation");
-                                    $('#error_name_list').html('<li>' + myerrors.message + '</li>');
-                                    $('#error_name_message').show();
-                                } else {
-                                    $('#error_name_header').html("Echec de la validation. Veuillez vérifier vos données");
-                                    $('#error_name_message').show();
-                                }
-
-                            }
-                        },
-                        success: function (response, textStatus, jqXHR) {
-                            $('#cancel_add_procedureResult').removeClass('disabled');
-                            $('#submit_procedureResult').removeClass('disabled');
-                            $('#add_procedureResult_form.ui.form').removeClass('loading');
-//                                $('#list_as_grid_content').prepend(response.procedureResult_content_grid);
-//                                $('#list_as_table_content').prepend(response.procedureResult_content_list);
-//                                $('.ui.dropdown').dropdown({
-//                                    on: 'hover'
-//                                });
-                            $('#add_procedureResult.ui.modal').modal('hide');
-                            $('#message_success>div.header').html(response.message);
-                            $('#message_success').show();
-                            window.location.replace(Routing.generate('procedureResult_index'));
-                            setTimeout(function () {
-                                $('#message_success').hide();
-                            }, 4000);
-
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            $('#cancel_add_procedureResult').removeClass('disabled');
-                            $('#submit_procedureResult').removeClass('disabled');
-                            $('#add_procedureResult_form.ui.form').removeClass('loading');
-                            /*alertify.error("Internal Server Error");*/
-                        }
-                    });
-                    return false;
-                }
+                on: 'change'
+//                onSuccess: function (event, fields) {
+//                    $.ajax({
+//                        type: 'post',
+//                        url: Routing.generate('procedureResult_add'),
+//                        data: fields,
+//                        dataType: 'json',
+//                        beforeSend: function () {
+//                            $('#submit_procedureResult').addClass('disabled');
+//                            $('#cancel_add_procedureResult').addClass('disabled');
+//                            $('#add_procedureResult_form.ui.form').addClass('loading');
+//                        },
+//                        statusCode: {
+//                            500: function (xhr) {
+//                                $('#server_error_message').show();
+//                            },
+//                            400: function (response, textStatus, jqXHR) {
+//                                console.log(response);
+//                                var myerrors = response.responseJSON;
+//                                if (myerrors.success === false) {
+//                                    $('#error_name_header').html("Echec de la validation");
+//                                    $('#error_name_list').html('<li>' + myerrors.message + '</li>');
+//                                    $('#error_name_message').show();
+//                                } else {
+//                                    $('#error_name_header').html("Echec de la validation. Veuillez vérifier vos données");
+//                                    $('#error_name_message').show();
+//                                }
+//
+//                            }
+//                        },
+//                        success: function (response, textStatus, jqXHR) {
+//                            $('#cancel_add_procedureResult').removeClass('disabled');
+//                            $('#submit_procedureResult').removeClass('disabled');
+//                            $('#add_procedureResult_form.ui.form').removeClass('loading');
+////                                $('#list_as_grid_content').prepend(response.procedureResult_content_grid);
+////                                $('#list_as_table_content').prepend(response.procedureResult_content_list);
+////                                $('.ui.dropdown').dropdown({
+////                                    on: 'hover'
+////                                });
+//                            $('#add_procedureResult.ui.modal').modal('hide');
+//                            $('#message_success>div.header').html(response.message);
+//                            $('#message_success').show();
+//                            window.location.replace(Routing.generate('procedureResult_index'));
+//                            setTimeout(function () {
+//                                $('#message_success').hide();
+//                            }, 4000);
+//
+//                        },
+//                        error: function (jqXHR, textStatus, errorThrown) {
+//                            $('#cancel_add_procedureResult').removeClass('disabled');
+//                            $('#submit_procedureResult').removeClass('disabled');
+//                            $('#add_procedureResult_form.ui.form').removeClass('loading');
+//                            /*alertify.error("Internal Server Error");*/
+//                        }
+//                    });
+//                    return false;
+//                }
             }
             );
+
+    $('#submit_procedureResult').click(function (e) {
+        e.preventDefault();
+        $('#server_error_message').hide();
+        if ($('#add_procedureResult_form.ui.form').form('is valid')) {
+            $.ajax({
+                type: 'post',
+                url: Routing.generate('procedureResult_add'),
+                data: {'testunicity': 'yes', 'reference': $('#add_procedureResult_form.ui.form input[name*="reference"]').val()},
+                dataType: 'json',
+                beforeSend: function () {
+                    $('#submit_procedureResult').addClass('disabled');
+                    $('#cancel_add_procedureResult').addClass('disabled');
+                    $('#add_procedureResult_form.ui.form').addClass('loading');
+                },
+                statusCode: {
+                    500: function (xhr) {
+                        $('#server_error_message').show();
+                    },
+                    400: function (response, textStatus, jqXHR) {
+                        console.log(response);
+                        var myerrors = response.responseJSON;
+                        if (myerrors.success === false) {
+                            $('#error_name_header').html("Echec de la validation");
+                            $('#error_name_list').html('<li>' + myerrors.message + '</li>');
+                            $('#error_name_message').show();
+                        } else {
+                            $('#error_name_header').html("Echec de la validation. Veuillez vérifier vos données");
+                            $('#error_name_message').show();
+                        }
+
+                    }
+                },
+                success: function (response, textStatus, jqXHR) {
+                    $('#add_procedureResult_form.ui.form').submit();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    $('#cancel_add_procedureResult').removeClass('disabled');
+                    $('#submit_procedureResult').removeClass('disabled');
+                    $('#add_procedureResult_form.ui.form').removeClass('loading');
+                    /*alertify.error("Internal Server Error");*/
+                }
+            });
+        }
+    });
 });
 
 function edit_procedureResult(id) {
@@ -282,24 +302,6 @@ function execute_edit(id) {
                         ]
                     },
 
-//                    callOffer: {
-//                        identifier: 'callOffer',
-//                        rules: [
-//                            {
-//                                type: 'empty',
-//                                prompt: "Veuillez selectionner l'appel d'offre"
-//                            }
-//                        ]
-//                    },
-//                    expressionInterest: {
-//                        identifier: 'expressionInterest',
-//                        rules: [
-//                            {
-//                                type: 'empty',
-//                                prompt: "Veuillez selectionner la manisfestation d'intérêt"
-//                            }
-//                        ]
-//                    },
                     publication_date_date: {
                         identifier: 'publication_date_date',
                         rules: [
@@ -341,72 +343,119 @@ function execute_edit(id) {
 
                 },
                 inline: true,
-                on: 'blur',
-                onSuccess: function (event, fields) {
-                    $.ajax({
-                        type: 'PUT',
-                        url: Routing.generate('procedureResult_update', {id: id}),
-                        data: fields,
-                        dataType: 'json',
-                        beforeSend: function () {
-                            $('#submit_edit_procedureResult').addClass('disabled');
-                            $('#cancel_edit_procedureResult').addClass('disabled');
-                            $('#edit_procedureResult_form.ui.form').addClass('loading');
-                            $('#cancel_details_procedureResult').addClass('disabled');
-                            $('#disable_procedureResult').addClass('disabled');
-                            $('#enable_procedureResult').addClass('disabled');
-                        },
-                        statusCode: {
-                            500: function (xhr) {
-                                $('#server_error_message_edit').show();
-                            },
-                            400: function (response, textStatus, jqXHR) {
-                                var myerrors = response.responseJSON;
-                                if (myerrors.success === false) {
-                                    $('#error_name_header_edit').html("Echec de la validation");
-                                    $('#error_name_list_edit').html('<li>' + myerrors.message + '</li>');
-                                    $('#error_name_message_edit').show();
-                                } else {
-                                    $('#error_name_header_edit').html("Echec de la validation. Veuillez vérifier vos données");
-                                    $('#error_name_message_edit').show();
-                                }
-
-                            }
-                        },
-                        success: function (response, textStatus, jqXHR) {
-                            $('#submit_edit_procedureResult').removeClass('disabled');
-                            $('#cancel_edit_procedureResult').removeClass('disabled');
-                            $('#edit_procedureResult_form.ui.form').removeClass('loading');
-                            $('#cancel_details_procedureResult').removeClass('disabled');
-                            $('#disable_procedureResult').removeClass('disabled');
-                            $('#enable_procedureResult').removeClass('disabled');
-//                                $('#procedureResult_grid' + id).html(response.procedureResult_content_grid);
-//                                $('#procedureResult_list' + id).html(response.procedureResult_content_list);
-//                                $('.ui.dropdown').dropdown({
-//                                    on: 'hover'
-//                                });
-                            $('#edit_procedureResult.ui.modal').modal('hide');
-                            $('#message_success>div.header').html(response.message);
-                            $('#message_success').show();
-                            window.location.replace(Routing.generate('procedureResult_index'));
-                            setTimeout(function () {
-                                $('#message_success').hide();
-                            }, 4000);
-                            $('#edit_procedureResult').remove();
-
-
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            $('#submit_edit_procedureResult').removeClass('disabled');
-                            $('#cancel_edit_procedureResult').removeClass('disabled');
-                            $('#edit_procedureResult_form.ui.form').removeClass('loading');
-                            /*alertify.error("Internal Server Error");*/
-                        }
-                    });
-                    return false;
-                }
+                on: 'change'
+//                onSuccess: function (event, fields) {
+//                    $.ajax({
+//                        type: 'PUT',
+//                        url: Routing.generate('procedureResult_update', {id: id}),
+//                        data: fields,
+//                        dataType: 'json',
+//                        beforeSend: function () {
+//                            $('#submit_edit_procedureResult').addClass('disabled');
+//                            $('#cancel_edit_procedureResult').addClass('disabled');
+//                            $('#edit_procedureResult_form.ui.form').addClass('loading');
+//                            $('#cancel_details_procedureResult').addClass('disabled');
+//                            $('#disable_procedureResult').addClass('disabled');
+//                            $('#enable_procedureResult').addClass('disabled');
+//                        },
+//                        statusCode: {
+//                            500: function (xhr) {
+//                                $('#server_error_message_edit').show();
+//                            },
+//                            400: function (response, textStatus, jqXHR) {
+//                                var myerrors = response.responseJSON;
+//                                if (myerrors.success === false) {
+//                                    $('#error_name_header_edit').html("Echec de la validation");
+//                                    $('#error_name_list_edit').html('<li>' + myerrors.message + '</li>');
+//                                    $('#error_name_message_edit').show();
+//                                } else {
+//                                    $('#error_name_header_edit').html("Echec de la validation. Veuillez vérifier vos données");
+//                                    $('#error_name_message_edit').show();
+//                                }
+//
+//                            }
+//                        },
+//                        success: function (response, textStatus, jqXHR) {
+//                            $('#submit_edit_procedureResult').removeClass('disabled');
+//                            $('#cancel_edit_procedureResult').removeClass('disabled');
+//                            $('#edit_procedureResult_form.ui.form').removeClass('loading');
+//                            $('#cancel_details_procedureResult').removeClass('disabled');
+//                            $('#disable_procedureResult').removeClass('disabled');
+//                            $('#enable_procedureResult').removeClass('disabled');
+////                                $('#procedureResult_grid' + id).html(response.procedureResult_content_grid);
+////                                $('#procedureResult_list' + id).html(response.procedureResult_content_list);
+////                                $('.ui.dropdown').dropdown({
+////                                    on: 'hover'
+////                                });
+//                            $('#edit_procedureResult.ui.modal').modal('hide');
+//                            $('#message_success>div.header').html(response.message);
+//                            $('#message_success').show();
+//                            window.location.replace(Routing.generate('procedureResult_index'));
+//                            setTimeout(function () {
+//                                $('#message_success').hide();
+//                            }, 4000);
+//                            $('#edit_procedureResult').remove();
+//
+//
+//                        },
+//                        error: function (jqXHR, textStatus, errorThrown) {
+//                            $('#submit_edit_procedureResult').removeClass('disabled');
+//                            $('#cancel_edit_procedureResult').removeClass('disabled');
+//                            $('#edit_procedureResult_form.ui.form').removeClass('loading');
+//                            /*alertify.error("Internal Server Error");*/
+//                        }
+//                    });
+//                    return false;
+//                }
             }
             );
+
+    $('#submit_edit_procedureResult').click(function (e) {
+        e.preventDefault();
+        $('#server_error_message').hide();
+        if ($('#edit_procedureResult_form.ui.form').form('is valid')) {
+            $.ajax({
+                type: 'PUT',
+                url: Routing.generate('procedureResult_update', {id: id}),
+                data: {'testunicity': 'yes', 'reference': $('#edit_procedureResult_form.ui.form input[name*="reference"]').val()},
+                dataType: 'json',
+                beforeSend: function () {
+                    $('#submit_edit_procedureResult').addClass('disabled');
+                    $('#cancel_edit_procedureResult').addClass('disabled');
+                    $('#edit_procedureResult_form.ui.form').addClass('loading');
+                    $('#cancel_details_procedureResult').addClass('disabled');
+                    $('#disable_procedureResult').addClass('disabled');
+                    $('#enable_procedureResult').addClass('disabled');
+                },
+                statusCode: {
+                    500: function (xhr) {
+                        $('#server_error_message_edit').show();
+                    },
+                    400: function (response, textStatus, jqXHR) {
+                        var myerrors = response.responseJSON;
+                        if (myerrors.success === false) {
+                            $('#error_name_header_edit').html("Echec de la validation");
+                            $('#error_name_list_edit').html('<li>' + myerrors.message + '</li>');
+                            $('#error_name_message_edit').show();
+                        } else {
+                            $('#error_name_header_edit').html("Echec de la validation. Veuillez vérifier vos données");
+                            $('#error_name_message_edit').show();
+                        }
+
+                    }
+                },
+                success: function (response, textStatus, jqXHR) {
+                    $('#edit_procedureResult_form.ui.form').submit();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    $('#submit_edit_procedureResult').removeClass('disabled');
+                    $('#cancel_edit_procedureResult').removeClass('disabled');
+                    $('#edit_procedureResult_form.ui.form').removeClass('loading');
+                    /*alertify.error("Internal Server Error");*/
+                }
+            });
+        }
+    });
 }
 
 function delete_procedureResult(id) {

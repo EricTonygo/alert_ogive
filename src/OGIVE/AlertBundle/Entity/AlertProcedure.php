@@ -123,7 +123,7 @@ class AlertProcedure {
      * })
      */
     protected $domain;
-    
+
     /**
      * @var \SubDomain
      *
@@ -391,7 +391,7 @@ class AlertProcedure {
      *
      * @return AlertProcedure
      */
-    public function setDomain(\OGIVE\AlertBundle\Entity\Domain $domain=null) {
+    public function setDomain(\OGIVE\AlertBundle\Entity\Domain $domain = null) {
         $this->domain = $domain;
 
         return $this;
@@ -405,7 +405,7 @@ class AlertProcedure {
     public function getDomain() {
         return $this->domain;
     }
-    
+
     /**
      * Set domain
      *
@@ -413,7 +413,7 @@ class AlertProcedure {
      *
      * @return AlertProcedure
      */
-    public function setSubDomain(\OGIVE\AlertBundle\Entity\SubDomain $subDomain=null) {
+    public function setSubDomain(\OGIVE\AlertBundle\Entity\SubDomain $subDomain = null) {
         $this->subDomain = $subDomain;
 
         return $this;
@@ -523,9 +523,9 @@ class AlertProcedure {
     public function getOriginalpiecesjointes() {
         return $this->originalpiecesjointes;
     }
-    
+
     protected function getUploadRootDir() {
-        return __DIR__ . '/../../../web/uploads/procedures';
+        return __DIR__ . '/../../../../web/uploads/procedures';
     }
 
     /**
@@ -553,15 +553,17 @@ class AlertProcedure {
         if ($this->uploadedFiles) {
             $this->piecesjointes = array();
             $this->originalpiecesjointes = array();
-            foreach ($this->uploadedFiles as $updloadedFile) {
-                $file = new \Symfony\Component\HttpFoundation\File\File($updloadedFile);
+            foreach ($this->uploadedFiles as $file) {
                 $info = pathinfo($file->getClientOriginalName());
                 $file_name = basename($file->getClientOriginalName(), '.' . $info['extension']);
                 array_push($this->originalpiecesjointes, $file_name);
                 $path = sha1(uniqid(mt_rand(), true)) . '.' . $file->guessExtension();
                 array_push($this->piecesjointes, $path);
+                if (!is_dir($this->getUploadRootDir())) {
+                    mkdir($this->getUploadRootDir());
+                }
                 $file->move($this->getUploadRootDir(), $path);
-                unset($updloadedFile);
+                unset($file);
             }
         }
 

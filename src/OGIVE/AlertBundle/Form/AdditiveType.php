@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class AdditiveType extends AbstractType {
 
@@ -47,11 +48,11 @@ class AdditiveType extends AbstractType {
                 //->add('object', null, array('required' => false))
                 //->add('owner', null, array('required' => false))
                 //->add('abstract')
-//                ->add('uploadedFiles', FileType::class, array(
-//                    "multiple" => true,
-//                    'data_class' => null,
-//                    'required' => false
-//                ))
+                ->add('uploadedFiles', FileType::class, array(
+                    "multiple" => true,
+                    'data_class' => null,
+                    'required' => false
+                ))
                 ->add('callOffer', 'entity', array(
                     'class' => 'OGIVEAlertBundle:CallOffer',
                     'property' => 'reference',
