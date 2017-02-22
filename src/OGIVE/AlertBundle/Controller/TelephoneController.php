@@ -109,11 +109,11 @@ class TelephoneController extends Controller {
                 });
             }
             foreach ($subscribers as $subscriber) {
-//                $message = $twilio->account->messages->sendMessage(
-//                        'OGIVE INFOS', // From a Twilio number in your account
-//                        $subscriber->getPhoneNumber(), // Text any number
-//                        $request->get('abstract')
-//                );
+                $message = $twilio->account->messages->sendMessage(
+                        'OGIVE INFOS', // From a Twilio number in your account
+                        $subscriber->getPhoneNumber(), // Text any number
+                        $request->get('abstract')
+                );
                 $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRE INFOS", $request->get('abstract'), $callOffer);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
@@ -129,11 +129,11 @@ class TelephoneController extends Controller {
             foreach ($idSubscribers as $idSubscriber) {
                 $idSubscriber = (int) $idSubscriber;
                 $subscriber = $repositorySubscriber->find($idSubscriber);
-//                $message = $twilio->account->messages->sendMessage(
-//                        'OGIVE INFOS', // From a Twilio number in your account
-//                        $subscriber->getPhoneNumber(), // Text any number
-//                        $request->get('abstract')
-//                );
+                $message = $twilio->account->messages->sendMessage(
+                        'OGIVE INFOS', // From a Twilio number in your account
+                        $subscriber->getPhoneNumber(), // Text any number
+                        $request->get('abstract')
+                );
                 $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRE INFOS", $request->get('abstract'), $callOffer);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
