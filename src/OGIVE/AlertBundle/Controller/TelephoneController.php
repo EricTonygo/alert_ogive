@@ -19,7 +19,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\View\ViewHandler;
 use FOS\RestBundle\View\View;
-require('vendor/twilio/sdk/Services/Twilio.php');
 
 class TelephoneController extends Controller {
 
@@ -49,7 +48,7 @@ class TelephoneController extends Controller {
             $historiqueAlertSubscriber->setSubscriber($subscriber);
             $historiqueAlertSubscriber->setAlertType("SMS");
             $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
-            $view = View::create(['message' => "SMS et SMS envoyés avec succès"]);
+            $view = View::create(['message' => "SMS et Email envoyés avec succès"]);
             $view->setFormat('json');
             return $view;
         } elseif ($form->isSubmitted() && !$form->isValid()) {
@@ -110,11 +109,11 @@ class TelephoneController extends Controller {
                 });
             }
             foreach ($subscribers as $subscriber) {
-                $message = $twilio->account->messages->sendMessage(
-                        'OGIVE INFOS', // From a Twilio number in your account
-                        $subscriber->getPhoneNumber(), // Text any number
-                        $request->get('abstract')
-                );
+//                $message = $twilio->account->messages->sendMessage(
+//                        'OGIVE INFOS', // From a Twilio number in your account
+//                        $subscriber->getPhoneNumber(), // Text any number
+//                        $request->get('abstract')
+//                );
                 $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRE INFOS" ,$request->get('abstract'), $callOffer);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
@@ -123,18 +122,18 @@ class TelephoneController extends Controller {
             }
 //            $callOffer->setAbstract($request->get('abstract'));
 //            $callOffer = $repositoryCallOffer->updateCallOffer($callOffer);
-            $view = View::create(['message' => "SMS envoyés avec succès"]);
+            $view = View::create(['message' => "SMS et Email envoyés avec succès"]);
             $view->setFormat('json');
             return $view;
         } elseif ($idSubscribers && is_array($idSubscribers) && !empty($idSubscribers)) {
             foreach ($idSubscribers as $idSubscriber) {
                 $idSubscriber = (int) $idSubscriber;
                 $subscriber = $repositorySubscriber->find($idSubscriber);
-                $message = $twilio->account->messages->sendMessage(
-                        'OGIVE INFOS', // From a Twilio number in your account
-                        $subscriber->getPhoneNumber(), // Text any number
-                        $request->get('abstract')
-                );
+//                $message = $twilio->account->messages->sendMessage(
+//                        'OGIVE INFOS', // From a Twilio number in your account
+//                        $subscriber->getPhoneNumber(), // Text any number
+//                        $request->get('abstract')
+//                );
                 $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRE INFOS" ,$request->get('abstract'), $callOffer);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
@@ -143,7 +142,7 @@ class TelephoneController extends Controller {
             }
 //            $callOffer->setAbstract($request->get('abstract'));
 //            $callOffer = $repositoryCallOffer->updateCallOffer($callOffer);
-            $view = View::create(['message' => "SMS envoyés avec succès"]);
+            $view = View::create(['message' => "SMS et Email envoyés avec succès"]);
             $view->setFormat('json');
             return $view;
         } else {
@@ -261,7 +260,7 @@ class TelephoneController extends Controller {
             }
 //            $procedureResult->setAbstract($request->get('abstract'));
 //            $procedureResult = $repositoryProcedureResult->updateProcedureResult($procedureResult);
-            $view = View::create(['message' => "SMS envoyés avec succès"]);
+            $view = View::create(['message' => "SMS et Email envoyés avec succès"]);
             $view->setFormat('json');
             return $view;
         } elseif ($idSubscribers && is_array($idSubscribers) && !empty($idSubscribers)) {
@@ -280,7 +279,7 @@ class TelephoneController extends Controller {
             }
 //            $procedureResult->setAbstract($request->get('abstract'));
 //            $procedureResult = $repositoryProcedureResult->updateProcedureResult($procedureResult);
-            $view = View::create(['message' => "SMS envoyés avec succès"]);
+            $view = View::create(['message' => "SMS et Email envoyés avec succès"]);
             $view->setFormat('json');
             return $view;
         } else {
@@ -387,7 +386,7 @@ class TelephoneController extends Controller {
             }
 //            $additive->setAbstract($request->get('abstract'));
 //            $additive = $repositoryAdditive->updateAdditive($additive);
-            $view = View::create(['message' => "SMS envoyés avec succès"]);
+            $view = View::create(['message' => "SMS et Email envoyés avec succès"]);
             $view->setFormat('json');
             return $view;
         } elseif ($idSubscribers && is_array($idSubscribers) && !empty($idSubscribers)) {
@@ -406,7 +405,7 @@ class TelephoneController extends Controller {
             }
 //            $additive->setAbstract($request->get('abstract'));
 //            $additive = $repositoryAdditive->updateAdditive($additive);
-            $view = View::create(['message' => "SMS envoyés avec succès"]);
+            $view = View::create(['message' => "SMS et Email envoyés avec succès"]);
             $view->setFormat('json');
             return $view;
         } else {
@@ -513,7 +512,7 @@ class TelephoneController extends Controller {
             }
 //            $expressionInterest->setAbstract($request->get('abstract'));
 //            $expressionInterest = $repositoryExpressionInterest->updateExpressionInterest($expressionInterest);
-            $view = View::create(['message' => "SMS envoyés avec succès"]);
+            $view = View::create(['message' => "SMS et Email envoyés avec succès"]);
             $view->setFormat('json');
             return $view;
         } elseif ($idSubscribers && is_array($idSubscribers) && !empty($idSubscribers)) {
@@ -532,7 +531,7 @@ class TelephoneController extends Controller {
             }
 //            $expressionInterest->setAbstract($request->get('abstract'));
 //            $expressionInterest = $repositoryExpressionInterest->updateExpressionInterest($expressionInterest);
-            $view = View::create(['message' => "SMS envoyés avec succès"]);
+            $view = View::create(['message' => "SMS et Email envoyés avec succès"]);
             $view->setFormat('json');
             return $view;
         } else {

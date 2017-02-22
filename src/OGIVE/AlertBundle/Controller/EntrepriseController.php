@@ -82,10 +82,8 @@ class EntrepriseController extends Controller {
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($entreprise->getPhoneNumber()) {
-                if ($repositoryEntreprise->findOneBy(array('phoneNumber' => $entreprise->getPhoneNumber(), 'status' => 1))) {
-                    return new JsonResponse(["success" => false, 'message' => 'Une entreprise avec ce numéro de téléphone existe dejà'], Response::HTTP_BAD_REQUEST);
-                }
+            if ($repositoryEntreprise->findOneBy(array('phoneNumber' => $entreprise->getAddress()->getPhone(), 'status' => 1))) {
+                return new JsonResponse(["success" => false, 'message' => 'Une entreprise avec ce numéro de téléphone existe dejà'], Response::HTTP_BAD_REQUEST);
             }
 
             if (empty($entreprise->getSubscribers())) {
@@ -234,12 +232,11 @@ class EntrepriseController extends Controller {
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($entreprise->getPhoneNumber()) {
-                $entrepriseUnique = $repositoryEntreprise->findOneBy(array('phoneNumber' => $entreprise->getPhoneNumber(), 'status' => 1));
-                if ($entrepriseUnique && $entrepriseUnique->getId() != $entreprise->getId()) {
-                    return new JsonResponse(["success" => false, 'message' => 'Une entreprise avec ce numéro de téléphone existe dejà'], Response::HTTP_BAD_REQUEST);
-                }
+            $entrepriseUnique = $repositoryEntreprise->findOneBy(array('phoneNumber' => $entreprise->getAddress()->getPhone(), 'status' => 1));
+            if ($entrepriseUnique && $entrepriseUnique->getId() != $entreprise->getId()) {
+                return new JsonResponse(["success" => false, 'message' => 'Une entreprise avec ce numéro de téléphone existe dejà'], Response::HTTP_BAD_REQUEST);
             }
+
             if (empty($entreprise->getSubscribers())) {
                 return new JsonResponse(["success" => false, 'message' => 'Veuillez ajouter un abonné à cette entreprise'], Response::HTTP_BAD_REQUEST);
             }
