@@ -38,7 +38,7 @@ class TelephoneController extends Controller {
         if ($form->isSubmitted() && $form->isValid()) {
             $twilio = $this->get('twilio.api');
             //$messages = $twilio->account->messages->read();
-            $this->sendEmailSubscriber($subscriber, "Alert Infos" ,$historiqueAlertSubscriber->getMessage());
+            $this->sendEmailSubscriber($subscriber, "Alert Infos", $historiqueAlertSubscriber->getMessage());
 //            $message = $twilio->account->messages->sendMessage(
 //                    'OGIVE INFOS', // From a Twilio number in your account
 //                    $subscriber->getPhoneNumber(), // Text any number
@@ -114,7 +114,7 @@ class TelephoneController extends Controller {
 //                        $subscriber->getPhoneNumber(), // Text any number
 //                        $request->get('abstract')
 //                );
-                $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRE INFOS" ,$request->get('abstract'), $callOffer);
+                $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRE INFOS", $request->get('abstract'), $callOffer);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("SMS");
@@ -134,7 +134,7 @@ class TelephoneController extends Controller {
 //                        $subscriber->getPhoneNumber(), // Text any number
 //                        $request->get('abstract')
 //                );
-                $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRE INFOS" ,$request->get('abstract'), $callOffer);
+                $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRE INFOS", $request->get('abstract'), $callOffer);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("SMS");
@@ -149,16 +149,16 @@ class TelephoneController extends Controller {
             return new JsonResponse(["success" => false, 'message' => "Echec de l'envoi des messages"], Response::HTTP_NOT_FOUND);
         }
     }
-    
+
     /**
      * @Rest\View()
      * @Rest\Get("/get-all-account-message" , name="get_all_message_account", options={ "method_prefix" = false, "expose" = true })
      * @param Request $request
      */
     public function getAllMessagesAction(Request $request) {
-         $twilio = $this->get('twilio.api');
-         $messages = $twilio->account->messages->read();
-         return $messages;
+        $twilio = $this->get('twilio.api');
+        $messages = $twilio->account->messages->read();
+        return $messages;
     }
 
     /**
@@ -252,7 +252,7 @@ class TelephoneController extends Controller {
                         $subscriber->getPhoneNumber(), // Text any number
                         $request->get('abstract')
                 );
-                $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRE INFOS" ,$request->get('abstract'), $procedureResult);
+                $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRE INFOS", $request->get('abstract'), $procedureResult);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("SMS");
@@ -271,7 +271,7 @@ class TelephoneController extends Controller {
                         $subscriber->getPhoneNumber(), // Text any number
                         $request->get('abstract')
                 );
-                $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRE INFOS" ,$request->get('abstract'), $procedureResult);
+                $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRE INFOS", $request->get('abstract'), $procedureResult);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("SMS");
@@ -378,7 +378,7 @@ class TelephoneController extends Controller {
                         $subscriber->getPhoneNumber(), // Text any number
                         $request->get('abstract')
                 );
-                $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRE INFOS" ,$request->get('abstract'), $additive);
+                $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRE INFOS", $request->get('abstract'), $additive);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("SMS");
@@ -397,7 +397,7 @@ class TelephoneController extends Controller {
                         $subscriber->getPhoneNumber(), // Text any number
                         $request->get('abstract')
                 );
-                $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRE INFOS" ,$request->get('abstract'), $additive);
+                $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRE INFOS", $request->get('abstract'), $additive);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("SMS");
@@ -504,7 +504,7 @@ class TelephoneController extends Controller {
                         $subscriber->getPhoneNumber(), // Text any number
                         $request->get('abstract')
                 );
-                $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRE INFOS" ,$request->get('abstract'), $expressionInterest);
+                $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRE INFOS", $request->get('abstract'), $expressionInterest);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("SMS");
@@ -523,7 +523,7 @@ class TelephoneController extends Controller {
                         $subscriber->getPhoneNumber(), // Text any number
                         $request->get('abstract')
                 );
-                $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRE INFOS" ,$request->get('abstract'), $expressionInterest);
+                $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRE INFOS", $request->get('abstract'), $expressionInterest);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("SMS");
@@ -606,7 +606,7 @@ class TelephoneController extends Controller {
                 $subscriber->getPhoneNumber(), // Text any number
                 $content
         );
-        $this->sendEmailSubscriber($subscriber, "CONFIRMATION DE L'ABONNEMENT" ,$content);
+        $this->sendEmailSubscriber($subscriber, "CONFIRMATION DE L'ABONNEMENT", $content);
         $historiqueAlertSubscriber->setMessage($content);
         $historiqueAlertSubscriber->setSubscriber($subscriber);
         $historiqueAlertSubscriber->setAlertType("SMS_CONFIRMATION_SUBSCRIPTION");
@@ -641,7 +641,7 @@ class TelephoneController extends Controller {
                         $subscriber->getPhoneNumber(), // Text any number
                         $request->get('abstract')
                 );
-                $this->sendEmailSubscriber($subscriber, $specialFollowUp->getName() ,$request->get('abstract'));
+                $this->sendEmailSubscriber($subscriber, $specialFollowUp->getName(), $request->get('abstract'));
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("SMS");
@@ -658,7 +658,7 @@ class TelephoneController extends Controller {
                         $subscriber->getPhoneNumber(), // Text any number
                         $request->get('abstract')
                 );
-                $this->sendEmailSubscriber($subscriber, $specialFollowUp->getName() ,$request->get('abstract'));
+                $this->sendEmailSubscriber($subscriber, $specialFollowUp->getName(), $request->get('abstract'));
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("SMS");
@@ -698,16 +698,18 @@ class TelephoneController extends Controller {
                 ->setFrom(array('infos@si-ogive.com' => "OGIVE INFOS"))
                 ->setTo($subscriber->getEmail())
                 ->setBody(
-                    $content
-                );
+                $content
+        );
         if ($procedure) {
             $piecesjointes = $procedure->getPiecesjointes();
             $originalpiecesjointes = $procedure->getOriginalpiecesjointes();
             if (!empty($piecesjointes) && !empty($originalpiecesjointes) && count($piecesjointes) == count($originalpiecesjointes)) {
                 for ($i = 0; $i < count($piecesjointes); $i++) {
-                    $attachment = \Swift_Attachment::fromPath($procedure->getUploadRootDir() . '/' . $piecesjointes[$i])
-                            ->setFilename($originalpiecesjointes[$i]);
-                    $message->attach($attachment);
+                    if (file_exists($procedure->getUploadRootDir() . '/' . $piecesjointes[$i])) {
+                        $attachment = \Swift_Attachment::fromPath($procedure->getUploadRootDir() . '/' . $piecesjointes[$i])
+                                ->setFilename($originalpiecesjointes[$i]);
+                        $message->attach($attachment);
+                    }
                 }
             }
         }
