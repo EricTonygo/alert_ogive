@@ -19,6 +19,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\View\ViewHandler;
 use FOS\RestBundle\View\View;
+require('vendor/twilio/sdk/Services/Twilio.php');
 
 class TelephoneController extends Controller {
 
@@ -148,6 +149,17 @@ class TelephoneController extends Controller {
         } else {
             return new JsonResponse(["success" => false, 'message' => "Echec de l'envoi des messages"], Response::HTTP_NOT_FOUND);
         }
+    }
+    
+    /**
+     * @Rest\View()
+     * @Rest\Get("/get-all-account-message" , name="get_all_message_account", options={ "method_prefix" = false, "expose" = true })
+     * @param Request $request
+     */
+    public function getAllMessagesAction(Request $request) {
+         $twilio = $this->get('twilio.api');
+         $messages = $twilio->account->messages->read();
+         return $messages;
     }
 
     /**

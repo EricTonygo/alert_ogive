@@ -242,7 +242,7 @@ class SubscriberController extends Controller {
                 $subscriber->getPhoneNumber(), // Text any number
                 $content
         );
-        $this->sendEmailSubscriber($subscriber, "CONFIRMATION DE L'ABONNEMENT" ,$content);
+        $this->sendEmailSubscriber($subscriber, "CONFIRMATION DE L'ABONNEMENT", $content);
         $historiqueAlertSubscriber->setMessage($content);
         $historiqueAlertSubscriber->setSubscriber($subscriber);
         $historiqueAlertSubscriber->setAlertType("SMS_CONFIRMATION_SUBSCRIPTION");
@@ -269,7 +269,7 @@ class SubscriberController extends Controller {
         $view->setFormat('json');
         return $view;
     }
-    
+
     public function sendEmailSubscriber(Subscriber $subscriber, $subject, $content, \OGIVE\AlertBundle\Entity\AlertProcedure $procedure = null) {
         $message = \Swift_Message::newInstance()
                 ->setSubject($subject)
