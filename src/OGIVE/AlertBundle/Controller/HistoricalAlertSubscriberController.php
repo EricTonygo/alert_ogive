@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\View\ViewHandler;
 use FOS\RestBundle\View\View;
+use Twilio\Rest\Client;
 
 /**
  * HistoricalAlertSubscriber controller.
