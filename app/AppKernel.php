@@ -21,8 +21,8 @@ class AppKernel extends Kernel
             new FOS\UserBundle\FOSUserBundle(),
             new FOS\RestBundle\FOSRestBundle(),
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
-            new Vresh\TwilioBundle\VreshTwilioBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
+            new Blackford\TwilioBundle\BlackfordTwilioBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {

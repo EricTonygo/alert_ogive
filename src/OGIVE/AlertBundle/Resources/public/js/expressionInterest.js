@@ -502,50 +502,58 @@ function execute_edit(id) {
 }
 
 function delete_expressionInterest(id) {
-    $('#message_error').hide();
-    $('#message_success').hide();
-    $('.ui.dropdown').dropdown('remove active');
-    $('.ui.dropdown').dropdown('remove visible');
-    $('.ui.dropdown>div.menu').removeClass('visible');
-    $('.ui.dropdown>div.menu').addClass('hidden');
-    $.ajax({
-        type: 'DELETE',
-        url: Routing.generate('expressionInterest_delete', {id: id}),
-        dataType: 'json',
-        beforeSend: function () {
-            $('#message_loading').show();
-        },
-        statusCode: {
-            500: function (xhr) {
-                $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
-                $('#message_error').show();
+    $('#confirm_delete_expressionInterest.ui.small.modal')
+            .modal('show');
+
+    $('#execute_delete_expressionInterest').click(function (e) {
+        e.preventDefault();
+        $('#confirm_delete_expressionInterest.ui.small.modal')
+                .modal('hide');
+        $('#message_error').hide();
+        $('#message_success').hide();
+        $('.ui.dropdown').dropdown('remove active');
+        $('.ui.dropdown').dropdown('remove visible');
+        $('.ui.dropdown>div.menu').removeClass('visible');
+        $('.ui.dropdown>div.menu').addClass('hidden');
+        $.ajax({
+            type: 'DELETE',
+            url: Routing.generate('expressionInterest_delete', {id: id}),
+            dataType: 'json',
+            beforeSend: function () {
+                $('#message_loading').show();
+            },
+            statusCode: {
+                500: function (xhr) {
+                    $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
+                    $('#message_error').show();
+                    setTimeout(function () {
+                        $('#message_error').hide();
+                    }, 4000);
+                },
+                404: function (response, textStatus, jqXHR) {
+                    $('#message_error>div.header').html(response.responseJSON.message);
+                    $('#message_error').show();
+                    setTimeout(function () {
+                        $('#message_error').hide();
+                    }, 4000);
+                }
+            },
+            success: function (response, textStatus, jqXHR) {
+                $('#expressionInterest_grid' + id).remove();
+                $('#expressionInterest_list' + id).remove();
+                $('#message_loading').hide();
+                $('#message_success>div.header').html(response.message);
+                $('#message_success').show();
+                window.location.replace(Routing.generate('expressionInterest_index'));
                 setTimeout(function () {
-                    $('#message_error').hide();
+                    $('#message_success').hide();
                 }, 4000);
             },
-            404: function (response, textStatus, jqXHR) {
-                $('#message_error>div.header').html(response.responseJSON.message);
-                $('#message_error').show();
-                setTimeout(function () {
-                    $('#message_error').hide();
-                }, 4000);
+            error: function (jqXHR, textStatus, errorThrown) {
+                $('#message_loading').hide();
+                /*alertify.error("Internal Server Error");*/
             }
-        },
-        success: function (response, textStatus, jqXHR) {
-            $('#expressionInterest_grid' + id).remove();
-            $('#expressionInterest_list' + id).remove();
-            $('#message_loading').hide();
-            $('#message_success>div.header').html(response.message);
-            $('#message_success').show();
-            window.location.replace(Routing.generate('expressionInterest_index'));
-            setTimeout(function () {
-                $('#message_success').hide();
-            }, 4000);
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            $('#message_loading').hide();
-            /*alertify.error("Internal Server Error");*/
-        }
+        });
     });
 }
 
@@ -617,103 +625,119 @@ function show_expressionInterest(id) {
 }
 
 function enable_expressionInterest(id) {
-    $('#message_error').hide();
-    $('#message_success').hide();
-    $('#edit_expressionInterest.ui.modal').modal('hide');
-    $('#edit_expressionInterest').remove();
-    $('.ui.dropdown').dropdown('remove active');
-    $('.ui.dropdown').dropdown('remove visible');
-    $('.ui.dropdown>div.menu').removeClass('visible');
-    $('.ui.dropdown>div.menu').addClass('hidden');
-    $.ajax({
-        type: 'PUT',
-        url: Routing.generate('expressionInterest_update', {id: id}),
-        data: {'action': 'enable'},
-        dataType: 'json',
-        beforeSend: function () {
-            $('#message_loading').show();
-        },
-        statusCode: {
-            500: function (xhr) {
-                $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
-                $('#message_error').show();
+    $('#confirm_disable_expressionInterest.ui.small.modal')
+            .modal('show');
+
+    $('#execute_disable_expressionInterest').click(function (e) {
+        e.preventDefault();
+        $('#confirm_disable_expressionInterest.ui.small.modal')
+                .modal('hide');
+        $('#message_error').hide();
+        $('#message_success').hide();
+        $('#edit_expressionInterest.ui.modal').modal('hide');
+        $('#edit_expressionInterest').remove();
+        $('.ui.dropdown').dropdown('remove active');
+        $('.ui.dropdown').dropdown('remove visible');
+        $('.ui.dropdown>div.menu').removeClass('visible');
+        $('.ui.dropdown>div.menu').addClass('hidden');
+        $.ajax({
+            type: 'PUT',
+            url: Routing.generate('expressionInterest_update', {id: id}),
+            data: {'action': 'enable'},
+            dataType: 'json',
+            beforeSend: function () {
+                $('#message_loading').show();
+            },
+            statusCode: {
+                500: function (xhr) {
+                    $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
+                    $('#message_error').show();
+                    setTimeout(function () {
+                        $('#message_error').hide();
+                    }, 4000);
+                },
+                404: function (response, textStatus, jqXHR) {
+                    $('#message_error>div.header').html("Echec d'activation de la manifestation");
+                    $('#message_error').show();
+                    setTimeout(function () {
+                        $('#message_error').hide();
+                    }, 4000);
+                }
+            },
+            success: function (response, textStatus, jqXHR) {
+                $('#message_loading').hide();
+                $('#enable_expressionInterest_grid' + id).hide();
+                $('#disable_expressionInterest_grid' + id).show();
+                $('#message_success>div.header').html(response.message);
+                $('#message_success').show();
+                window.location.replace(Routing.generate('expressionInterest_index'));
                 setTimeout(function () {
-                    $('#message_error').hide();
+                    $('#message_success').hide();
                 }, 4000);
             },
-            404: function (response, textStatus, jqXHR) {
-                $('#message_error>div.header').html("Echec d'activation de la manifestation");
-                $('#message_error').show();
-                setTimeout(function () {
-                    $('#message_error').hide();
-                }, 4000);
+            error: function (jqXHR, textStatus, errorThrown) {
+                $('#message_loading').hide();
+                /*alertify.error("Internal Server Error");*/
             }
-        },
-        success: function (response, textStatus, jqXHR) {
-            $('#message_loading').hide();
-            $('#enable_expressionInterest_grid' + id).hide();
-            $('#disable_expressionInterest_grid' + id).show();
-            $('#message_success>div.header').html(response.message);
-            $('#message_success').show();
-            window.location.replace(Routing.generate('expressionInterest_index'));
-            setTimeout(function () {
-                $('#message_success').hide();
-            }, 4000);
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            $('#message_loading').hide();
-            /*alertify.error("Internal Server Error");*/
-        }
+        });
     });
 }
 
 function disable_expressionInterest(id) {
-    $('#message_error').hide();
-    $('#message_success').hide();
-    $('#edit_expressionInterest.ui.modal').modal('hide');
-    $('#edit_expressionInterest').remove();
-    $('.ui.dropdown').dropdown('remove active');
-    $('.ui.dropdown').dropdown('remove visible');
-    $('.ui.dropdown>div.menu').removeClass('visible');
-    $('.ui.dropdown>div.menu').addClass('hidden');
-    $.ajax({
-        type: 'PUT',
-        url: Routing.generate('expressionInterest_update', {id: id}),
-        data: {'action': 'disable'},
-        dataType: 'json',
-        beforeSend: function () {
-            $('#message_loading').show();
-        },
-        statusCode: {
-            500: function (xhr) {
-                $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
-                $('#message_error').show();
+    $('#confirm_disable_expressionInterest.ui.small.modal')
+            .modal('show');
+
+    $('#execute_disable_expressionInterest').click(function (e) {
+        e.preventDefault();
+        $('#confirm_disable_expressionInterest.ui.small.modal')
+                .modal('hide');
+        $('#message_error').hide();
+        $('#message_success').hide();
+        $('#edit_expressionInterest.ui.modal').modal('hide');
+        $('#edit_expressionInterest').remove();
+        $('.ui.dropdown').dropdown('remove active');
+        $('.ui.dropdown').dropdown('remove visible');
+        $('.ui.dropdown>div.menu').removeClass('visible');
+        $('.ui.dropdown>div.menu').addClass('hidden');
+        $.ajax({
+            type: 'PUT',
+            url: Routing.generate('expressionInterest_update', {id: id}),
+            data: {'action': 'disable'},
+            dataType: 'json',
+            beforeSend: function () {
+                $('#message_loading').show();
+            },
+            statusCode: {
+                500: function (xhr) {
+                    $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
+                    $('#message_error').show();
+                    setTimeout(function () {
+                        $('#message_error').hide();
+                    }, 4000);
+                },
+                404: function (response, textStatus, jqXHR) {
+                    $('#message_error>div.header').html("Echec de la désactivation de la manifestition");
+                    $('#message_error').show();
+                    setTimeout(function () {
+                        $('#message_error').hide();
+                    }, 4000);
+                }
+            },
+            success: function (response, textStatus, jqXHR) {
+                $('#message_loading').hide();
+                $('#disable_expressionInterest_grid' + id).hide();
+                $('#enable_expressionInterest_grid' + id).show();
+                $('#message_success>div.header').html(response.message);
+                $('#message_success').show();
+                window.location.replace(Routing.generate('expressionInterest_index'));
                 setTimeout(function () {
-                    $('#message_error').hide();
+                    $('#message_success').hide();
                 }, 4000);
             },
-            404: function (response, textStatus, jqXHR) {
-                $('#message_error>div.header').html("Echec de la désactivation de la manifestition");
-                $('#message_error').show();
-                setTimeout(function () {
-                    $('#message_error').hide();
-                }, 4000);
+            error: function (jqXHR, textStatus, errorThrown) {
+                $('#message_loading').hide();
+                /*alertify.error("Internal Server Error");*/
             }
-        },
-        success: function (response, textStatus, jqXHR) {
-            $('#message_loading').hide();
-            $('#disable_expressionInterest_grid' + id).hide();
-            $('#enable_expressionInterest_grid' + id).show();
-            $('#message_success>div.header').html(response.message);
-            $('#message_success').show();
-            window.location.replace(Routing.generate('expressionInterest_index'));
-            setTimeout(function () {
-                $('#message_success').hide();
-            }, 4000);
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            $('#message_loading').hide();
-            /*alertify.error("Internal Server Error");*/
-        }
+        });
     });
 }

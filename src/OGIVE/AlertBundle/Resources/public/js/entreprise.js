@@ -35,15 +35,15 @@ function add_entreprise() {
                             }
                         ]
                     },
-//                    domain: {
-//                        identifier: 'domain',
-//                        rules: [
-//                            {
-//                                type: 'empty',
-//                                prompt: "Veuillez selectionner le domaine d'activité"
-//                            }
-//                        ]
-//                    },
+                    domain: {
+                        identifier: 'domains',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Veuillez selectionner au moins un domaine d'activité"
+                            }
+                        ]
+                    },
                     phone: {
                         identifier: 'phone',
                         rules: [
@@ -90,7 +90,7 @@ function add_entreprise() {
 //                    }
                 },
                 inline: true,
-                on: 'blur',
+                on: 'change',
                 onSuccess: function (event, fields) {
                     $.ajax({
                         type: 'post',
@@ -243,11 +243,11 @@ function execute_edit(id) {
                         ]
                     },
                     domain: {
-                        identifier: 'domain',
+                        identifier: 'domains',
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: "Veuillez selectionner le domaine d'activité"
+                                prompt: "Veuillez selectionner au moins un domaine d'activité"
                             }
                         ]
                     },
@@ -297,7 +297,7 @@ function execute_edit(id) {
 //                    }
                 },
                 inline: true,
-                on: 'blur',
+                on: 'change',
                 onSuccess: function (event, fields) {
                     $.ajax({
                         type: 'PUT',
@@ -369,54 +369,63 @@ function execute_edit(id) {
 }
 
 function delete_entreprise(id) {
-    $('#message_error').hide();
-    $('#message_success').hide();
-    $('.ui.dropdown').dropdown('remove active');
-    $('.ui.dropdown').dropdown('remove visible');
-    $('.ui.dropdown>div.menu').removeClass('visible');
-    $('.ui.dropdown>div.menu').addClass('hidden');
-    $('.ui.dropdown').dropdown({
-        on: 'hover'
-    });
-    $.ajax({
-        type: 'DELETE',
-        url: Routing.generate('entreprise_delete', {id: id}),
-        dataType: 'json',
-        beforeSend: function () {
-            $('#message_loading').show();
-        },
-        statusCode: {
-            500: function (xhr) {
-                $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
-                $('#message_error').show();
+    $('#confirm_delete_entreprise.ui.small.modal')
+            .modal('show')
+            ;
+
+    $('#execute_delete_entreprise').click(function (e) {
+        e.preventDefault();
+        $('#confirm_disabe_entreprise.ui.small.modal')
+                .modal('hide')
+                ;
+        $('#message_error').hide();
+        $('#message_success').hide();
+        $('.ui.dropdown').dropdown('remove active');
+        $('.ui.dropdown').dropdown('remove visible');
+        $('.ui.dropdown>div.menu').removeClass('visible');
+        $('.ui.dropdown>div.menu').addClass('hidden');
+        $('.ui.dropdown').dropdown({
+            on: 'hover'
+        });
+        $.ajax({
+            type: 'DELETE',
+            url: Routing.generate('entreprise_delete', {id: id}),
+            dataType: 'json',
+            beforeSend: function () {
+                $('#message_loading').show();
+            },
+            statusCode: {
+                500: function (xhr) {
+                    $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
+                    $('#message_error').show();
+                    setTimeout(function () {
+                        $('#message_error').hide();
+                    }, 4000);
+                },
+                404: function (response, textStatus, jqXHR) {
+                    $('#message_error>div.header').html(response.responseJSON.message);
+                    $('#message_error').show();
+                    setTimeout(function () {
+                        $('#message_error').hide();
+                    }, 4000);
+                }
+            },
+            success: function (response, textStatus, jqXHR) {
+                console.log(response);
+                $('#entreprise_grid' + id).remove();
+                $('#entreprise_list' + id).remove();
+                $('#message_loading').hide();
+                $('#message_success>div.header').html(response.message);
+                $('#message_success').show();
+                window.location.replace(Routing.generate('entreprise_index'));
                 setTimeout(function () {
-                    $('#message_error').hide();
+                    $('#message_success').hide();
                 }, 4000);
             },
-            404: function (response, textStatus, jqXHR) {
-                $('#message_error>div.header').html(response.responseJSON.message);
-                $('#message_error').show();
-                setTimeout(function () {
-                    $('#message_error').hide();
-                }, 4000);
+            error: function (jqXHR, textStatus, errorThrown) {
+                $('#message_loading').hide();
             }
-        },
-        success: function (response, textStatus, jqXHR) {
-            console.log(response);
-            $('#entreprise_grid' + id).remove();
-            $('#entreprise_list' + id).remove();
-            $('#message_loading').hide();
-            $('#message_success>div.header').html(response.message);
-            $('#message_success').show();
-            window.location.replace(Routing.generate('entreprise_index'));
-            setTimeout(function () {
-                $('#message_success').hide();
-            }, 4000);
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            $('#message_loading').hide();
-            /*alertify.error("Internal Server Error");*/
-        }
+        });
     });
 }
 
@@ -491,112 +500,131 @@ function show_entreprise(id) {
 }
 
 function enable_entreprise(id) {
-    $('#message_error').hide();
-    $('#message_success').hide();
-    $('#edit_entreprise.ui.modal').modal('hide');
-    $('#edit_entreprise').remove();
-    $('.ui.dropdown').dropdown('remove active');
-    $('.ui.dropdown').dropdown('remove visible');
-    $('.ui.dropdown>div.menu').removeClass('visible');
-    $('.ui.dropdown>div.menu').addClass('hidden');
-    $('.ui.dropdown').dropdown({
-        on: 'hover'
-    });
-    $.ajax({
-        type: 'PUT',
-        url: Routing.generate('entreprise_update', {id: id}),
-        data: {'action': 'enable'},
-        dataType: 'json',
-        beforeSend: function () {
-            $('#message_loading').show();
-        },
-        statusCode: {
-            500: function (xhr) {
-                $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
-                $('#message_error').show();
+    $('#confirm_enable_entreprise.ui.small.modal')
+            .modal('show')
+            ;
+
+    $('#execute_enable_entreprise').click(function (e) {
+        e.preventDefault();
+        $('#confirm_enable_entreprise.ui.small.modal')
+                .modal('hide')
+                ;
+        $('#message_error').hide();
+        $('#message_success').hide();
+        $('#edit_entreprise.ui.modal').modal('hide');
+        $('#edit_entreprise').remove();
+        $('.ui.dropdown').dropdown('remove active');
+        $('.ui.dropdown').dropdown('remove visible');
+        $('.ui.dropdown>div.menu').removeClass('visible');
+        $('.ui.dropdown>div.menu').addClass('hidden');
+        $('.ui.dropdown').dropdown({
+            on: 'hover'
+        });
+        $.ajax({
+            type: 'PUT',
+            url: Routing.generate('entreprise_update', {id: id}),
+            data: {'action': 'enable'},
+            dataType: 'json',
+            beforeSend: function () {
+                $('#message_loading').show();
+            },
+            statusCode: {
+                500: function (xhr) {
+                    $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
+                    $('#message_error').show();
+                    setTimeout(function () {
+                        $('#message_error').hide();
+                    }, 4000);
+                },
+                404: function (response, textStatus, jqXHR) {
+                    $('#message_error>div.header').html(response.responseJSON.message);
+                    $('#message_error').show();
+                    setTimeout(function () {
+                        $('#message_error').hide();
+                    }, 4000);
+                }
+            },
+            success: function (response, textStatus, jqXHR) {
+                console.log(response);
+                $('#message_loading').hide();
+                $('#enable_entreprise_grid' + id).hide();
+                $('#disable_entreprise_grid' + id).show();
+                $('#message_success>div.header').html(response.message);
+                $('#message_success').show();
+                window.location.replace(Routing.generate('entreprise_index'));
                 setTimeout(function () {
-                    $('#message_error').hide();
+                    $('#message_success').hide();
                 }, 4000);
             },
-            404: function (response, textStatus, jqXHR) {
-                $('#message_error>div.header').html(response.responseJSON.message);
-                $('#message_error').show();
-                setTimeout(function () {
-                    $('#message_error').hide();
-                }, 4000);
+            error: function (jqXHR, textStatus, errorThrown) {
+                $('#message_loading').hide();
             }
-        },
-        success: function (response, textStatus, jqXHR) {
-            console.log(response);
-            $('#message_loading').hide();
-            $('#enable_entreprise_grid' + id).hide();
-            $('#disable_entreprise_grid' + id).show();
-            $('#message_success>div.header').html(response.message);
-            $('#message_success').show();
-            window.location.replace(Routing.generate('entreprise_index'));
-            setTimeout(function () {
-                $('#message_success').hide();
-            }, 4000);
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            $('#message_loading').hide();
-            /*alertify.error("Internal Server Error");*/
-        }
+        });
     });
 }
 
 function disable_entreprise(id) {
-    $('#message_error').hide();
-    $('#message_success').hide();
-    $('#edit_entreprise.ui.modal').modal('hide');
-    $('#edit_entreprise').remove();
-    $('.ui.dropdown').dropdown('remove active');
-    $('.ui.dropdown').dropdown('remove visible');
-    $('.ui.dropdown>div.menu').removeClass('visible');
-    $('.ui.dropdown>div.menu').addClass('hidden');
-    $('.ui.dropdown').dropdown({
-        on: 'hover'
-    });
-    $.ajax({
-        type: 'PUT',
-        url: Routing.generate('entreprise_update', {id: id}),
-        data: {'action': 'disable'},
-        dataType: 'json',
-        beforeSend: function () {
-            $('#message_loading').show();
-        },
-        statusCode: {
-            500: function (xhr) {
-                $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
-                $('#message_error').show();
-                setTimeout(function () {
-                    $('#message_error').hide();
-                }, 4000);
+    $('#confirm_disable_entreprise.ui.small.modal')
+            .modal('show')
+            ;
+
+    $('#execute_disable_entreprise').click(function (e) {
+        e.preventDefault();
+        $('#confirm_disable_entreprise.ui.small.modal')
+                .modal('hide')
+                ;
+        $('#message_error').hide();
+        $('#message_success').hide();
+        $('#edit_entreprise.ui.modal').modal('hide');
+        $('#edit_entreprise').remove();
+        $('.ui.dropdown').dropdown('remove active');
+        $('.ui.dropdown').dropdown('remove visible');
+        $('.ui.dropdown>div.menu').removeClass('visible');
+        $('.ui.dropdown>div.menu').addClass('hidden');
+        $('.ui.dropdown').dropdown({
+            on: 'hover'
+        });
+        $.ajax({
+            type: 'PUT',
+            url: Routing.generate('entreprise_update', {id: id}),
+            data: {'action': 'disable'},
+            dataType: 'json',
+            beforeSend: function () {
+                $('#message_loading').show();
             },
-            404: function (response, textStatus, jqXHR) {
-                $('#message_error>div.header').html("Echec de la désactivation de l'entreprise");
-                $('#message_error').show();
+            statusCode: {
+                500: function (xhr) {
+                    $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
+                    $('#message_error').show();
+                    setTimeout(function () {
+                        $('#message_error').hide();
+                    }, 4000);
+                },
+                404: function (response, textStatus, jqXHR) {
+                    $('#message_error>div.header').html("Echec de la désactivation de l'entreprise");
+                    $('#message_error').show();
+                    window.location.replace(Routing.generate('entreprise_index'));
+                    setTimeout(function () {
+                        $('#message_error').hide();
+                    }, 4000);
+                }
+            },
+            success: function (response, textStatus, jqXHR) {
+                console.log(response);
+                $('#message_loading').hide();
+                $('#disable_entreprise_grid' + id).hide();
+                $('#enable_entreprise_grid' + id).show();
+                $('#message_success>div.header').html(response.message);
+                $('#message_success').show();
                 window.location.replace(Routing.generate('entreprise_index'));
                 setTimeout(function () {
-                    $('#message_error').hide();
+                    $('#message_success').hide();
                 }, 4000);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                $('#message_loading').hide();
+                /*alertify.error("Internal Server Error");*/
             }
-        },
-        success: function (response, textStatus, jqXHR) {
-            console.log(response);
-            $('#message_loading').hide();
-            $('#disable_entreprise_grid' + id).hide();
-            $('#enable_entreprise_grid' + id).show();
-            $('#message_success>div.header').html(response.message);
-            $('#message_success').show();
-            window.location.replace(Routing.generate('entreprise_index'));
-            setTimeout(function () {
-                $('#message_success').hide();
-            }, 4000);
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            $('#message_loading').hide();
-            /*alertify.error("Internal Server Error");*/
-        }
+        });
     });
 }

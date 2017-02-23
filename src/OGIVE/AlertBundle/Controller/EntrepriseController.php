@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\View\ViewHandler;
 use FOS\RestBundle\View\View;
+use Twilio\Rest\Client;
 
 /**
  * Entreprise controller.
@@ -86,9 +87,7 @@ class EntrepriseController extends Controller {
                 return new JsonResponse(["success" => false, 'message' => 'Une entreprise avec ce numéro de téléphone existe dejà'], Response::HTTP_BAD_REQUEST);
             }
 
-            if (empty($entreprise->getSubscribers())) {
-                return new JsonResponse(["success" => false, 'message' => 'Veuillez ajouter un abonné à cette entreprise'], Response::HTTP_BAD_REQUEST);
-            }
+            
             $sendActivate = $request->get('send_activate');
             if ($sendActivate && $sendActivate === 'on') {
                 $entreprise->setState(1);
@@ -106,9 +105,11 @@ class EntrepriseController extends Controller {
             //***************gestion des abonnés de l'entreprise ************************** */
             $subscribers = $entreprise->getSubscribers();
             foreach ($subscribers as $subscriber) {
-
-                if ($repositorySubscriber->findOneBy(array('phoneNumber' => $subscriber->getPhoneNumber(), 'status' => 1)) !== null) {
+                $subscriberUnique = $repositorySubscriber->findOneBy(array('phoneNumber' => $subscriber->getPhoneNumber(), 'status' => 1));
+                if ($subscriberUnique && $subscriberUnique->getEntreprise()) {
                     $entreprise->removeSubscriber($subscriber);
+                    $return_string = "L'abonné de numéro ".$subscriberUnique->getPhoneNumber()." appartient déjà à l'entreprise ".$subscriberUnique->getEntreprise()->getName();
+                    return new JsonResponse(["success" => false, 'message' => $return_string], Response::HTTP_BAD_REQUEST);
                 } elseif ($entreprise->getState() == 1) {
                     if ($subscriber->getSubscription()) {
                         $subscriber->setState(1);
@@ -119,6 +120,9 @@ class EntrepriseController extends Controller {
                 }
             }
             $entreprise->setPhoneNumber($entreprise->getAddress()->getPhone());
+            if (empty($entreprise->getSubscribers())) {
+                return new JsonResponse(["success" => false, 'message' => 'Veuillez ajouter un abonné à cette entreprise'], Response::HTTP_BAD_REQUEST);
+            }
             $entreprise = $repositoryEntreprise->saveEntreprise($entreprise);
             $sendConfirmation = $request->get('send_confirmation');
             if ($sendConfirmation && $sendConfirmation === 'on') {
@@ -237,9 +241,7 @@ class EntrepriseController extends Controller {
                 return new JsonResponse(["success" => false, 'message' => 'Une entreprise avec ce numéro de téléphone existe dejà'], Response::HTTP_BAD_REQUEST);
             }
 
-            if (empty($entreprise->getSubscribers())) {
-                return new JsonResponse(["success" => false, 'message' => 'Veuillez ajouter un abonné à cette entreprise'], Response::HTTP_BAD_REQUEST);
-            }
+            
             if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
                 $sendActivate = $request->get('send_activate');
                 if ($sendActivate && $sendActivate === 'on') {
@@ -308,8 +310,10 @@ class EntrepriseController extends Controller {
             $subscribers = $entreprise->getSubscribers();
             foreach ($subscribers as $subscriber) {
                 $subscriberUnique = $repositorySubscriber->findOneBy(array('phoneNumber' => $subscriber->getPhoneNumber(), 'status' => 1));
-                if ($subscriberUnique && $subscriberUnique->getId() != $subscriber->getId()) {
+                if ($subscriberUnique && $subscriberUnique->getId() != $subscriber->getId() && $subscriberUnique->getEntreprise()) {
                     $entreprise->removeSubscriber($subscriber);
+                    $return_string = "L'abonné de numéro ".$subscriberUnique->getPhoneNumber()." appartient déjà à l'entreprise ".$subscriberUnique->getEntreprise()->getName();
+                    return new JsonResponse(["success" => false, 'message' => $return_string], Response::HTTP_BAD_REQUEST);
                 } else {
                     if ($this->get('security.context')->isGranted('ROLE_ADMIN') && $subscriber->getSubscription()) {
                         if ($sendActivate && $sendActivate === 'on') {
@@ -323,6 +327,9 @@ class EntrepriseController extends Controller {
                 }
             }
             $entreprise->setPhoneNumber($entreprise->getAddress()->getPhone());
+            if (empty($entreprise->getSubscribers())) {
+                return new JsonResponse(["success" => false, 'message' => 'Veuillez ajouter un abonné à cette entreprise'], Response::HTTP_BAD_REQUEST);
+            }
             $entreprise = $repositoryEntreprise->updateEntreprise($entreprise);
             $sendConfirmation = $request->get('send_confirmation');
             if ($sendConfirmation && $sendConfirmation === 'on') {
@@ -370,12 +377,13 @@ class EntrepriseController extends Controller {
             $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 1 semaine";
         }
         $content = $subscriber->getEntreprise()->getName() . ", votre souscription au service <<Appels d'offres Infos>> a été éffectuée avec succès. \nCoût du forfait = " . $cout . ". \nOGIVE SOLUTIONS vous remercie pour votre confiance.";
-        $twilio = $this->get('twilio.api');
-        //$messages = $twilio->account->messages->read();
-        $message = $twilio->account->messages->sendMessage(
-                'OGIVE INFOS', // From a Twilio number in your account
-                $subscriber->getPhoneNumber(), // Text any number
-                $content
+        $twilio = $this->get('twilio.client');
+        $message = $twilio->messages->create(
+            $subscriber->getPhoneNumber(), // Text any number
+            array(
+                'from' => 'OGIVE INFOS', // From a Twilio number in your account
+                'body' => $content
+            )
         );
         $this->sendEmailSubscriber($subscriber, "CONFIRMATION DE L'ABONNEMENT", $content);
         $historiqueAlertSubscriber->setMessage($content);

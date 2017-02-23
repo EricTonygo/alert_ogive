@@ -39,29 +39,80 @@
 
     </div>
 {% endblock %}
-{% block block_delete_modal %}
-    <div id="confirm_delete_subscription" class="ui modal">
+
+{% block block_confirmation_modal %}
+    <div id="confirm_delete_subscription" class="ui small modal">
         <i class="close icon"></i>
         <div class="header">
             Confirmation de la suppression
         </div>
         <div class="content">
-            <div class="description">
-                <p>Voulez-vous vraiment supprimé ce abonnement ?</p>
-            </div>
+            <p>Vous êtes sur le point de supprimer cet abonnement.</p>
+            <p>Voulez-vous vraiment réaliser cette action ?</p>
         </div>
         <div class="actions">
-            <div class="ui black deny button">
+            <div class="ui red deny button">
                 Non
             </div>
-            <div i class="ui green right labeled icon button">
+            <div id="execute_delete_subscription"  class="ui green right labeled icon button">
+                Oui
+                <i class="checkmark icon"></i>
+            </div>
+        </div>
+    </div>
+    <div id="confirm_enable_subscription" class="ui small modal">
+        <i class="close icon"></i>
+        <div class="header">
+            Confirmation de l'activation
+        </div>
+        <div class="content">
+            <p>Vous êtes sur le point d'activer cet abonnement. </p>
+            <p>Voulez-vous vraiment réaliser cette action ?</p>
+            {#<div class='ui form'>
+                <div class="field" >
+                    <div class="ui checkbox">
+                        <input id='checkbox_send_confirmation' type="checkbox" name="new_subscription" >
+                        <label> Notifier l'abonné d'un premier abonnement</label>
+                    </div>
+                </div>
+                <div class="field" >
+                    <div class="ui checkbox">
+                        <input id='checkbox_send_confirmation' type="checkbox" name="renewal_subscription" >
+                        <label> Notifier l'abonné d'un renouvellement de l'abonnement</label>
+                    </div>
+                </div>
+            </div>#}
+        </div>
+        <div class="actions">
+            <div class="ui red deny button">
+                Non
+            </div>
+            <div id='execute_enable_subscription' class="ui green right labeled icon button">
+                Oui
+                <i class="checkmark icon"></i>
+            </div>
+        </div>
+    </div>
+    <div id="confirm_disable_subscription" class="ui small modal">
+        <i class="close icon"></i>
+        <div class="header">
+            Confirmation de la désactivation
+        </div>
+        <div class="content">
+            <p>Vous êtes sur le point de désactiver cet abonnement. </p>
+            <p>Voulez-vous vraiment réaliser cette action ?</p>
+        </div>
+        <div class="actions">
+            <div class="ui red deny button">
+                Non
+            </div>
+            <div id='execute_disable_subscription' class="ui green right labeled icon button">
                 Oui
                 <i class="checkmark icon"></i>
             </div>
         </div>
     </div>
 {% endblock %}
-
 {% block javascripts %}
     {{ parent()}}
     <script type="text/javascript" src="{{ asset('bundles/ogivealert/js/subscription.js')}}"></script>

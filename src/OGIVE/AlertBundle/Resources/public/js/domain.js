@@ -60,7 +60,7 @@ $(function () {
                                     $('#error_name_header').html("Echec de la validation");
                                     $('#error_name_list').html('<li>' + myerrors.message + '</li>');
                                     $('#error_name_message').show();
-                                }else{
+                                } else {
                                     $('#error_name_header').html("Echec de la validation. Veuillez verifier vos données");
                                     $('#error_name_message').show();
                                 }
@@ -68,22 +68,22 @@ $(function () {
                             }
                         },
                         success: function (response, textStatus, jqXHR) {
-                                $('#cancel_add_domain').removeClass('disabled');
-                                $('#submit_domain').removeClass('disabled');
-                                $('#add_domain_form.ui.form').removeClass('loading');
+                            $('#cancel_add_domain').removeClass('disabled');
+                            $('#submit_domain').removeClass('disabled');
+                            $('#add_domain_form.ui.form').removeClass('loading');
 //                                $('#list_as_grid_content').prepend(response.domain_content_grid);
 //                                $('#list_as_table_content').prepend(response.domain_content_list);
 //                                $('.ui.dropdown').dropdown({
 //                                    on: 'hover'
 //                                });
-                                $('#add_domain.ui.modal').modal('hide');
-                                $('#message_success>div.header').html(response.message);
-                                $('#message_success').show();
-                                window.location.replace(Routing.generate('domain_index'));
-                                setTimeout(function () {
-                                    $('#message_success').hide();
-                                }, 4000);
-                            
+                            $('#add_domain.ui.modal').modal('hide');
+                            $('#message_success>div.header').html(response.message);
+                            $('#message_success').show();
+                            window.location.replace(Routing.generate('domain_index'));
+                            setTimeout(function () {
+                                $('#message_success').hide();
+                            }, 4000);
+
 
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
@@ -127,20 +127,20 @@ function edit_domain(id) {
             }
         },
         success: function (response, textStatus, jqXHR) {
-                $('#edit_domain').remove();
-                $('#edit_domain_content').html(response.edit_domain_form);
-                $('#edit_domain.ui.modal').modal('setting', {
-                    autofocus: false,
-                    inverted: true,
-                    closable: false
-                });
-                $('#cancel_edit_domain').click(function () {
-                    window.location.replace(Routing.generate('domain_index'));
-                });
+            $('#edit_domain').remove();
+            $('#edit_domain_content').html(response.edit_domain_form);
+            $('#edit_domain.ui.modal').modal('setting', {
+                autofocus: false,
+                inverted: true,
+                closable: false
+            });
+            $('#cancel_edit_domain').click(function () {
+                window.location.replace(Routing.generate('domain_index'));
+            });
 
-                $('#edit_domain.ui.modal').modal('show');
-                execute_edit(id);
-            
+            $('#edit_domain.ui.modal').modal('show');
+            execute_edit(id);
+
             $('#message_loading').hide();
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -202,7 +202,7 @@ function execute_edit(id) {
                                     $('#error_name_header_edit').html("Echec de la validation");
                                     $('#error_name_list_edit').html('<li>' + myerrors.message + '</li>');
                                     $('#error_name_message_edit').show();
-                                }else{
+                                } else {
                                     $('#error_name_header_edit').html("Echec de la validation. Veuillez verifier vos données");
                                     $('#error_name_message_edit').show();
                                 }
@@ -210,26 +210,26 @@ function execute_edit(id) {
                             }
                         },
                         success: function (response, textStatus, jqXHR) {
-                                $('#submit_edit_domain').removeClass('disabled');
-                                $('#cancel_edit_domain').removeClass('disabled');
-                                $('#edit_domain_form.ui.form').removeClass('loading');
-                                $('#cancel_details_domain').removeClass('disabled');
-                                $('#disable_domain').removeClass('disabled');
-                                $('#enable_domain').removeClass('disabled');
+                            $('#submit_edit_domain').removeClass('disabled');
+                            $('#cancel_edit_domain').removeClass('disabled');
+                            $('#edit_domain_form.ui.form').removeClass('loading');
+                            $('#cancel_details_domain').removeClass('disabled');
+                            $('#disable_domain').removeClass('disabled');
+                            $('#enable_domain').removeClass('disabled');
 //                                $('#domain_grid' + id).html(response.domain_content_grid);
 //                                $('#domain_list' + id).html(response.domain_content_list);
 //                                $('.ui.dropdown').dropdown({
 //                                    on: 'hover'
 //                                });
-                                $('#edit_domain.ui.modal').modal('hide');
-                                $('#message_success>div.header').html(response.message);
-                                $('#message_success').show();
-                                window.location.replace(Routing.generate('domain_index'));
-                                setTimeout(function () {
-                                    $('#message_success').hide();
-                                }, 4000);
-                                $('#edit_domain').remove();
-                            
+                            $('#edit_domain.ui.modal').modal('hide');
+                            $('#message_success>div.header').html(response.message);
+                            $('#message_success').show();
+                            window.location.replace(Routing.generate('domain_index'));
+                            setTimeout(function () {
+                                $('#message_success').hide();
+                            }, 4000);
+                            $('#edit_domain').remove();
+
 
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
@@ -246,54 +246,62 @@ function execute_edit(id) {
 }
 
 function delete_domain(id) {
-    $('#message_error').hide();
-    $('#message_success').hide();
-    $('.ui.dropdown').dropdown('remove active');
-    $('.ui.dropdown').dropdown('remove visible');
-    $('.ui.dropdown>div.menu').removeClass('visible');
-    $('.ui.dropdown>div.menu').addClass('hidden');
-    $.ajax({
-        type: 'DELETE',
-        url: Routing.generate('domain_delete', {id: id}),
-        dataType: 'json',
-        beforeSend: function () {
-            $('#message_loading').show();
-            $('.ui.dropdown').dropdown('remove active');
-            $('.ui.dropdown').dropdown('remove visible');
-            $('.ui.dropdown>div.menu').removeClass('visible');
-            $('.ui.dropdown>div.menu').addClass('hidden');
-        },
-        statusCode: {
-            500: function (xhr) {
-                $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
-                $('#message_error').show();
+    $('#confirm_delete_domain.ui.small.modal')
+            .modal('show');
+
+    $('#execute_delete_domain').click(function (e) {
+        e.preventDefault();
+        $('#confirm_delete_domain.ui.small.modal')
+                .modal('hide');
+        $('#message_error').hide();
+        $('#message_success').hide();
+        $('.ui.dropdown').dropdown('remove active');
+        $('.ui.dropdown').dropdown('remove visible');
+        $('.ui.dropdown>div.menu').removeClass('visible');
+        $('.ui.dropdown>div.menu').addClass('hidden');
+        $.ajax({
+            type: 'DELETE',
+            url: Routing.generate('domain_delete', {id: id}),
+            dataType: 'json',
+            beforeSend: function () {
+                $('#message_loading').show();
+                $('.ui.dropdown').dropdown('remove active');
+                $('.ui.dropdown').dropdown('remove visible');
+                $('.ui.dropdown>div.menu').removeClass('visible');
+                $('.ui.dropdown>div.menu').addClass('hidden');
+            },
+            statusCode: {
+                500: function (xhr) {
+                    $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
+                    $('#message_error').show();
+                    setTimeout(function () {
+                        $('#message_error').hide();
+                    }, 4000);
+                },
+                404: function (response, textStatus, jqXHR) {
+                    $('#message_error>div.header').html(response.responseJSON.message);
+                    $('#message_error').show();
+                    setTimeout(function () {
+                        $('#message_error').hide();
+                    }, 4000);
+                }
+            },
+            success: function (response, textStatus, jqXHR) {
+                $('#domain_grid' + id).remove();
+                $('#domain_list' + id).remove();
+                $('#message_loading').hide();
+                $('#message_success>div.header').html(response.message);
+                $('#message_success').show();
+                window.location.replace(Routing.generate('domain_index'));
                 setTimeout(function () {
-                    $('#message_error').hide();
+                    $('#message_success').hide();
                 }, 4000);
             },
-            404: function (response, textStatus, jqXHR) {
-                $('#message_error>div.header').html(response.responseJSON.message);
-                $('#message_error').show();
-                setTimeout(function () {
-                    $('#message_error').hide();
-                }, 4000);
+            error: function (jqXHR, textStatus, errorThrown) {
+                $('#message_loading').hide();
+                /*alertify.error("Internal Server Error");*/
             }
-        },
-        success: function (response, textStatus, jqXHR) {
-            $('#domain_grid' + id).remove();
-            $('#domain_list' + id).remove();
-            $('#message_loading').hide();
-            $('#message_success>div.header').html(response.message);
-            $('#message_success').show();
-            window.location.replace(Routing.generate('domain_index'));
-            setTimeout(function () {
-                $('#message_success').hide();
-            }, 4000);
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            $('#message_loading').hide();
-            /*alertify.error("Internal Server Error");*/
-        }
+        });
     });
 }
 
@@ -325,35 +333,35 @@ function show_domain(id) {
             }
         },
         success: function (response, textStatus, jqXHR) {
-                $('#edit_domain').remove();
-                $('#edit_domain_content').html(response.domain_details);
-                $('#edit_domain.ui.modal').modal('setting', {
-                    autofocus: false,
-                    inverted: true,
-                    closable: false
-                });
-                $('#cancel_details_domain').click(function () {
-                    window.location.replace(Routing.generate('domain_index'));
-                });
-               
+            $('#edit_domain').remove();
+            $('#edit_domain_content').html(response.domain_details);
+            $('#edit_domain.ui.modal').modal('setting', {
+                autofocus: false,
+                inverted: true,
+                closable: false
+            });
+            $('#cancel_details_domain').click(function () {
+                window.location.replace(Routing.generate('domain_index'));
+            });
 
-                $('#edit_domain.ui.modal').modal('show');
-                execute_edit(id);
-                $('#edit_domain_btn').click(function () {
-                    $('#block_details').hide();
-                    $('#block_form_edit').show();
-                    $('#cancel_edit_domain').show();
-                    $('#submit_edit_domain').show();
-                    $(this).hide();
-                });
-                $('#cancel_edit_domain').click(function () {
-                    $('#block_details').show();
-                    $('#block_form_edit').hide();
-                    $('#edit_domain_btn').show();
-                    $('#submit_edit_domain').hide();
-                    $(this).hide();
-                });
-            
+
+            $('#edit_domain.ui.modal').modal('show');
+            execute_edit(id);
+            $('#edit_domain_btn').click(function () {
+                $('#block_details').hide();
+                $('#block_form_edit').show();
+                $('#cancel_edit_domain').show();
+                $('#submit_edit_domain').show();
+                $(this).hide();
+            });
+            $('#cancel_edit_domain').click(function () {
+                $('#block_details').show();
+                $('#block_form_edit').hide();
+                $('#edit_domain_btn').show();
+                $('#submit_edit_domain').hide();
+                $(this).hide();
+            });
+
             $('#message_loading').hide();
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -364,111 +372,127 @@ function show_domain(id) {
 }
 
 function enable_domain(id) {
-    $('#message_error').hide();
-    $('#message_success').hide();
-    $('#edit_domain.ui.modal').modal('hide');
-    $('#edit_domain').remove();
-    $('.ui.dropdown').dropdown('remove active');
-    $('.ui.dropdown').dropdown('remove visible');
-    $('.ui.dropdown>div.menu').removeClass('visible');
-    $('.ui.dropdown>div.menu').addClass('hidden');
-    $.ajax({
-        type: 'PUT',
-        url: Routing.generate('domain_update', {id: id}),
-        data: {'action': 'enable'},
-        dataType: 'json',
-        beforeSend: function () {
-            $('#message_loading').show();
-            $('.ui.dropdown').dropdown('remove active');
-            $('.ui.dropdown').dropdown('remove visible');
-            $('.ui.dropdown>div.menu').removeClass('visible');
-            $('.ui.dropdown>div.menu').addClass('hidden');
-        },
-        statusCode: {
-            500: function (xhr) {
-                $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
-                $('#message_error').show();
+    $('#confirm_enable_domain.ui.small.modal')
+            .modal('show');
+
+    $('#execute_enable_domain').click(function (e) {
+        e.preventDefault();
+        $('#confirm_enable_domain.ui.small.modal')
+                .modal('hide');
+        $('#message_error').hide();
+        $('#message_success').hide();
+        $('#edit_domain.ui.modal').modal('hide');
+        $('#edit_domain').remove();
+        $('.ui.dropdown').dropdown('remove active');
+        $('.ui.dropdown').dropdown('remove visible');
+        $('.ui.dropdown>div.menu').removeClass('visible');
+        $('.ui.dropdown>div.menu').addClass('hidden');
+        $.ajax({
+            type: 'PUT',
+            url: Routing.generate('domain_update', {id: id}),
+            data: {'action': 'enable'},
+            dataType: 'json',
+            beforeSend: function () {
+                $('#message_loading').show();
+                $('.ui.dropdown').dropdown('remove active');
+                $('.ui.dropdown').dropdown('remove visible');
+                $('.ui.dropdown>div.menu').removeClass('visible');
+                $('.ui.dropdown>div.menu').addClass('hidden');
+            },
+            statusCode: {
+                500: function (xhr) {
+                    $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
+                    $('#message_error').show();
+                    setTimeout(function () {
+                        $('#message_error').hide();
+                    }, 4000);
+                },
+                404: function (response, textStatus, jqXHR) {
+                    $('#message_error>div.header').html("Echec d'activation du domaine");
+                    $('#message_error').show();
+                    setTimeout(function () {
+                        $('#message_error').hide();
+                    }, 4000);
+                }
+            },
+            success: function (response, textStatus, jqXHR) {
+                $('#message_loading').hide();
+                $('#enable_domain_grid' + id).hide();
+                $('#disable_domain_grid' + id).show();
+                $('#message_success>div.header').html(response.message);
+                $('#message_success').show();
+                window.location.replace(Routing.generate('domain_index'));
                 setTimeout(function () {
-                    $('#message_error').hide();
+                    $('#message_success').hide();
                 }, 4000);
             },
-            404: function (response, textStatus, jqXHR) {
-                $('#message_error>div.header').html("Echec d'activation du domaine");
-                $('#message_error').show();
-                setTimeout(function () {
-                    $('#message_error').hide();
-                }, 4000);
+            error: function (jqXHR, textStatus, errorThrown) {
+                $('#message_loading').hide();
+                /*alertify.error("Internal Server Error");*/
             }
-        },
-        success: function (response, textStatus, jqXHR) {
-            $('#message_loading').hide();
-            $('#enable_domain_grid' + id).hide();
-            $('#disable_domain_grid' + id).show();
-            $('#message_success>div.header').html(response.message);
-            $('#message_success').show();
-            window.location.replace(Routing.generate('domain_index'));
-            setTimeout(function () {
-                $('#message_success').hide();
-            }, 4000);
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            $('#message_loading').hide();
-            /*alertify.error("Internal Server Error");*/
-        }
+        });
     });
 }
 
 function disable_domain(id) {
-    $('#message_error').hide();
-    $('#message_success').hide();
-    $('#edit_domain.ui.modal').modal('hide');
-    $('#edit_domain').remove();
-    $('.ui.dropdown').dropdown('remove active');
-    $('.ui.dropdown').dropdown('remove visible');
-    $('.ui.dropdown>div.menu').removeClass('visible');
-    $('.ui.dropdown>div.menu').addClass('hidden');
-    $.ajax({
-        type: 'PUT',
-        url: Routing.generate('domain_update', {id: id}),
-        data: {'action': 'disable'},
-        dataType: 'json',
-        beforeSend: function () {
-            $('#message_loading').show();
-            $('.ui.dropdown').dropdown('remove active');
-            $('.ui.dropdown').dropdown('remove visible');
-            $('.ui.dropdown>div.menu').removeClass('visible');
-            $('.ui.dropdown>div.menu').addClass('hidden');
-        },
-        statusCode: {
-            500: function (xhr) {
-                $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
-                $('#message_error').show();
+    $('#confirm_disable_domain.ui.small.modal')
+            .modal('show');
+
+    $('#execute_disable_domain').click(function (e) {
+        e.preventDefault();
+        $('#confirm_disable_domain.ui.small.modal')
+                .modal('hide');
+        $('#message_error').hide();
+        $('#message_success').hide();
+        $('#edit_domain.ui.modal').modal('hide');
+        $('#edit_domain').remove();
+        $('.ui.dropdown').dropdown('remove active');
+        $('.ui.dropdown').dropdown('remove visible');
+        $('.ui.dropdown>div.menu').removeClass('visible');
+        $('.ui.dropdown>div.menu').addClass('hidden');
+        $.ajax({
+            type: 'PUT',
+            url: Routing.generate('domain_update', {id: id}),
+            data: {'action': 'disable'},
+            dataType: 'json',
+            beforeSend: function () {
+                $('#message_loading').show();
+                $('.ui.dropdown').dropdown('remove active');
+                $('.ui.dropdown').dropdown('remove visible');
+                $('.ui.dropdown>div.menu').removeClass('visible');
+                $('.ui.dropdown>div.menu').addClass('hidden');
+            },
+            statusCode: {
+                500: function (xhr) {
+                    $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
+                    $('#message_error').show();
+                    setTimeout(function () {
+                        $('#message_error').hide();
+                    }, 4000);
+                },
+                404: function (response, textStatus, jqXHR) {
+                    $('#message_error>div.header').html("Echec de la désactivation du domaine");
+                    $('#message_error').show();
+                    setTimeout(function () {
+                        $('#message_error').hide();
+                    }, 4000);
+                }
+            },
+            success: function (response, textStatus, jqXHR) {
+                $('#message_loading').hide();
+                $('#disable_domain_grid' + id).hide();
+                $('#enable_domain_grid' + id).show();
+                $('#message_success>div.header').html(response.message);
+                $('#message_success').show();
+                window.location.replace(Routing.generate('domain_index'));
                 setTimeout(function () {
-                    $('#message_error').hide();
+                    $('#message_success').hide();
                 }, 4000);
             },
-            404: function (response, textStatus, jqXHR) {
-                $('#message_error>div.header').html("Echec de la désactivation du domaine");
-                $('#message_error').show();
-                setTimeout(function () {
-                    $('#message_error').hide();
-                }, 4000);
+            error: function (jqXHR, textStatus, errorThrown) {
+                $('#message_loading').hide();
+                /*alertify.error("Internal Server Error");*/
             }
-        },
-        success: function (response, textStatus, jqXHR) {
-            $('#message_loading').hide();
-            $('#disable_domain_grid' + id).hide();
-            $('#enable_domain_grid' + id).show();
-            $('#message_success>div.header').html(response.message);
-            $('#message_success').show();
-            window.location.replace(Routing.generate('domain_index'));
-            setTimeout(function () {
-                $('#message_success').hide();
-            }, 4000);
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            $('#message_loading').hide();
-            /*alertify.error("Internal Server Error");*/
-        }
+        });
     });
 }

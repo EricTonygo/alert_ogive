@@ -543,54 +543,64 @@ function execute_edit(id) {
 }
 
 function delete_additive(id) {
-    $('#message_error').hide();
-    $('#message_success').hide();
-    $('.ui.dropdown').dropdown('remove active');
-    $('.ui.dropdown').dropdown('remove visible');
-    $('.ui.dropdown>div.menu').removeClass('visible');
-    $('.ui.dropdown>div.menu').addClass('hidden');
-    $('.ui.dropdown').dropdown({
-        on: 'hover'
-    });
-    $.ajax({
-        type: 'DELETE',
-        url: Routing.generate('additive_delete', {id: id}),
-        dataType: 'json',
-        beforeSend: function () {
-            $('#message_loading').show();
-        },
-        statusCode: {
-            500: function (xhr) {
-                $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
-                $('#message_error').show();
+    $('#confirm_delete_additive.ui.small.modal')
+            .modal('show')
+            ;
+
+    $('#execute_delete_additive').click(function (e) {
+        e.preventDefault();
+        $('#confirm_delete_additive.ui.small.modal')
+                .modal('hide')
+                ;
+        $('#message_error').hide();
+        $('#message_success').hide();
+        $('.ui.dropdown').dropdown('remove active');
+        $('.ui.dropdown').dropdown('remove visible');
+        $('.ui.dropdown>div.menu').removeClass('visible');
+        $('.ui.dropdown>div.menu').addClass('hidden');
+        $('.ui.dropdown').dropdown({
+            on: 'hover'
+        });
+        $.ajax({
+            type: 'DELETE',
+            url: Routing.generate('additive_delete', {id: id}),
+            dataType: 'json',
+            beforeSend: function () {
+                $('#message_loading').show();
+            },
+            statusCode: {
+                500: function (xhr) {
+                    $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
+                    $('#message_error').show();
+                    setTimeout(function () {
+                        $('#message_error').hide();
+                    }, 4000);
+                },
+                404: function (response, textStatus, jqXHR) {
+                    $('#message_error>div.header').html(response.responseJSON.message);
+                    $('#message_error').show();
+                    setTimeout(function () {
+                        $('#message_error').hide();
+                    }, 4000);
+                }
+            },
+            success: function (response, textStatus, jqXHR) {
+                console.log(response);
+                $('#additive_grid' + id).remove();
+                $('#additive_list' + id).remove();
+                $('#message_loading').hide();
+                $('#message_success>div.header').html(response.message);
+                $('#message_success').show();
+                window.location.replace(Routing.generate('additive_index'));
                 setTimeout(function () {
-                    $('#message_error').hide();
+                    $('#message_success').hide();
                 }, 4000);
             },
-            404: function (response, textStatus, jqXHR) {
-                $('#message_error>div.header').html(response.responseJSON.message);
-                $('#message_error').show();
-                setTimeout(function () {
-                    $('#message_error').hide();
-                }, 4000);
+            error: function (jqXHR, textStatus, errorThrown) {
+                $('#message_loading').hide();
+                /*alertify.error("Internal Server Error");*/
             }
-        },
-        success: function (response, textStatus, jqXHR) {
-            console.log(response);
-            $('#additive_grid' + id).remove();
-            $('#additive_list' + id).remove();
-            $('#message_loading').hide();
-            $('#message_success>div.header').html(response.message);
-            $('#message_success').show();
-            window.location.replace(Routing.generate('additive_index'));
-            setTimeout(function () {
-                $('#message_success').hide();
-            }, 4000);
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            $('#message_loading').hide();
-            /*alertify.error("Internal Server Error");*/
-        }
+        });
     });
 }
 
@@ -679,111 +689,131 @@ function show_additive(id) {
 }
 
 function enable_additive(id) {
-    $('#message_error').hide();
-    $('#message_success').hide();
-    $('#edit_additive.ui.modal').modal('hide');
-    $('#edit_additive').remove();
-    $('.ui.dropdown').dropdown('remove active');
-    $('.ui.dropdown').dropdown('remove visible');
-    $('.ui.dropdown>div.menu').removeClass('visible');
-    $('.ui.dropdown>div.menu').addClass('hidden');
-    $('.ui.dropdown').dropdown({
-        on: 'hover'
-    });
-    $.ajax({
-        type: 'PUT',
-        url: Routing.generate('additive_update', {id: id}),
-        data: {'action': 'enable'},
-        dataType: 'json',
-        beforeSend: function () {
-            $('#message_loading').show();
-        },
-        statusCode: {
-            500: function (xhr) {
-                $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
-                $('#message_error').show();
+    $('#confirm_enable_additive.ui.small.modal')
+            .modal('show')
+            ;
+
+    $('#execute_enable_additive').click(function (e) {
+        e.preventDefault();
+        $('#confirm_enable_additive.ui.small.modal')
+                .modal('hide')
+                ;
+        $('#message_error').hide();
+        $('#message_success').hide();
+        $('#edit_additive.ui.modal').modal('hide');
+        $('#edit_additive').remove();
+        $('.ui.dropdown').dropdown('remove active');
+        $('.ui.dropdown').dropdown('remove visible');
+        $('.ui.dropdown>div.menu').removeClass('visible');
+        $('.ui.dropdown>div.menu').addClass('hidden');
+        $('.ui.dropdown').dropdown({
+            on: 'hover'
+        });
+        $.ajax({
+            type: 'PUT',
+            url: Routing.generate('additive_update', {id: id}),
+            data: {'action': 'enable'},
+            dataType: 'json',
+            beforeSend: function () {
+                $('#message_loading').show();
+            },
+            statusCode: {
+                500: function (xhr) {
+                    $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
+                    $('#message_error').show();
+                    setTimeout(function () {
+                        $('#message_error').hide();
+                    }, 4000);
+                },
+                404: function (response, textStatus, jqXHR) {
+                    $('#message_error>div.header').html("Echec d'activation de l'additif");
+                    $('#message_error').show();
+                    setTimeout(function () {
+                        $('#message_error').hide();
+                    }, 4000);
+                }
+            },
+            success: function (response, textStatus, jqXHR) {
+
+                $('#message_loading').hide();
+                $('#enable_additive_grid' + id).hide();
+                $('#disable_additive_grid' + id).show();
+                $('#message_success>div.header').html(response.message);
+                $('#message_success').show();
+                window.location.replace(Routing.generate('additive_index'));
                 setTimeout(function () {
-                    $('#message_error').hide();
+                    $('#message_success').hide();
                 }, 4000);
             },
-            404: function (response, textStatus, jqXHR) {
-                $('#message_error>div.header').html("Echec d'activation de l'additif");
-                $('#message_error').show();
-                setTimeout(function () {
-                    $('#message_error').hide();
-                }, 4000);
+            error: function (jqXHR, textStatus, errorThrown) {
+                $('#message_loading').hide();
+                /*alertify.error("Internal Server Error");*/
             }
-        },
-        success: function (response, textStatus, jqXHR) {
-
-            $('#message_loading').hide();
-            $('#enable_additive_grid' + id).hide();
-            $('#disable_additive_grid' + id).show();
-            $('#message_success>div.header').html(response.message);
-            $('#message_success').show();
-            window.location.replace(Routing.generate('additive_index'));
-            setTimeout(function () {
-                $('#message_success').hide();
-            }, 4000);
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            $('#message_loading').hide();
-            /*alertify.error("Internal Server Error");*/
-        }
+        });
     });
 }
 
 function disable_additive(id) {
-    $('#message_error').hide();
-    $('#message_success').hide();
-    $('#edit_additive.ui.modal').modal('hide');
-    $('#edit_additive').remove();
-    $('.ui.dropdown').dropdown('remove active');
-    $('.ui.dropdown').dropdown('remove visible');
-    $('.ui.dropdown>div.menu').removeClass('visible');
-    $('.ui.dropdown>div.menu').addClass('hidden');
-    $('.ui.dropdown').dropdown({
-        on: 'hover'
-    });
-    $.ajax({
-        type: 'PUT',
-        url: Routing.generate('additive_update', {id: id}),
-        data: {'action': 'disable'},
-        dataType: 'json',
-        beforeSend: function () {
-            $('#message_loading').show();
-        },
-        statusCode: {
-            500: function (xhr) {
-                $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
-                $('#message_error').show();
+    $('#confirm_disable_additive.ui.small.modal')
+            .modal('show')
+            ;
+
+    $('#execute_disable_additive').click(function (e) {
+        e.preventDefault();
+        $('#confirm_disable_additive.ui.small.modal')
+                .modal('hide')
+                ;
+        $('#message_error').hide();
+        $('#message_success').hide();
+        $('#edit_additive.ui.modal').modal('hide');
+        $('#edit_additive').remove();
+        $('.ui.dropdown').dropdown('remove active');
+        $('.ui.dropdown').dropdown('remove visible');
+        $('.ui.dropdown>div.menu').removeClass('visible');
+        $('.ui.dropdown>div.menu').addClass('hidden');
+        $('.ui.dropdown').dropdown({
+            on: 'hover'
+        });
+        $.ajax({
+            type: 'PUT',
+            url: Routing.generate('additive_update', {id: id}),
+            data: {'action': 'disable'},
+            dataType: 'json',
+            beforeSend: function () {
+                $('#message_loading').show();
+            },
+            statusCode: {
+                500: function (xhr) {
+                    $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
+                    $('#message_error').show();
+                    setTimeout(function () {
+                        $('#message_error').hide();
+                    }, 4000);
+                },
+                404: function (response, textStatus, jqXHR) {
+                    $('#message_error>div.header').html("Echec de la désactivation de l'additif");
+                    $('#message_error').show();
+                    setTimeout(function () {
+                        $('#message_error').hide();
+                    }, 4000);
+                }
+            },
+            success: function (response, textStatus, jqXHR) {
+
+                $('#message_loading').hide();
+                $('#disable_additive_grid' + id).hide();
+                $('#enable_additive_grid' + id).show();
+                $('#message_success>div.header').html(response.message);
+                $('#message_success').show();
+                window.location.replace(Routing.generate('additive_index'));
                 setTimeout(function () {
-                    $('#message_error').hide();
+                    $('#message_success').hide();
                 }, 4000);
             },
-            404: function (response, textStatus, jqXHR) {
-                $('#message_error>div.header').html("Echec de la désactivation de l'additif");
-                $('#message_error').show();
-                setTimeout(function () {
-                    $('#message_error').hide();
-                }, 4000);
+            error: function (jqXHR, textStatus, errorThrown) {
+                $('#message_loading').hide();
+                /*alertify.error("Internal Server Error");*/
             }
-        },
-        success: function (response, textStatus, jqXHR) {
-
-            $('#message_loading').hide();
-            $('#disable_additive_grid' + id).hide();
-            $('#enable_additive_grid' + id).show();
-            $('#message_success>div.header').html(response.message);
-            $('#message_success').show();
-            window.location.replace(Routing.generate('additive_index'));
-            setTimeout(function () {
-                $('#message_success').hide();
-            }, 4000);
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            $('#message_loading').hide();
-            /*alertify.error("Internal Server Error");*/
-        }
+        });
     });
 }

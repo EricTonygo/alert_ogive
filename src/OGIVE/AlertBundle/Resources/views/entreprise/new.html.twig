@@ -21,7 +21,7 @@
             <div class="field">
                 {{ form_label(form.domains,"Ses domaines d'activité") }}
                 {{ form_errors(form.domains, {'attr': {'class': 'ui error message'}})}}
-                {{ form_widget(form.domains,{'attr':{'data-validate': 'domains', 'class': 'ui search dropdown'}})}}
+                {{ form_widget(form.domains,{'attr':{'data-validate': 'domains', 'class': 'ui search dropdown', 'data-validate': 'domains'}})}}
             </div>
 
             <div class="field">
