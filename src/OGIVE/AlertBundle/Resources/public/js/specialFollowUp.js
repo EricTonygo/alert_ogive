@@ -206,26 +206,26 @@ function execute_edit(id) {
                             }
                         },
                         success: function (response, textStatus, jqXHR) {
-                                $('#submit_edit_specialFollowUp').removeClass('disabled');
-                                $('#cancel_edit_specialFollowUp').removeClass('disabled');
-                                $('#edit_specialFollowUp_form.ui.form').removeClass('loading');
-                                $('#cancel_details_specialFollowUp').removeClass('disabled');
-                                $('#disable_specialFollowUp').removeClass('disabled');
-                                $('#enable_specialFollowUp').removeClass('disabled');
+                            $('#submit_edit_specialFollowUp').removeClass('disabled');
+                            $('#cancel_edit_specialFollowUp').removeClass('disabled');
+                            $('#edit_specialFollowUp_form.ui.form').removeClass('loading');
+                            $('#cancel_details_specialFollowUp').removeClass('disabled');
+                            $('#disable_specialFollowUp').removeClass('disabled');
+                            $('#enable_specialFollowUp').removeClass('disabled');
 //                                $('#specialFollowUp_grid' + id).html(response.specialFollowUp_content_grid);
 //                                $('#specialFollowUp_list' + id).html(response.specialFollowUp_content_list);
 //                                $('.ui.dropdown').dropdown({
 //                                    on: 'hover'
 //                                });
-                                $('#edit_specialFollowUp.ui.modal').modal('hide');
-                                $('#message_success>div.header').html(response.message);
-                                $('#message_success').show();
-                                window.location.replace(Routing.generate('specialFollowUp_index'));
-                                setTimeout(function () {
-                                    $('#message_success').hide();
-                                }, 4000);
-                                $('#edit_specialFollowUp').remove();
-                            
+                            $('#edit_specialFollowUp.ui.modal').modal('hide');
+                            $('#message_success>div.header').html(response.message);
+                            $('#message_success').show();
+                            window.location.replace(Routing.generate('specialFollowUp_index'));
+                            setTimeout(function () {
+                                $('#message_success').hide();
+                            }, 4000);
+                            $('#edit_specialFollowUp').remove();
+
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
                             $('#submit_edit_specialFollowUp').removeClass('disabled');
@@ -241,50 +241,58 @@ function execute_edit(id) {
 }
 
 function delete_specialFollowUp(id) {
-    $('#message_error').hide();
-    $('#message_success').hide();
-    $('.ui.dropdown').dropdown('remove active');
-    $('.ui.dropdown').dropdown('remove visible');
-    $('.ui.dropdown>div.menu').removeClass('visible');
-    $('.ui.dropdown>div.menu').addClass('hidden');
-    $.ajax({
-        type: 'DELETE',
-        url: Routing.generate('specialFollowUp_delete', {id: id}),
-        dataType: 'json',
-        beforeSend: function () {
-            $('#message_loading').show();
-        },
-        statusCode: {
-            500: function (xhr) {
-                $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
-                $('#message_error').show();
+    $('#confirm_delete_specialFollowUp.ui.small.modal')
+            .modal('show');
+
+    $('#execute_delete_specialFollowUp').click(function (e) {
+        e.preventDefault();
+        $('#confirm_delete_specialFollowUp.ui.small.modal')
+                .modal('hide');
+        $('#message_error').hide();
+        $('#message_success').hide();
+        $('.ui.dropdown').dropdown('remove active');
+        $('.ui.dropdown').dropdown('remove visible');
+        $('.ui.dropdown>div.menu').removeClass('visible');
+        $('.ui.dropdown>div.menu').addClass('hidden');
+        $.ajax({
+            type: 'DELETE',
+            url: Routing.generate('specialFollowUp_delete', {id: id}),
+            dataType: 'json',
+            beforeSend: function () {
+                $('#message_loading').show();
+            },
+            statusCode: {
+                500: function (xhr) {
+                    $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
+                    $('#message_error').show();
+                    setTimeout(function () {
+                        $('#message_error').hide();
+                    }, 4000);
+                },
+                404: function (response, textStatus, jqXHR) {
+                    $('#message_error>div.header').html(response.responseJSON.message);
+                    $('#message_error').show();
+                    setTimeout(function () {
+                        $('#message_error').hide();
+                    }, 4000);
+                }
+            },
+            success: function (response, textStatus, jqXHR) {
+                $('#specialFollowUp_grid' + id).remove();
+                $('#specialFollowUp_list' + id).remove();
+                $('#message_loading').hide();
+                $('#message_success>div.header').html(response.message);
+                $('#message_success').show();
+                window.location.replace(Routing.generate('specialFollowUp_index'));
                 setTimeout(function () {
-                    $('#message_error').hide();
+                    $('#message_success').hide();
                 }, 4000);
             },
-            404: function (response, textStatus, jqXHR) {
-                $('#message_error>div.header').html(response.responseJSON.message);
-                $('#message_error').show();
-                setTimeout(function () {
-                    $('#message_error').hide();
-                }, 4000);
+            error: function (jqXHR, textStatus, errorThrown) {
+                $('#message_loading').hide();
+                /*alertify.error("Internal Server Error");*/
             }
-        },
-        success: function (response, textStatus, jqXHR) {
-            $('#specialFollowUp_grid' + id).remove();
-            $('#specialFollowUp_list' + id).remove();
-            $('#message_loading').hide();
-            $('#message_success>div.header').html(response.message);
-            $('#message_success').show();
-            window.location.replace(Routing.generate('specialFollowUp_index'));
-            setTimeout(function () {
-                $('#message_success').hide();
-            }, 4000);
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            $('#message_loading').hide();
-            /*alertify.error("Internal Server Error");*/
-        }
+        });
     });
 }
 
@@ -312,34 +320,34 @@ function show_specialFollowUp(id) {
             }
         },
         success: function (response, textStatus, jqXHR) {
-                $('#edit_specialFollowUp').remove();
-                $('#edit_specialFollowUp_content').html(response.specialFollowUp_details);
-                $('#edit_specialFollowUp.ui.modal').modal('setting', {
-                    autofocus: false,
-                    inverted: true,
-                    closable: false
-                });
-                $('#cancel_details_specialFollowUp').click(function () {
-                    window.location.replace(Routing.generate('specialFollowUp_index'));
-                });
+            $('#edit_specialFollowUp').remove();
+            $('#edit_specialFollowUp_content').html(response.specialFollowUp_details);
+            $('#edit_specialFollowUp.ui.modal').modal('setting', {
+                autofocus: false,
+                inverted: true,
+                closable: false
+            });
+            $('#cancel_details_specialFollowUp').click(function () {
+                window.location.replace(Routing.generate('specialFollowUp_index'));
+            });
 
-                $('#edit_specialFollowUp.ui.modal').modal('show');
-                execute_edit(id);
-                $('#edit_specialFollowUp_btn').click(function () {
-                    $('#block_details').hide();
-                    $('#block_form_edit').show();
-                    $('#cancel_edit_specialFollowUp').show();
-                    $('#submit_edit_specialFollowUp').show();
-                    $(this).hide();
-                });
-                $('#cancel_edit_specialFollowUp').click(function () {
-                    $('#block_details').show();
-                    $('#block_form_edit').hide();
-                    $('#edit_specialFollowUp_btn').show();
-                    $('#submit_edit_specialFollowUp').hide();
-                    $(this).hide();
-                });
-            
+            $('#edit_specialFollowUp.ui.modal').modal('show');
+            execute_edit(id);
+            $('#edit_specialFollowUp_btn').click(function () {
+                $('#block_details').hide();
+                $('#block_form_edit').show();
+                $('#cancel_edit_specialFollowUp').show();
+                $('#submit_edit_specialFollowUp').show();
+                $(this).hide();
+            });
+            $('#cancel_edit_specialFollowUp').click(function () {
+                $('#block_details').show();
+                $('#block_form_edit').hide();
+                $('#edit_specialFollowUp_btn').show();
+                $('#submit_edit_specialFollowUp').hide();
+                $(this).hide();
+            });
+
             $('#message_loading').hide();
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -350,104 +358,120 @@ function show_specialFollowUp(id) {
 }
 
 function enable_specialFollowUp(id) {
-    $('#message_error').hide();
-    $('#message_success').hide();
-    $('#edit_specialFollowUp.ui.modal').modal('hide');
-    $('#edit_specialFollowUp').remove();
-    $('.ui.dropdown').dropdown('remove active');
-    $('.ui.dropdown').dropdown('remove visible');
-    $('.ui.dropdown>div.menu').removeClass('visible');
-    $('.ui.dropdown>div.menu').addClass('hidden');
-    $.ajax({
-        type: 'PUT',
-        url: Routing.generate('specialFollowUp_update', {id: id}),
-        data: {'action': 'enable'},
-        dataType: 'json',
-        beforeSend: function () {
-            $('#message_loading').show();
-        },
-        statusCode: {
-            500: function (xhr) {
-                $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
-                $('#message_error').show();
+    $('#confirm_enable_specialFollowUp.ui.small.modal')
+            .modal('show');
+
+    $('#execute_enable_specialFollowUp').click(function (e) {
+        e.preventDefault();
+        $('#confirm_enable_specialFollowUp.ui.small.modal')
+                .modal('hide');
+        $('#message_error').hide();
+        $('#message_success').hide();
+        $('#edit_specialFollowUp.ui.modal').modal('hide');
+        $('#edit_specialFollowUp').remove();
+        $('.ui.dropdown').dropdown('remove active');
+        $('.ui.dropdown').dropdown('remove visible');
+        $('.ui.dropdown>div.menu').removeClass('visible');
+        $('.ui.dropdown>div.menu').addClass('hidden');
+        $.ajax({
+            type: 'PUT',
+            url: Routing.generate('specialFollowUp_update', {id: id}),
+            data: {'action': 'enable'},
+            dataType: 'json',
+            beforeSend: function () {
+                $('#message_loading').show();
+            },
+            statusCode: {
+                500: function (xhr) {
+                    $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
+                    $('#message_error').show();
+                    setTimeout(function () {
+                        $('#message_error').hide();
+                    }, 4000);
+                },
+                404: function (response, textStatus, jqXHR) {
+                    $('#message_error>div.header').html("Echec d'activation du suivi spécialisé");
+                    $('#message_error').show();
+                    setTimeout(function () {
+                        $('#message_error').hide();
+                    }, 4000);
+                }
+            },
+            success: function (response, textStatus, jqXHR) {
+                $('#message_loading').hide();
+                $('#enable_specialFollowUp_grid' + id).hide();
+                $('#disable_specialFollowUp_grid' + id).show();
+                $('#message_success>div.header').html(response.message);
+                $('#message_success').show();
+                window.location.replace(Routing.generate('specialFollowUp_index'));
                 setTimeout(function () {
-                    $('#message_error').hide();
+                    $('#message_success').hide();
                 }, 4000);
             },
-            404: function (response, textStatus, jqXHR) {
-                $('#message_error>div.header').html("Echec d'activation du suivi spécialisé");
-                $('#message_error').show();
-                setTimeout(function () {
-                    $('#message_error').hide();
-                }, 4000);
+            error: function (jqXHR, textStatus, errorThrown) {
+                $('#message_loading').hide();
+                /*alertify.error("Internal Server Error");*/
             }
-        },
-        success: function (response, textStatus, jqXHR) {
-            $('#message_loading').hide();
-            $('#enable_specialFollowUp_grid' + id).hide();
-            $('#disable_specialFollowUp_grid' + id).show();
-            $('#message_success>div.header').html(response.message);
-            $('#message_success').show();
-            window.location.replace(Routing.generate('specialFollowUp_index'));
-            setTimeout(function () {
-                $('#message_success').hide();
-            }, 4000);
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            $('#message_loading').hide();
-            /*alertify.error("Internal Server Error");*/
-        }
+        });
     });
 }
 
 function disable_specialFollowUp(id) {
-    $('#message_error').hide();
-    $('#message_success').hide();
-    $('#edit_specialFollowUp.ui.modal').modal('hide');
-    $('#edit_specialFollowUp').remove();
-    $('.ui.dropdown').dropdown('remove active');
-    $('.ui.dropdown').dropdown('remove visible');
-    $('.ui.dropdown>div.menu').removeClass('visible');
-    $('.ui.dropdown>div.menu').addClass('hidden');
-    $.ajax({
-        type: 'PUT',
-        url: Routing.generate('specialFollowUp_update', {id: id}),
-        data: {'action': 'disable'},
-        dataType: 'json',
-        beforeSend: function () {
-            $('#message_loading').show();
-        },
-        statusCode: {
-            500: function (xhr) {
-                $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
-                $('#message_error').show();
+    $('#confirm_disable_specialFollowUp.ui.small.modal')
+            .modal('show');
+
+    $('#execute_disable_specialFollowUp').click(function (e) {
+        e.preventDefault();
+        $('#confirm_disable_specialFollowUp.ui.small.modal')
+                .modal('hide');
+        $('#message_error').hide();
+        $('#message_success').hide();
+        $('#edit_specialFollowUp.ui.modal').modal('hide');
+        $('#edit_specialFollowUp').remove();
+        $('.ui.dropdown').dropdown('remove active');
+        $('.ui.dropdown').dropdown('remove visible');
+        $('.ui.dropdown>div.menu').removeClass('visible');
+        $('.ui.dropdown>div.menu').addClass('hidden');
+        $.ajax({
+            type: 'PUT',
+            url: Routing.generate('specialFollowUp_update', {id: id}),
+            data: {'action': 'disable'},
+            dataType: 'json',
+            beforeSend: function () {
+                $('#message_loading').show();
+            },
+            statusCode: {
+                500: function (xhr) {
+                    $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
+                    $('#message_error').show();
+                    setTimeout(function () {
+                        $('#message_error').hide();
+                    }, 4000);
+                },
+                404: function (response, textStatus, jqXHR) {
+                    $('#message_error>div.header').html("Echec de la désactivation du suivi spécialisé");
+                    $('#message_error').show();
+                    setTimeout(function () {
+                        $('#message_error').hide();
+                    }, 4000);
+                }
+            },
+            success: function (response, textStatus, jqXHR) {
+                $('#message_loading').hide();
+                $('#disable_specialFollowUp_grid' + id).hide();
+                $('#enable_specialFollowUp_grid' + id).show();
+                $('#message_success>div.header').html(response.message);
+                $('#message_success').show();
+                window.location.replace(Routing.generate('specialFollowUp_index'));
                 setTimeout(function () {
-                    $('#message_error').hide();
+                    $('#message_success').hide();
                 }, 4000);
             },
-            404: function (response, textStatus, jqXHR) {
-                $('#message_error>div.header').html("Echec de la désactivation du suivi spécialisé");
-                $('#message_error').show();
-                setTimeout(function () {
-                    $('#message_error').hide();
-                }, 4000);
+            error: function (jqXHR, textStatus, errorThrown) {
+                $('#message_loading').hide();
+                /*alertify.error("Internal Server Error");*/
             }
-        },
-        success: function (response, textStatus, jqXHR) {
-            $('#message_loading').hide();
-            $('#disable_specialFollowUp_grid' + id).hide();
-            $('#enable_specialFollowUp_grid' + id).show();
-            $('#message_success>div.header').html(response.message);
-            $('#message_success').show();
-            window.location.replace(Routing.generate('specialFollowUp_index'));
-            setTimeout(function () {
-                $('#message_success').hide();
-            }, 4000);
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            $('#message_loading').hide();
-            /*alertify.error("Internal Server Error");*/
-        }
+        });
     });
 }
 

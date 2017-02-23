@@ -109,9 +109,11 @@ class DomainController extends Controller {
             }
             $subdomains = $domain->getSubDomains();
             foreach ($subdomains as $subDomain) {
-                $subDomain->setDomain($domain);
-                if ($repositorySubDomain->findOneBy(array('name' => $subDomain->getName(), 'status' => 1))) {
+                $subDomainUnique = $repositorySubDomain->findOneBy(array('name' => $subDomain->getName(), 'status' => 1));
+                if ($subDomainUnique && $subDomainUnique->getDomain()) {
                     $domain->removeSubDomain($subDomain);
+                    $return_string = "Le sous domaine ".$subDomainUnique->getName()." appartient déjà au domaine ".$subDomainUnique->getDomain()->getName();
+                    return new JsonResponse(["success" => false, 'message' => $return_string], Response::HTTP_BAD_REQUEST);
                 } else {
                     if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
                         if ($sendActivate && $sendActivate === 'on') {
@@ -119,6 +121,7 @@ class DomainController extends Controller {
                         }
                         $subDomain->setDomain($domain);
                     }
+                    $subDomain->setDomain($domain);
                 }
             }            
             $domain = $repositoryDomain->saveDomain($domain);
@@ -242,6 +245,8 @@ class DomainController extends Controller {
                 $subDomainUnique = $repositorySubDomain->findOneBy(array('name' => $subDomain->getName(), 'status' => 1));
                 if ($subDomainUnique && $subDomainUnique->getId() != $subDomain->getId()) {
                     $domain->removeSubDomain($subDomain);
+                    $return_string = "Le sous domaine ".$subDomainUnique->getName()." appartient déjà au domaine ".$subDomainUnique->getDomain()->getName();
+                    return new JsonResponse(["success" => false, 'message' => $return_string], Response::HTTP_BAD_REQUEST);
                 } else {
                     if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
                         if ($sendActivate && $sendActivate === 'on') {
