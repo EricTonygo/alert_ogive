@@ -19,6 +19,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\View\ViewHandler;
 use FOS\RestBundle\View\View;
+use Twilio\Rest\Client;
 
 class TelephoneController extends Controller {
 
@@ -36,14 +37,15 @@ class TelephoneController extends Controller {
         $form = $this->createForm('OGIVE\AlertBundle\Form\HistoricalAlertSubscriberType', $historiqueAlertSubscriber);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $twilio = $this->get('twilio.api');
-            //$messages = $twilio->account->messages->read();
             $this->sendEmailSubscriber($subscriber, "Alert Infos", $historiqueAlertSubscriber->getMessage());
-//            $message = $twilio->account->messages->sendMessage(
-//                    'OGIVE INFOS', // From a Twilio number in your account
-//                    $subscriber->getPhoneNumber(), // Text any number
-//                    $historiqueAlertSubscriber->getMessage()
-//            );
+            $twilio = $this->get('twilio.client');
+            $message = $twilio->messages->create(
+                    $subscriber->getPhoneNumber(), // Text any number
+                    array(
+                'from' => 'OGIVE INFOS', // From a Twilio number in your account
+                'body' => $historiqueAlertSubscriber->getMessage()
+                    )
+            );
 
             $historiqueAlertSubscriber->setSubscriber($subscriber);
             $historiqueAlertSubscriber->setAlertType("SMS");
@@ -78,10 +80,8 @@ class TelephoneController extends Controller {
         $historiqueAlertSubscriber = new HistoricalAlertSubscriber();
         $repositoryHistorique = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:HistoricalAlertSubscriber');
         $repositorySubscriber = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Subscriber');
-        $repositoryCallOffer = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:CallOffer');
 
-        $twilio = $this->get('twilio.api');
-        //$messages = $twilio->account->messages->read();
+        $twilio = $this->get('twilio.client');
         $sendToAll = $request->get('all_subscribers');
         $idSubscribers = $request->get('subscribers');
         if ($sendToAll && $sendToAll === 'on') {
@@ -109,10 +109,12 @@ class TelephoneController extends Controller {
                 });
             }
             foreach ($subscribers as $subscriber) {
-                $message = $twilio->account->messages->sendMessage(
-                        'OGIVE INFOS', // From a Twilio number in your account
+                $message = $twilio->messages->create(
                         $subscriber->getPhoneNumber(), // Text any number
-                        $request->get('abstract')
+                        array(
+                    'from' => 'OGIVE INFOS', // From a Twilio number in your account
+                    'body' => $request->get('abstract')
+                        )
                 );
                 $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRE INFOS", $request->get('abstract'), $callOffer);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
@@ -129,10 +131,12 @@ class TelephoneController extends Controller {
             foreach ($idSubscribers as $idSubscriber) {
                 $idSubscriber = (int) $idSubscriber;
                 $subscriber = $repositorySubscriber->find($idSubscriber);
-                $message = $twilio->account->messages->sendMessage(
-                        'OGIVE INFOS', // From a Twilio number in your account
+                $message = $twilio->messages->create(
                         $subscriber->getPhoneNumber(), // Text any number
-                        $request->get('abstract')
+                        array(
+                    'from' => 'OGIVE INFOS', // From a Twilio number in your account
+                    'body' => $request->get('abstract')
+                        )
                 );
                 $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRE INFOS", $request->get('abstract'), $callOffer);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
@@ -156,9 +160,11 @@ class TelephoneController extends Controller {
      * @param Request $request
      */
     public function getAllMessagesAction(Request $request) {
-        $twilio = $this->get('twilio.api');
-        $messages = $twilio->account->messages->read();
-        return $messages;
+        $twilio = $this->get('twilio.client');
+        $messages = $twilio->messages->read();
+        $view = View::create(['messages' => $messages, "message" => 'Domaine Ajouté avec succès']);
+            $view->setFormat('json');
+            return $view;
     }
 
     /**
@@ -216,10 +222,8 @@ class TelephoneController extends Controller {
         $historiqueAlertSubscriber = new HistoricalAlertSubscriber();
         $repositoryHistorique = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:HistoricalAlertSubscriber');
         $repositorySubscriber = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Subscriber');
-        $repositoryProcedureResult = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:ProcedureResult');
 
-        $twilio = $this->get('twilio.api');
-        //$messages = $twilio->account->messages->read();
+        $twilio = $this->get('twilio.client');
         $sendToAll = $request->get('all_subscribers');
         $idSubscribers = $request->get('subscribers');
         if ($sendToAll && $sendToAll === 'on') {
@@ -247,10 +251,12 @@ class TelephoneController extends Controller {
                 });
             }
             foreach ($subscribers as $subscriber) {
-                $message = $twilio->account->messages->sendMessage(
-                        'OGIVE INFOS', // From a Twilio number in your account
+                $message = $twilio->messages->create(
                         $subscriber->getPhoneNumber(), // Text any number
-                        $request->get('abstract')
+                        array(
+                    'from' => 'OGIVE INFOS', // From a Twilio number in your account
+                    'body' => $request->get('abstract')
+                        )
                 );
                 $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRE INFOS", $request->get('abstract'), $procedureResult);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
@@ -266,10 +272,12 @@ class TelephoneController extends Controller {
         } elseif ($idSubscribers && is_array($idSubscribers) && !empty($idSubscribers)) {
             foreach ($idSubscribers as $idSubscriber) {
                 $subscriber = $repositorySubscriber->find((int) $idSubscriber);
-                $message = $twilio->account->messages->sendMessage(
-                        'OGIVE INFOS', // From a Twilio number in your account
+                $message = $twilio->messages->create(
                         $subscriber->getPhoneNumber(), // Text any number
-                        $request->get('abstract')
+                        array(
+                    'from' => 'OGIVE INFOS', // From a Twilio number in your account
+                    'body' => $request->get('abstract')
+                        )
                 );
                 $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRE INFOS", $request->get('abstract'), $procedureResult);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
@@ -342,10 +350,8 @@ class TelephoneController extends Controller {
         $historiqueAlertSubscriber = new HistoricalAlertSubscriber();
         $repositoryHistorique = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:HistoricalAlertSubscriber');
         $repositorySubscriber = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Subscriber');
-        $repositoryAdditive = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Additive');
 
-        $twilio = $this->get('twilio.api');
-        //$messages = $twilio->account->messages->read();
+        $twilio = $this->get('twilio.client');
         $sendToAll = $request->get('all_subscribers');
         $idSubscribers = $request->get('subscribers');
         if ($sendToAll && $sendToAll === 'on') {
@@ -373,10 +379,12 @@ class TelephoneController extends Controller {
                 });
             }
             foreach ($subscribers as $subscriber) {
-                $message = $twilio->account->messages->sendMessage(
-                        'OGIVE INFOS', // From a Twilio number in your account
+                $message = $twilio->messages->create(
                         $subscriber->getPhoneNumber(), // Text any number
-                        $request->get('abstract')
+                        array(
+                    'from' => 'OGIVE INFOS', // From a Twilio number in your account
+                    'body' => $request->get('abstract')
+                        )
                 );
                 $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRE INFOS", $request->get('abstract'), $additive);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
@@ -392,10 +400,12 @@ class TelephoneController extends Controller {
         } elseif ($idSubscribers && is_array($idSubscribers) && !empty($idSubscribers)) {
             foreach ($idSubscribers as $idSubscriber) {
                 $subscriber = $repositorySubscriber->find((int) $idSubscriber);
-                $message = $twilio->account->messages->sendMessage(
-                        'OGIVE INFOS', // From a Twilio number in your account
+                $message = $twilio->messages->create(
                         $subscriber->getPhoneNumber(), // Text any number
-                        $request->get('abstract')
+                        array(
+                    'from' => 'OGIVE INFOS', // From a Twilio number in your account
+                    'body' => $request->get('abstract')
+                        )
                 );
                 $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRE INFOS", $request->get('abstract'), $additive);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
@@ -468,10 +478,8 @@ class TelephoneController extends Controller {
         $historiqueAlertSubscriber = new HistoricalAlertSubscriber();
         $repositoryHistorique = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:HistoricalAlertSubscriber');
         $repositorySubscriber = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Subscriber');
-        $repositoryExpressionInterest = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:ExpressionInterest');
 
-        $twilio = $this->get('twilio.api');
-        //$messages = $twilio->account->messages->read();
+        $twilio = $this->get('twilio.client');
         $sendToAll = $request->get('all_subscribers');
         $idSubscribers = $request->get('subscribers');
         if ($sendToAll && $sendToAll === 'on') {
@@ -499,10 +507,12 @@ class TelephoneController extends Controller {
                 });
             }
             foreach ($subscribers as $subscriber) {
-                $message = $twilio->account->messages->sendMessage(
-                        'OGIVE INFOS', // From a Twilio number in your account
+                $message = $twilio->messages->create(
                         $subscriber->getPhoneNumber(), // Text any number
-                        $request->get('abstract')
+                        array(
+                    'from' => 'OGIVE INFOS', // From a Twilio number in your account
+                    'body' => $request->get('abstract')
+                        )
                 );
                 $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRE INFOS", $request->get('abstract'), $expressionInterest);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
@@ -518,10 +528,12 @@ class TelephoneController extends Controller {
         } elseif ($idSubscribers && is_array($idSubscribers) && !empty($idSubscribers)) {
             foreach ($idSubscribers as $idSubscriber) {
                 $subscriber = $repositorySubscriber->find((int) $idSubscriber);
-                $message = $twilio->account->messages->sendMessage(
-                        'OGIVE INFOS', // From a Twilio number in your account
+                $message = $twilio->messages->create(
                         $subscriber->getPhoneNumber(), // Text any number
-                        $request->get('abstract')
+                        array(
+                    'from' => 'OGIVE INFOS', // From a Twilio number in your account
+                    'body' => $request->get('abstract')
+                        )
                 );
                 $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRE INFOS", $request->get('abstract'), $expressionInterest);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
@@ -599,12 +611,14 @@ class TelephoneController extends Controller {
             $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 1 semaine";
         }
         $content = $subscriber->getEntreprise()->getName() . ", votre souscription au service <<Appels d'offres Infos>> a été éffectuée avec succès. \nCoût du forfait = " . $cout . ". \nOGIVE SOLUTIONS vous remercie pour votre confiance.";
-        $twilio = $this->get('twilio.api');
-        //$messages = $twilio->account->messages->read();
-        $message = $twilio->account->messages->sendMessage(
-                'OGIVE INFOS', // From a Twilio number in your account
+        $twilio = $this->get('twilio.client');
+
+        $message = $twilio->messages->create(
                 $subscriber->getPhoneNumber(), // Text any number
-                $content
+                array(
+            'from' => 'OGIVE INFOS', // From a Twilio number in your account
+            'body' => $content
+                )
         );
         $this->sendEmailSubscriber($subscriber, "CONFIRMATION DE L'ABONNEMENT", $content);
         $historiqueAlertSubscriber->setMessage($content);
@@ -629,17 +643,18 @@ class TelephoneController extends Controller {
         $repositoryHistorique = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:HistoricalAlertSubscriber');
         $repositorySubscriber = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Subscriber');
 
-        $twilio = $this->get('twilio.api');
-        //$messages = $twilio->account->messages->read();
+        $twilio = $this->get('twilio.client');
         $sendToAll = $request->get('all_subscribers');
         $idSubscribers = $request->get('subscribers');
         if ($sendToAll && $sendToAll === 'on') {
             $subscribers = $repositorySubscriber->getAll();
             foreach ($subscribers as $subscriber) {
-                $message = $twilio->account->messages->sendMessage(
-                        'OGIVE INFOS', // From a Twilio number in your account
+                $message = $twilio->messages->create(
                         $subscriber->getPhoneNumber(), // Text any number
-                        $request->get('abstract')
+                        array(
+                    'from' => 'OGIVE INFOS', // From a Twilio number in your account
+                    'body' => $request->get('abstract')
+                        )
                 );
                 $this->sendEmailSubscriber($subscriber, $specialFollowUp->getName(), $request->get('abstract'));
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
@@ -653,10 +668,12 @@ class TelephoneController extends Controller {
         } elseif ($idSubscribers && is_array($idSubscribers) && !empty($idSubscribers)) {
             foreach ($idSubscribers as $idSubscriber) {
                 $subscriber = $repositorySubscriber->find((int) $idSubscriber);
-                $message = $twilio->account->messages->sendMessage(
-                        'OGIVE INFOS', // From a Twilio number in your account
+                $message = $twilio->messages->create(
                         $subscriber->getPhoneNumber(), // Text any number
-                        $request->get('abstract')
+                        array(
+                    'from' => 'OGIVE INFOS', // From a Twilio number in your account
+                    'body' => $request->get('abstract')
+                        )
                 );
                 $this->sendEmailSubscriber($subscriber, $specialFollowUp->getName(), $request->get('abstract'));
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));

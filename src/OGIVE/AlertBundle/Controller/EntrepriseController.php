@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\View\ViewHandler;
 use FOS\RestBundle\View\View;
+use Twilio\Rest\Client;
 
 /**
  * Entreprise controller.
@@ -376,12 +377,13 @@ class EntrepriseController extends Controller {
             $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 1 semaine";
         }
         $content = $subscriber->getEntreprise()->getName() . ", votre souscription au service <<Appels d'offres Infos>> a été éffectuée avec succès. \nCoût du forfait = " . $cout . ". \nOGIVE SOLUTIONS vous remercie pour votre confiance.";
-        $twilio = $this->get('twilio.api');
-        //$messages = $twilio->account->messages->read();
-        $message = $twilio->account->messages->sendMessage(
-                'OGIVE INFOS', // From a Twilio number in your account
-                $subscriber->getPhoneNumber(), // Text any number
-                $content
+        $twilio = $this->get('twilio.client');
+        $message = $twilio->messages->create(
+            $subscriber->getPhoneNumber(), // Text any number
+            array(
+                'from' => 'OGIVE INFOS', // From a Twilio number in your account
+                'body' => $content
+            )
         );
         $this->sendEmailSubscriber($subscriber, "CONFIRMATION DE L'ABONNEMENT", $content);
         $historiqueAlertSubscriber->setMessage($content);
