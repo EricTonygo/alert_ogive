@@ -205,6 +205,8 @@ $(function () {
     $('#submit_additive').click(function (e) {
         e.preventDefault();
         $('#server_error_message').hide();
+        $('#error_name_message').hide();
+        $('#error_name_message_edit').hide();
         if ($('#add_additive_form.ui.form').form('is valid')) {
             $.ajax({
                 type: 'post',
@@ -498,6 +500,8 @@ function execute_edit(id) {
     $('#submit_edit_additive').click(function (e) {
         e.preventDefault();
         $('#server_error_message').hide();
+        $('#error_name_message').hide();
+        $('#error_name_message_edit').hide();
         if ($('#edit_additive_form.ui.form').form('is valid')) {
             $.ajax({
                 type: 'PUT',

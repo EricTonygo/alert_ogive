@@ -713,6 +713,7 @@ class TelephoneController extends Controller {
     }
 
     public function sendEmailSubscriber(Subscriber $subscriber, $subject, $content, \OGIVE\AlertBundle\Entity\AlertProcedure $procedure = null) {
+        if($subscriber && $subscriber->getEmail()!=""){
         $message = \Swift_Message::newInstance()
                 ->setSubject($subject)
                 ->setFrom(array('infos@si-ogive.com' => "OGIVE INFOS"))
@@ -734,6 +735,9 @@ class TelephoneController extends Controller {
             }
         }
         $this->get('mailer')->send($message);
+        }else{
+            return true;
+        }
     }
 
 }

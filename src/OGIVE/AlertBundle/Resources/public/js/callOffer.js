@@ -212,6 +212,8 @@ $(function () {
     $('#submit_callOffer').click(function (e) {
         e.preventDefault();
         $('#server_error_message').hide();
+        $('#error_name_message').hide();
+        $('#error_name_message_edit').hide();
         if ($('#add_callOffer_form.ui.form').form('is valid')) {
             $.ajax({
                 type: 'post',
@@ -514,6 +516,8 @@ function execute_edit(id) {
     $('#submit_edit_callOffer').click(function (e) {
         e.preventDefault();
         $('#server_error_message').hide();
+        $('#error_name_message').hide();
+        $('#error_name_message_edit').hide();
         if ($('#edit_callOffer_form.ui.form').form('is valid')) {
             $.ajax({
                 type: 'PUT',

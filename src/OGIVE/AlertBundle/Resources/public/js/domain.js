@@ -14,6 +14,7 @@ $(function () {
         $('#message_error').hide();
         $('#message_success').hide();
         $('#error_name_message').hide();
+        $('#error_name_message_edit').hide();
         $('#add_domain_form.ui.form').submit();
     });
     $('#cancel_add_domain').click(function () {
@@ -157,6 +158,7 @@ function execute_edit(id) {
         $('#message_error').hide();
         $('#message_success').hide();
         $('#error_name_message').hide();
+        $('#error_name_message_edit').hide();
         $('#edit_domain_form.ui.form').submit();
     });
     $('#edit_domain_form.ui.form')

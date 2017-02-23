@@ -20,6 +20,7 @@ $(function () {
         $('#message_error').hide();
         $('#message_success').hide();
         $('#error_name_message').hide();
+        $('#error_name_message_edit').hide();
         $('#add_subscription_form.ui.form').submit();
     });
     $('#cancel_add_subscription').click(function () {
@@ -175,6 +176,7 @@ function execute_edit(id) {
         $('#message_error').hide();
         $('#message_success').hide();
         $('#error_name_message').hide();
+        $('#error_name_message_edit').hide();
         $('#edit_subscription_form.ui.form').submit();
     });
     $('#edit_subscription_form.ui.form')

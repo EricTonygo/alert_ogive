@@ -105,6 +105,13 @@ class EntrepriseController extends Controller {
             //***************gestion des abonnés de l'entreprise ************************** */
             $subscribers = $entreprise->getSubscribers();
             foreach ($subscribers as $subscriber) {
+                if ($subscriber->getName()== null || $subscriber->getName()== "" ) {
+                    return new JsonResponse(["success" => false, 'message' => "Vous avez des abonnés sans noms. Vueillez les remplir. "], Response::HTTP_BAD_REQUEST);
+                }
+                if ($subscriber->getPhoneNumber()== null || $subscriber->getPhoneNumber()== "" ) {
+                    return new JsonResponse(["success" => false, 'message' => "Vous avez des abonnés sans numéros de téléphone. Vueillez les remplir. "], Response::HTTP_BAD_REQUEST);
+                }
+                
                 $subscriberUnique = $repositorySubscriber->findOneBy(array('phoneNumber' => $subscriber->getPhoneNumber(), 'status' => 1));
                 if ($subscriberUnique && $subscriberUnique->getEntreprise()) {
                     $entreprise->removeSubscriber($subscriber);
@@ -309,6 +316,13 @@ class EntrepriseController extends Controller {
             }
             $subscribers = $entreprise->getSubscribers();
             foreach ($subscribers as $subscriber) {
+                if ($subscriber->getName()== null || $subscriber->getName()== "" ) {
+                    return new JsonResponse(["success" => false, 'message' => "Vous avez des abonnés sans noms. Vueillez les remplir. "], Response::HTTP_BAD_REQUEST);
+                }
+                if ($subscriber->getPhoneNumber()== null || $subscriber->getPhoneNumber()== "" ) {
+                    return new JsonResponse(["success" => false, 'message' => "Vous avez des abonnés sans numéros de téléphone. Vueillez les remplir. "], Response::HTTP_BAD_REQUEST);
+                }
+                
                 $subscriberUnique = $repositorySubscriber->findOneBy(array('phoneNumber' => $subscriber->getPhoneNumber(), 'status' => 1));
                 if ($subscriberUnique && $subscriberUnique->getId() != $subscriber->getId() && $subscriberUnique->getEntreprise()) {
                     $entreprise->removeSubscriber($subscriber);
@@ -394,6 +408,7 @@ class EntrepriseController extends Controller {
     }
 
     public function sendEmailSubscriber(Subscriber $subscriber, $subject, $content, \OGIVE\AlertBundle\Entity\AlertProcedure $procedure = null) {
+        if($subscriber && $subscriber->getEmail()!=""){
         $message = \Swift_Message::newInstance()
                 ->setSubject($subject)
                 ->setFrom(array('infos@si-ogive.com' => "OGIVE INFOS"))
@@ -406,14 +421,19 @@ class EntrepriseController extends Controller {
             $originalpiecesjointes = $procedure->getOriginalpiecesjointes();
             if (!empty($piecesjointes) && !empty($originalpiecesjointes) && count($piecesjointes) == count($originalpiecesjointes)) {
                 for ($i = 0; $i < count($piecesjointes); $i++) {
-                    $attachment = \Swift_Attachment::fromPath($procedure->getUploadRootDir() . '/' . $piecesjointes[$i])
-                            ->setFilename($originalpiecesjointes[$i]);
-                    $message->attach($attachment);
+                    if (file_exists($procedure->getUploadRootDir() . '/' . $piecesjointes[$i])) {
+                        $attachment = \Swift_Attachment::fromPath($procedure->getUploadRootDir() . '/' . $piecesjointes[$i])
+                                ->setFilename($originalpiecesjointes[$i]);
+                        $message->attach($attachment);
+                    }
                 }
             }
         }
 
         $this->get('mailer')->send($message);
+        }else{
+            return true;
+        }
     }
 
 }
