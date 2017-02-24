@@ -267,8 +267,6 @@ class TelephoneController extends Controller {
                 $historiqueAlertSubscriber->setAlertType("SMS");
                 $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
             }
-//            $procedureResult->setAbstract($request->get('abstract'));
-//            $procedureResult = $repositoryProcedureResult->updateProcedureResult($procedureResult);
             $view = View::create(['message' => "SMS et Email envoyés avec succès"]);
             $view->setFormat('json');
             return $view;
@@ -515,7 +513,7 @@ class TelephoneController extends Controller {
                         array(
                     'from' => 'OGIVE INFOS', // From a Twilio number in your account
                     'body' => $request->get('abstract')
-                        )
+                    )
                 );
                 $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $expressionInterest);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
@@ -665,7 +663,7 @@ class TelephoneController extends Controller {
                 $historiqueAlertSubscriber->setAlertType("SMS");
                 $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
             }
-            $view = View::create(['message' => "SMS envoyés avec succès"]);
+            $view = View::create(['message' => "SMS et Email envoyés avec succès"]);
             $view->setFormat('json');
             return $view;
         } elseif ($idSubscribers && is_array($idSubscribers) && !empty($idSubscribers)) {
@@ -684,7 +682,7 @@ class TelephoneController extends Controller {
                 $historiqueAlertSubscriber->setAlertType("SMS");
                 $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
             }
-            $view = View::create(['message' => "SMS envoyés avec succès"]);
+            $view = View::create(['message' => "SMS et Email envoyés avec succès"]);
             $view->setFormat('json');
             return $view;
         } else {

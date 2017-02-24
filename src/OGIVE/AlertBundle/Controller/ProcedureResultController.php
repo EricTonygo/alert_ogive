@@ -219,7 +219,6 @@ class ProcedureResultController extends Controller {
     }
 
     public function getAbstractOfProcedureResult(ProcedureResult $procedureResult) {
-        $contact = "Contacts: 694200310 - 694202013";
         if ($procedureResult && $procedureResult->getCallOffer()) {
             return "Décision " . "N°" . $procedureResult->getReference() . "/D/" . $procedureResult->getCallOffer()->getOwner() . "/" . date_format($procedureResult->getPublicationDate(), "Y") . " portant " . $procedureResult->getObject() . " de l'" . $procedureResult->getCallOffer()->getType() . " N°" . $procedureResult->getCallOffer()->getReference() . "/" . $procedureResult->getCallOffer()->getType() . "/" . $procedureResult->getCallOffer()->getOwner() . "/" . date_format($procedureResult->getCallOffer()->getPublicationDate(), "Y") . " du " . date_format($procedureResult->getCallOffer()->getPublicationDate(), "d/m/Y") . ".";
         } elseif ($procedureResult && $procedureResult->getExpressionInterest()) {

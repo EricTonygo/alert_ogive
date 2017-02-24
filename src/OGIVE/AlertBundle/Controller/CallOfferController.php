@@ -204,7 +204,6 @@ class CallOfferController extends Controller {
     }
 
     public function getAbstractOfCallOffer(CallOffer $callOffer) {
-        $contact = "Contacts: 694200310 - 694202013";
         if ($callOffer) {
             $dot = ".";
             if (substr(trim($callOffer->getObject()), -1) === ".") {

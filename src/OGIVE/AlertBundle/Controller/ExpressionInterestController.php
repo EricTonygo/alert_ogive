@@ -196,12 +196,11 @@ class ExpressionInterestController extends Controller {
     }
 
     public function getAbstractOfExpressionInterest(ExpressionInterest $expressionInterest) {
-        $contact = "Contacts: 694200310 - 694202013";
         $dot = ".";
-        if (substr(trim($expressionInterest->getObject()), -1) === ".") {
-            $dot = "";
-        }
         if ($expressionInterest) {
+            if (substr(trim($expressionInterest->getObject()), -1) === ".") {
+                $dot = "";
+            }
             return $expressionInterest->getType() . " : " . "N°" . $expressionInterest->getReference() . " du " . date_format($expressionInterest->getPublicationDate(), "d/m/Y") . " lancé par " . $expressionInterest->getOwner() . " pour " . $expressionInterest->getObject() . $dot . " Dépôt des offres le " . date_format($expressionInterest->getOpeningDate(), "d/m/Y") . " à " . date_format($expressionInterest->getOpeningDate(), "H:i") . ".";
         } else {
             return "";
