@@ -274,14 +274,6 @@ function edit_procedureResult(id) {
 }
 
 function execute_edit(id) {
-    $('#submit_edit_procedureResult').click(function (e) {
-        e.preventDefault();
-        $('#server_error_message').hide();
-        $('#message_error').hide();
-        $('#message_success').hide();
-        $('#error_name_message').hide();
-        $('#edit_procedureResult_form.ui.form').submit();
-    });
     $('#edit_procedureResult_form.ui.form')
             .form({
                 fields: {
