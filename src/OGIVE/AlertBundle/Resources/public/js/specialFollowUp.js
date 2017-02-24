@@ -14,6 +14,7 @@ $(function () {
         $('#message_error').hide();
         $('#message_success').hide();
         $('#error_name_message').hide();
+        $('#error_name_message_edit').hide();
         $('#add_specialFollowUp_form.ui.form').submit();
     });
     $('#cancel_add_specialFollowUp').click(function () {
@@ -147,6 +148,7 @@ function execute_edit(id) {
         $('#message_error').hide();
         $('#message_success').hide();
         $('#error_name_message').hide();
+        $('#error_name_message_edit').hide();
         $('#edit_specialFollowUp_form.ui.form').submit();
     });
     $('#edit_specialFollowUp_form.ui.form')

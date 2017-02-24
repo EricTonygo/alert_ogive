@@ -21,6 +21,7 @@ function add_entreprise() {
         $('#message_error').hide();
         $('#message_success').hide();
         $('#error_name_message').hide();
+        $('#error_name_message_edit').hide();
         $('#add_entreprise_form.ui.form').submit();
     });
     $('#add_entreprise_form.ui.form')
@@ -228,6 +229,7 @@ function execute_edit(id) {
         $('#message_error').hide();
         $('#message_success').hide();
         $('#error_name_message').hide();
+        $('#error_name_message_edit').hide();
         $('#edit_entreprise_form.ui.form').submit();
     });
     $('#edit_entreprise_form.ui.form')

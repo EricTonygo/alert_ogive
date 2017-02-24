@@ -273,6 +273,7 @@ class SubscriberController extends Controller {
     }
 
     public function sendEmailSubscriber(Subscriber $subscriber, $subject, $content, \OGIVE\AlertBundle\Entity\AlertProcedure $procedure = null) {
+        if($subscriber && $subscriber->getEmail()!=""){
         $message = \Swift_Message::newInstance()
                 ->setSubject($subject)
                 ->setFrom(array('infos@si-ogive.com' => "OGIVE INFOS"))
@@ -285,14 +286,19 @@ class SubscriberController extends Controller {
             $originalpiecesjointes = $procedure->getOriginalpiecesjointes();
             if (!empty($piecesjointes) && !empty($originalpiecesjointes) && count($piecesjointes) == count($originalpiecesjointes)) {
                 for ($i = 0; $i < count($piecesjointes); $i++) {
-                    $attachment = \Swift_Attachment::fromPath($procedure->getUploadRootDir() . '/' . $piecesjointes[$i])
-                            ->setFilename($originalpiecesjointes[$i]);
-                    $message->attach($attachment);
+                    if (file_exists($procedure->getUploadRootDir() . '/' . $piecesjointes[$i])) {
+                        $attachment = \Swift_Attachment::fromPath($procedure->getUploadRootDir() . '/' . $piecesjointes[$i])
+                                ->setFilename($originalpiecesjointes[$i]);
+                        $message->attach($attachment);
+                    }
                 }
             }
         }
 
         $this->get('mailer')->send($message);
+        }else{
+            return true;
+        }
     }
 
 }

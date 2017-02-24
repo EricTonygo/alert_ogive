@@ -1,22 +1,30 @@
 <div id='list_as_table' class="ui basic segment container">
     <table class="ui very basic table">
         <thead>
-            <tr><th>Nom de l'abonné</th>
-                <th>Numero de l'abonné</th>
+            <tr><th>Numéro de l'abonné</th>
                 <th>Message</th>
+                <th>Date d'envoi</th>
+                <th>Coût</th>
+                <th>Statut</th>
             </tr>
         </thead>
         <tbody id='list_as_table_content'>
-            {%if historicalAlertSubscribers%}
-                {%for historicalAlertSubscriber in historicalAlertSubscribers%}
-                    <tr id="historicalAlertSubscriber_list{{historicalAlertSubscriber.id}}">
+            {%if messages%}
+                {%for message in messages%}
+                    <tr >
                         <td>
-                            <div class="ui ribbon label">{%if historicalAlertSubscriber.subscriber.entreprise%} {{historicalAlertSubscriber.subscriber.entreprise.name}} {%endif%}</div>
+                            <div class="ui ribbon label"> {{message.to}}</div>
                         </td>
                         <td>
-                            <div>{%if historicalAlertSubscriber.subscriber%} {{historicalAlertSubscriber.subscriber.phoneNumber}} {%endif%}</div>
+                            {{message.body}}
                         </td>
-                        <td>{{historicalAlertSubscriber.message}}</td>                       
+                        <td>
+                            {{message.dateSent |date('d-m-Y H:i:s')}}
+                        </td>
+                        <td>
+                            {{message.price}}
+                        </td>
+                        <td>{{message.status}}</td>                       
                     </tr>
                 {%endfor%} 
             {%endif%} 

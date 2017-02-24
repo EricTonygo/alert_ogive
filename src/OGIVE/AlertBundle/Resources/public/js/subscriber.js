@@ -24,6 +24,7 @@ $(function () {
         $('#message_error').hide();
         $('#message_success').hide();
         $('#error_name_message').hide();
+        $('#error_name_message_edit').hide();
         $('#add_subscriber_form.ui.form').submit();
     });
     $('#add_subscriber_form.ui.form')
@@ -207,6 +208,7 @@ function execute_edit(id) {
         $('#message_error').hide();
         $('#message_success').hide();
         $('#error_name_message').hide();
+        $('#error_name_message_edit').hide();
         $('#edit_subscriber_form.ui.form').submit();
     });
     $('#edit_subscriber_form.ui.form')

@@ -37,6 +37,7 @@ class TelephoneController extends Controller {
         $form = $this->createForm('OGIVE\AlertBundle\Form\HistoricalAlertSubscriberType', $historiqueAlertSubscriber);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+
             $this->sendEmailSubscriber($subscriber, "Alert Infos", $historiqueAlertSubscriber->getMessage());
             $twilio = $this->get('twilio.client');
             $message = $twilio->messages->create(
@@ -109,6 +110,7 @@ class TelephoneController extends Controller {
                 });
             }
             foreach ($subscribers as $subscriber) {
+
                 $message = $twilio->messages->create(
                         $subscriber->getPhoneNumber(), // Text any number
                         array(
@@ -116,7 +118,7 @@ class TelephoneController extends Controller {
                     'body' => $request->get('abstract')
                         )
                 );
-                $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRE INFOS", $request->get('abstract'), $callOffer);
+                $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $callOffer);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("SMS");
@@ -131,6 +133,7 @@ class TelephoneController extends Controller {
             foreach ($idSubscribers as $idSubscriber) {
                 $idSubscriber = (int) $idSubscriber;
                 $subscriber = $repositorySubscriber->find($idSubscriber);
+
                 $message = $twilio->messages->create(
                         $subscriber->getPhoneNumber(), // Text any number
                         array(
@@ -138,7 +141,7 @@ class TelephoneController extends Controller {
                     'body' => $request->get('abstract')
                         )
                 );
-                $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRE INFOS", $request->get('abstract'), $callOffer);
+                $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $callOffer);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("SMS");
@@ -258,7 +261,7 @@ class TelephoneController extends Controller {
                     'body' => $request->get('abstract')
                         )
                 );
-                $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRE INFOS", $request->get('abstract'), $procedureResult);
+                $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $procedureResult);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("SMS");
@@ -279,7 +282,7 @@ class TelephoneController extends Controller {
                     'body' => $request->get('abstract')
                         )
                 );
-                $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRE INFOS", $request->get('abstract'), $procedureResult);
+                $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $procedureResult);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("SMS");
@@ -386,7 +389,7 @@ class TelephoneController extends Controller {
                     'body' => $request->get('abstract')
                         )
                 );
-                $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRE INFOS", $request->get('abstract'), $additive);
+                $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $additive);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("SMS");
@@ -407,7 +410,7 @@ class TelephoneController extends Controller {
                     'body' => $request->get('abstract')
                         )
                 );
-                $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRE INFOS", $request->get('abstract'), $additive);
+                $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $additive);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("SMS");
@@ -514,7 +517,7 @@ class TelephoneController extends Controller {
                     'body' => $request->get('abstract')
                         )
                 );
-                $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRE INFOS", $request->get('abstract'), $expressionInterest);
+                $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $expressionInterest);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("SMS");
@@ -535,7 +538,7 @@ class TelephoneController extends Controller {
                     'body' => $request->get('abstract')
                         )
                 );
-                $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRE INFOS", $request->get('abstract'), $expressionInterest);
+                $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $expressionInterest);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("SMS");
@@ -710,6 +713,7 @@ class TelephoneController extends Controller {
     }
 
     public function sendEmailSubscriber(Subscriber $subscriber, $subject, $content, \OGIVE\AlertBundle\Entity\AlertProcedure $procedure = null) {
+        if($subscriber && $subscriber->getEmail()!=""){
         $message = \Swift_Message::newInstance()
                 ->setSubject($subject)
                 ->setFrom(array('infos@si-ogive.com' => "OGIVE INFOS"))
@@ -730,8 +734,10 @@ class TelephoneController extends Controller {
                 }
             }
         }
-
         $this->get('mailer')->send($message);
+        }else{
+            return true;
+        }
     }
 
 }

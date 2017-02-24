@@ -160,6 +160,8 @@ $(function () {
     $('#submit_procedureResult').click(function (e) {
         e.preventDefault();
         $('#server_error_message').hide();
+        $('#error_name_message').hide();
+        $('#error_name_message_edit').hide();
         if ($('#add_procedureResult_form.ui.form').form('is valid')) {
             $.ajax({
                 type: 'post',
@@ -413,6 +415,8 @@ function execute_edit(id) {
     $('#submit_edit_procedureResult').click(function (e) {
         e.preventDefault();
         $('#server_error_message').hide();
+        $('#error_name_message').hide();
+        $('#error_name_message_edit').hide();
         if ($('#edit_procedureResult_form.ui.form').form('is valid')) {
             $.ajax({
                 type: 'PUT',

@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\View\ViewHandler;
 use FOS\RestBundle\View\View;
+use Twilio\Rest\Client;
 
 /**
  * HistoricalAlertSubscriber controller.
@@ -30,11 +31,14 @@ class HistoricalAlertSubscriberController extends Controller {
         if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             return $this->redirect($this->generateUrl('fos_user_security_login'));
         }
-
-        $em = $this->getDoctrine()->getManager();
-        $historicalAlertSubscribers = $em->getRepository('OGIVEAlertBundle:HistoricalAlertSubscriber')->getAll();
+        $myMessages=array();
+        $twilio = $this->get('twilio.client');
+        $messages = $twilio->messages->read();
+        foreach ($messages as $message) {
+            $myMessages[] = array("to"=>$message->to, 'body'=>$message->body, 'dateSent'=>$message->dateSent, 'price'=>$message->price, "status"=>$message->status);
+        }
         return $this->render('OGIVEAlertBundle:historicalAlertSubscriber:index_sms.html.twig', array(
-                    'historicalAlertSubscribers' => $historicalAlertSubscribers,
+                    'messages' => $myMessages,
         ));
     }
 
