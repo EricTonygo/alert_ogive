@@ -4,7 +4,7 @@
         Ajout d'un ASMI
     </div>
     <div class="content">
-        {{ form_start(form, {'method': 'POST', 'action': '/expressions-interest', 'attr': {'class': 'ui form', 'id': 'add_expressionInterest_form'} }) }}
+        {{ form_start(form, {'method': 'POST', 'action':path('expressionInterest_add'), 'attr': {'class': 'ui form', 'id': 'add_expressionInterest_form'} }) }}
 
         <div class="field">
             {{ form_label(form.reference,"Numero") }}

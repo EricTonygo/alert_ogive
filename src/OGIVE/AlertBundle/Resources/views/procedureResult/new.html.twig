@@ -4,7 +4,7 @@
         Ajout d'une attribution
     </div>
     <div class="content">
-        {{ form_start(form, {'method': 'POST', 'action': '/results', 'attr': {'class': 'ui form', 'id': 'add_procedureResult_form'} }) }}
+        {{ form_start(form, {'method': 'POST', 'action': path('procedureResult_add'), 'attr': {'class': 'ui form', 'id': 'add_procedureResult_form'} }) }}
 
         <div class="inline fields">
             <label>Type d'attribution: </label>
