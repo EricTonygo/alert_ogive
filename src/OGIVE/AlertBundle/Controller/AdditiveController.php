@@ -99,11 +99,13 @@ class AdditiveController extends Controller {
                 $additive->setDomain($additive->getCallOffer()->getDomain());
                 $additive->setSubDomain($additive->getCallOffer()->getSubDomain());
                 $additive->setOwner($additive->getCallOffer()->getOwner());
+                //Set Object just for prevent database violation constraints
                 $additive->setObject($additive->getCallOffer()->getObject());
             }elseif($additive->getExpressionInterest()){
                 $additive->setDomain($additive->getExpressionInterest()->getDomain());
                 $additive->setSubDomain($additive->getExpressionInterest()->getSubDomain());
                 $additive->setOwner($additive->getExpressionInterest()->getOwner());
+                //Set Object just for prevent database violation constraints
                 $additive->setObject($additive->getExpressionInterest()->getObject());
             }
             $additive = $repositoryAdditive->saveAdditive($additive);

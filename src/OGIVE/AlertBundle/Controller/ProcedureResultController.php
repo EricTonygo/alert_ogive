@@ -92,18 +92,17 @@ class ProcedureResultController extends Controller {
                 }
             }
             $procedureResult->setType($request->get('attribution_type'));
-            $procedureResult->setAbstract($this->getAbstractOfProcedureResult($procedureResult));
+            
             if ($procedureResult->getCallOffer()) {
                 $procedureResult->setDomain($procedureResult->getCallOffer()->getDomain());
                 $procedureResult->setSubDomain($procedureResult->getCallOffer()->getSubDomain());
                 $procedureResult->setOwner($procedureResult->getCallOffer()->getOwner());
-                $procedureResult->setObject($procedureResult->getCallOffer()->getObject());
             } elseif ($procedureResult->getExpressionInterest()) {
                 $procedureResult->setDomain($procedureResult->getExpressionInterest()->getDomain());
                 $procedureResult->setSubDomain($procedureResult->getExpressionInterest()->getSubDomain());
                 $procedureResult->setOwner($procedureResult->getExpressionInterest()->getOwner());
-                $procedureResult->setObject($procedureResult->getExpressionInterest()->getObject());
-            }
+            }            
+            $procedureResult->setAbstract($this->getAbstractOfProcedureResult($procedureResult));
             $procedureResult = $repositoryProcedureResult->saveProcedureResult($procedureResult);
             $view = View::createRedirect($this->generateUrl('procedureResult_index'));
             $view->setFormat('html');
@@ -183,18 +182,16 @@ class ProcedureResultController extends Controller {
 
         if ($form->isSubmitted() && $form->isValid()) {
             
-            $procedureResult->setAbstract($this->getAbstractOfProcedureResult($procedureResult));
+            
             $procedureResult->setType($request->get('attribution_type'));
             if ($procedureResult->getCallOffer()) {
                 $procedureResult->setDomain($procedureResult->getCallOffer()->getDomain());
                 $procedureResult->setSubDomain($procedureResult->getCallOffer()->getSubDomain());
                 $procedureResult->setOwner($procedureResult->getCallOffer()->getOwner());
-                //$procedureResult->setObject($procedureResult->getCallOffer()->getObject());
             } elseif ($procedureResult->getExpressionInterest()) {
                 $procedureResult->setDomain($procedureResult->getExpressionInterest()->getDomain());
                 $procedureResult->setSubDomain($procedureResult->getExpressionInterest()->getSubDomain());
                 $procedureResult->setOwner($procedureResult->getExpressionInterest()->getOwner());
-                //$procedureResult->setObject($procedureResult->getExpressionInterest()->getObject());
             }
             if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
                 $sendActivate = $request->get('send_activate');
@@ -204,6 +201,7 @@ class ProcedureResultController extends Controller {
                     $procedureResult->setState(0);
                 }
             }
+            $procedureResult->setAbstract($this->getAbstractOfProcedureResult($procedureResult));
             $procedureResult = $repositoryProcedureResult->updateProcedureResult($procedureResult);
             $view = View::createRedirect($this->generateUrl('procedureResult_index'));
             $view->setFormat('html');
@@ -220,9 +218,9 @@ class ProcedureResultController extends Controller {
 
     public function getAbstractOfProcedureResult(ProcedureResult $procedureResult) {
         if ($procedureResult && $procedureResult->getCallOffer()) {
-            return "Décision " . "N°" . $procedureResult->getReference() . "/D/" . $procedureResult->getCallOffer()->getOwner() . "/" . date_format($procedureResult->getPublicationDate(), "Y") . " portant " . $procedureResult->getObject() . " de l'" . $procedureResult->getCallOffer()->getType() . " N°" . $procedureResult->getCallOffer()->getReference() . "/" . $procedureResult->getCallOffer()->getType() . "/" . $procedureResult->getCallOffer()->getOwner() . "/" . date_format($procedureResult->getCallOffer()->getPublicationDate(), "Y") . " du " . date_format($procedureResult->getCallOffer()->getPublicationDate(), "d/m/Y") . ".";
+            return "Décision " . "N°" . $procedureResult->getReference() . "/D/" . $procedureResult->getCallOffer()->getOwner() . "/" . date_format($procedureResult->getPublicationDate(), "Y") . " portant sur " . $procedureResult->getObject() . " de l'" . $procedureResult->getCallOffer()->getType() . " N°" . $procedureResult->getCallOffer()->getReference() . "/" . $procedureResult->getCallOffer()->getType() . "/" . $procedureResult->getCallOffer()->getOwner() . "/" . date_format($procedureResult->getCallOffer()->getPublicationDate(), "Y") . " du " . date_format($procedureResult->getCallOffer()->getPublicationDate(), "d/m/Y") . ".";
         } elseif ($procedureResult && $procedureResult->getExpressionInterest()) {
-            return "Décision " . $procedureResult->getReference() . " : " . "N°" . $procedureResult->getReference() . "/D/" . $procedureResult->getExpressionInterest()->getOwner() . "/" . date_format($procedureResult->getPublicationDate(), "Y") . " portant " . $procedureResult->getObject() . " de l'" . $procedureResult->getExpressionInterest()->getType() . " N°" . $procedureResult->getExpressionInterest()->getReference() . "/" . $procedureResult->getExpressionInterest()->getType() . "/" . $procedureResult->getExpressionInterest()->getOwner() . "/" . date_format($procedureResult->getExpressionInterest()->getPublicationDate(), "Y") . " du " . date_format($procedureResult->getExpressionInterest()->getPublicationDate(), "d/m/Y") . ".";
+            return "Décision " . $procedureResult->getReference() . " : " . "N°" . $procedureResult->getReference() . "/D/" . $procedureResult->getExpressionInterest()->getOwner() . "/" . date_format($procedureResult->getPublicationDate(), "Y") . " portant sur " . $procedureResult->getObject() . " de l'" . $procedureResult->getExpressionInterest()->getType() . " N°" . $procedureResult->getExpressionInterest()->getReference() . "/" . $procedureResult->getExpressionInterest()->getType() . "/" . $procedureResult->getExpressionInterest()->getOwner() . "/" . date_format($procedureResult->getExpressionInterest()->getPublicationDate(), "Y") . " du " . date_format($procedureResult->getExpressionInterest()->getPublicationDate(), "d/m/Y") . ".";
         } else {
             return "";
         }
