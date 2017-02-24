@@ -92,6 +92,7 @@ class ProcedureResult extends AlertProcedure
         $this->lastUpdateDate = new \DateTime();
         $this->deadline = new \DateTime();
         $this->openingDate = new \DateTime();
+        $this->sendingDate = new \DateTime('now');
         $this->status = 1;
     }
 }

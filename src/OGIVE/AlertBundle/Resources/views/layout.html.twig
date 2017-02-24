@@ -5,12 +5,12 @@
 {% block body %}
     {% include('OGIVEAlertBundle::header.html.twig') %}
     {% block sub_header %}
-        <div id="message_success" class="ui success message" style="position: fixed; top: 5em; right: 40em; left: auto; z-index: 5; width: 25em; display: none">
+        <div id="message_success" class="ui success message" style="position: fixed; top: 5em; right: 40em; left: auto; z-index: 5; width: 28em; display: none">
             <i class="close icon"></i>
             <div class="header"></div>
         </div>
 
-        <div id="message_error" class="ui error message" style="position: fixed; top: 5em; right: 40em; left: auto; z-index: 5; width: 25em; display: none">
+        <div id="message_error" class="ui error message" style="position: fixed; top: 5em; right: 40em; left: auto; z-index: 5; width: 28em; display: none">
             <i class="close icon"></i>
             <div class="header"> </div>
         </div>
@@ -31,13 +31,9 @@
         </div>
     </div>
             
-    {% block block_add_new %}
-    {% endblock block_add_new %} 
+    {% block block_add_new %}{%endblock%} 
     
-    {% block block_edit %}
-    {% endblock block_edit %} 
-    {% block block_sms%}
-    {% endblock block_sms %} 
-    {% block block_confirmation_modal%}
-    {% endblock block_confirmation_modal %} 
+    {% block block_edit %}{%endblock%} 
+    {% block block_sms%}{%endblock %} 
+    {% block block_confirmation_modal%}{%endblock%} 
 {% endblock body%}
