@@ -26,7 +26,7 @@
                     <i class="left chevron icon"></i>
                 </a>
             {% endif %}
-            <a href="{{path('historicalAlertSubscriber_sms_index', {page: page})}}" class="active_page item">{{i}}</a>
+            <a href="{{path('historicalAlertSubscriber_sms_index', {page: page})}}" class="active_page item">{{page}}</a>
             {#{% for i in 1..total_pages %}
                 {% if i== page %}
                     <a href="{{path('historicalAlertSubscriber_sms_index', {page: i})}}" class="active_page item">{{i}}</a>
