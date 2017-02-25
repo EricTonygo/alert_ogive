@@ -13,7 +13,7 @@
                 {%for message in messages%}
                     <tr >
                         <td>
-                            Entreprise
+                           {% if message.subscriber and message.subscriber.entreprise %} {{ message.subscriber.entreprise.name}} {% endif %}
                         </td>
                         <td>
                             {{message.to}}
