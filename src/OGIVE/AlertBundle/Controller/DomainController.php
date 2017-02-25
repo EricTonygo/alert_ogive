@@ -30,13 +30,21 @@ class DomainController extends Controller {
         if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             return $this->redirect($this->generateUrl('fos_user_security_login'));
         }
-
         $em = $this->getDoctrine()->getManager();
         $domain = new Domain();
+        $page=1;
+        $maxResults = 8;
+        if ($request->get('page')) {
+            $page = intval($request->get('page'));
+        }
+        $start_from = ($page-1)*$maxResults;
+        $total_pages = ceil(count($em->getRepository('OGIVEAlertBundle:Domain')->getAll())/$maxResults);
         $form = $this->createForm('OGIVE\AlertBundle\Form\DomainType', $domain);
-        $domains = $em->getRepository('OGIVEAlertBundle:Domain')->getAll();
+        $domains = $em->getRepository('OGIVEAlertBundle:Domain')->getAll($start_from, $maxResults);
         return $this->render('OGIVEAlertBundle:domain:index.html.twig', array(
                     'domains' => $domains,
+                    'total_pages' => $total_pages,
+                    'page' => $page,
                     'form' => $form->createView()
         ));
     }

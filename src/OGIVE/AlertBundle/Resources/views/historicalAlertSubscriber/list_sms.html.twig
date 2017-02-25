@@ -1,8 +1,8 @@
 <div id='list_as_table' class="ui basic segment container">
     <table class="ui very basic table">
         <thead>
-            <tr><th>Numéro de l'abonné</th>
-                <th>Message</th>
+            <tr><th>Entreprise</th>
+                <th>Numéro de téléphone</th>
                 <th>Date d'envoi</th>
                 <th>Coût</th>
                 <th>Statut</th>
@@ -13,10 +13,10 @@
                 {%for message in messages%}
                     <tr >
                         <td>
-                            <div class="ui ribbon label"> {{message.to}}</div>
+                            Entreprise
                         </td>
                         <td>
-                            {{message.body}}
+                            {{message.to}}
                         </td>
                         <td>
                             {{message.dateSent |date('d-m-Y H:i:s')}}

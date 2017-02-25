@@ -586,3 +586,12 @@ a.ui.dropdown{
     background-color: white!important;
     color: black!important;
 }
+
+.ui.right.floated.pagination.menu .active_page.item{
+     background-color: #4285f4;
+     color: white;
+}
+
+.ui.pagination.menu .item {
+    border-radius: 0!important;
+}

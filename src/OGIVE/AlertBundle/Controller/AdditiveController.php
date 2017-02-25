@@ -31,10 +31,19 @@ class AdditiveController extends Controller {
         }
         $em = $this->getDoctrine()->getManager();
         $additive = new Additive();
+        $page=1;
+        $maxResults = 4;
+        if ($request->get('page')) {
+            $page = intval($request->get('page'));
+        }
+        $start_from = ($page-1)*$maxResults;
+        $total_pages = ceil(count($em->getRepository('OGIVEAlertBundle:Additive')->getAll())/$maxResults);
         $form = $this->createForm('OGIVE\AlertBundle\Form\AdditiveType', $additive);
-        $additives = $em->getRepository('OGIVEAlertBundle:Additive')->getAll();
+        $additives = $em->getRepository('OGIVEAlertBundle:Additive')->getAll($start_from, $maxResults);
         return $this->render('OGIVEAlertBundle:additive:index.html.twig', array(
                     'additives' => $additives,
+                    'total_pages' => $total_pages,
+                    'page' => $page,
                     'form' => $form->createView()
         ));
     }

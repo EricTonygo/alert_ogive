@@ -31,10 +31,19 @@ class ExpressionInterestController extends Controller {
         }
         $em = $this->getDoctrine()->getManager();
         $expressionInterest = new ExpressionInterest();
+        $page=1;
+        $maxResults = 4;
+        if ($request->get('page')) {
+            $page = intval($request->get('page'));
+        }
+        $start_from = ($page-1)*$maxResults;
+        $total_pages = ceil(count($em->getRepository('OGIVEAlertBundle:ExpressionInterest')->getAll())/$maxResults);
         $form = $this->createForm('OGIVE\AlertBundle\Form\ExpressionInterestType', $expressionInterest);
-        $expressionInterests = $em->getRepository('OGIVEAlertBundle:ExpressionInterest')->getAll();
+        $expressionInterests = $em->getRepository('OGIVEAlertBundle:ExpressionInterest')->getAll($start_from, $maxResults);
         return $this->render('OGIVEAlertBundle:expressionInterest:index.html.twig', array(
                     'expressionInterests' => $expressionInterests,
+                    'total_pages' => $total_pages,
+                    'page' => $page,
                     'form' => $form->createView()
         ));
     }

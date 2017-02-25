@@ -31,10 +31,19 @@ class CallOfferController extends Controller {
         }
         $em = $this->getDoctrine()->getManager();
         $callOffer = new CallOffer();
+        $page=1;
+        $maxResults = 4;
+        if ($request->get('page')) {
+            $page = intval($request->get('page'));
+        }
+        $start_from = ($page-1)*$maxResults;
+        $total_pages = ceil(count($em->getRepository('OGIVEAlertBundle:CallOffer')->getAll())/$maxResults);
         $form = $this->createForm('OGIVE\AlertBundle\Form\CallOfferType', $callOffer);
-        $callOffers = $em->getRepository('OGIVEAlertBundle:CallOffer')->getAll();
+        $callOffers = $em->getRepository('OGIVEAlertBundle:CallOffer')->getAll($start_from, $maxResults);
         return $this->render('OGIVEAlertBundle:callOffer:index.html.twig', array(
                     'callOffers' => $callOffers,
+                    'total_pages' => $total_pages,
+                    'page' => $page,
                     'form' => $form->createView()
         ));
     }

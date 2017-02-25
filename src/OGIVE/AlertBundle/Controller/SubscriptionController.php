@@ -33,10 +33,19 @@ class SubscriptionController extends Controller {
         
         $em = $this->getDoctrine()->getManager();
         $subscription = new Subscription();
+        $page=1;
+        $maxResults = 8;
+        if ($request->get('page')) {
+            $page = intval($request->get('page'));
+        }
+        $start_from = ($page-1)*$maxResults;
+        $total_pages = ceil(count($em->getRepository('OGIVEAlertBundle:Subscriber')->getAll())/$maxResults);
         $form = $this->createForm('OGIVE\AlertBundle\Form\SubscriptionType', $subscription);
-        $subscriptions = $em->getRepository('OGIVEAlertBundle:Subscription')->getAll();
+        $subscriptions = $em->getRepository('OGIVEAlertBundle:Subscription')->getAll($start_from, $maxResults);
         return $this->render('OGIVEAlertBundle:subscription:index.html.twig', array(
                     'subscriptions' => $subscriptions,
+                    'total_pages' => $total_pages,
+                    'page' => $page,
                     'form' => $form->createView()
         ));
     }

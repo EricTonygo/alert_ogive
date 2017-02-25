@@ -33,10 +33,19 @@ class SpecialFollowUpController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
         $specialFollowUp = new SpecialFollowUp();
+        $page=1;
+        $maxResults = 4;
+        if ($request->get('page')) {
+            $page = intval($request->get('page'));
+        }
+        $start_from = ($page-1)*$maxResults;
+        $total_pages = ceil(count($em->getRepository('OGIVEAlertBundle:SpecialFollowUp')->getAll())/$maxResults);
         $form = $this->createForm('OGIVE\AlertBundle\Form\SpecialFollowUpType', $specialFollowUp);
-        $specialFollowUps = $em->getRepository('OGIVEAlertBundle:SpecialFollowUp')->getAll();
+        $specialFollowUps = $em->getRepository('OGIVEAlertBundle:SpecialFollowUp')->getAll($start_from, $maxResults);
         return $this->render('OGIVEAlertBundle:specialFollowUp:index.html.twig', array(
                     'specialFollowUps' => $specialFollowUps,
+                    'total_pages' => $total_pages,
+                    'page' => $page,
                     'form' => $form->createView()
         ));
     }

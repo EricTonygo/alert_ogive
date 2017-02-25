@@ -56,12 +56,18 @@ class ExpressionInterestRepository extends \Doctrine\ORM\EntityRepository
         }
         return $expressionInterest;
     }
-    public function getAll() 
+    public function getAll($offset=null, $limit=null) 
     {
         $qb = $this->createQueryBuilder('e');
         $qb->where('e.status = :status')
             ->orderBy('e.createDate', 'DESC')
             ->setParameter('status', 1);
+        if($offset){
+            $qb->setFirstResult($offset);
+        }
+        if($limit){
+            $qb->setMaxResults($limit);
+        }
         return $qb->getQuery()->getResult();
     }
     

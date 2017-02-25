@@ -31,10 +31,19 @@ class ProcedureResultController extends Controller {
         }
         $em = $this->getDoctrine()->getManager();
         $procedureResult = new ProcedureResult();
+        $page=1;
+        $maxResults = 4;
+        if ($request->get('page')) {
+            $page = intval($request->get('page'));
+        }
+        $start_from = ($page-1)*$maxResults;
+        $total_pages = ceil(count($em->getRepository('OGIVEAlertBundle:ProcedureResult')->getAll())/$maxResults);
         $form = $this->createForm('OGIVE\AlertBundle\Form\ProcedureResultType', $procedureResult);
-        $procedureResults = $em->getRepository('OGIVEAlertBundle:ProcedureResult')->getAll();
+        $procedureResults = $em->getRepository('OGIVEAlertBundle:ProcedureResult')->getAll($start_from, $maxResults);
         return $this->render('OGIVEAlertBundle:procedureResult:index.html.twig', array(
                     'procedureResults' => $procedureResults,
+                    'total_pages' => $total_pages,
+                    'page' => $page,
                     'form' => $form->createView()
         ));
     }

@@ -30,6 +30,31 @@
     {% include('OGIVEAlertBundle:callOffer:grid.html.twig') %} 
     {% include('OGIVEAlertBundle:callOffer:list.html.twig') %}
 {% endblock %}
+{% block pagination %}
+    {%if total_pages>1 and total_pages >= page %}
+    <div id='pagination' class="ui basic segment container">
+        <div class="ui right floated pagination menu">
+            {%if page > 1 %}
+                <a href="{{path('call_offer_index', {page: page-1})}}" class="icon item">
+                    <i class="left chevron icon"></i>
+                </a>
+            {% endif %}
+            {% for i in 1..total_pages %}
+                {% if i== page %}
+                    <a href="{{path('call_offer_index', {page: i})}}" class="active_page item">{{i}}</a>
+                {% else %}
+                    <a href="{{path('call_offer_index', {page: i})}}" class="item">{{i}}</a>
+                {% endif %}
+            {% endfor %}
+            {%if page <= total_pages-1 %}
+                <a href="{{path('call_offer_index', {page: page+1})}}" class="icon item">
+                    <i class="right chevron icon"></i>
+                </a>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}
 {% block block_add_new %}
     {% include('OGIVEAlertBundle:callOffer:new.html.twig') %}
 {% endblock %}

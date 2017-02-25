@@ -35,10 +35,19 @@ class EntrepriseController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
         $entreprise = new Entreprise();
+        $page=1;
+        $maxResults = 8;
+        if ($request->get('page')) {
+            $page = intval($request->get('page'));
+        }
+        $start_from = ($page-1)*$maxResults;
+        $total_pages = ceil(count($em->getRepository('OGIVEAlertBundle:Entreprise')->getAll())/$maxResults);
         $form = $this->createForm('OGIVE\AlertBundle\Form\EntrepriseType', $entreprise);
-        $entreprises = $em->getRepository('OGIVEAlertBundle:Entreprise')->getAll();
+        $entreprises = $em->getRepository('OGIVEAlertBundle:Entreprise')->getAll($start_from, $maxResults);
         return $this->render('OGIVEAlertBundle:entreprise:index.html.twig', array(
                     'entreprises' => $entreprises,
+                    'total_pages' => $total_pages,
+                    'page' => $page,
                     'form' => $form->createView()
         ));
     }
