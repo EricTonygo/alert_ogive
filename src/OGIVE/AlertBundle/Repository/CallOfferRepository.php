@@ -59,12 +59,18 @@ class CallOfferRepository extends EntityRepository
         }
         return $callOffer;
     }
-    public function getAll() 
+    public function getAll($offet=null, $limit=null) 
     {
         $qb = $this->createQueryBuilder('e');
         $qb->where('e.status = :status')
             ->orderBy('e.createDate', 'DESC')
             ->setParameter('status', 1);
+        if($offet){
+            $qb->setFirstResult($offet);
+        }
+        if($limit){
+            $qb->setMaxResults($limit);
+        }
         return $qb->getQuery()->getResult();
     }
     
