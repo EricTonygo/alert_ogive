@@ -49,7 +49,7 @@ class TelephoneController extends Controller {
             );
 
             $historiqueAlertSubscriber->setSubscriber($subscriber);
-            $historiqueAlertSubscriber->setAlertType("SMS");
+            $historiqueAlertSubscriber->setAlertType("EMAIL");
             $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
             $view = View::create(['message' => "SMS et Email envoyés avec succès"]);
             $view->setFormat('json');
@@ -121,7 +121,7 @@ class TelephoneController extends Controller {
                 $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $callOffer);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
-                $historiqueAlertSubscriber->setAlertType("SMS");
+                $historiqueAlertSubscriber->setAlertType("EMAIL");
                 $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
             }
 //            $callOffer->setAbstract($request->get('abstract'));
@@ -144,7 +144,7 @@ class TelephoneController extends Controller {
                 $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $callOffer);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
-                $historiqueAlertSubscriber->setAlertType("SMS");
+                $historiqueAlertSubscriber->setAlertType("EMAIL");
                 $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
             }
 //            $callOffer->setAbstract($request->get('abstract'));
@@ -264,7 +264,7 @@ class TelephoneController extends Controller {
                 $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $procedureResult);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
-                $historiqueAlertSubscriber->setAlertType("SMS");
+                $historiqueAlertSubscriber->setAlertType("EMAIL");
                 $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
             }
             $view = View::create(['message' => "SMS et Email envoyés avec succès"]);
@@ -283,7 +283,7 @@ class TelephoneController extends Controller {
                 $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $procedureResult);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
-                $historiqueAlertSubscriber->setAlertType("SMS");
+                $historiqueAlertSubscriber->setAlertType("EMAIL");
                 $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
             }
 //            $procedureResult->setAbstract($request->get('abstract'));
@@ -390,7 +390,7 @@ class TelephoneController extends Controller {
                 $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $additive);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
-                $historiqueAlertSubscriber->setAlertType("SMS");
+                $historiqueAlertSubscriber->setAlertType("EMAIL");
                 $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
             }
 //            $additive->setAbstract($request->get('abstract'));
@@ -411,7 +411,7 @@ class TelephoneController extends Controller {
                 $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $additive);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
-                $historiqueAlertSubscriber->setAlertType("SMS");
+                $historiqueAlertSubscriber->setAlertType("EMAIL");
                 $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
             }
 //            $additive->setAbstract($request->get('abstract'));
@@ -518,7 +518,7 @@ class TelephoneController extends Controller {
                 $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $expressionInterest);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
-                $historiqueAlertSubscriber->setAlertType("SMS");
+                $historiqueAlertSubscriber->setAlertType("EMAIL");
                 $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
             }
 //            $expressionInterest->setAbstract($request->get('abstract'));
@@ -539,7 +539,7 @@ class TelephoneController extends Controller {
                 $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $expressionInterest);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
-                $historiqueAlertSubscriber->setAlertType("SMS");
+                $historiqueAlertSubscriber->setAlertType("EMAIL");
                 $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
             }
 //            $expressionInterest->setAbstract($request->get('abstract'));
@@ -660,7 +660,7 @@ class TelephoneController extends Controller {
                 $this->sendEmailSubscriber($subscriber, $specialFollowUp->getName(), $request->get('abstract'));
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
-                $historiqueAlertSubscriber->setAlertType("SMS");
+                $historiqueAlertSubscriber->setAlertType("EMAIL");
                 $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
             }
             $view = View::create(['message' => "SMS et Email envoyés avec succès"]);
@@ -679,7 +679,7 @@ class TelephoneController extends Controller {
                 $this->sendEmailSubscriber($subscriber, $specialFollowUp->getName(), $request->get('abstract'));
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
-                $historiqueAlertSubscriber->setAlertType("SMS");
+                $historiqueAlertSubscriber->setAlertType("EMAIL");
                 $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
             }
             $view = View::create(['message' => "SMS et Email envoyés avec succès"]);
