@@ -4,6 +4,7 @@
             <tr>
                 <th>Nom</th>
                 <th>Téléphone</th>
+                <th>Email</th>
                 <th>Entreprise</th>
                 <th>Abonnement</th>
                 <th class="right aligned"></th>
@@ -17,6 +18,7 @@
                             <div class="ui ribbon label">{{subscriber.name}}</div>
                         </td>
                         <td>{{subscriber.phoneNumber}}</td>
+                        <td>{{subscriber.email}}</td>
                         <td>{%if subscriber.entreprise%}{{subscriber.entreprise.name}}{% endif %}</td>
                         <td>{%if subscriber.subscription%}{{subscriber.subscription.name}}{% endif %}</td>
                         <td class="right aligned">

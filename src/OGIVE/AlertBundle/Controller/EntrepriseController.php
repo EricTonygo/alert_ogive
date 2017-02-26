@@ -37,18 +37,31 @@ class EntrepriseController extends Controller {
         $entreprise = new Entreprise();
         $page=1;
         $maxResults = 8;
+        $route_param_page= array();
+        $route_param_search_query= array();
+        $search_query =null;
+        $placeholder = "Rechercher une entreprise...";
         if ($request->get('page')) {
-            $page = intval($request->get('page'));
+            $page = intval(htmlspecialchars(trim($request->get('page'))));
+            $route_param_page['page'] = $page;
         }
-        $start_from = ($page-1)*$maxResults;
-        $total_pages = ceil(count($em->getRepository('OGIVEAlertBundle:Entreprise')->getAll())/$maxResults);
+        if ($request->get('search_query')) {
+            $search_query = htmlspecialchars(trim($request->get('search_query')));
+            $route_param_search_query['search_query'] = $search_query;
+        }
+        $start_from = ($page-1)*$maxResults>=0 ? ($page-1)*$maxResults: 0;
+        $total_pages = ceil(count($em->getRepository('OGIVEAlertBundle:Entreprise')->getAllByString($search_query))/$maxResults);
         $form = $this->createForm('OGIVE\AlertBundle\Form\EntrepriseType', $entreprise);
-        $entreprises = $em->getRepository('OGIVEAlertBundle:Entreprise')->getAll($start_from, $maxResults);
+        $entreprises = $em->getRepository('OGIVEAlertBundle:Entreprise')->getAll($start_from, $maxResults, $search_query);
         return $this->render('OGIVEAlertBundle:entreprise:index.html.twig', array(
                     'entreprises' => $entreprises,
                     'total_pages' => $total_pages,
                     'page' => $page,
-                    'form' => $form->createView()
+                    'form' => $form->createView(),
+                    'route_param_page'=> $route_param_page, 
+                    'route_param_search_query' => $route_param_search_query,
+                    'search_query' => $search_query,
+                    'placeholder' => $placeholder
         ));
     }
 
@@ -119,6 +132,10 @@ class EntrepriseController extends Controller {
                 }
                 if ($subscriber->getPhoneNumber()== null || $subscriber->getPhoneNumber()== "" ) {
                     return new JsonResponse(["success" => false, 'message' => "Vous avez des abonnés sans numéros de téléphone. Vueillez les remplir. "], Response::HTTP_BAD_REQUEST);
+                }
+                
+                if ($subscriber->getSubscription()== null) {
+                    return new JsonResponse(["success" => false, 'message' => "Vous avez des abonnés sans abonnement. Veuillez leur affecter un abonnement."], Response::HTTP_BAD_REQUEST);
                 }
                 
                 $subscriberUnique = $repositorySubscriber->findOneBy(array('phoneNumber' => $subscriber->getPhoneNumber(), 'status' => 1));
@@ -330,6 +347,10 @@ class EntrepriseController extends Controller {
                 }
                 if ($subscriber->getPhoneNumber()== null || $subscriber->getPhoneNumber()== "" ) {
                     return new JsonResponse(["success" => false, 'message' => "Vous avez des abonnés sans numéros de téléphone. Vueillez les remplir. "], Response::HTTP_BAD_REQUEST);
+                }
+                
+                if ($subscriber->getSubscription()== null) {
+                    return new JsonResponse(["success" => false, 'message' => "Vous avez des abonnés sans abonnement. Veuillez leur affecter un abonnement."], Response::HTTP_BAD_REQUEST);
                 }
                 
                 $subscriberUnique = $repositorySubscriber->findOneBy(array('phoneNumber' => $subscriber->getPhoneNumber(), 'status' => 1));

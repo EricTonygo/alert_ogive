@@ -34,18 +34,31 @@ class DomainController extends Controller {
         $domain = new Domain();
         $page=1;
         $maxResults = 8;
+        $route_param_page= array();
+        $route_param_search_query= array();
+        $search_query =null;
+        $placeholder = "Rechercher un domaine...";
         if ($request->get('page')) {
-            $page = intval($request->get('page'));
+            $page = intval(htmlspecialchars(trim($request->get('page'))));
+            $route_param_page['page'] = $page;
         }
-        $start_from = ($page-1)*$maxResults;
-        $total_pages = ceil(count($em->getRepository('OGIVEAlertBundle:Domain')->getAll())/$maxResults);
+        if ($request->get('search_query')) {
+            $search_query = htmlspecialchars(trim($request->get('search_query')));
+            $route_param_search_query['search_query'] = $search_query;
+        }
+        $start_from = ($page-1)*$maxResults>=0 ? ($page-1)*$maxResults: 0;
+        $total_pages = ceil(count($em->getRepository('OGIVEAlertBundle:Domain')->getAllByString($search_query))/$maxResults);
         $form = $this->createForm('OGIVE\AlertBundle\Form\DomainType', $domain);
-        $domains = $em->getRepository('OGIVEAlertBundle:Domain')->getAll($start_from, $maxResults);
+        $domains = $em->getRepository('OGIVEAlertBundle:Domain')->getAll($start_from, $maxResults, $search_query);
         return $this->render('OGIVEAlertBundle:domain:index.html.twig', array(
                     'domains' => $domains,
                     'total_pages' => $total_pages,
                     'page' => $page,
-                    'form' => $form->createView()
+                    'form' => $form->createView(),
+                    'route_param_page'=> $route_param_page, 
+                    'route_param_search_query' => $route_param_search_query,
+                    'search_query' => $search_query,
+                    'placeholder' => $placeholder
         ));
     }
 

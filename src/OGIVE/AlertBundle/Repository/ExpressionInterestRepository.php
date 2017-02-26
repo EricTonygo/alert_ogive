@@ -56,17 +56,46 @@ class ExpressionInterestRepository extends \Doctrine\ORM\EntityRepository
         }
         return $expressionInterest;
     }
-    public function getAll($offset=null, $limit=null) 
-    {
+    public function getAll($offset = null, $limit = null, $search_query = null) {
         $qb = $this->createQueryBuilder('e');
-        $qb->where('e.status = :status')
-            ->orderBy('e.createDate', 'DESC')
-            ->setParameter('status', 1);
-        if($offset){
+        $qb->where('e.status = ?1');
+        if ($search_query) {
+            $qb->andWhere(
+                    $qb->expr()->orX(
+                            $qb->expr()->like('lower(e.reference)', '?2'), $qb->expr()->like('lower(e.object)', '?2'), $qb->expr()->like('lower(e.owner)', '?2')
+            ));
+        }
+        $qb->orderBy('e.createDate', 'DESC');
+        if ($search_query) {
+            $qb->setParameters(array(1 => 1, 2 => '%' . strtolower($search_query) . '%'));
+        } else {
+            $qb->setParameters(array(1 => 1));
+        }
+        if ($offset) {
             $qb->setFirstResult($offset);
         }
-        if($limit){
+        if ($limit) {
             $qb->setMaxResults($limit);
+        }
+        return $qb->getQuery()->getResult();
+    }
+
+    public function getAllByString($search_query = null) {
+        
+        $qb = $this->createQueryBuilder('e');
+        $qb->where('e.status = ?1');
+        if ($search_query) {
+            $qb->andWhere(
+                    $qb->expr()->orX(
+                            $qb->expr()->like('lower(e.reference)', '?2'), $qb->expr()->like('lower(e.object)', '?2'), $qb->expr()->like('lower(e.owner)', '?2')
+            ));
+        }
+        $qb->orderBy('e.createDate', 'DESC');
+        if ($search_query) {
+            $search_query = strtolower($search_query);
+            $qb->setParameters(array(1 => 1, 2 => '%' . strtolower($search_query) . '%'));
+        } else {
+            $qb->setParameters(array(1 => 1));
         }
         return $qb->getQuery()->getResult();
     }

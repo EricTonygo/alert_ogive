@@ -10,7 +10,8 @@
                         <div class="content">
                             <div class="header">{{subscriber.name}}{%if subscriber.entreprise%} ({{subscriber.entreprise.name}}){% endif %}</div>
                             <div class="description">
-                                {{subscriber.phoneNumber}}
+                                <span>{{subscriber.phoneNumber}}</span><br>
+                                <span>{{subscriber.email}}</span>
                             </div>
                         </div>
                         <div class="extra content">

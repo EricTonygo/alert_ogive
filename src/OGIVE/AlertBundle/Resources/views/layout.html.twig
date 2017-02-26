@@ -28,13 +28,36 @@
             {% block content %}
             {% endblock content %}
             {% block pagination %}
-            {% endblock pagination %}   
+                {%if total_pages>1 and total_pages >= page %}
+                    <div id='pagination' class="ui basic segment container">
+                        <div class="ui right floated pagination menu">
+                            {%if page > 1 %}
+                                <a href="{{path(app.request.attributes.get('_route'), route_param_search_query|merge({page: page-1}))}}" class="icon item">
+                                    <i class="left chevron icon"></i>
+                                </a>
+                            {% endif %}
+                            {% for i in 1..total_pages %}
+                                {% if i== page %}
+                                    <a href="{{path(app.request.attributes.get('_route'), route_param_search_query|merge({page: i}))}}" class="active_page item">{{i}}</a>
+                                {% else %}
+                                    <a href="{{path(app.request.attributes.get('_route'), route_param_search_query|merge({page: i}))}}" class="item">{{i}}</a>
+                                {% endif %}
+                            {% endfor %}
+                            {%if page <= total_pages-1 %}
+                                <a href="{{path(app.request.attributes.get('_route'), route_param_search_query|merge({page: page+1}))}}" class="icon item">
+                                    <i class="right chevron icon"></i>
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endif %}
+            {% endblock %}  
         </div>
     </div>
-            
-    {% block block_add_new %}{%endblock%} 
-    
-    {% block block_edit %}{%endblock%} 
-    {% block block_sms%}{%endblock %} 
-    {% block block_confirmation_modal%}{%endblock%} 
+
+{% block block_add_new %}{%endblock%} 
+
+{% block block_edit %}{%endblock%} 
+{% block block_sms%}{%endblock %} 
+{% block block_confirmation_modal%}{%endblock%} 
 {% endblock body%}

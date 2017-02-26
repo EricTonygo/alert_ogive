@@ -33,18 +33,31 @@ class CallOfferController extends Controller {
         $callOffer = new CallOffer();
         $page=1;
         $maxResults = 4;
+        $route_param_page= array();
+        $route_param_search_query= array();
+        $search_query =null;
+        $placeholder = "Rechercher un appel d'offre...";
         if ($request->get('page')) {
-            $page = intval($request->get('page'));
+            $page = intval(htmlspecialchars(trim($request->get('page'))));
+            $route_param_page['page'] = $page;
         }
-        $start_from = ($page-1)*$maxResults;
-        $total_pages = ceil(count($em->getRepository('OGIVEAlertBundle:CallOffer')->getAll())/$maxResults);
+        if ($request->get('search_query')) {
+            $search_query = htmlspecialchars(trim($request->get('search_query')));
+            $route_param_search_query['search_query'] = $search_query;
+        }
+        $start_from = ($page-1)*$maxResults>=0 ? ($page-1)*$maxResults: 0;
+        $total_pages = ceil(count($em->getRepository('OGIVEAlertBundle:CallOffer')->getAllByString($search_query))/$maxResults);
         $form = $this->createForm('OGIVE\AlertBundle\Form\CallOfferType', $callOffer);
-        $callOffers = $em->getRepository('OGIVEAlertBundle:CallOffer')->getAll($start_from, $maxResults);
+        $callOffers = $em->getRepository('OGIVEAlertBundle:CallOffer')->getAll($start_from, $maxResults, $search_query);
         return $this->render('OGIVEAlertBundle:callOffer:index.html.twig', array(
                     'callOffers' => $callOffers,
                     'total_pages' => $total_pages,
                     'page' => $page,
-                    'form' => $form->createView()
+                    'form' => $form->createView(),
+                    'route_param_page'=> $route_param_page, 
+                    'route_param_search_query' => $route_param_search_query,
+                    'search_query' => $search_query,
+                    'placeholder' => $placeholder
         ));
     }
 

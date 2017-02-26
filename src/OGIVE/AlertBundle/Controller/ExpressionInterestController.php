@@ -33,18 +33,31 @@ class ExpressionInterestController extends Controller {
         $expressionInterest = new ExpressionInterest();
         $page=1;
         $maxResults = 4;
+        $route_param_page= array();
+        $route_param_search_query= array();
+        $search_query =null;
+        $placeholder = "Rechercher un ASMI...";
         if ($request->get('page')) {
-            $page = intval($request->get('page'));
+            $page = intval(htmlspecialchars(trim($request->get('page'))));
+            $route_param_page['page'] = $page;
         }
-        $start_from = ($page-1)*$maxResults;
-        $total_pages = ceil(count($em->getRepository('OGIVEAlertBundle:ExpressionInterest')->getAll())/$maxResults);
+        if ($request->get('search_query')) {
+            $search_query = htmlspecialchars(trim($request->get('search_query')));
+            $route_param_search_query['search_query'] = $search_query;
+        }
+        $start_from = ($page-1)*$maxResults>=0 ? ($page-1)*$maxResults: 0;
+        $total_pages = ceil(count($em->getRepository('OGIVEAlertBundle:ExpressionInterest')->getAllByString($search_query))/$maxResults);
         $form = $this->createForm('OGIVE\AlertBundle\Form\ExpressionInterestType', $expressionInterest);
-        $expressionInterests = $em->getRepository('OGIVEAlertBundle:ExpressionInterest')->getAll($start_from, $maxResults);
+        $expressionInterests = $em->getRepository('OGIVEAlertBundle:ExpressionInterest')->getAll($start_from, $maxResults, $search_query);
         return $this->render('OGIVEAlertBundle:expressionInterest:index.html.twig', array(
                     'expressionInterests' => $expressionInterests,
                     'total_pages' => $total_pages,
                     'page' => $page,
-                    'form' => $form->createView()
+                    'form' => $form->createView(),
+                    'route_param_page'=> $route_param_page, 
+                    'route_param_search_query' => $route_param_search_query,
+                    'search_query' => $search_query,
+                    'placeholder' => $placeholder
         ));
     }
 

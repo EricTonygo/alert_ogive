@@ -39,10 +39,19 @@ class HistoricalAlertSubscriberController extends Controller {
         $messages = $twilio->messages->read();
         $maxResults = 8;
         $page = 1;
+        $route_param_page= array();
+        $route_param_search_query= array();
+        $search_query =null;
+        $placeholder = "Rechercher...";
         if ($request->get('page')) {
-            $page = intval($request->get('page'));
+            $page = intval(htmlspecialchars(trim($request->get('page'))));
+            $route_param_page['page'] = $page;
         }
-        $start_from = ($page - 1) * $maxResults;
+        if ($request->get('search_query')) {
+            $search_query = htmlspecialchars(trim($request->get('search_query')));
+            $route_param_search_query['search_query'] = $search_query;
+        }
+        $start_from = ($page-1)*$maxResults>=0 ? ($page-1)*$maxResults: 0;
         $end_from = $start_from + $maxResults;
         $total_pages = ceil(count($messages) / $maxResults);
         for ($i = $start_from; $i < $end_from; $i++) {
@@ -52,7 +61,11 @@ class HistoricalAlertSubscriberController extends Controller {
         return $this->render('OGIVEAlertBundle:historicalAlertSubscriber:index_sms.html.twig', array(
                     'messages' => $myMessages,
                     'total_pages' => $total_pages,
-                    'page' => $page
+                    'page' => $page,
+                    'route_param_page'=> $route_param_page, 
+                    'route_param_search_query' => $route_param_search_query,
+                    'search_query' => $search_query,
+                    'placeholder' => $placeholder
         ));
     }
 
