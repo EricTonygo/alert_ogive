@@ -49,4 +49,14 @@ $('.message .close')
                 $(this).parent( ".message" ).hide();
             })
             ;
+            
+$('#pagination').change(function(e){
+    e.preventDefault();
+    $('.nav_link').removeClass('is-active');
+    $('#home').addClass('is-active');
+    var url = $(this).find('option:selected').val();
+    if(url !==""){
+        window.location.replace(url);
+    }
+});
 });

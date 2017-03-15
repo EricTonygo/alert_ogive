@@ -36,13 +36,16 @@
                                     <i class="left chevron icon"></i>
                                 </a>
                             {% endif %}
+                            <select id='pagination' class="ui item dropdown">
                             {% for i in 1..total_pages %}
-                                {% if i== page %}
+                                <option value="{{path(app.request.attributes.get('_route'), route_param_search_query|merge({page: i}))}}" {% if i== page %}selected="selected"{% endif %}>{{i}}</option>
+                                {#{% if i== page %}
                                     <a href="{{path(app.request.attributes.get('_route'), route_param_search_query|merge({page: i}))}}" class="active_page item">{{i}}</a>
                                 {% else %}
                                     <a href="{{path(app.request.attributes.get('_route'), route_param_search_query|merge({page: i}))}}" class="item">{{i}}</a>
-                                {% endif %}
+                                {% endif %}#}
                             {% endfor %}
+                            </select>
                             {%if page <= total_pages-1 %}
                                 <a href="{{path(app.request.attributes.get('_route'), route_param_search_query|merge({page: page+1}))}}" class="icon item">
                                     <i class="right chevron icon"></i>
