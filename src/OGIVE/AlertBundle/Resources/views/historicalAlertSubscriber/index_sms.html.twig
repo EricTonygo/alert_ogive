@@ -17,7 +17,7 @@
 {% block content %}
     {% include('OGIVEAlertBundle:historicalAlertSubscriber:list_sms.html.twig') %}
 {% endblock %}
-{% block pagination %}
+{#{% block pagination %}
     {%if total_pages>1 and total_pages >= page %}
     <div id='pagination' class="ui basic segment container">
         <div class="ui right floated pagination menu">
@@ -42,7 +42,7 @@
         </div>
     </div>
     {% endif %}
-{% endblock %}
+{% endblock %}#}
 {% block javascripts %}
     {{ parent()}}
    
