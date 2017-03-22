@@ -50,6 +50,7 @@ class DisableExpiredSubscriberCommand extends ContainerAwareCommand {
                 }
             }
         }
+        sendEmailSubscriber();
         $output->writeln(count($subscribers).' subscribers');
     }
 
@@ -83,6 +84,19 @@ class DisableExpiredSubscriberCommand extends ContainerAwareCommand {
         if ($v = $interval->i >= 1)
             return pluralize($interval->i, 'minute(s)') . $suffix;
         return pluralize($interval->s, 'seconde(s)') . $suffix;
+    }
+    
+    public function sendEmailSubscriber() {
+        $message = \Swift_Message::newInstance()
+                ->setSubject("Test cron")
+                ->setFrom(array('infos@si-ogive.com' => "OGIVE INFOS"))
+                ->setTo('tonye.eric@gmail.com')
+                ->setBody(
+                "Tache cron exécutée avec succès"
+        );
+       
+        $this->get('mailer')->send($message);
+        
     }
 
 }
