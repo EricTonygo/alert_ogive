@@ -80,6 +80,13 @@ class Subscriber
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
+     * @ORM\OneToMany(targetEntity="HistoricalSubscriberSubscription", mappedBy="subscriber", cascade={"remove", "persist"})
+     */
+    private $historicalSubscriberSubscriptions;
+    
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
      * @ORM\OneToMany(targetEntity="HistoricalAlertSubscriber", mappedBy="subscriber", cascade={"remove", "persist"})
      */
     private $historicalAlertSubscribers;
@@ -248,7 +255,7 @@ class Subscriber
     /**
      * Set entreprise
      *
-     * @param \OGIVE\AlertBundle\Entity\Entrprise $entreprise
+     * @param \OGIVE\AlertBundle\Entity\Entreprise $entreprise
      *
      * @return Subscriber
      */
@@ -292,6 +299,49 @@ class Subscriber
     public function getSubscription()
     {
         return $this->subscription;
+    }
+    
+    /**
+     * Add historicalSubscriberSubscription
+     *
+     * @param \OGIVE\AlertBundle\Entity\HistoricalSubscriberSubscription $historicalSubscriberSubscription
+     * @return Subscriber
+     */
+    public function addHistoricalSubscriberSubscription(\OGIVE\AlertBundle\Entity\HistoricalSubscriberSubscription $historicalSubscriberSubscription) {
+        $this->historicalSubscriberSubscriptions[] = $historicalSubscriberSubscription;
+        return $this;
+    }
+
+    /**
+     * Get historicalSubscriberSubscriptions
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getHistoricalSubscriberSubscriptions() {
+        return $this->historicalSubscriberSubscriptions;
+    }
+
+    /**
+     * Set historicalSubscriberSubscriptions
+     *
+     * @param \Doctrine\Common\Collections\Collection $historicalSubscriberSubscriptions
+     * @return Subscriber
+     */
+    public function setHistoricalSubscriberSubscriptions(\Doctrine\Common\Collections\Collection $historicalSubscriberSubscriptions = null) {
+        $this->historicalSubscriberSubscriptions = $historicalSubscriberSubscriptions;
+
+        return $this;
+    }
+
+    /**
+     * Remove historicalSubscriberSubscriptions
+     *
+     * @param \OGIVE\AlertBundle\Entity\HistoricalSubscriberSubscription $historicalSubscriberSubscription
+     * @return Subscriber
+     */
+    public function removeHistoricalSubscriberSubscription(\OGIVE\AlertBundle\Entity\HistoricalSubscriberSubscription $historicalSubscriberSubscription) {
+        $this->historicalSubscriberSubscriptions->removeElement($historicalSubscriberSubscription);
+        return $this;
     }
     
     /**

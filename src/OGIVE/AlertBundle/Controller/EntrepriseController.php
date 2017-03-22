@@ -4,6 +4,7 @@ namespace OGIVE\AlertBundle\Controller;
 
 use OGIVE\AlertBundle\Entity\Entreprise;
 use OGIVE\AlertBundle\Entity\HistoricalAlertSubscriber;
+use OGIVE\AlertBundle\Entity\HistoricalSubscriberSubscription;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -35,11 +36,11 @@ class EntrepriseController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
         $entreprise = new Entreprise();
-        $page=1;
+        $page = 1;
         $maxResults = 8;
-        $route_param_page= array();
-        $route_param_search_query= array();
-        $search_query =null;
+        $route_param_page = array();
+        $route_param_search_query = array();
+        $search_query = null;
         $placeholder = "Rechercher une entreprise...";
         if ($request->get('page')) {
             $page = intval(htmlspecialchars(trim($request->get('page'))));
@@ -49,8 +50,8 @@ class EntrepriseController extends Controller {
             $search_query = htmlspecialchars(trim($request->get('search_query')));
             $route_param_search_query['search_query'] = $search_query;
         }
-        $start_from = ($page-1)*$maxResults>=0 ? ($page-1)*$maxResults: 0;
-        $total_pages = ceil(count($em->getRepository('OGIVEAlertBundle:Entreprise')->getAllByString($search_query))/$maxResults);
+        $start_from = ($page - 1) * $maxResults >= 0 ? ($page - 1) * $maxResults : 0;
+        $total_pages = ceil(count($em->getRepository('OGIVEAlertBundle:Entreprise')->getAllByString($search_query)) / $maxResults);
         $form = $this->createForm('OGIVE\AlertBundle\Form\EntrepriseType', $entreprise);
         $entreprises = $em->getRepository('OGIVEAlertBundle:Entreprise')->getAll($start_from, $maxResults, $search_query);
         return $this->render('OGIVEAlertBundle:entreprise:index.html.twig', array(
@@ -58,7 +59,7 @@ class EntrepriseController extends Controller {
                     'total_pages' => $total_pages,
                     'page' => $page,
                     'form' => $form->createView(),
-                    'route_param_page'=> $route_param_page, 
+                    'route_param_page' => $route_param_page,
                     'route_param_search_query' => $route_param_search_query,
                     'search_query' => $search_query,
                     'placeholder' => $placeholder
@@ -100,6 +101,7 @@ class EntrepriseController extends Controller {
         //$this = new TelephoneController();
         $repositoryEntreprise = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Entreprise');
         $repositorySubscriber = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Subscriber');
+        $repositoryHistoricalSubscriberSubscription = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:HistoricalSubscriberSubscription');
         $form = $this->createForm('OGIVE\AlertBundle\Form\EntrepriseType', $entreprise);
         $serializer = $this->container->get('jms_serializer');
         $form->handleRequest($request);
@@ -109,7 +111,7 @@ class EntrepriseController extends Controller {
                 return new JsonResponse(["success" => false, 'message' => 'Une entreprise avec ce numéro de téléphone existe dejà'], Response::HTTP_BAD_REQUEST);
             }
 
-            
+
             $sendActivate = $request->get('send_activate');
             if ($sendActivate && $sendActivate === 'on') {
                 $entreprise->setState(1);
@@ -127,21 +129,21 @@ class EntrepriseController extends Controller {
             //***************gestion des abonnés de l'entreprise ************************** */
             $subscribers = $entreprise->getSubscribers();
             foreach ($subscribers as $subscriber) {
-                if ($subscriber->getName()== null || $subscriber->getName()== "" ) {
+                if ($subscriber->getName() == null || $subscriber->getName() == "") {
                     return new JsonResponse(["success" => false, 'message' => "Vous avez des abonnés sans noms. Vueillez les remplir. "], Response::HTTP_BAD_REQUEST);
                 }
-                if ($subscriber->getPhoneNumber()== null || $subscriber->getPhoneNumber()== "" ) {
+                if ($subscriber->getPhoneNumber() == null || $subscriber->getPhoneNumber() == "") {
                     return new JsonResponse(["success" => false, 'message' => "Vous avez des abonnés sans numéros de téléphone. Vueillez les remplir. "], Response::HTTP_BAD_REQUEST);
                 }
-                
-                if ($subscriber->getSubscription()== null) {
+
+                if ($subscriber->getSubscription() == null) {
                     return new JsonResponse(["success" => false, 'message' => "Vous avez des abonnés sans abonnement. Veuillez leur affecter un abonnement."], Response::HTTP_BAD_REQUEST);
                 }
-                
+
                 $subscriberUnique = $repositorySubscriber->findOneBy(array('phoneNumber' => $subscriber->getPhoneNumber(), 'status' => 1));
                 if ($subscriberUnique && $subscriberUnique->getEntreprise()) {
                     $entreprise->removeSubscriber($subscriber);
-                    $return_string = "L'abonné de numéro ".$subscriberUnique->getPhoneNumber()." appartient déjà à l'entreprise ".$subscriberUnique->getEntreprise()->getName();
+                    $return_string = "L'abonné de numéro " . $subscriberUnique->getPhoneNumber() . " appartient déjà à l'entreprise " . $subscriberUnique->getEntreprise()->getName();
                     return new JsonResponse(["success" => false, 'message' => $return_string], Response::HTTP_BAD_REQUEST);
                 } elseif ($entreprise->getState() == 1) {
                     if ($subscriber->getSubscription()) {
@@ -157,6 +159,13 @@ class EntrepriseController extends Controller {
                 return new JsonResponse(["success" => false, 'message' => 'Veuillez ajouter un abonné à cette entreprise'], Response::HTTP_BAD_REQUEST);
             }
             $entreprise = $repositoryEntreprise->saveEntreprise($entreprise);
+            foreach ($entreprise->getSubscribers() as $subscriber) {
+                $historicalSubscriberSubscription = new HistoricalSubscriberSubscription();
+                $historicalSubscriberSubscription->setSubscriber($subscriber);
+                $historicalSubscriberSubscription->setSubscription($subscriber->getSubscription());
+                $historicalSubscriberSubscription->setSubscriptionDateAndExpirationDate(new \DateTime('now'));
+                $repositoryHistoricalSubscriberSubscription->saveHistoricalSubscriberSubscription($historicalSubscriberSubscription);
+            }
             $sendConfirmation = $request->get('send_confirmation');
             if ($sendConfirmation && $sendConfirmation === 'on') {
                 $subscribers = $entreprise->getSubscribers();
@@ -216,12 +225,12 @@ class EntrepriseController extends Controller {
     }
 
     public function updateEntrepriseAction(Request $request, Entreprise $entreprise) {
-
         $repositoryEntreprise = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Entreprise');
         $repositorySubscriber = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Subscriber');
         $repositoryDomain = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Domain');
         $repositorySubDomain = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:SubDomain');
         $repositoryHistoriqueSubscriber = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:HistoricalAlertSubscriber');
+        $repositoryHistoricalSubscriberSubscription = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:HistoricalSubscriberSubscription');
         $originalSubscribers = new \Doctrine\Common\Collections\ArrayCollection();
         $originalDomains = new \Doctrine\Common\Collections\ArrayCollection();
         $originalSubDomains = new \Doctrine\Common\Collections\ArrayCollection();
@@ -274,7 +283,7 @@ class EntrepriseController extends Controller {
                 return new JsonResponse(["success" => false, 'message' => 'Une entreprise avec ce numéro de téléphone existe dejà'], Response::HTTP_BAD_REQUEST);
             }
 
-            
+
             if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
                 $sendActivate = $request->get('send_activate');
                 if ($sendActivate && $sendActivate === 'on') {
@@ -342,21 +351,21 @@ class EntrepriseController extends Controller {
             }
             $subscribers = $entreprise->getSubscribers();
             foreach ($subscribers as $subscriber) {
-                if ($subscriber->getName()== null || $subscriber->getName()== "" ) {
+                if ($subscriber->getName() == null || $subscriber->getName() == "") {
                     return new JsonResponse(["success" => false, 'message' => "Vous avez des abonnés sans noms. Vueillez les remplir. "], Response::HTTP_BAD_REQUEST);
                 }
-                if ($subscriber->getPhoneNumber()== null || $subscriber->getPhoneNumber()== "" ) {
+                if ($subscriber->getPhoneNumber() == null || $subscriber->getPhoneNumber() == "") {
                     return new JsonResponse(["success" => false, 'message' => "Vous avez des abonnés sans numéros de téléphone. Vueillez les remplir. "], Response::HTTP_BAD_REQUEST);
                 }
-                
-                if ($subscriber->getSubscription()== null) {
+
+                if ($subscriber->getSubscription() == null) {
                     return new JsonResponse(["success" => false, 'message' => "Vous avez des abonnés sans abonnement. Veuillez leur affecter un abonnement."], Response::HTTP_BAD_REQUEST);
                 }
-                
+
                 $subscriberUnique = $repositorySubscriber->findOneBy(array('phoneNumber' => $subscriber->getPhoneNumber(), 'status' => 1));
                 if ($subscriberUnique && $subscriberUnique->getId() != $subscriber->getId() && $subscriberUnique->getEntreprise()) {
                     $entreprise->removeSubscriber($subscriber);
-                    $return_string = "L'abonné de numéro ".$subscriberUnique->getPhoneNumber()." appartient déjà à l'entreprise ".$subscriberUnique->getEntreprise()->getName();
+                    $return_string = "L'abonné de numéro " . $subscriberUnique->getPhoneNumber() . " appartient déjà à l'entreprise " . $subscriberUnique->getEntreprise()->getName();
                     return new JsonResponse(["success" => false, 'message' => $return_string], Response::HTTP_BAD_REQUEST);
                 } else {
                     if ($this->get('security.context')->isGranted('ROLE_ADMIN') && $subscriber->getSubscription()) {
@@ -375,9 +384,16 @@ class EntrepriseController extends Controller {
                 return new JsonResponse(["success" => false, 'message' => 'Veuillez ajouter un abonné à cette entreprise'], Response::HTTP_BAD_REQUEST);
             }
             $entreprise = $repositoryEntreprise->updateEntreprise($entreprise);
+            $subscribers = $entreprise->getSubscribers();
+             foreach ($subscribers as $subscriber) {
+                $historicalSubscriberSubscription = new HistoricalSubscriberSubscription();
+                $historicalSubscriberSubscription->setSubscriber($subscriber);
+                $historicalSubscriberSubscription->setSubscription($subscriber->getSubscription());
+                $historicalSubscriberSubscription->setSubscriptionDateAndExpirationDate(new \DateTime('now'));
+                $repositoryHistoricalSubscriberSubscription->saveHistoricalSubscriberSubscription($historicalSubscriberSubscription);
+            }
             $sendConfirmation = $request->get('send_confirmation');
             if ($sendConfirmation && $sendConfirmation === 'on') {
-                $subscribers = $entreprise->getSubscribers();
                 foreach ($subscribers as $subscriber) {
                     if (false === $originalSubscribers->contains($subscriber) && $subscriber->getSubscription() && $subscriber->getStatus() == 1 && $subscriber->getState() == 1) {
                         $this->sendSubscriptionConfirmation($subscriber);
@@ -423,11 +439,11 @@ class EntrepriseController extends Controller {
         $content = $subscriber->getEntreprise()->getName() . ", votre souscription au service <<Appels d'offres Infos>> a été éffectuée avec succès. \nCoût du forfait = " . $cout . ". \nOGIVE SOLUTIONS vous remercie pour votre confiance.";
         $twilio = $this->get('twilio.client');
         $message = $twilio->messages->create(
-            $subscriber->getPhoneNumber(), // Text any number
-            array(
-                'from' => 'OGIVE INFOS', // From a Twilio number in your account
-                'body' => $content
-            )
+                $subscriber->getPhoneNumber(), // Text any number
+                array(
+            'from' => 'OGIVE INFOS', // From a Twilio number in your account
+            'body' => $content
+                )
         );
         $this->sendEmailSubscriber($subscriber, "CONFIRMATION DE L'ABONNEMENT", $content);
         $historiqueAlertSubscriber->setMessage($content);
@@ -438,30 +454,30 @@ class EntrepriseController extends Controller {
     }
 
     public function sendEmailSubscriber(Subscriber $subscriber, $subject, $content, \OGIVE\AlertBundle\Entity\AlertProcedure $procedure = null) {
-        if($subscriber && $subscriber->getEmail()!=""){
-        $message = \Swift_Message::newInstance()
-                ->setSubject($subject)
-                ->setFrom(array('infos@si-ogive.com' => "OGIVE INFOS"))
-                ->setTo($subscriber->getEmail())
-                ->setBody(
-                $content
-        );
-        if ($procedure) {
-            $piecesjointes = $procedure->getPiecesjointes();
-            $originalpiecesjointes = $procedure->getOriginalpiecesjointes();
-            if (!empty($piecesjointes) && !empty($originalpiecesjointes) && count($piecesjointes) == count($originalpiecesjointes)) {
-                for ($i = 0; $i < count($piecesjointes); $i++) {
-                    if (file_exists($procedure->getUploadRootDir() . '/' . $piecesjointes[$i])) {
-                        $attachment = \Swift_Attachment::fromPath($procedure->getUploadRootDir() . '/' . $piecesjointes[$i])
-                                ->setFilename($originalpiecesjointes[$i]);
-                        $message->attach($attachment);
+        if ($subscriber && $subscriber->getEmail() != "") {
+            $message = \Swift_Message::newInstance()
+                    ->setSubject($subject)
+                    ->setFrom(array('infos@si-ogive.com' => "OGIVE INFOS"))
+                    ->setTo($subscriber->getEmail())
+                    ->setBody(
+                    $content
+            );
+            if ($procedure) {
+                $piecesjointes = $procedure->getPiecesjointes();
+                $originalpiecesjointes = $procedure->getOriginalpiecesjointes();
+                if (!empty($piecesjointes) && !empty($originalpiecesjointes) && count($piecesjointes) == count($originalpiecesjointes)) {
+                    for ($i = 0; $i < count($piecesjointes); $i++) {
+                        if (file_exists($procedure->getUploadRootDir() . '/' . $piecesjointes[$i])) {
+                            $attachment = \Swift_Attachment::fromPath($procedure->getUploadRootDir() . '/' . $piecesjointes[$i])
+                                    ->setFilename($originalpiecesjointes[$i]);
+                            $message->attach($attachment);
+                        }
                     }
                 }
             }
-        }
 
-        $this->get('mailer')->send($message);
-        }else{
+            $this->get('mailer')->send($message);
+        } else {
             return true;
         }
     }

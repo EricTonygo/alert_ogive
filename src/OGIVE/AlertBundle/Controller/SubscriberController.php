@@ -95,8 +95,9 @@ class SubscriberController extends Controller {
             return $this->redirect($this->generateUrl('fos_user_security_login'));
         }
         $subscriber = new Subscriber();
-        //$this = new TelephoneController();
+        $historicalSubscriberSubscription = new \OGIVE\AlertBundle\Entity\HistoricalSubscriberSubscription();
         $repositorySubscriber = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Subscriber');
+        $repositoryHistoricalSubscriberSubscription = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:HistoricalSubscriberSubscription');
         $form = $this->createForm('OGIVE\AlertBundle\Form\SubscriberType', $subscriber);
         $form->handleRequest($request);
 
@@ -112,14 +113,21 @@ class SubscriberController extends Controller {
                     $subscriber->setState(0);
                 }
             }
-
+            if($subscriber->getSubscription()){
+                
+            }
             $subscriber = $repositorySubscriber->saveSubscriber($subscriber);
+            $historicalSubscriberSubscription->setSubscriber($subscriber);
+            $historicalSubscriberSubscription->setSubscription($subscriber->getSubscription());
+            $historicalSubscriberSubscription->setSubscriptionDateAndExpirationDate(new \DateTime('now'));
+            $historicalSubscriberSubscription = $repositoryHistoricalSubscriberSubscription->saveHistoricalSubscriberSubscription($historicalSubscriberSubscription);
             $sendConfirmation = $request->get('send_confirmation');
             if ($sendConfirmation && $sendConfirmation === 'on') {
                 if ($subscriber->getSubscription() && $subscriber->getStatus() == 1 && $subscriber->getState() == 1) {
                     $this->sendSubscriptionConfirmation($subscriber);
                 }
             }
+            
 //            $subscriber_content_grid = $this->renderView('OGIVEAlertBundle:subscriber:subscriber-grid.html.twig', array('subscriber' => $subscriber));
 //            $subscriber_content_list = $this->renderView('OGIVEAlertBundle:subscriber:subscriber-list.html.twig', array('subscriber' => $subscriber));
 //            $view = View::create(["code" => 200, 'subscriber_content_grid' => $subscriber_content_grid, 'subscriber_content_list' => $subscriber_content_list]);
@@ -167,9 +175,10 @@ class SubscriberController extends Controller {
     }
 
     public function updateSubscriberAction(Request $request, Subscriber $subscriber) {
-
+        $historicalSubscriberSubscription = new \OGIVE\AlertBundle\Entity\HistoricalSubscriberSubscription();
         $repositorySubscriber = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Subscriber');
         $repositoryHistoriqueSubscriber = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:HistoricalAlertSubscriber');
+        $repositoryHistoricalSubscriberSubscription = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:HistoricalSubscriberSubscription');
         $oldSubscription = $subscriber->getSubscription();
         //$this = new TelephoneController();
         if (empty($subscriber)) {
@@ -212,6 +221,10 @@ class SubscriberController extends Controller {
             }
 
             $subscriber = $repositorySubscriber->updateSubscriber($subscriber);
+            $historicalSubscriberSubscription->setSubscriber($subscriber);
+            $historicalSubscriberSubscription->setSubscription($subscriber->getSubscription());
+            $historicalSubscriberSubscription->setSubscriptionDateAndExpirationDate(new \DateTime('now'));
+            $historicalSubscriberSubscription = $repositoryHistoricalSubscriberSubscription->saveHistoricalSubscriberSubscription($historicalSubscriberSubscription);
             $sendConfirmation = $request->get('send_confirmation');
             if ($sendConfirmation && $sendConfirmation === 'on') {
                 if ($oldSubscription === null && $subscriber->getSubscription() && $subscriber->getStatus() == 1 && $subscriber->getState() == 1) {
