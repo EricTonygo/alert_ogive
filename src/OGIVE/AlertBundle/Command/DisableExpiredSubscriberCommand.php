@@ -95,7 +95,7 @@ class DisableExpiredSubscriberCommand extends ContainerAwareCommand {
                 "Tache cron exécutée avec succès"
         );
        
-        $this->get('mailer')->send($message);
+        $this->getContainer()->get('mailer')->send($message);
         
     }
 
