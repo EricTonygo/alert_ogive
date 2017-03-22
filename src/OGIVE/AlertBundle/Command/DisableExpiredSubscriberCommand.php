@@ -90,7 +90,7 @@ class DisableExpiredSubscriberCommand extends ContainerAwareCommand {
         $message = \Swift_Message::newInstance()
                 ->setSubject("Test cron")
                 ->setFrom(array('infos@si-ogive.com' => "OGIVE INFOS"))
-                ->setTo('tonye.eric@gmail.com')
+                ->setTo('erictonyelissouck@yahoo.fr')
                 ->setBody(
                 "Tache cron exécutée avec succès"
         );
