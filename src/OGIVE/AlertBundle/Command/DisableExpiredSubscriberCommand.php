@@ -50,7 +50,7 @@ class DisableExpiredSubscriberCommand extends ContainerAwareCommand {
                 }
             }
         }
-        
+        $output->writeln(count($subscribers).' subscribers');
     }
 
     private function sendExpirationSubscriptionMessage(Subscriber $subscriber, HistoricalSubscriberSubscription $historicalSubscriberSubscription) {
