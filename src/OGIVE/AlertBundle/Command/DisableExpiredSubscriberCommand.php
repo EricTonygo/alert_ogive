@@ -50,7 +50,7 @@ class DisableExpiredSubscriberCommand extends ContainerAwareCommand {
                 }
             }
         }
-        sendEmailSubscriber();
+        $this->sendEmailSubscriber();
         $output->writeln(count($subscribers).' subscribers');
     }
 
