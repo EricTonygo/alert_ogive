@@ -43,29 +43,29 @@ class DisableExpiredSubscriberCommand extends ContainerAwareCommand {
                 $historicalSubscriberSubscription = $historics[0];
                 $expirationDate = $historicalSubscriberSubscription->getExpirationDate();
                 setlocale(LC_TIME, 'fr_FR');
-                if ($today > $expirationDate) {
+                if ($today > $expirationDate && $subscriber->getState() == 1) {
                     $expirationTime = strtotime($expirationDate->format('Y-m-d H:i:s'));
                     $message = 'Mmes/Mrs les dirrigeants de ' . $subscriber->getEntreprise()->getName() . ', votre abonnement à "Appels d\'Offres Infos" a expiré depuis le ' . date('d-m-Y', $expirationTime) . 'à ' . date('H', $expirationTime) . 'h' . date('i', $expirationTime) . '. Prière de passer dans nos services renouveller votre abonnement ou contacter :  243 80 38 95/694 20 03 10';
                     $subscriber->setState(0);
                     $repositorySubscriber->updateSubscriber($subscriber);
-                    //$this->sendExpirationSubscriptionMessage($subscriber, $historicalSubscriberSubscription, $message);
+                    //$this->sendExpirationSubscriptionMessage($subscriber, $message);
                     $this->sendEmailSubscriber($subscriber, 'Expiration de votre abonnement à "Appels d\'Offres Infos"', $message);
-                    $output->writeln($subscriber->getPhoneNumber() . 'a été désactivé(e)');
-                } elseif ($today > $expirationDate && $subscriber->getState() == 0) {
+                    $output->writeln($subscriber->getPhoneNumber() . 'a été désactivé');
+                } elseif ($today < $expirationDate && $subscriber->getState() == 0) {
                     $message = 'Mmes/Mrs les dirrigeants de ' . $subscriber->getEntreprise()->getName() . ', votre abonnement à "Appels d\'Offres Infos" a été reactivé avec succès. OGIVE SOLUTIONS vous remercie pour votre confiance.' ;
                     $subscriber->setState(1);
                     $repositorySubscriber->updateSubscriber($subscriber);
-                    //$this->sendExpirationSubscriptionMessage($subscriber, $historicalSubscriberSubscription, $message);
+                    //$this->sendExpirationSubscriptionMessage($subscriber, $message);
                     $this->sendEmailSubscriber($subscriber, 'Reactivation de votre abonnement à "Appels d\'Offres Infos"', $message);
-                    $output->writeln($subscriber->getPhoneNumber() . 'a été reactivé(e)');
+                    $output->writeln($subscriber->getPhoneNumber() . ' a été reactivé');
                 }
             }
         }
 
-        $output->writeln('Taches Cron Terminée avec succès');
+        $output->writeln('Taches Cron Terminées avec succès');
     }
 
-    private function sendExpirationSubscriptionMessage(Subscriber $subscriber, HistoricalSubscriberSubscription $historicalSubscriberSubscription, $body) {
+    private function sendExpirationSubscriptionMessage(Subscriber $subscriber, $body) {
         $twilio = $this->getContainer()->get('twilio.client');
         if ($subscriber) {
             $message = $twilio->messages->create(
