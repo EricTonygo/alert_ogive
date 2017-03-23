@@ -236,9 +236,6 @@ class SubscriberController extends Controller {
                 }
             }
 
-//            $subscriber_content_grid = $this->renderView('OGIVEAlertBundle:subscriber:subscriber-grid-edit.html.twig', array('subscriber' => $subscriber));
-//            $subscriber_content_list = $this->renderView('OGIVEAlertBundle:subscriber:subscriber-list-edit.html.twig', array('subscriber' => $subscriber));
-//            $view = View::create(["code" => 200, 'subscriber_content_grid' => $subscriber_content_grid, 'subscriber_content_list' => $subscriber_content_list]);
             $view = View::create(["message" => 'Abonné modifié avec succès']);
             $view->setFormat('json');
             return $view;
