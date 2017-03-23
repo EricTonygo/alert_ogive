@@ -257,33 +257,29 @@ class HistoricalSubscriberSubscription {
     }
 
     public function setSubscriptionDateAndExpirationDate($subscriptionDate) {
-
         if ($this->subscription) {
             $this->subscriptionDate = $subscriptionDate;
             $cd = strtotime($subscriptionDate->format('Y-m-d H:i:s'));
-            $this->expirationDate = new \DateTime(date('Y-m-d H:i:s', mktime(date('H', $cd), date('i', $cd)+1, date('s', $cd), date('m', $cd), date('d', $cd), date('Y', $cd))));
-//            switch ($this->subscription->getPeriodicity()) {
-//                case 1 :
-//                    $this->expirationDate = new \DateTime(date('Y-m-d H:i:s', mktime(date('H', $cd), date('i', $cd), date('s', $cd), date('m', $cd), date('d', $cd), date('Y', $cd) + 1)));
-//                    break;
-//                case 2 :
-//                    $this->expirationDate = new \DateTime(date('Y-m-d H:i:s', mktime(date('H', $cd), date('i', $cd), date('s', $cd), date('m', $cd) + 6, date('d', $cd), date('Y', $cd))));
-//                    break;
-//                case 3 :
-//                    $this->expirationDate = new \DateTime(date('Y-m-d H:i:s', mktime(date('H', $cd), date('i', $cd), date('s', $cd), date('m', $cd) + 3, date('d', $cd), date('Y', $cd))));
-//                    break;
-//                case 4 :
-//                    $this->expirationDate = new \DateTime(date('Y-m-d H:i:s', mktime(date('H', $cd), date('i', $cd), date('s', $cd), date('m', $cd) + 1, date('d', $cd), date('Y', $cd))));
-//                    break;
-//                case 5:
-//                    $this->expirationDate = new \DateTime(date('Y-m-d H:i:s', mktime(date('H', $cd), date('i', $cd), date('s', $cd), date('m', $cd), date('d', $cd) + 7, date('Y', $cd))));
-//                    break;
-//                default :
-//                    $this->expirationDate = null;
-//                    break;
-//            }
-            
-            //$this->expirationDate = new \DateTime(date('Y-m-d H:i:s', mktime(date('H', $cd), date('i', $cd), date('s', $cd), 4, date('d', $cd), date('Y', $cd))));
+            switch ($this->subscription->getPeriodicity()) {
+                case 1 :
+                    $this->expirationDate = new \DateTime(date('Y-m-d H:i:s', mktime(date('H', $cd), date('i', $cd), date('s', $cd), date('m', $cd), date('d', $cd), date('Y', $cd) + 1)));
+                    break;
+                case 2 :
+                    $this->expirationDate = new \DateTime(date('Y-m-d H:i:s', mktime(date('H', $cd), date('i', $cd), date('s', $cd), date('m', $cd) + 6, date('d', $cd), date('Y', $cd))));
+                    break;
+                case 3 :
+                    $this->expirationDate = new \DateTime(date('Y-m-d H:i:s', mktime(date('H', $cd), date('i', $cd), date('s', $cd), date('m', $cd) + 3, date('d', $cd), date('Y', $cd))));
+                    break;
+                case 4 :
+                    $this->expirationDate = new \DateTime(date('Y-m-d H:i:s', mktime(date('H', $cd), date('i', $cd), date('s', $cd), date('m', $cd) + 1, date('d', $cd), date('Y', $cd))));
+                    break;
+                case 5:
+                    $this->expirationDate = new \DateTime(date('Y-m-d H:i:s', mktime(date('H', $cd), date('i', $cd), date('s', $cd), date('m', $cd), date('d', $cd) + 7, date('Y', $cd))));
+                    break;
+                default :
+                    $this->expirationDate = null;
+                    break;
+            }
         }
     }
 
