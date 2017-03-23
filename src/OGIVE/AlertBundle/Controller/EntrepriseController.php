@@ -384,16 +384,10 @@ class EntrepriseController extends Controller {
                 return new JsonResponse(["success" => false, 'message' => 'Veuillez ajouter un abonné à cette entreprise'], Response::HTTP_BAD_REQUEST);
             }
             $entreprise = $repositoryEntreprise->updateEntreprise($entreprise);
-            $subscribers = $entreprise->getSubscribers();
-             foreach ($subscribers as $subscriber) {
-                $historicalSubscriberSubscription = new HistoricalSubscriberSubscription();
-                $historicalSubscriberSubscription->setSubscriber($subscriber);
-                $historicalSubscriberSubscription->setSubscription($subscriber->getSubscription());
-                $historicalSubscriberSubscription->setSubscriptionDateAndExpirationDate(new \DateTime('now'));
-                $repositoryHistoricalSubscriberSubscription->saveHistoricalSubscriberSubscription($historicalSubscriberSubscription);
-            }
+            
             $sendConfirmation = $request->get('send_confirmation');
             if ($sendConfirmation && $sendConfirmation === 'on') {
+                $subscribers = $entreprise->getSubscribers();
                 foreach ($subscribers as $subscriber) {
                     if (false === $originalSubscribers->contains($subscriber) && $subscriber->getSubscription() && $subscriber->getStatus() == 1 && $subscriber->getState() == 1) {
                         $this->sendSubscriptionConfirmation($subscriber);
