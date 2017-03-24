@@ -159,12 +159,13 @@ class EntrepriseController extends Controller {
                 return new JsonResponse(["success" => false, 'message' => 'Veuillez ajouter un abonné à cette entreprise'], Response::HTTP_BAD_REQUEST);
             }
             $entreprise = $repositoryEntreprise->saveEntreprise($entreprise);
-            foreach ($entreprise->getSubscribers() as $subscriber) {
+            $subscribers_enabled = $repositorySubscriber->findBy(array('entreprise' =>$entreprise, 'status' => 1, 'state' => 1));
+            foreach ($subscribers_enabled as $subscriber) {
                 if ($subscriber->getSubscription()) {
                     $historicalSubscriberSubscription = new HistoricalSubscriberSubscription();
                     $historicalSubscriberSubscription->setSubscriber($subscriber);
                     $historicalSubscriberSubscription->setSubscription($subscriber->getSubscription());
-                    $historicalSubscriberSubscription->setSubscriptionDateAndExpirationDate(new \DateTime('now'));
+                    $historicalSubscriberSubscription->setSubscriptionDateAndExpirationDate($subscriber->getCreateDate());
                     $repositoryHistoricalSubscriberSubscription->saveHistoricalSubscriberSubscription($historicalSubscriberSubscription);
                 }
             }
@@ -249,13 +250,14 @@ class EntrepriseController extends Controller {
                 $subscriber->setEntreprise($entreprise);
             }
             $entreprise = $repositoryEntreprise->updateEntreprise($entreprise);
-            if ($request->get('subscription_update') == 'oui') {
-                foreach ($entreprise->getSubscribers() as $subscriber) {
+            if ($request->get('subscription_update') != 'others') {
+                $subscribers_enabled = $repositorySubscriber->findBy(array('entreprise' =>$entreprise, 'status' => 1, 'state' => 1));
+                foreach ($subscribers_enabled as $subscriber) {
                     if ($subscriber->getSubscription()) {
                         $historicalSubscriberSubscription = new HistoricalSubscriberSubscription();
                         $historicalSubscriberSubscription->setSubscriber($subscriber);
                         $historicalSubscriberSubscription->setSubscription($subscriber->getSubscription());
-                        $historicalSubscriberSubscription->setSubscriptionDateAndExpirationDate(new \DateTime('now'));
+                        $historicalSubscriberSubscription->setSubscriptionDateAndExpirationDate($subscriber->getLastUpdateDate());
                         $repositoryHistoricalSubscriberSubscription->saveHistoricalSubscriberSubscription($historicalSubscriberSubscription);
                     }
                 }
@@ -397,13 +399,14 @@ class EntrepriseController extends Controller {
                 return new JsonResponse(["success" => false, 'message' => 'Veuillez ajouter un abonné à cette entreprise'], Response::HTTP_BAD_REQUEST);
             }
             $entreprise = $repositoryEntreprise->updateEntreprise($entreprise);
-            if ($request->get('subscription_update') == 'oui') {
-                foreach ($entreprise->getSubscribers() as $subscriber) {
+            if ($request->get('subscription_update') != 'others') {
+                $subscribers_enabled = $repositorySubscriber->findBy(array('entreprise' =>$entreprise, 'status' => 1, 'state' => 1));
+                foreach ($subscribers_enabled as $subscriber) {
                     if ($subscriber->getSubscription()) {
                         $historicalSubscriberSubscription = new HistoricalSubscriberSubscription();
                         $historicalSubscriberSubscription->setSubscriber($subscriber);
                         $historicalSubscriberSubscription->setSubscription($subscriber->getSubscription());
-                        $historicalSubscriberSubscription->setSubscriptionDateAndExpirationDate(new \DateTime('now'));
+                        $historicalSubscriberSubscription->setSubscriptionDateAndExpirationDate($subscriber->getLastUpdateDate());
                         $repositoryHistoricalSubscriberSubscription->saveHistoricalSubscriberSubscription($historicalSubscriberSubscription);
                     }
                 }

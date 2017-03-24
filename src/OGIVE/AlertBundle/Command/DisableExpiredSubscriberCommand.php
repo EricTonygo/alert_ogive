@@ -36,6 +36,7 @@ class DisableExpiredSubscriberCommand extends ContainerAwareCommand {
         $historicalSubscriberSubscription = new HistoricalSubscriberSubscription();
         $subscriber = new Subscriber();
         $subscribers = $repositorySubscriber->findBy(array('status' => 1, 'state' => 1));
+        $admin_message="";
         foreach ($subscribers as $subscriber) {
             $historics = $repositoryHistoricalSubscriberSubscription->findBy(array('subscriber' => $subscriber, 'status' => 1), array('subscriptionDate' => 'desc'), 1, 0);
             $today = new \DateTime('now');
@@ -50,6 +51,7 @@ class DisableExpiredSubscriberCommand extends ContainerAwareCommand {
                     $repositorySubscriber->updateSubscriber($subscriber);
                     //$this->sendExpirationSubscriptionMessage($subscriber, $message);
                     $this->sendEmailSubscriber($subscriber, 'Expiration de votre abonnement à "Appels d\'Offres Infos"', $message);
+                    $admin_message .= $subscriber->getPhoneNumber() . 'a été désactivé';
                     $output->writeln($subscriber->getPhoneNumber() . 'a été désactivé');
                 } elseif ($today < $expirationDate && $subscriber->getState() == 0) {
                     $message = 'Mmes/Mrs les dirrigeants de ' . $subscriber->getEntreprise()->getName() . ', votre abonnement à "Appels d\'Offres Infos" a été reactivé avec succès. OGIVE SOLUTIONS vous remercie pour votre confiance.' ;
@@ -57,13 +59,14 @@ class DisableExpiredSubscriberCommand extends ContainerAwareCommand {
                     $repositorySubscriber->updateSubscriber($subscriber);
                     //$this->sendExpirationSubscriptionMessage($subscriber, $message);
                     $this->sendEmailSubscriber($subscriber, 'Reactivation de votre abonnement à "Appels d\'Offres Infos"', $message);
+                    $admin_message .=$subscriber->getPhoneNumber() . ' a été reactivé \n';  
                     $output->writeln($subscriber->getPhoneNumber() . ' a été reactivé');
                 }
             }
         }
         $admin = new Subscriber();
         $admin->setEmail('infos@si-ogive.com');
-        $this->sendEmailSubscriber($admin, 'Tache cron du '.$today->format('d-m-Y H:s:i'), "Taches Cron Terminées avec succès");
+        $this->sendEmailSubscriber($admin, 'Tache cron du '.$today->format('d-m-Y H:s:i'), $admin_message."Taches Cron Terminées avec succès");
         $output->writeln('Taches Cron Terminées avec succès');
     }
 

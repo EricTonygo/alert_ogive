@@ -114,17 +114,23 @@
             </div>
         </div>
         <div class="inline fields">
-            <label>S'agit-il d'une mise à jour des abonnements ?</label>
+            <label>La raison de la mise à jour</label>
             <div class="field">
                 <div class="ui radio checkbox">
-                    <input type="radio" name="subscription_update" value='oui'>
-                    <label>Oui</label>
+                    <input type="radio" name="subscription_update" value='new-subscription'>
+                    <label>Abonnement</label>
                 </div>
             </div>
             <div class="field">
                 <div class="ui radio checkbox">
-                    <input type="radio" name="subscription_update" value='non'>
-                    <label>Non</label>
+                    <input type="radio" name="subscription_update" value='renewal-subscription'>
+                    <label>Réabonnement</label>
+                </div>
+            </div>
+            <div class="field">
+                <div class="ui radio checkbox">
+                    <input type="radio" name="subscription_update" value='others'>
+                    <label>Autres</label>
                 </div>
             </div>
         </div>

@@ -271,7 +271,7 @@ function execute_edit(id) {
                         rules: [
                             {
                                 type: 'checked',
-                                prompt: "Veuillez répondre a cette question"
+                                prompt: "Veuillez préciser la raison de la mise à jour"
                             }
                         ]
                     }
@@ -522,14 +522,11 @@ function enable_entreprise(id) {
                         identifier: 'subscription_update',
                         rules: [
                             {
-                                type: 'checked',
-                                prompt: "Veuillez répondre à cette question"
+                                type: 'checked'
                             }
                         ]
                     }
                 },
-                inline: true,
-                on: 'blur',
                 onSuccess: function (event, fields) {
                     $('#confirm_enable_entreprise.ui.small.modal')
                             .modal('hide')
