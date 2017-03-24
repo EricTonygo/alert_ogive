@@ -113,8 +113,8 @@ class SubscriberController extends Controller {
                     $subscriber->setState(0);
                 }
             }
-            if ($subscriber->getSubscription() && $subscriber->getState()== 1) {
-                $subscriber = $repositorySubscriber->saveSubscriber($subscriber);
+            $subscriber = $repositorySubscriber->saveSubscriber($subscriber);
+            if ($subscriber->getSubscription() && $subscriber->getState()== 1) {                
                 $historicalSubscriberSubscription->setSubscriber($subscriber);
                 $historicalSubscriberSubscription->setSubscription($subscriber->getSubscription());
                 $historicalSubscriberSubscription->setSubscriptionDateAndExpirationDate($subscriber->getCreateDate());
