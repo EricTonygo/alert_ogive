@@ -49,7 +49,7 @@ class DisableExpiredSubscriberCommand extends ContainerAwareCommand {
                     $message = 'Mmes/Mrs les dirrigeants de ' . $subscriber->getEntreprise()->getName() . ', votre abonnement à "Appels d\'Offres Infos" a expiré depuis le ' . date('d-m-Y', $expirationTime) . 'à ' . date('H', $expirationTime) . 'h' . date('i', $expirationTime) . '. Prière de passer dans nos services renouveller votre abonnement ou contacter :  243 80 38 95/694 20 03 10';
                     $subscriber->setState(0);
                     $repositorySubscriber->updateSubscriber($subscriber);
-                    //$this->sendExpirationSubscriptionMessage($subscriber, $message);
+                    $this->sendExpirationSubscriptionMessage($subscriber, $message);
                     $this->sendEmailSubscriber($subscriber, 'Expiration de votre abonnement à "Appels d\'Offres Infos"', $message);
                     $admin_message .= $subscriber->getPhoneNumber() . 'a été désactivé';
                     $output->writeln($subscriber->getPhoneNumber() . 'a été désactivé');
@@ -57,7 +57,7 @@ class DisableExpiredSubscriberCommand extends ContainerAwareCommand {
                     $message = 'Mmes/Mrs les dirrigeants de ' . $subscriber->getEntreprise()->getName() . ', votre abonnement à "Appels d\'Offres Infos" a été reactivé avec succès. OGIVE SOLUTIONS vous remercie pour votre confiance.' ;
                     $subscriber->setState(1);
                     $repositorySubscriber->updateSubscriber($subscriber);
-                    //$this->sendExpirationSubscriptionMessage($subscriber, $message);
+                    $this->sendExpirationSubscriptionMessage($subscriber, $message);
                     $this->sendEmailSubscriber($subscriber, 'Reactivation de votre abonnement à "Appels d\'Offres Infos"', $message);
                     $admin_message .=$subscriber->getPhoneNumber() . ' a été reactivé \n';  
                     $output->writeln($subscriber->getPhoneNumber() . ' a été reactivé');
