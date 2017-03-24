@@ -43,6 +43,21 @@
                 <label> Envoyer l'accusé de reception à l'abonné</label>
             </div>
         </div>
+        <div class="inline fields">
+            <label>S'agit-il d'une mise à jour de l'abonnement ?</label>
+            <div class="field">
+                <div class="ui radio checkbox">
+                    <input type="radio" name="subscription_update" value='oui'>
+                    <label>Oui</label>
+                </div>
+            </div>
+            <div class="field">
+                <div class="ui radio checkbox">
+                    <input type="radio" name="subscription_update" value='non'>
+                    <label>Non</label>
+                </div>
+            </div>
+        </div>
 
         <div class="field">
             {{form_rest(form)}}

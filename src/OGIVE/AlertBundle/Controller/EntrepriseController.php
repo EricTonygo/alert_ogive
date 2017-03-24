@@ -160,11 +160,13 @@ class EntrepriseController extends Controller {
             }
             $entreprise = $repositoryEntreprise->saveEntreprise($entreprise);
             foreach ($entreprise->getSubscribers() as $subscriber) {
-                $historicalSubscriberSubscription = new HistoricalSubscriberSubscription();
-                $historicalSubscriberSubscription->setSubscriber($subscriber);
-                $historicalSubscriberSubscription->setSubscription($subscriber->getSubscription());
-                $historicalSubscriberSubscription->setSubscriptionDateAndExpirationDate(new \DateTime('now'));
-                $repositoryHistoricalSubscriberSubscription->saveHistoricalSubscriberSubscription($historicalSubscriberSubscription);
+                if ($subscriber->getSubscription()) {
+                    $historicalSubscriberSubscription = new HistoricalSubscriberSubscription();
+                    $historicalSubscriberSubscription->setSubscriber($subscriber);
+                    $historicalSubscriberSubscription->setSubscription($subscriber->getSubscription());
+                    $historicalSubscriberSubscription->setSubscriptionDateAndExpirationDate(new \DateTime('now'));
+                    $repositoryHistoricalSubscriberSubscription->saveHistoricalSubscriberSubscription($historicalSubscriberSubscription);
+                }
             }
             $sendConfirmation = $request->get('send_confirmation');
             if ($sendConfirmation && $sendConfirmation === 'on') {
@@ -247,6 +249,17 @@ class EntrepriseController extends Controller {
                 $subscriber->setEntreprise($entreprise);
             }
             $entreprise = $repositoryEntreprise->updateEntreprise($entreprise);
+            if ($request->get('subscription_update') == 'oui') {
+                foreach ($entreprise->getSubscribers() as $subscriber) {
+                    if ($subscriber->getSubscription()) {
+                        $historicalSubscriberSubscription = new HistoricalSubscriberSubscription();
+                        $historicalSubscriberSubscription->setSubscriber($subscriber);
+                        $historicalSubscriberSubscription->setSubscription($subscriber->getSubscription());
+                        $historicalSubscriberSubscription->setSubscriptionDateAndExpirationDate(new \DateTime('now'));
+                        $repositoryHistoricalSubscriberSubscription->saveHistoricalSubscriberSubscription($historicalSubscriberSubscription);
+                    }
+                }
+            }
             return new JsonResponse(['message' => 'Entreprise activée avec succcès !'], Response::HTTP_OK
             );
         }
@@ -384,7 +397,17 @@ class EntrepriseController extends Controller {
                 return new JsonResponse(["success" => false, 'message' => 'Veuillez ajouter un abonné à cette entreprise'], Response::HTTP_BAD_REQUEST);
             }
             $entreprise = $repositoryEntreprise->updateEntreprise($entreprise);
-            
+            if ($request->get('subscription_update') == 'oui') {
+                foreach ($entreprise->getSubscribers() as $subscriber) {
+                    if ($subscriber->getSubscription()) {
+                        $historicalSubscriberSubscription = new HistoricalSubscriberSubscription();
+                        $historicalSubscriberSubscription->setSubscriber($subscriber);
+                        $historicalSubscriberSubscription->setSubscription($subscriber->getSubscription());
+                        $historicalSubscriberSubscription->setSubscriptionDateAndExpirationDate(new \DateTime('now'));
+                        $repositoryHistoricalSubscriberSubscription->saveHistoricalSubscriberSubscription($historicalSubscriberSubscription);
+                    }
+                }
+            }
             $sendConfirmation = $request->get('send_confirmation');
             if ($sendConfirmation && $sendConfirmation === 'on') {
                 $subscribers = $entreprise->getSubscribers();
