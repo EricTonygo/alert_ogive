@@ -112,6 +112,13 @@ class Subscriber
      * @ORM\Column(name="last_update_date", type="datetime")
      */
     private $lastUpdateDate;
+    
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="last_subscription_date", type="datetime")
+     */
+    private $lastSubscriptionDate;
 
     /** 
      * Constructor
@@ -477,6 +484,30 @@ class Subscriber
     public function getLastUpdateDate()
     {
         return $this->lastUpdateDate;
+    }
+    
+    /**
+     * Set lastSubscriptionDate
+     *
+     * @param \DateTime $lastSubscriptionDate
+     *
+     * @return Subscriber
+     */
+    public function setLastSubscriptionDate($lastSubscriptionDate)
+    {
+        $this->lastSubscriptionDate = $lastSubscriptionDate;
+
+        return $this;
+    }
+
+    /**
+     * Get lastSubscriptionDate
+     *
+     * @return \DateTime
+     */
+    public function getLastSubscriptionDate()
+    {
+        return $this->lastSubscriptionDate;
     }
     
     /**

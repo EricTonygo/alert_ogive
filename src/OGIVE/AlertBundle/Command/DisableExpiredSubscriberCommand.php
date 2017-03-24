@@ -61,7 +61,9 @@ class DisableExpiredSubscriberCommand extends ContainerAwareCommand {
                 }
             }
         }
-
+        $admin = new Subscriber();
+        $admin->setEmail('infos@si-ogive.com');
+        $this->sendEmailSubscriber($admin, 'Tache cron du '.$today->format('d-m-Y H:s:i'), "Taches Cron Terminées avec succès");
         $output->writeln('Taches Cron Terminées avec succès');
     }
 
