@@ -34,7 +34,7 @@
                 {{ form_label(form.entreprise,"Entreprise") }}
                 {{ form_widget(form.entreprise,{'attr':{'data-validate': 'entreprise', 'class': 'ui search dropdown'}})}}
             </div>
-            
+
             <div class="field" {% if not is_granted('ROLE_ADMIN') and subscriber.subscription  and subscriber.entreprise and subscriber.entreprise.status==1  %} style="display: none;"{% endif %}>
                 <div class="ui checkbox">
                     <input id='checkbox_activate_edit' type="checkbox" name="send_activate" {% if subscriber.state == 1 %} checked="checked" {% endif %}>
@@ -91,7 +91,14 @@
                     <span> {{ subscriber.phoneNumber}}</span>
                 </div>
             </div>
-
+            <div class="two fields">
+                <div class="field">
+                    <label>Abonnement : </label> 
+                </div>
+                <div class="field">
+                    <span> {{ subscriber.subscription.periodicity|periodicity}}</span>
+                </div>
+            </div>
             <div class="two fields">
                 <div class="field">
                     <label>Entreprise : </label> 
