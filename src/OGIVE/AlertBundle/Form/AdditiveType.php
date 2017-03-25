@@ -8,6 +8,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+
 
 class AdditiveType extends AbstractType {
 
@@ -18,11 +20,12 @@ class AdditiveType extends AbstractType {
         $builder
                 ->add('reference', null, array('required' => false))
                 //->add('publicationDate', 'date')
-                ->add('publicationDate', DateType::class, array(
-                    'widget' => 'single_text',
-                    // this is actually the default format for single_text
-                    'format' => 'yyyy-MM-dd',
-                ))
+//                ->add('publicationDate', DateType::class, array(
+//                    'widget' => 'single_text',
+//                    // this is actually the default format for single_text
+//                    'format' => 'yyyy-MM-dd',
+//                ))
+                ->add('publicationDate', TextType::class, array('required' => false))
 //                ->add('deadline', DateTimeType::class, array(
 //                    'date_widget' => 'single_text',
 //                    'time_widget' => 'single_text',

@@ -51,11 +51,21 @@
                 {{ form_errors(form.owner, {'attr': {'class': 'ui error message'}})}}
                 {{ form_widget(form.owner,{'attr':{'placeholder':"Maître d'ouvrage", 'data-validate': 'owner'}})}}
             </div>#}
-
+            
             <div class="field">
+            {{ form_label(form.publicationDate,"Date de publication", {'for': 'openingDate_edit'}) }}
+            <div class="ui calendar" >
+                <div class="ui input left icon">
+                    <i class="calendar icon"></i>
+                    {{ form_widget(form.publicationDate,{'id':'publicationDate_edit', 'attr':{'data-validate': 'publication_date'}})}}
+                </div>
+            </div>
+        </div>
+
+            {#<div class="field">
                 {{ form_label(form.publicationDate,"Date de publication") }}
                 {{ form_widget(form.publicationDate,{'attr':{'data-validate': 'publication_date'}})}}
-            </div>
+            </div>#}
 
             {#<div class="field">
                 {{ form_label(form.openingDate,"Date d'ouverture de dépôt") }}

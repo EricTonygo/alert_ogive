@@ -8,6 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class ExpressionInterestType extends AbstractType {
 
@@ -17,27 +18,26 @@ class ExpressionInterestType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
                 ->add('reference', null, array('required' => false))
-                //->add('publicationDate', 'date')
-                ->add('publicationDate', DateType::class, array(
-                    'widget' => 'single_text',
-                    // this is actually the default format for single_text
-                    'format' => 'yyyy-MM-dd',
-                ))
-                ->add('deadline', DateTimeType::class, array(
-                    'date_widget' => 'single_text',
-                    'time_widget' => 'single_text',
-                    'date_format' => 'yyyy-MM-dd',
-                    'with_seconds' => false,
-                    'required' => false,
-                ))
-                //->add('deadline', 'datetime')
-                ->add('openingDate', DateTimeType::class, array(
-                    'date_widget' => 'single_text',
-                    'time_widget' => 'single_text',
-                    'date_format' => 'yyyy-MM-dd',
-                    'with_seconds' => false,
-                    'required' => false,
-                ))
+//                ->add('publicationDate', DateType::class, array(
+//                    'widget' => 'single_text',
+//                    // this is actually the default format for single_text
+//                    'format' => 'yyyy-MM-dd',
+//                ))
+//                ->add('deadline', DateTimeType::class, array(
+//                    'date_widget' => 'single_text',
+//                    'time_widget' => 'single_text',
+//                    'date_format' => 'yyyy-MM-dd',
+//                    'with_seconds' => false,
+//                    'required' => false,
+//                ))
+//                //->add('deadline', 'datetime')
+//                ->add('openingDate', DateTimeType::class, array(
+//                    'date_widget' => 'single_text',
+//                    'time_widget' => 'single_text',
+//                    'date_format' => 'yyyy-MM-dd',
+//                    'with_seconds' => false,
+//                    'required' => false,
+//                ))
 //                ->add('sendingDate', DateTimeType::class, array(
 //                    'date_widget' => 'single_text',
 //                    'time_widget' => 'single_text',
@@ -45,6 +45,9 @@ class ExpressionInterestType extends AbstractType {
 //                    'with_seconds' => false,
 //                    'required' => false,
 //                ))
+                ->add('publicationDate', TextType::class, array('required' => false))
+                ->add('deadline', TextType::class, array('required' => false))
+                ->add('openingDate', TextType::class, array('required' => false))
                 ->add('object', null, array('required' => false))
                 ->add('owner', null, array('required' => false))
                 //->add('abstract')

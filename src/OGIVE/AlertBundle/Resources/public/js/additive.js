@@ -1,4 +1,24 @@
 $(function () {
+    $.datetimepicker.setLocale('fr');
+    $('#publicationDate').datetimepicker({
+        timepicker: false,
+        //minDate: '0',
+        format: 'd-m-Y',
+        lang: 'fr',
+        scrollInput: false
+    });
+    $("#openingDate").datetimepicker({
+        minDate: '0',
+        format: 'd-m-Y H:i',
+        lang: 'fr',
+        scrollInput: false
+    });
+    $("#deadline").datetimepicker({
+        minDate: '0',
+        format: 'd-m-Y H:i',
+        lang: 'fr',
+        scrollInput: false
+    });
     $('#checkbox_aao_add').change(function () {
         if ($(this).is(':checked')) {
             $('#field_aao_add').show();
@@ -311,7 +331,25 @@ function edit_additive(id) {
 
             $('#edit_additive.ui.modal').modal('show');
             execute_edit(id);
-
+            $("#openingDate_edit").datetimepicker({
+                minDate: '0',
+                format: 'd-m-Y H:i',
+                lang: 'fr',
+                scrollInput: false
+            });
+            $("#deadline_edit").datetimepicker({
+                minDate: '0',
+                format: 'd-m-Y H:i',
+                lang: 'fr',
+                scrollInput: false
+            });
+            $('#edit_callOffer_btn').click(function () {
+                $('#block_details').hide();
+                $('#block_form_edit').show();
+                $('#cancel_edit_callOffer').show();
+                $('#submit_edit_callOffer').show();
+                $(this).hide();
+            });
             $('#message_loading').hide();
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -668,6 +706,25 @@ function show_additive(id) {
             });
             $('#edit_additive.ui.modal').modal('show');
             execute_edit(id);
+            $("#openingDate_edit").datetimepicker({
+                minDate: '0',
+                format: 'd-m-Y H:i',
+                lang: 'fr',
+                scrollInput: false
+            });
+            $("#deadline_edit").datetimepicker({
+                minDate: '0',
+                format: 'd-m-Y H:i',
+                lang: 'fr',
+                scrollInput: false
+            });
+            $('#edit_callOffer_btn').click(function () {
+                $('#block_details').hide();
+                $('#block_form_edit').show();
+                $('#cancel_edit_callOffer').show();
+                $('#submit_edit_callOffer').show();
+                $(this).hide();
+            });
             $('#edit_additive_btn').click(function () {
                 $('#block_details').hide();
                 $('#block_form_edit').show();

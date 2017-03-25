@@ -1,4 +1,24 @@
 $(function () {
+    $.datetimepicker.setLocale('fr');
+    $('#publicationDate').datetimepicker({
+        timepicker: false,
+        //minDate: '0',
+        format: 'd-m-Y',
+        lang: 'fr',
+        scrollInput: false
+    });
+    $("#openingDate").datetimepicker({
+        minDate: '0',
+        format: 'd-m-Y H:i',
+        lang: 'fr',
+        scrollInput: false
+    });
+    $("#deadline").datetimepicker({
+        minDate: '0',
+        format: 'd-m-Y H:i',
+        lang: 'fr',
+        scrollInput: false
+    });
     $('#ogive_alertbundle_expressionInterest_domain.ui.dropdown').dropdown({
         on: 'click'
     });
@@ -272,8 +292,27 @@ function edit_expressionInterest(id) {
                 window.location.replace(Routing.generate('expressionInterest_index'));
             });
             $('#edit_expressionInterest.ui.modal').modal('show');
+            $("#openingDate_edit").datetimepicker({
+                minDate: '0',
+                format: 'd-m-Y H:i',
+                lang: 'fr',
+                scrollInput: false
+            });
+            $("#deadline_edit").datetimepicker({
+                minDate: '0',
+                format: 'd-m-Y H:i',
+                lang: 'fr',
+                scrollInput: false
+            });
+            $('#edit_callOffer_btn').click(function () {
+                $('#block_details').hide();
+                $('#block_form_edit').show();
+                $('#cancel_edit_callOffer').show();
+                $('#submit_edit_callOffer').show();
+                $(this).hide();
+            });
             execute_edit(id);
-
+            
             $('#message_loading').hide();
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -603,6 +642,25 @@ function show_expressionInterest(id) {
             });
 
             $('#edit_expressionInterest.ui.modal').modal('show');
+            $("#openingDate_edit").datetimepicker({
+                minDate: '0',
+                format: 'd-m-Y H:i',
+                lang: 'fr',
+                scrollInput: false
+            });
+            $("#deadline_edit").datetimepicker({
+                minDate: '0',
+                format: 'd-m-Y H:i',
+                lang: 'fr',
+                scrollInput: false
+            });
+            $('#edit_callOffer_btn').click(function () {
+                $('#block_details').hide();
+                $('#block_form_edit').show();
+                $('#cancel_edit_callOffer').show();
+                $('#submit_edit_callOffer').show();
+                $(this).hide();
+            });
             execute_edit(id);
             $('#edit_expressionInterest_btn').click(function () {
                 $('#block_details').hide();

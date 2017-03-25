@@ -216,7 +216,7 @@ class AlertProcedure {
      * @return AlertProcedure
      */
     public function setPublicationDate($publicationDate) {
-        $this->publicationDate = $publicationDate;
+        $this->publicationDate = new \DateTime(date('Y-m-d H:i:s', strtotime(str_replace('/', '-', $publicationDate))));
 
         return $this;
     }
@@ -227,7 +227,8 @@ class AlertProcedure {
      * @return \DateTime
      */
     public function getPublicationDate() {
-        return $this->publicationDate;
+        return $this->publicationDate ? $this->publicationDate->format('d-m-Y'): $this->publicationDate;
+        
     }
 
     /**
@@ -238,7 +239,7 @@ class AlertProcedure {
      * @return AlertProcedure
      */
     public function setDeadline($deadline) {
-        $this->deadline = $deadline;
+        $this->deadline = new \DateTime(date('Y-m-d H:i:s', strtotime(str_replace('/', '-', $deadline))));
 
         return $this;
     }
@@ -249,7 +250,8 @@ class AlertProcedure {
      * @return \DateTime
      */
     public function getDeadline() {
-        return $this->deadline;
+        return $this->deadline ? $this->deadline->format('d-m-Y H:i'):$this->deadline;
+       
     }
 
     /**
@@ -480,7 +482,7 @@ class AlertProcedure {
      * @return AlertProcedure
      */
     public function setOpeningDate($openingDate) {
-        $this->openingDate = $openingDate;
+        $this->openingDate = new \DateTime(date('Y-m-d H:i:s', strtotime(str_replace('/', '-', $openingDate))));
 
         return $this;
     }
@@ -491,7 +493,8 @@ class AlertProcedure {
      * @return \DateTime
      */
     public function getOpeningDate() {
-        return $this->openingDate;
+        return $this->openingDate ? $this->openingDate->format('d-m-Y H:i'): $this->openingDate;
+        
     }
 
     /**

@@ -68,7 +68,7 @@
             {{ form_widget(form.subDomain,{'attr':{ 'data-validate': 'subDomain', 'class': 'ui search dropdown'}})}}
         </div>
 
-        <div class="field">
+        {#<div class="field">
             {{ form_label(form.publicationDate,"Date de publication") }}
             {{ form_widget(form.publicationDate,{'attr':{'data-validate': 'publication_date'}})}}
         </div>
@@ -93,6 +93,36 @@
                 </div>
                 <div class="field">
                     {{ form_widget(form.deadline.time,{'attr':{'data-validate': 'deadline_time'}})}}
+                </div>
+            </div>
+        </div>#}
+        
+        <div class="field">
+            {{ form_label(form.publicationDate,"Date de publication", {'for': 'openingDate_edit'}) }}
+            <div class="ui calendar" >
+                <div class="ui input left icon">
+                    <i class="calendar icon"></i>
+                    {{ form_widget(form.publicationDate,{'id':'publicationDate_edit', 'attr':{'data-validate': 'publication_date'}})}}
+                </div>
+            </div>
+        </div>
+
+        <div class="field">
+            {{ form_label(form.openingDate,"Date de dépôt", {'for': 'openingDate_edit'}) }}
+            <div class="ui calendar" >
+                <div class="ui input left icon">
+                    <i class="calendar icon"></i>
+                    {{ form_widget(form.openingDate,{'id':'openingDate_edit', 'attr':{'data-validate': 'opening_date_date'}})}}
+                </div>
+            </div>
+        </div>
+
+        <div class="field">
+            {{ form_label(form.deadline,"Date d'ouverture", {'for': 'deadline_edit'}) }}
+            <div class="ui calendar" >
+                <div class="ui input left icon">
+                    <i class="calendar icon"></i>
+                    {{ form_widget(form.deadline,{'id':'deadline_edit', 'attr':{ 'data-validate': 'deadline_date'}})}}
                 </div>
             </div>
         </div>

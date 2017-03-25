@@ -70,32 +70,50 @@
         </div>
 
         <div class="field">
-            {{ form_label(form.publicationDate,"Date de publication") }}
-            {{ form_widget(form.publicationDate,{'attr':{'data-validate': 'publication_date'}})}}
+            {{ form_label(form.publicationDate,"Date de publication", {'label_attr':{'for': 'openingDate'}}) }}
+            <div class="ui calendar" >
+                <div class="ui input left icon">
+                    <i class="calendar icon"></i>
+                    {{ form_widget(form.publicationDate,{'id':'publicationDate', 'attr':{'data-validate': 'publication_date'}})}}
+                </div>
+            </div>
+{#            {{ form_widget(form.publicationDate,{'attr':{'data-validate': 'publication_date'}})}}#}
         </div>
 
         <div class="field">
-            {{ form_label(form.openingDate,"Date de dépôt") }}
-            <div class="two fields">
+            {{ form_label(form.openingDate,"Date de dépôt", {'label_attr':{'for': 'openingDate'}}) }}
+            <div class="ui calendar" >
+                <div class="ui input left icon">
+                    <i class="calendar icon"></i>
+                    {{ form_widget(form.openingDate,{'id':'openingDate', 'attr':{'data-validate': 'opening_date_date'}})}}
+                </div>
+            </div>
+            {#<div class="two fields">
                 <div class="field">
                     {{ form_widget(form.openingDate.date,{'attr':{'data-validate': 'opening_date_date'}})}}
                 </div>
                 <div class="field">
                     {{ form_widget(form.openingDate.time,{'attr':{'data-validate': 'opening_date_time'}})}}
                 </div>
-            </div>
+            </div>#}
         </div>
 
         <div class="field">
-            {{ form_label(form.deadline,"Date d'ouverture") }}
-            <div class="two fields">
+            {{ form_label(form.deadline,"Date d'ouverture", {'label_attr':{'for': 'deadline'}}) }}
+            <div class="ui calendar" >
+                <div class="ui input left icon">
+                    <i class="calendar icon"></i>
+                    {{ form_widget(form.deadline,{'id':'deadline', 'attr':{ 'data-validate': 'deadline_date'}})}}
+                </div>
+            </div>
+            {#<div class="two fields">
                 <div class="field">
-                    {{ form_widget(form.deadline.date,{'attr':{'data-validate': 'deadline_date'}})}}
+                    {{ form_widget(form.deadline,{'attr':{'data-validate': 'deadline_date'}})}}
                 </div>
                 <div class="field">
                     {{ form_widget(form.deadline.time,{'attr':{'data-validate': 'deadline_time'}})}}
                 </div>
-            </div>
+            </div>#}
         </div>
 
         {#<div class="field">
@@ -118,7 +136,7 @@
         </div>
         <div class="field">
             {{ form_label(form.uploadedFiles, "Fichiers attachés")}}           
-                {{ form_errors(form.uploadedFiles, {'attr': {'class': 'list'}})}}           
+            {{ form_errors(form.uploadedFiles, {'attr': {'class': 'list'}})}}           
             {{ form_widget(form.uploadedFiles) }}
         </div>
 

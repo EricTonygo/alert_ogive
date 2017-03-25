@@ -1,8 +1,21 @@
 $(function () {
-    $('input[name="deadline"]').datetimepicker({
+    $.datetimepicker.setLocale('fr');
+    $('#publicationDate').datetimepicker({
         timepicker: false,
-        minDate: '0',
+        //minDate: '0',
         format: 'd-m-Y',
+        lang: 'fr',
+        scrollInput: false
+    });
+    $("#openingDate").datetimepicker({
+        minDate: '0',
+        format: 'd-m-Y H:i',
+        lang: 'fr',
+        scrollInput: false
+    });
+    $("#deadline").datetimepicker({
+        minDate: '0',
+        format: 'd-m-Y H:i',
         lang: 'fr',
         scrollInput: false
     });
@@ -336,7 +349,25 @@ function edit_callOffer(id) {
             });
             $('#edit_callOffer.ui.modal').modal('show');
             execute_edit(id);
-
+            $('#publicationDate_edit').datetimepicker({
+                timepicker: false,
+                //minDate: '0',
+                format: 'd-m-Y',
+                lang: 'fr',
+                scrollInput: false
+            });
+            $("#openingDate_edit").datetimepicker({
+                minDate: '0',
+                format: 'd-m-Y H:i',
+                lang: 'fr',
+                scrollInput: false
+            });
+            $("#deadline_edit").datetimepicker({
+                minDate: '0',
+                format: 'd-m-Y H:i',
+                lang: 'fr',
+                scrollInput: false
+            });
             $('#message_loading').hide();
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -697,6 +728,25 @@ function show_callOffer(id) {
 
             $('#edit_callOffer.ui.modal').modal('show');
             execute_edit(id);
+            $('#publicationDate_edit').datetimepicker({
+                timepicker: false,
+                //minDate: '0',
+                format: 'd-m-Y',
+                lang: 'fr',
+                scrollInput: false
+            });
+            $("#openingDate_edit").datetimepicker({
+                minDate: '0',
+                format: 'd-m-Y H:i',
+                lang: 'fr',
+                scrollInput: false
+            });
+            $("#deadline_edit").datetimepicker({
+                minDate: '0',
+                format: 'd-m-Y H:i',
+                lang: 'fr',
+                scrollInput: false
+            });
             $('#edit_callOffer_btn').click(function () {
                 $('#block_details').hide();
                 $('#block_form_edit').show();

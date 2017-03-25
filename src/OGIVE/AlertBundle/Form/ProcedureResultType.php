@@ -8,6 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class ProcedureResultType extends AbstractType {
 
@@ -17,11 +18,12 @@ class ProcedureResultType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
                 ->add('reference', null, array('required' => false))
-                ->add('publicationDate', DateType::class, array(
-                    'widget' => 'single_text',
-                    // this is actually the default format for single_text
-                    'format' => 'yyyy-MM-dd',
-                ))
+//                ->add('publicationDate', DateType::class, array(
+//                    'widget' => 'single_text',
+//                    // this is actually the default format for single_text
+//                    'format' => 'yyyy-MM-dd',
+//                ))
+                ->add('publicationDate', TextType::class, array('required' => false))
 //                ->add('sendingDate', DateTimeType::class, array(
 //                    'date_widget' => 'single_text',
 //                    'time_widget' => 'single_text',

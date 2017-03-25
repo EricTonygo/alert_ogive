@@ -19,28 +19,29 @@ class CallOfferType extends AbstractType {
         $builder
                 ->add('reference', null, array('required' => false))
                 //->add('publicationDate', 'date')
-                ->add('publicationDate', DateType::class, array(
-                    'widget' => 'single_text',
-                    // this is actually the default format for single_text
-                    'format' => 'yyyy-MM-dd',
-                ))
-                ->add('deadline', DateTimeType::class, array(
-                    'date_widget' => 'single_text',
-                    'time_widget' => 'single_text',
-                    'date_format' => 'yyyy-MM-dd',
-                    'with_seconds' => false,
-                    'required' => false,
-                ))
-                ->add('deadline', TextType::class, array(
-                    'block_name' => 'deadline',
-                ))
-                ->add('openingDate', DateTimeType::class, array(
-                    'date_widget' => 'single_text',
-                    'time_widget' => 'single_text',
-                    'date_format' => 'yyyy-MM-dd',
-                    'with_seconds' => false,
-                    'required' => false,
-                ))
+                
+//                ->add('publicationDate', DateType::class, array(
+//                    'widget' => 'single_text',
+//                    // this is actually the default format for single_text
+//                    'format' => 'yyyy-MM-dd',
+//                ))
+//                ->add('deadline', DateTimeType::class, array(
+//                    'date_widget' => 'single_text',
+//                    'time_widget' => 'single_text',
+//                    'date_format' => 'yyyy-MM-dd',
+//                    'with_seconds' => false,
+//                    'required' => false,
+//                ))
+                ->add('publicationDate', TextType::class, array('required' => false))
+                ->add('deadline', TextType::class, array('required' => false))
+                ->add('openingDate', TextType::class, array('required' => false))
+//                ->add('openingDate', DateTimeType::class, array(
+//                    'date_widget' => 'single_text',
+//                    'time_widget' => 'single_text',
+//                    'date_format' => 'yyyy-MM-dd',
+//                    'with_seconds' => false,
+//                    'required' => false,
+//                ))
 //                ->add('sendingDate', DateTimeType::class, array(
 //                    'date_widget' => 'single_text',
 //                    'time_widget' => 'single_text',
