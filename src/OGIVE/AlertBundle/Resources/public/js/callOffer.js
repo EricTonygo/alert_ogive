@@ -1,4 +1,11 @@
 $(function () {
+    $('input[name="deadline"]').datetimepicker({
+        timepicker: false,
+        minDate: '0',
+        format: 'd-m-Y',
+        lang: 'fr',
+        scrollInput: false
+    });
     $('#field_asmi_add').hide();
     $('#checkbox_aono_add').change(function () {
         if ($(this).is(':checked')) {

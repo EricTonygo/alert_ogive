@@ -8,6 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class CallOfferType extends AbstractType {
 
@@ -30,7 +31,9 @@ class CallOfferType extends AbstractType {
                     'with_seconds' => false,
                     'required' => false,
                 ))
-                //->add('deadline', 'datetime')
+                ->add('deadline', TextType::class, array(
+                    'block_name' => 'deadline',
+                ))
                 ->add('openingDate', DateTimeType::class, array(
                     'date_widget' => 'single_text',
                     'time_widget' => 'single_text',

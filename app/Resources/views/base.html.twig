@@ -8,6 +8,7 @@
         {% block stylesheets %}
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.6/semantic.min.css">
             <link rel="stylesheet" href="{{ asset('bundles/ogivealert/css/reset.css') }}">
+            <link rel="stylesheet" href="{{ asset('bundles/ogivealert/css/jquery.datetimepicker.min.css') }}">
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
@@ -22,6 +23,7 @@
             <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
             <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
             <script type="text/javascript" src="{{ asset('bundles/ogivealert/js/main.js')}}"></script>
+            <script type="text/javascript" src="{{ asset('bundles/ogivealert/js/jquery.datetimepicker.min.js')}}"></script>
         {% endblock %}
     </body>
 </html>
