@@ -4,7 +4,7 @@
         Modification de l'appel d'offre << {{callOffer.reference}} >>
     </div>
     <div class="content">
-        {{ form_start(form, {'method': 'PUT', 'action': path('call_offer_update', {'id': callOffer.id}), 'attr': {'class': 'ui form', 'id': 'edit_callOffer_form'} })}}
+        {{ form_start(form, {'method': 'PUT', 'action': path('call_offer_update', {'id': callOffer.id}), 'attr': {'class': 'ui form', 'id': 'edit_callOffer_form', "autocomplete":"off"}})}}
 
         <div class="inline fields">
             <label>Type d'appel d'offre: </label>

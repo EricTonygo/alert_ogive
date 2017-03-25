@@ -7,7 +7,7 @@
         Modification de l'additif << {{additive.reference}} >>
     </div>
     <div class="content">
-        {{ form_start(form, {'method': 'PUT', 'action': path('additive_update', {'id': additive.id}), 'attr': {'class': 'ui form', 'id': 'edit_additive_form'} }) }}
+        {{ form_start(form, {'method': 'PUT', 'action': path('additive_update', {'id': additive.id}), 'attr': {'class': 'ui form', 'id': 'edit_additive_form', "autocomplete":"off"} }) }}
         <div id="block_form_edit" style="display: none">
             <div class="inline fields">
                 <label>De quel type de procedure ? : </label>

@@ -4,7 +4,7 @@
         Ajout d'un additif
     </div>
     <div class="content">
-        {{ form_start(form, {'method': 'POST', 'action': path('additive_add'), 'attr': {'class': 'ui form', 'id': 'add_additive_form'} }) }}
+        {{ form_start(form, {'method': 'POST', 'action': path('additive_add'), 'attr': {'class': 'ui form', 'id': 'add_additive_form', "autocomplete":"off"} }) }}
 
         <div class="inline fields">
             <label>De quel type de procédure ? : </label>

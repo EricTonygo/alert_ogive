@@ -4,7 +4,7 @@
         Ajout d'un appel d'offre
     </div>
     <div class="content">
-        {{ form_start(form, {'method': 'POST', 'action': path('call_offer_add'), 'attr': {'class': 'ui form', 'id': 'add_callOffer_form'} }) }}
+        {{ form_start(form, {'method': 'POST', 'action': path('call_offer_add'), 'attr': {'class': 'ui form', 'id': 'add_callOffer_form', "autocomplete":"off"} }) }}
 
         <div class="inline fields">
             <label>Type d'appel d'offre: </label>
