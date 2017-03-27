@@ -491,6 +491,7 @@ function show_subscriber(id) {
 }
 
 function renewal_subscription_subscriber(id) {
+    $('#subscription_type').val(id).change();
     $('#renewal_subscription_subscriber.ui.small.modal')
             .modal('show')
             ;
@@ -499,6 +500,14 @@ function renewal_subscription_subscriber(id) {
                 fields: {
                     renewal_subscription_subcriber_date: {
                         identifier: 'renewal_subscription_subcriber_date',
+                        rules: [
+                            {
+                                type: 'empty'
+                            }
+                        ]
+                    },
+                    subscription_type: {
+                        identifier: 'subscription_type',
                         rules: [
                             {
                                 type: 'empty'

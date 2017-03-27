@@ -137,7 +137,8 @@
         </div>
         <div class="content">            
             <form class='ui form' id='renewal_subscription_subcriber_form'>
-                <div class="inline fields">
+                <input type ='hidden'>
+                <div class="field">
                     <label>Date de l'abonnement</label>
                     <div class="ui calendar" >
                         <div class="ui input left icon">
@@ -146,6 +147,18 @@
                         </div>
                     </div>
                 </div>
+                <div class="field">
+                    <label>Type d'abonnement</label>
+                    <select id="subscription_type" name="subscription_type" class="ui search fluid dropdown">
+                        <option value="">Selectionner un abonnement </option>
+                        {%if subscriptions%}
+                            {%for subscription in subscriptions%}
+                                <option value="{{subscription.id}}">{{subscription.name}}</option>
+                            {% endfor %}
+                        {% endif %}
+                    </select>
+                </div>                        
+                
                 <div class="field">
                     <div class="ui error message"><ul class="list"><li>Vueillez préciser la date du l'abonnement.</li></ul></div>
                 </div>

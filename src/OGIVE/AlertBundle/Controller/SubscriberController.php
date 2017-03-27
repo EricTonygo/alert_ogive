@@ -32,8 +32,9 @@ class SubscriberController extends Controller {
         if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             return $this->redirect($this->generateUrl('fos_user_security_login'));
         }
-
+        
         $em = $this->getDoctrine()->getManager();
+        $repositorySubscription = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Subscription');
         $subscriber = new Subscriber();
         $page = 1;
         $maxResults = 8;
@@ -53,6 +54,7 @@ class SubscriberController extends Controller {
         $total_pages = ceil(count($em->getRepository('OGIVEAlertBundle:Subscriber')->getAllByString($search_query)) / $maxResults);
         $form = $this->createForm('OGIVE\AlertBundle\Form\SubscriberType', $subscriber);
         $subscribers = $em->getRepository('OGIVEAlertBundle:Subscriber')->getAll($start_from, $maxResults, $search_query);
+        $subscriptions = $repositorySubscription->findBy(array('status'=> 1, 'state' => 1));
         return $this->render('OGIVEAlertBundle:subscriber:index.html.twig', array(
                     'subscribers' => $subscribers,
                     'total_pages' => $total_pages,
@@ -61,7 +63,8 @@ class SubscriberController extends Controller {
                     'route_param_page' => $route_param_page,
                     'route_param_search_query' => $route_param_search_query,
                     'search_query' => $search_query,
-                    'placeholder' => $placeholder
+                    'placeholder' => $placeholder,
+                    'subscriptions'=> $subscriptions
         ));
     }
 
@@ -176,6 +179,7 @@ class SubscriberController extends Controller {
     public function updateSubscriberAction(Request $request, Subscriber $subscriber) {
         $historicalSubscriberSubscription = new \OGIVE\AlertBundle\Entity\HistoricalSubscriberSubscription();
         $repositorySubscriber = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Subscriber');
+        $repositorySubscription = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Subscription');
         $repositoryHistoriqueSubscriber = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:HistoricalAlertSubscriber');
         $repositoryHistoricalSubscriberSubscription = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:HistoricalSubscriberSubscription');
         $oldSubscription = $subscriber->getSubscription();
@@ -207,9 +211,10 @@ class SubscriberController extends Controller {
             }
         }
 
-        if ($request->get('action') == 'enable') {
+        if ($request->get('action') == 'renewal-subscription') {
             if ($subscriber->getState() == 1 && $subscriber->getEntreprise()->getState() == 1) {
-                $subscriber->setLastSubscriptionDate(new \DateTime($request->get('action')));
+                $subscriber->setLastSubscriptionDate(new \DateTime($request->get('renewal_subscription_subcriber_date')));
+                $subscriber->setSubscription($repositorySubscription->find(intval($request->get('subscription_type'))));
                 $subscriber = $repositorySubscriber->updateSubscriber($subscriber);
                 $historicalSubscriberSubscription->setSubscriber($subscriber);
                 $historicalSubscriberSubscription->setSubscription($subscriber->getSubscription());
@@ -221,8 +226,6 @@ class SubscriberController extends Controller {
             } else {
                 if ($subscriber->getEntreprise()->getState() == 0) {
                     return new JsonResponse(['message' => "Activation impossible car l'entreprise de cet abonné est désactivée."], Response::HTTP_NOT_FOUND);
-                } elseif ($subscriber->getSubscription()) {
-                    return new JsonResponse(['message' => "Activation impossible car cet abonné n'a pas d'abonnement."], Response::HTTP_NOT_FOUND);
                 } else {
                     return new JsonResponse(['message' => "Impossible d'activer cet abonné"], Response::HTTP_NOT_FOUND);
                 }
