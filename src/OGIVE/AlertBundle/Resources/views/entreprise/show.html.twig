@@ -222,7 +222,7 @@
                     <label>Date de la dernière modification : </label> 
                 </div>
                 <div class="field">
-                    <span> {{ entreprise.createDate is empty ? "" : entreprise.lastUpdateDate|date('d-m-Y H:i:s')}}</span>
+                    <span> {{ entreprise.lastUpdateDate is empty ? "" : entreprise.lastUpdateDate|date('d-m-Y H:i:s')}}</span>
                 </div>
             </div>
 

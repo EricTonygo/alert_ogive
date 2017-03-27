@@ -114,7 +114,7 @@ class SubscriberController extends Controller {
                 }
             }
             $subscriber = $repositorySubscriber->saveSubscriber($subscriber);
-            if ($subscriber->getSubscription() && $subscriber->getState()== 1) {                
+            if ($subscriber->getSubscription() && $subscriber->getState() == 1) {
                 $historicalSubscriberSubscription->setSubscriber($subscriber);
                 $historicalSubscriberSubscription->setSubscription($subscriber->getSubscription());
                 $historicalSubscriberSubscription->setSubscriptionDateAndExpirationDate($subscriber->getCreateDate());
@@ -189,7 +189,6 @@ class SubscriberController extends Controller {
                 $subscriber->setState(1);
                 $subscriber = $repositorySubscriber->updateSubscriber($subscriber);
                 if ($request->get('subscription_update') != 'others') {
-                    $subscriber = $repositorySubscriber->updateSubscriber($subscriber);
                     $historicalSubscriberSubscription->setSubscriber($subscriber);
                     $historicalSubscriberSubscription->setSubscription($subscriber->getSubscription());
                     $historicalSubscriberSubscription->setSubscriptionDateAndExpirationDate($subscriber->getLastUpdateDate());
@@ -207,6 +206,29 @@ class SubscriberController extends Controller {
                 }
             }
         }
+
+        if ($request->get('action') == 'enable') {
+            if ($subscriber->getState() == 1 && $subscriber->getEntreprise()->getState() == 1) {
+                $subscriber->setLastSubscriptionDate(new \DateTime($request->get('action')));
+                $subscriber = $repositorySubscriber->updateSubscriber($subscriber);
+                $historicalSubscriberSubscription->setSubscriber($subscriber);
+                $historicalSubscriberSubscription->setSubscription($subscriber->getSubscription());
+                $historicalSubscriberSubscription->setSubscriptionDateAndExpirationDate($subscriber->getLastUpdateDate());
+                $historicalSubscriberSubscription = $repositoryHistoricalSubscriberSubscription->saveHistoricalSubscriberSubscription($historicalSubscriberSubscription);
+
+                return new JsonResponse(['message' => 'Abonnement renouvellé avec succcès !'], Response::HTTP_OK
+                );
+            } else {
+                if ($subscriber->getEntreprise()->getState() == 0) {
+                    return new JsonResponse(['message' => "Activation impossible car l'entreprise de cet abonné est désactivée."], Response::HTTP_NOT_FOUND);
+                } elseif ($subscriber->getSubscription()) {
+                    return new JsonResponse(['message' => "Activation impossible car cet abonné n'a pas d'abonnement."], Response::HTTP_NOT_FOUND);
+                } else {
+                    return new JsonResponse(['message' => "Impossible d'activer cet abonné"], Response::HTTP_NOT_FOUND);
+                }
+            }
+        }
+
 
         if ($request->get('action') == 'disable') {
             $subscriber->setState(0);
@@ -233,7 +255,7 @@ class SubscriberController extends Controller {
             }
             $subscriber = $repositorySubscriber->updateSubscriber($subscriber);
             if ($request->get('subscription_update') != 'others') {
-                if ($subscriber->getSubscription() && $subscriber->getState()== 1) {                    
+                if ($subscriber->getSubscription() && $subscriber->getState() == 1) {
                     $historicalSubscriberSubscription->setSubscriber($subscriber);
                     $historicalSubscriberSubscription->setSubscription($subscriber->getSubscription());
                     $historicalSubscriberSubscription->setSubscriptionDateAndExpirationDate($subscriber->getLastUpdateDate());

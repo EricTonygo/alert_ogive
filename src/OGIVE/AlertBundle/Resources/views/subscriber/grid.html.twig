@@ -18,12 +18,16 @@
                             {% if is_granted('ROLE_ADMIN') %}
                                 <a id="enable_subscriber_grid{{subscriber.id}}" onclick="enable_subscriber({{subscriber.id}});" {% if subscriber.state == 1 %} style="display: none" {% endif %}  data-tooltip="Activer" data-position="bottom center" data-inverted=""><i class="unlock red icon"></i></a>
                                 <a id="disable_subscriber_grid{{subscriber.id}}" onclick="disable_subscriber({{subscriber.id}});" {% if subscriber.state != 1 %} style="display: none" {% endif %}  data-tooltip="Désactiver" data-position="bottom center" data-inverted=""><i class="lock green icon"></i></a>
-                            {% endif %}
+                                {% endif %}
                             <div class="right floated">
                                 {% if subscriber.state == 1 %}
-                                <a onclick="send_subscription_confirmation({{subscriber.id}});" class="send_sms_subscriber_btn item" data-tooltip="Envoyer un accusé de reception" data-position="top center" data-inverted="">
-                                    <i class="alarm icon"></i>
-                                </a>
+                                    <a onclick="renewal_subscription_subscriber({{subscriber.id}});" class="renewal_subscription_subscriber_btn item" data-tooltip="Renouveller l'abonnement" data-position="top center" data-inverted="">
+                                        <i class="history icon"></i>
+                                    </a> 
+                                    <a onclick="send_subscription_confirmation({{subscriber.id}});" class="send_sms_subscriber_btn item" data-tooltip="Envoyer un accusé de reception" data-position="top center" data-inverted="">
+                                        <i class="alarm icon"></i>
+                                    </a>
+                                      
                                 {% endif %}
                                 <a onclick="send_sms_subscriber({{subscriber.id}});" class="send_sms_subscriber_btn item" data-tooltip="Envoyer un SMS" data-position="top center" data-inverted="">
                                     <i class="talk icon"></i>

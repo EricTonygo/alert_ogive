@@ -129,6 +129,40 @@
             </div>
         </div>
     </div>
+
+    <div id="renewal_subscription_subscriber" class="ui small modal">
+        <i class="close icon"></i>
+        <div class="header">
+            Renouvellement de l'abonnement
+        </div>
+        <div class="content">            
+            <form class='ui form' id='renewal_subscription_subcriber_form'>
+                <div class="inline fields">
+                    <label>Date de l'abonnement</label>
+                    <div class="ui calendar" >
+                        <div class="ui input left icon">
+                            <i class="calendar icon"></i>
+                            <input id="renewal_subscription_subcriber_date" type="text" name="renewal_subscription_subcriber_date">
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="ui error message"><ul class="list"><li>Vueillez préciser la date du l'abonnement.</li></ul></div>
+                </div>
+            </form>
+        </div>
+        <div class="actions">
+            <div class="ui red deny button">
+                Annuler
+            </div>
+            <div id='execute_renewal_subscription_subcriber' class="ui green right labeled icon button">
+                Effectuer
+                <i class="checkmark icon"></i>
+            </div>
+        </div>
+    </div>
+
+
     <div id="confirm_disable_subscriber" class="ui small modal">
         <i class="close icon"></i>
         <div class="header">

@@ -1,4 +1,12 @@
 $(function () {
+    $.datetimepicker.setLocale('fr');
+    $('#renewal_subscription_subcriber_date').datetimepicker({
+        //timepicker: false,
+        //minDate: '0',
+        format: 'd-m-Y H:i',
+        lang: 'fr',
+        scrollInput: false
+    });
     $('#ogive_alertbundle_subscriber_entreprise.ui.dropdown').dropdown({
         on: 'click'
     });
@@ -482,83 +490,170 @@ function show_subscriber(id) {
     });
 }
 
+function renewal_subscription_subscriber(id) {
+    $('#renewal_subscription_subscriber.ui.small.modal')
+            .modal('show')
+            ;
+    $('#renewal_subscription_subcriber_form.ui.form')
+            .form({
+                fields: {
+                    renewal_subscription_subcriber_date: {
+                        identifier: 'renewal_subscription_subcriber_date',
+                        rules: [
+                            {
+                                type: 'empty'
+                            }
+                        ]
+                    }
+                },
+                onSuccess: function (event, fields) {
+//                $('#renewal_subscription_subscriber.ui.small.modal')
+//                        .modal('hide');
+                    $('#message_error').hide();
+                    $('#message_success').hide();
+                    $('#edit_subscriber.ui.modal').modal('hide');
+                    $('#edit_subscriber').remove();
+                    $('.ui.dropdown').dropdown('remove active');
+                    $('.ui.dropdown').dropdown('remove visible');
+                    $('.ui.dropdown>div.menu').removeClass('visible');
+                    $('.ui.dropdown>div.menu').addClass('hidden');
+                    $.ajax({
+                        type: 'PUT',
+                        url: Routing.generate('subscriber_update', {id: id}),
+                        data: {'action': 'renewal-subscription', 'renewal_subscription_subcriber_date': $("#renewal_subscription_subcriber_form.ui.form input[name='renewal_subscription_subcriber_date']").val()},
+                        dataType: 'json',
+                        beforeSend: function () {
+                            //$('#message_loading').show();
+                            $('#execute_renewal_subscription_subcriber').addClass('disabled');
+                            $('#cancel_renewal_subscription_subcriber').addClass('disabled');
+                            $('#renewal_subscription_subscriber.ui.form').addClass('loading');
+                        },
+                        statusCode: {
+                            500: function (xhr) {
+                                $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
+                                $('#message_error').show();
+                                setTimeout(function () {
+                                    $('#message_error').hide();
+                                }, 4000);
+                            },
+                            404: function (response, textStatus, jqXHR) {
+                                var myerrors = response.responseJSON;
+                                $('#message_error>div.header').html(myerrors.message);
+                                $('#message_error').show();
+                                setTimeout(function () {
+                                    $('#message_error').hide();
+                                }, 4000);
+                            }
+                        },
+                        success: function (response, textStatus, jqXHR) {
+                            $('#renewal_subscription_subscriber.ui.small.modal')
+                                    .modal('hide');
+                            $('#execute_renewal_subscription_subcriber').removeClass('disabled');
+                            $('#cancel_renewal_subscription_subcriber').removeClass('disabled');
+                            $('#renewal_subscription_subscriber.ui.form').removeClass('loading');
+                            $('#message_success>div.header').html(response.message);
+                            $('#message_success').show();
+                            window.location.replace(Routing.generate('subscriber_index'));
+                            setTimeout(function () {
+                                $('#message_success').hide();
+                            }, 4000);
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            $('#message_loading').hide();
+                            $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
+                            $('#message_error').show();
+                            setTimeout(function () {
+                                $('#message_error').hide();
+                            }, 4000);
+                            /*alertify.error("Internal Server Error");*/
+                        }
+                    });
+                    return false;
+                }
+            });
+    $('#execute_enable_subscriber').click(function (e) {
+        e.preventDefault();
+        $('#renewal_subscription_subcriber_form.ui.form').submit();
+    });
+}
+
 
 function enable_subscriber(id) {
     $('#confirm_enable_subscriber.ui.small.modal')
             .modal('show')
             ;
     $('#enable_subscriber_form.ui.form')
-        .form({
-            fields: {
-                subscription_update: {
-                    identifier: 'subscription_update',
-                    rules: [
-                        {
-                            type: 'checked'
-                        }
-                    ]
-                }
-            },
-            onSuccess: function (event, fields) {
-                $('#confirm_enable_subscriber.ui.small.modal')
-                        .modal('hide');
-                $('#message_error').hide();
-                $('#message_success').hide();
-                $('#edit_subscriber.ui.modal').modal('hide');
-                $('#edit_subscriber').remove();
-                $('.ui.dropdown').dropdown('remove active');
-                $('.ui.dropdown').dropdown('remove visible');
-                $('.ui.dropdown>div.menu').removeClass('visible');
-                $('.ui.dropdown>div.menu').addClass('hidden');
-                $.ajax({
-                    type: 'PUT',
-                    url: Routing.generate('subscriber_update', {id: id}),
-                    data: {'action': 'enable', 'subscription_update': $("#enable_subscriber_form.ui.form input[name='subscription_update']:checked").val()},
-                    dataType: 'json',
-                    beforeSend: function () {
-                        $('#message_loading').show();
-                    },
-                    statusCode: {
-                        500: function (xhr) {
+            .form({
+                fields: {
+                    subscription_update: {
+                        identifier: 'subscription_update',
+                        rules: [
+                            {
+                                type: 'checked'
+                            }
+                        ]
+                    }
+                },
+                onSuccess: function (event, fields) {
+                    $('#confirm_enable_subscriber.ui.small.modal')
+                            .modal('hide');
+                    $('#message_error').hide();
+                    $('#message_success').hide();
+                    $('#edit_subscriber.ui.modal').modal('hide');
+                    $('#edit_subscriber').remove();
+                    $('.ui.dropdown').dropdown('remove active');
+                    $('.ui.dropdown').dropdown('remove visible');
+                    $('.ui.dropdown>div.menu').removeClass('visible');
+                    $('.ui.dropdown>div.menu').addClass('hidden');
+                    $.ajax({
+                        type: 'PUT',
+                        url: Routing.generate('subscriber_update', {id: id}),
+                        data: {'action': 'enable', 'subscription_update': $("#enable_subscriber_form.ui.form input[name='subscription_update']:checked").val()},
+                        dataType: 'json',
+                        beforeSend: function () {
+                            $('#message_loading').show();
+                        },
+                        statusCode: {
+                            500: function (xhr) {
+                                $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
+                                $('#message_error').show();
+                                setTimeout(function () {
+                                    $('#message_error').hide();
+                                }, 4000);
+                            },
+                            404: function (response, textStatus, jqXHR) {
+                                var myerrors = response.responseJSON;
+                                $('#message_error>div.header').html(myerrors.message);
+                                $('#message_error').show();
+                                setTimeout(function () {
+                                    $('#message_error').hide();
+                                }, 4000);
+                            }
+                        },
+                        success: function (response, textStatus, jqXHR) {
+                            $('#message_loading').hide();
+                            $('#enable_subscriber_grid' + id).hide();
+                            $('#disable_subscriber_grid' + id).show();
+                            $('#message_success>div.header').html(response.message);
+                            $('#message_success').show();
+                            window.location.replace(Routing.generate('subscriber_index'));
+                            setTimeout(function () {
+                                $('#message_success').hide();
+                            }, 4000);
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            $('#message_loading').hide();
                             $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
                             $('#message_error').show();
                             setTimeout(function () {
                                 $('#message_error').hide();
                             }, 4000);
-                        },
-                        404: function (response, textStatus, jqXHR) {
-                            var myerrors = response.responseJSON;
-                            $('#message_error>div.header').html(myerrors.message);
-                            $('#message_error').show();
-                            setTimeout(function () {
-                                $('#message_error').hide();
-                            }, 4000);
+                            /*alertify.error("Internal Server Error");*/
                         }
-                    },
-                    success: function (response, textStatus, jqXHR) {
-                        $('#message_loading').hide();
-                        $('#enable_subscriber_grid' + id).hide();
-                        $('#disable_subscriber_grid' + id).show();
-                        $('#message_success>div.header').html(response.message);
-                        $('#message_success').show();
-                        window.location.replace(Routing.generate('subscriber_index'));
-                        setTimeout(function () {
-                            $('#message_success').hide();
-                        }, 4000);
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        $('#message_loading').hide();
-                        $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
-                        $('#message_error').show();
-                        setTimeout(function () {
-                            $('#message_error').hide();
-                        }, 4000);
-                        /*alertify.error("Internal Server Error");*/
-                    }
-                });
-                return false;
-            }
-        });
+                    });
+                    return false;
+                }
+            });
     $('#execute_enable_subscriber').click(function (e) {
         e.preventDefault();
         $('#enable_subscriber_form.ui.form').submit();

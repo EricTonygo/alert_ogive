@@ -23,9 +23,12 @@
                         <td>{%if subscriber.subscription%}{{subscriber.subscription.name}}{% endif %}</td>
                         <td class="right aligned">
                             {% if subscriber.state == 1 %}
+                                <a onclick="renewal_subscription_subscriber({{subscriber.id}});" class="renewal_subscription_subscriber_btn item" data-tooltip="Renouveller l'abonnement" data-position="top center" data-inverted="">
+                                    <i class="history icon"></i>
+                                </a> 
                                 <a onclick="send_subscription_confirmation({{subscriber.id}});" class="send_sms_subscriber_btn item" data-tooltip="Envoyer un accusé de reception" data-position="top center" data-inverted="">
                                     <i class="alarm icon"></i>
-                                </a>
+                                </a>  
                             {% endif %}
                             <a onclick="send_sms_subscriber({{subscriber.id}});" class="send_sms_subscriber_btn item" data-tooltip="Envoyer un SMS" data-position="top center" data-inverted="">
                                 <i class="talk icon"></i>
