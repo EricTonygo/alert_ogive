@@ -502,7 +502,8 @@ function renewal_subscription_subscriber(id) {
                         identifier: 'renewal_subscription_subcriber_date',
                         rules: [
                             {
-                                type: 'empty'
+                                type: 'empty',
+                                prompt: "Veuillez préciser la date du dernier abonnement"
                             }
                         ]
                     },
@@ -510,7 +511,8 @@ function renewal_subscription_subscriber(id) {
                         identifier: 'subscription_type',
                         rules: [
                             {
-                                type: 'empty'
+                                type: 'empty',
+                                prompt: "Veuillez préciser le type d'abonnement"
                             }
                         ]
                     }
@@ -580,7 +582,7 @@ function renewal_subscription_subscriber(id) {
                     return false;
                 }
             });
-    $('#execute_enable_subscriber').click(function (e) {
+    $('#execute_renewal_subscription_subcriber').click(function (e) {
         e.preventDefault();
         $('#renewal_subscription_subcriber_form.ui.form').submit();
     });

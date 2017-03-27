@@ -32,7 +32,7 @@ class SubscriberController extends Controller {
         if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             return $this->redirect($this->generateUrl('fos_user_security_login'));
         }
-        
+
         $em = $this->getDoctrine()->getManager();
         $repositorySubscription = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Subscription');
         $subscriber = new Subscriber();
@@ -54,7 +54,7 @@ class SubscriberController extends Controller {
         $total_pages = ceil(count($em->getRepository('OGIVEAlertBundle:Subscriber')->getAllByString($search_query)) / $maxResults);
         $form = $this->createForm('OGIVE\AlertBundle\Form\SubscriberType', $subscriber);
         $subscribers = $em->getRepository('OGIVEAlertBundle:Subscriber')->getAll($start_from, $maxResults, $search_query);
-        $subscriptions = $repositorySubscription->findBy(array('status'=> 1, 'state' => 1));
+        $subscriptions = $repositorySubscription->findBy(array('status' => 1, 'state' => 1));
         return $this->render('OGIVEAlertBundle:subscriber:index.html.twig', array(
                     'subscribers' => $subscribers,
                     'total_pages' => $total_pages,
@@ -64,7 +64,7 @@ class SubscriberController extends Controller {
                     'route_param_search_query' => $route_param_search_query,
                     'search_query' => $search_query,
                     'placeholder' => $placeholder,
-                    'subscriptions'=> $subscriptions
+                    'subscriptions' => $subscriptions
         ));
     }
 
@@ -116,6 +116,7 @@ class SubscriberController extends Controller {
                     $subscriber->setState(0);
                 }
             }
+            $subscriber->setLastSubscriptionDate(new \DateTime('now'));
             $subscriber = $repositorySubscriber->saveSubscriber($subscriber);
             if ($subscriber->getSubscription() && $subscriber->getState() == 1) {
                 $historicalSubscriberSubscription->setSubscriber($subscriber);
@@ -191,6 +192,9 @@ class SubscriberController extends Controller {
         if ($request->get('action') == 'enable') {
             if ($subscriber->getSubscription() && $subscriber->getEntreprise()->getState() == 1) {
                 $subscriber->setState(1);
+                if ($request->get('subscription_update') != 'others') {
+                    $subscriber->setLastSubscriptionDate(new \DateTime('now'));
+                }
                 $subscriber = $repositorySubscriber->updateSubscriber($subscriber);
                 if ($request->get('subscription_update') != 'others') {
                     $historicalSubscriberSubscription->setSubscriber($subscriber);
@@ -255,6 +259,9 @@ class SubscriberController extends Controller {
                 } else {
                     $subscriber->setState(0);
                 }
+            }
+            if ($request->get('subscription_update') != 'others') {
+                $subscriber->setLastSubscriptionDate(new \DateTime('now'));
             }
             $subscriber = $repositorySubscriber->updateSubscriber($subscriber);
             if ($request->get('subscription_update') != 'others') {
