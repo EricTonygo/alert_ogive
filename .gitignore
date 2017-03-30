@@ -1,13 +1,56 @@
-/web/bundles/
-/app/bootstrap.php.cache
-/app/config/parameters.yml
+#/web/bundles/
+#/app/bootstrap.php.cache
+#/app/config/parameters.yml
+#/app/cache/*
+#/app/logs/*
+#!app/cache/.gitkeep
+#!app/logs/.gitkeep
+#/app/phpunit.xml
+#/build/
+#/vendor/
+#/nbproject/
+#/bin/
+#/composer.phar
+
+# Cache and logs (Symfony2)
 /app/cache/*
 /app/logs/*
 !app/cache/.gitkeep
 !app/logs/.gitkeep
+
+# Email spool folder
+/app/spool/*
+
+# Parameters
+/app/config/parameters.yml
+/app/config/parameters.ini
+
+# Managed by Composer
+/app/bootstrap.php.cache
+/var/bootstrap.php.cache
+/bin/*
+!bin/console
+!bin/symfony_requirements
+
+# Assets and user uploads
+/web/bundles/
+/web/uploads/
+
+# PHPUnit
 /app/phpunit.xml
+/phpunit.xml
+
+# Build data
 /build/
+
+# Backup entities generated with doctrine:generate:entities command
+**/Entity/*~
+
+#vendor
 /vendor/
+
+#nbproject
 /nbproject/
-/bin/
+
+#composer.phar
 /composer.phar

@@ -46,7 +46,7 @@ $(function () {
         on: 'click'
     });
     $('#cancel_add_additive').click(function () {
-        window.location.replace(Routing.generate('additive_index'));
+        window.location.reload();
     });
     $('#add_additive_btn').click(function () {
         $('#add_additive.ui.modal').modal('setting', {
@@ -326,7 +326,7 @@ function edit_additive(id) {
                 }
             });
             $('#cancel_edit_additive').click(function () {
-                window.location.replace(Routing.generate('additive_index'));
+                window.location.reload();
             });
 
             $('#edit_additive.ui.modal').modal('show');
@@ -614,16 +614,12 @@ function delete_additive(id) {
                 500: function (xhr) {
                     $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
                     $('#message_error').show();
-                    setTimeout(function () {
-                        $('#message_error').hide();
-                    }, 4000);
+                    
                 },
                 404: function (response, textStatus, jqXHR) {
                     $('#message_error>div.header').html(response.responseJSON.message);
                     $('#message_error').show();
-                    setTimeout(function () {
-                        $('#message_error').hide();
-                    }, 4000);
+                    
                 }
             },
             success: function (response, textStatus, jqXHR) {
@@ -702,7 +698,7 @@ function show_additive(id) {
                 }
             });
             $('#cancel_details_additive').click(function () {
-                window.location.replace(Routing.generate('additive_index'));
+                window.location.reload();
             });
             $('#edit_additive.ui.modal').modal('show');
             execute_edit(id);
@@ -782,16 +778,12 @@ function enable_additive(id) {
                 500: function (xhr) {
                     $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
                     $('#message_error').show();
-                    setTimeout(function () {
-                        $('#message_error').hide();
-                    }, 4000);
+                    
                 },
                 404: function (response, textStatus, jqXHR) {
                     $('#message_error>div.header').html("Echec d'activation de l'additif");
                     $('#message_error').show();
-                    setTimeout(function () {
-                        $('#message_error').hide();
-                    }, 4000);
+                    
                 }
             },
             success: function (response, textStatus, jqXHR) {
@@ -801,7 +793,7 @@ function enable_additive(id) {
                 $('#disable_additive_grid' + id).show();
                 $('#message_success>div.header').html(response.message);
                 $('#message_success').show();
-                window.location.replace(Routing.generate('additive_index'));
+                window.location.reload();
                 setTimeout(function () {
                     $('#message_success').hide();
                 }, 4000);
@@ -847,16 +839,12 @@ function disable_additive(id) {
                 500: function (xhr) {
                     $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
                     $('#message_error').show();
-                    setTimeout(function () {
-                        $('#message_error').hide();
-                    }, 4000);
+                    
                 },
                 404: function (response, textStatus, jqXHR) {
                     $('#message_error>div.header').html("Echec de la désactivation de l'additif");
                     $('#message_error').show();
-                    setTimeout(function () {
-                        $('#message_error').hide();
-                    }, 4000);
+                    
                 }
             },
             success: function (response, textStatus, jqXHR) {
@@ -866,14 +854,13 @@ function disable_additive(id) {
                 $('#enable_additive_grid' + id).show();
                 $('#message_success>div.header').html(response.message);
                 $('#message_success').show();
-                window.location.replace(Routing.generate('additive_index'));
+                window.location.reload();
                 setTimeout(function () {
                     $('#message_success').hide();
                 }, 4000);
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 $('#message_loading').hide();
-                /*alertify.error("Internal Server Error");*/
             }
         });
     });

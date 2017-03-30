@@ -52,7 +52,7 @@ $(function () {
 
 
     $('#cancel_add_procedureResult').click(function () {
-        window.location.replace(Routing.generate('procedureResult_index'));
+        window.location.reload();
     });
     $('#add_procedureResult_form.ui.form')
             .form({
@@ -278,7 +278,7 @@ function edit_procedureResult(id) {
                 }
             });
             $('#cancel_edit_procedureResult').click(function () {
-                window.location.replace(Routing.generate('procedureResult_index'));
+                window.location.reload();
             });
             $('#edit_procedureResult.ui.modal').modal('show');
             $("#openingDate_edit").datetimepicker({
@@ -485,7 +485,6 @@ function execute_edit(id) {
                     $('#submit_edit_procedureResult').removeClass('disabled');
                     $('#cancel_edit_procedureResult').removeClass('disabled');
                     $('#edit_procedureResult_form.ui.form').removeClass('loading');
-                    /*alertify.error("Internal Server Error");*/
                 }
             });
         }
@@ -517,16 +516,12 @@ function delete_procedureResult(id) {
                 500: function (xhr) {
                     $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
                     $('#message_error').show();
-                    setTimeout(function () {
-                        $('#message_error').hide();
-                    }, 4000);
+
                 },
                 404: function (response, textStatus, jqXHR) {
                     $('#message_error>div.header').html(response.responseJSON.message);
                     $('#message_error').show();
-                    setTimeout(function () {
-                        $('#message_error').hide();
-                    }, 4000);
+
                 }
             },
             success: function (response, textStatus, jqXHR) {
@@ -542,7 +537,6 @@ function delete_procedureResult(id) {
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 $('#message_loading').hide();
-                /*alertify.error("Internal Server Error");*/
             }
         });
     });
@@ -564,7 +558,8 @@ function show_procedureResult(id) {
         },
         statusCode: {
             500: function (xhr) {
-
+                $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
+                $('#message_error').show();
             },
             404: function (response, textStatus, jqXHR) {
                 $('#message_error>div.header').html(response.responseJSON.message);
@@ -604,7 +599,7 @@ function show_procedureResult(id) {
                 }
             });
             $('#cancel_details_procedureResult').click(function () {
-                window.location.replace(Routing.generate('procedureResult_index'));
+                window.location.reload();
             });
 
             $('#edit_procedureResult.ui.modal').modal('show');
@@ -647,7 +642,6 @@ function show_procedureResult(id) {
         },
         error: function (jqXHR, textStatus, errorThrown) {
             $('#message_loading').hide();
-            /*alertify.error("Internal Server Error");*/
         }
     });
 }
@@ -680,16 +674,12 @@ function enable_procedureResult(id) {
                 500: function (xhr) {
                     $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
                     $('#message_error').show();
-                    setTimeout(function () {
-                        $('#message_error').hide();
-                    }, 4000);
+                    
                 },
                 404: function (response, textStatus, jqXHR) {
                     $('#message_error>div.header').html("Echec d'activation de l'attribution");
                     $('#message_error').show();
-                    setTimeout(function () {
-                        $('#message_error').hide();
-                    }, 4000);
+                    
                 }
             },
             success: function (response, textStatus, jqXHR) {
@@ -698,7 +688,7 @@ function enable_procedureResult(id) {
                 $('#disable_procedureResult_grid' + id).show();
                 $('#message_success>div.header').html(response.message);
                 $('#message_success').show();
-                window.location.replace(Routing.generate('procedureResult_index'));
+                window.location.reload();
                 setTimeout(function () {
                     $('#message_success').hide();
                 }, 4000);
@@ -739,16 +729,12 @@ function disable_procedureResult(id) {
                 500: function (xhr) {
                     $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
                     $('#message_error').show();
-                    setTimeout(function () {
-                        $('#message_error').hide();
-                    }, 4000);
+                    
                 },
                 404: function (response, textStatus, jqXHR) {
                     $('#message_error>div.header').html("Echec de la désactivation de l'attribution");
                     $('#message_error').show();
-                    setTimeout(function () {
-                        $('#message_error').hide();
-                    }, 4000);
+                    
                 }
             },
             success: function (response, textStatus, jqXHR) {
@@ -757,7 +743,7 @@ function disable_procedureResult(id) {
                 $('#enable_procedureResult_grid' + id).show();
                 $('#message_success>div.header').html(response.message);
                 $('#message_success').show();
-                window.location.replace(Routing.generate('procedureResult_index'));
+                window.location.reload();
                 setTimeout(function () {
                     $('#message_success').hide();
                 }, 4000);

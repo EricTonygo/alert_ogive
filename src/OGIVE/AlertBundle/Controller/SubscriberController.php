@@ -209,7 +209,7 @@ class SubscriberController extends Controller {
             } else {
                 if ($subscriber->getEntreprise()->getState() == 0) {
                     return new JsonResponse(['message' => "Activation impossible car l'entreprise de cet abonné est désactivée."], Response::HTTP_NOT_FOUND);
-                } elseif ($subscriber->getSubscription()) {
+                } elseif ($subscriber->getSubscription() == null) {
                     return new JsonResponse(['message' => "Activation impossible car cet abonné n'a pas d'abonnement."], Response::HTTP_NOT_FOUND);
                 } else {
                     return new JsonResponse(['message' => "Impossible d'activer cet abonné"], Response::HTTP_NOT_FOUND);
@@ -219,7 +219,7 @@ class SubscriberController extends Controller {
 
         if ($request->get('action') == 'renewal-subscription') {
             if ($subscriber->getState() == 1 && $subscriber->getEntreprise()->getState() == 1) {
-                $subscriber->setLastSubscriptionDate(new \DateTime($request->get('renewal_subscription_subcriber_date')));
+                $subscriber->setLastSubscriptionDate(new \DateTime(date('Y-m-d H:i:s', strtotime($request->get('renewal_subscription_subscriber_date')))));
                 $subscriber->setSubscription($repositorySubscription->find(intval($request->get('subscription_type'))));
                 $subscriber = $repositorySubscriber->updateSubscriber($subscriber);
                 $historicalSubscriberSubscription->setSubscriber($subscriber);
@@ -227,7 +227,7 @@ class SubscriberController extends Controller {
                 $historicalSubscriberSubscription->setSubscriptionDateAndExpirationDate($subscriber->getLastSubscriptionDate());
                 $historicalSubscriberSubscription = $repositoryHistoricalSubscriberSubscription->saveHistoricalSubscriberSubscription($historicalSubscriberSubscription);
 
-                return new JsonResponse(['message' => 'Abonnement renouvellé avec succcès !'], Response::HTTP_OK
+                return new JsonResponse(['message' => 'Abonnement renouvelé avec succcès !'], Response::HTTP_OK
                 );
             } else {
                 if ($subscriber->getEntreprise()->getState() == 0) {

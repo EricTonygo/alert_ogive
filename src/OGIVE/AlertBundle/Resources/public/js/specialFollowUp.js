@@ -18,7 +18,7 @@ $(function () {
         $('#add_specialFollowUp_form.ui.form').submit();
     });
     $('#cancel_add_specialFollowUp').click(function () {
-        window.location.replace(Routing.generate('specialFollowUp_index'));
+        window.location.reload();
     });
     $('#add_specialFollowUp_form.ui.form')
             .form({
@@ -68,11 +68,7 @@ $(function () {
                             $('#cancel_add_specialFollowUp').removeClass('disabled');
                             $('#submit_specialFollowUp').removeClass('disabled');
                             $('#add_specialFollowUp_form.ui.form').removeClass('loading');
-//                                $('#list_as_grid_content').prepend(response.specialFollowUp_content_grid);
-//                                $('#list_as_table_content').prepend(response.specialFollowUp_content_list);
-//                                $('.ui.dropdown').dropdown({
-//                                    on: 'hover'
-//                                });
+
                             $('#add_specialFollowUp.ui.modal').modal('hide');
                             $('#message_success>div.header').html(response.message);
                             $('#message_success').show();
@@ -86,7 +82,6 @@ $(function () {
                             $('#cancel_add_specialFollowUp').removeClass('disabled');
                             $('#submit_specialFollowUp').removeClass('disabled');
                             $('#add_specialFollowUp_form.ui.form').removeClass('loading');
-                            /*alertify.error("Internal Server Error");*/
                         }
                     });
                     return false;
@@ -111,7 +106,7 @@ function edit_specialFollowUp(id) {
         },
         statusCode: {
             500: function (xhr) {
-
+                $('#server_error_message').show();
             },
             404: function (response, textStatus, jqXHR) {
                 $('#message_error>div.header').html(response.responseJSON.message);
@@ -127,7 +122,7 @@ function edit_specialFollowUp(id) {
                 closable: false
             });
             $('#cancel_edit_specialFollowUp').click(function () {
-                window.location.replace(Routing.generate('specialFollowUp_index'));
+                window.location.reload();
             });
             $('#edit_specialFollowUp.ui.modal').modal('show');
             execute_edit(id);
@@ -214,15 +209,10 @@ function execute_edit(id) {
                             $('#cancel_details_specialFollowUp').removeClass('disabled');
                             $('#disable_specialFollowUp').removeClass('disabled');
                             $('#enable_specialFollowUp').removeClass('disabled');
-//                                $('#specialFollowUp_grid' + id).html(response.specialFollowUp_content_grid);
-//                                $('#specialFollowUp_list' + id).html(response.specialFollowUp_content_list);
-//                                $('.ui.dropdown').dropdown({
-//                                    on: 'hover'
-//                                });
                             $('#edit_specialFollowUp.ui.modal').modal('hide');
                             $('#message_success>div.header').html(response.message);
                             $('#message_success').show();
-                            window.location.replace(Routing.generate('specialFollowUp_index'));
+                            window.location.reload();
                             setTimeout(function () {
                                 $('#message_success').hide();
                             }, 4000);
@@ -233,7 +223,6 @@ function execute_edit(id) {
                             $('#submit_edit_specialFollowUp').removeClass('disabled');
                             $('#cancel_edit_specialFollowUp').removeClass('disabled');
                             $('#edit_specialFollowUp_form.ui.form').removeClass('loading');
-                            /*alertify.error("Internal Server Error");*/
                         }
                     });
                     return false;
@@ -267,16 +256,12 @@ function delete_specialFollowUp(id) {
                 500: function (xhr) {
                     $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
                     $('#message_error').show();
-                    setTimeout(function () {
-                        $('#message_error').hide();
-                    }, 4000);
+
                 },
                 404: function (response, textStatus, jqXHR) {
                     $('#message_error>div.header').html(response.responseJSON.message);
                     $('#message_error').show();
-                    setTimeout(function () {
-                        $('#message_error').hide();
-                    }, 4000);
+
                 }
             },
             success: function (response, textStatus, jqXHR) {
@@ -292,7 +277,6 @@ function delete_specialFollowUp(id) {
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 $('#message_loading').hide();
-                /*alertify.error("Internal Server Error");*/
             }
         });
     });
@@ -314,7 +298,8 @@ function show_specialFollowUp(id) {
         },
         statusCode: {
             500: function (xhr) {
-
+                $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
+                $('#message_error').show();
             },
             404: function (response, textStatus, jqXHR) {
                 $('#message_error>div.header').html(response.responseJSON.message);
@@ -330,7 +315,7 @@ function show_specialFollowUp(id) {
                 closable: false
             });
             $('#cancel_details_specialFollowUp').click(function () {
-                window.location.replace(Routing.generate('specialFollowUp_index'));
+                window.location.reload();
             });
 
             $('#edit_specialFollowUp.ui.modal').modal('show');
@@ -354,7 +339,6 @@ function show_specialFollowUp(id) {
         },
         error: function (jqXHR, textStatus, errorThrown) {
             $('#message_loading').hide();
-            /*alertify.error("Internal Server Error");*/
         }
     });
 }
@@ -387,16 +371,12 @@ function enable_specialFollowUp(id) {
                 500: function (xhr) {
                     $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
                     $('#message_error').show();
-                    setTimeout(function () {
-                        $('#message_error').hide();
-                    }, 4000);
+                    
                 },
                 404: function (response, textStatus, jqXHR) {
                     $('#message_error>div.header').html("Echec d'activation du suivi spécialisé");
                     $('#message_error').show();
-                    setTimeout(function () {
-                        $('#message_error').hide();
-                    }, 4000);
+                    
                 }
             },
             success: function (response, textStatus, jqXHR) {
@@ -405,14 +385,13 @@ function enable_specialFollowUp(id) {
                 $('#disable_specialFollowUp_grid' + id).show();
                 $('#message_success>div.header').html(response.message);
                 $('#message_success').show();
-                window.location.replace(Routing.generate('specialFollowUp_index'));
+                window.location.reload();
                 setTimeout(function () {
                     $('#message_success').hide();
                 }, 4000);
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 $('#message_loading').hide();
-                /*alertify.error("Internal Server Error");*/
             }
         });
     });
@@ -446,16 +425,12 @@ function disable_specialFollowUp(id) {
                 500: function (xhr) {
                     $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
                     $('#message_error').show();
-                    setTimeout(function () {
-                        $('#message_error').hide();
-                    }, 4000);
+                    
                 },
                 404: function (response, textStatus, jqXHR) {
                     $('#message_error>div.header').html("Echec de la désactivation du suivi spécialisé");
                     $('#message_error').show();
-                    setTimeout(function () {
-                        $('#message_error').hide();
-                    }, 4000);
+                    
                 }
             },
             success: function (response, textStatus, jqXHR) {
@@ -464,14 +439,13 @@ function disable_specialFollowUp(id) {
                 $('#enable_specialFollowUp_grid' + id).show();
                 $('#message_success>div.header').html(response.message);
                 $('#message_success').show();
-                window.location.replace(Routing.generate('specialFollowUp_index'));
+                window.location.reload();
                 setTimeout(function () {
                     $('#message_success').hide();
                 }, 4000);
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 $('#message_loading').hide();
-                /*alertify.error("Internal Server Error");*/
             }
         });
     });

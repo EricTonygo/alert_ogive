@@ -62,7 +62,7 @@ $(function () {
 
 
     $('#cancel_add_callOffer').click(function () {
-        window.location.replace(Routing.generate('call_offer_index'));
+        window.location.reload();
     });
 
     $('#add_callOffer_form.ui.form')
@@ -345,7 +345,7 @@ function edit_callOffer(id) {
                 }
             });
             $('#cancel_edit_callOffer').click(function () {
-                window.location.replace(Routing.generate('call_offer_index'));
+                window.location.reload();
             });
             $('#edit_callOffer.ui.modal').modal('show');
             execute_edit(id);
@@ -372,7 +372,6 @@ function edit_callOffer(id) {
         },
         error: function (jqXHR, textStatus, errorThrown) {
             $('#message_loading').hide();
-            /*alertify.error("Internal Server Error");*/
         }
     });
 }
@@ -597,7 +596,6 @@ function execute_edit(id) {
                     $('#submit_edit_callOffer').removeClass('disabled');
                     $('#cancel_edit_callOffer').removeClass('disabled');
                     $('#edit_callOffer_form.ui.form').removeClass('loading');
-                    /*alertify.error("Internal Server Error");*/
                 }
             });
         }
@@ -629,16 +627,12 @@ function delete_callOffer(id) {
                 500: function (xhr) {
                     $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
                     $('#message_error').show();
-                    setTimeout(function () {
-                        $('#message_error').hide();
-                    }, 4000);
+
                 },
                 404: function (response, textStatus, jqXHR) {
                     $('#message_error>div.header').html(response.responseJSON.message);
                     $('#message_error').show();
-                    setTimeout(function () {
-                        $('#message_error').hide();
-                    }, 4000);
+
                 }
             },
             success: function (response, textStatus, jqXHR) {
@@ -654,7 +648,6 @@ function delete_callOffer(id) {
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 $('#message_loading').hide();
-                /*alertify.error("Internal Server Error");*/
             }
         });
     });
@@ -676,7 +669,8 @@ function show_callOffer(id) {
         },
         statusCode: {
             500: function (xhr) {
-
+                $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
+                $('#message_error').show();
             },
             404: function (response, textStatus, jqXHR) {
                 $('#message_error>div.header').html(response.responseJSON.message);
@@ -723,7 +717,7 @@ function show_callOffer(id) {
                 }
             });
             $('#cancel_details_callOffer').click(function () {
-                window.location.replace(Routing.generate('call_offer_index'));
+                window.location.reload();
             });
 
             $('#edit_callOffer.ui.modal').modal('show');
@@ -766,7 +760,6 @@ function show_callOffer(id) {
         },
         error: function (jqXHR, textStatus, errorThrown) {
             $('#message_loading').hide();
-            /*alertify.error("Internal Server Error");*/
         }
     });
 }
@@ -799,16 +792,12 @@ function enable_callOffer(id) {
                 500: function (xhr) {
                     $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
                     $('#message_error').show();
-                    setTimeout(function () {
-                        $('#message_error').hide();
-                    }, 4000);
+                    
                 },
                 404: function (response, textStatus, jqXHR) {
                     $('#message_error>div.header').html("Echec d'activation de l'appel d'offre");
                     $('#message_error').show();
-                    setTimeout(function () {
-                        $('#message_error').hide();
-                    }, 4000);
+                    
                 }
             },
             success: function (response, textStatus, jqXHR) {
@@ -817,14 +806,13 @@ function enable_callOffer(id) {
                 $('#disable_callOffer_grid' + id).show();
                 $('#message_success>div.header').html(response.message);
                 $('#message_success').show();
-                window.location.replace(Routing.generate('call_offer_index'));
+                window.location.reload();
                 setTimeout(function () {
                     $('#message_success').hide();
                 }, 4000);
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 $('#message_loading').hide();
-                /*alertify.error("Internal Server Error");*/
             }
         });
     });
@@ -858,16 +846,12 @@ function disable_callOffer(id) {
                 500: function (xhr) {
                     $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
                     $('#message_error').show();
-                    setTimeout(function () {
-                        $('#message_error').hide();
-                    }, 4000);
+                    
                 },
                 404: function (response, textStatus, jqXHR) {
                     $('#message_error>div.header').html("Echec de la désactivation de l'appel d'offre");
                     $('#message_error').show();
-                    setTimeout(function () {
-                        $('#message_error').hide();
-                    }, 4000);
+                    
                 }
             },
             success: function (response, textStatus, jqXHR) {
@@ -876,14 +860,13 @@ function disable_callOffer(id) {
                 $('#enable_callOffer_grid' + id).show();
                 $('#message_success>div.header').html(response.message);
                 $('#message_success').show();
-                window.location.replace(Routing.generate('call_offer_index'));
+                window.location.reload();
                 setTimeout(function () {
                     $('#message_success').hide();
                 }, 4000);
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 $('#message_loading').hide();
-                /*alertify.error("Internal Server Error");*/
             }
         });
     });

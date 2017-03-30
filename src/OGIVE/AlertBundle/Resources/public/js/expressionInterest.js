@@ -34,7 +34,7 @@ $(function () {
         $('#add_expressionInterest.ui.modal').modal('show');
     });
     $('#cancel_add_expressionInterest').click(function () {
-        window.location.replace(Routing.generate('expressionInterest_index'));
+        window.location.reload();
     });
 
     $('#add_expressionInterest_form.ui.form')
@@ -224,7 +224,6 @@ $(function () {
                         $('#server_error_message').show();
                     },
                     400: function (response, textStatus, jqXHR) {
-                        console.log(response);
                         var myerrors = response.responseJSON;
                         if (myerrors.success === false) {
                             $('#error_name_header').html("Echec de la validation");
@@ -244,7 +243,6 @@ $(function () {
                     $('#cancel_add_expressionInterest').removeClass('disabled');
                     $('#submit_expressionInterest').removeClass('disabled');
                     $('#add_expressionInterest_form.ui.form').removeClass('loading');
-                    /*alertify.error("Internal Server Error");*/
                 }
             });
         }
@@ -267,7 +265,7 @@ function edit_expressionInterest(id) {
         },
         statusCode: {
             500: function (xhr) {
-
+                $('#server_error_message').show();
             },
             404: function (response, textStatus, jqXHR) {
                 $('#message_error>div.header').html(response.responseJSON.message);
@@ -289,7 +287,7 @@ function edit_expressionInterest(id) {
                 on: 'click'
             });
             $('#cancel_edit_expressionInterest').click(function () {
-                window.location.replace(Routing.generate('expressionInterest_index'));
+                window.location.reload();
             });
             $('#edit_expressionInterest.ui.modal').modal('show');
             $("#openingDate_edit").datetimepicker({
@@ -317,7 +315,6 @@ function edit_expressionInterest(id) {
         },
         error: function (jqXHR, textStatus, errorThrown) {
             $('#message_loading').hide();
-            /*alertify.error("Internal Server Error");*/
         }
     });
 }
@@ -537,7 +534,6 @@ function execute_edit(id) {
                     $('#submit_edit_expressionInterest').removeClass('disabled');
                     $('#cancel_edit_expressionInterest').removeClass('disabled');
                     $('#edit_expressionInterest_form.ui.form').removeClass('loading');
-                    /*alertify.error("Internal Server Error");*/
                 }
             });
         }
@@ -569,16 +565,12 @@ function delete_expressionInterest(id) {
                 500: function (xhr) {
                     $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
                     $('#message_error').show();
-                    setTimeout(function () {
-                        $('#message_error').hide();
-                    }, 4000);
+                    
                 },
                 404: function (response, textStatus, jqXHR) {
                     $('#message_error>div.header').html(response.responseJSON.message);
                     $('#message_error').show();
-                    setTimeout(function () {
-                        $('#message_error').hide();
-                    }, 4000);
+                    
                 }
             },
             success: function (response, textStatus, jqXHR) {
@@ -594,7 +586,6 @@ function delete_expressionInterest(id) {
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 $('#message_loading').hide();
-                /*alertify.error("Internal Server Error");*/
             }
         });
     });
@@ -616,7 +607,8 @@ function show_expressionInterest(id) {
         },
         statusCode: {
             500: function (xhr) {
-
+                $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
+                    $('#message_error').show();
             },
             404: function (response, textStatus, jqXHR) {
                 $('#message_error>div.header').html(response.responseJSON.message);
@@ -638,7 +630,7 @@ function show_expressionInterest(id) {
                 on: 'click'
             });
             $('#cancel_details_expressionInterest').click(function () {
-                window.location.replace(Routing.generate('expressionInterest_index'));
+                window.location.reload();
             });
 
             $('#edit_expressionInterest.ui.modal').modal('show');
@@ -681,7 +673,6 @@ function show_expressionInterest(id) {
         },
         error: function (jqXHR, textStatus, errorThrown) {
             $('#message_loading').hide();
-            /*alertify.error("Internal Server Error");*/
         }
     });
 }
@@ -714,16 +705,12 @@ function enable_expressionInterest(id) {
                 500: function (xhr) {
                     $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
                     $('#message_error').show();
-                    setTimeout(function () {
-                        $('#message_error').hide();
-                    }, 4000);
+                    
                 },
                 404: function (response, textStatus, jqXHR) {
                     $('#message_error>div.header').html("Echec d'activation de la manifestation");
                     $('#message_error').show();
-                    setTimeout(function () {
-                        $('#message_error').hide();
-                    }, 4000);
+                    
                 }
             },
             success: function (response, textStatus, jqXHR) {
@@ -739,7 +726,6 @@ function enable_expressionInterest(id) {
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 $('#message_loading').hide();
-                /*alertify.error("Internal Server Error");*/
             }
         });
     });
@@ -773,16 +759,12 @@ function disable_expressionInterest(id) {
                 500: function (xhr) {
                     $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
                     $('#message_error').show();
-                    setTimeout(function () {
-                        $('#message_error').hide();
-                    }, 4000);
+                    
                 },
                 404: function (response, textStatus, jqXHR) {
                     $('#message_error>div.header').html("Echec de la désactivation de la manifestition");
                     $('#message_error').show();
-                    setTimeout(function () {
-                        $('#message_error').hide();
-                    }, 4000);
+                    
                 }
             },
             success: function (response, textStatus, jqXHR) {
@@ -791,14 +773,13 @@ function disable_expressionInterest(id) {
                 $('#enable_expressionInterest_grid' + id).show();
                 $('#message_success>div.header').html(response.message);
                 $('#message_success').show();
-                window.location.replace(Routing.generate('expressionInterest_index'));
+                window.location.reload();
                 setTimeout(function () {
                     $('#message_success').hide();
                 }, 4000);
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 $('#message_loading').hide();
-                /*alertify.error("Internal Server Error");*/
             }
         });
     });

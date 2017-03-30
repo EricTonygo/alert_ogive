@@ -185,6 +185,10 @@
             <div id="cancel_edit_subscriber" class="ui grey button" style="display:none">
                 Annuler
             </div>
+            <div id='renewal_subscriber_subscription_show' onclick="renewal_subscription_subscriber({{subscriber.id}});" class="ui red icon button" {% if subscriber.state != 1 %} style="display: none" {% endif %}>
+                <i class="payment icon"></i>
+                Abonner/Réabonner
+            </div>
             <div id='disable_subscriber' onclick="disable_subscriber({{subscriber.id}});" class="ui red icon button" {% if subscriber.state != 1 %} style="display: none" {% endif %}>
                 <i class="lock icon"></i>
                 Désactiver

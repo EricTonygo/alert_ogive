@@ -26,9 +26,7 @@
         "jms/serializer-bundle": "^1.1",
         "friendsofsymfony/jsrouting-bundle": "^1.6",
         "blackford/twilio-bundle": "~5.0",
-        "symfony/finder": "^3.2",
-        "jms/job-queue-bundle": "dev-master",
-        "pagerfanta/pagerfanta": "dev-master"
+        "symfony/finder": "^3.2"
     },
     "require-dev": {
         "sensio/generator-bundle": "~3.0",

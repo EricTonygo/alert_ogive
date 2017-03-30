@@ -24,7 +24,7 @@ $(function () {
         $('#add_subscription_form.ui.form').submit();
     });
     $('#cancel_add_subscription').click(function () {
-        window.location.replace(Routing.generate('subscription_index'));
+        window.location.reload();
     });
     $('#add_subscription_form.ui.form')
             .form({
@@ -91,11 +91,6 @@ $(function () {
                             $('#cancel_add_subscription').removeClass('disabled');
                             $('#submit_subscription').removeClass('disabled');
                             $('#add_subscription_form.ui.form').removeClass('loading');
-//                                $('#list_as_grid_content').prepend(response.subscription_content_grid);
-//                                $('#list_as_table_content').prepend(response.subscription_content_list);
-//                                $('.ui.dropdown').dropdown({
-//                                    on: 'hover'
-//                                });
                             $('#add_subscription.ui.modal').modal('hide');
                             $('#message_success>div.header').html(response.message);
                             $('#message_success').show();
@@ -109,7 +104,6 @@ $(function () {
                             $('#cancel_add_subscription').removeClass('disabled');
                             $('#submit_subscription').removeClass('disabled');
                             $('#add_subscription_form.ui.form').removeClass('loading');
-                            /*alertify.error("Internal Server Error");*/
                         }
                     });
                     return false;
@@ -134,7 +128,7 @@ function edit_subscription(id) {
         },
         statusCode: {
             500: function (xhr) {
-
+                $('#server_error_message').show();
             },
             404: function (response, textStatus, jqXHR) {
                 $('#message_error>div.header').html(response.responseJSON.message);
@@ -156,7 +150,7 @@ function edit_subscription(id) {
                 closable: false
             });
             $('#cancel_edit_subscription').click(function () {
-                window.location.replace(Routing.generate('subscription_index'));
+                window.location.reload();
             });
             $('#edit_subscription.ui.modal').modal('show');
             execute_edit(id);
@@ -164,7 +158,6 @@ function edit_subscription(id) {
         },
         error: function (jqXHR, textStatus, errorThrown) {
             $('#message_loading').hide();
-            /*alertify.error("Internal Server Error");*/
         }
     });
 }
@@ -254,15 +247,10 @@ function execute_edit(id) {
                             $('#cancel_details_subscription').removeClass('disabled');
                             $('#disable_subscription').removeClass('disabled');
                             $('#enable_subscription').removeClass('disabled');
-//                                $('#subscription_grid' + id).html(response.subscription_content_grid);
-//                                $('#subscription_list' + id).html(response.subscription_content_list);
-//                                $('.ui.dropdown').dropdown({
-//                                    on: 'hover'
-//                                });
                             $('#edit_subscription.ui.modal').modal('hide');
                             $('#message_success>div.header').html(response.message);
                             $('#message_success').show();
-                            window.location.replace(Routing.generate('subscription_index'));
+                            window.location.reload();
                             setTimeout(function () {
                                 $('#message_success').hide();
                             }, 4000);
@@ -273,7 +261,6 @@ function execute_edit(id) {
                             $('#submit_edit_subscription').removeClass('disabled');
                             $('#cancel_edit_subscription').removeClass('disabled');
                             $('#edit_subscription_form.ui.form').removeClass('loading');
-                            /*alertify.error("Internal Server Error");*/
                         }
                     });
                     return false;
@@ -307,16 +294,12 @@ function delete_subscription(id) {
                 500: function (xhr) {
                     $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
                     $('#message_error').show();
-                    setTimeout(function () {
-                        $('#message_error').hide();
-                    }, 4000);
+                    
                 },
                 404: function (response, textStatus, jqXHR) {
                     $('#message_error>div.header').html(response.responseJSON.message);
                     $('#message_error').show();
-                    setTimeout(function () {
-                        $('#message_error').hide();
-                    }, 4000);
+                    
                 }
             },
             success: function (response, textStatus, jqXHR) {
@@ -332,7 +315,6 @@ function delete_subscription(id) {
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 $('#message_loading').hide();
-                /*alertify.error("Internal Server Error");*/
             }
         });
     });
@@ -354,7 +336,8 @@ function show_subscription(id) {
         },
         statusCode: {
             500: function (xhr) {
-
+                $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
+                    $('#message_error').show();
             },
             404: function (response, textStatus, jqXHR) {
                 $('#message_error>div.header').html(response.responseJSON.message);
@@ -376,7 +359,7 @@ function show_subscription(id) {
                 closable: false
             });
             $('#cancel_details_subscription').click(function () {
-                window.location.replace(Routing.generate('subscription_index'));
+                window.location.reload();
             });
 
             $('#edit_subscription.ui.modal').modal('show');
@@ -400,7 +383,6 @@ function show_subscription(id) {
         },
         error: function (jqXHR, textStatus, errorThrown) {
             $('#message_loading').hide();
-            /*alertify.error("Internal Server Error");*/
         }
     });
 }
@@ -433,16 +415,12 @@ function enable_subscription(id) {
                 500: function (xhr) {
                     $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
                     $('#message_error').show();
-                    setTimeout(function () {
-                        $('#message_error').hide();
-                    }, 4000);
+                    
                 },
                 404: function (response, textStatus, jqXHR) {
                     $('#message_error>div.header').html("Echec d'activation de l'abonnement");
                     $('#message_error').show();
-                    setTimeout(function () {
-                        $('#message_error').hide();
-                    }, 4000);
+                    
                 }
             },
             success: function (response, textStatus, jqXHR) {
@@ -451,14 +429,13 @@ function enable_subscription(id) {
                 $('#disable_subscription_grid' + id).show();
                 $('#message_success>div.header').html(response.message);
                 $('#message_success').show();
-                window.location.replace(Routing.generate('subscription_index'));
+                window.location.reload();
                 setTimeout(function () {
                     $('#message_success').hide();
                 }, 4000);
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 $('#message_loading').hide();
-                /*alertify.error("Internal Server Error");*/
             }
         });
     });
@@ -492,16 +469,12 @@ function disable_subscription(id) {
                 500: function (xhr) {
                     $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
                     $('#message_error').show();
-                    setTimeout(function () {
-                        $('#message_error').hide();
-                    }, 4000);
+                    
                 },
                 404: function (response, textStatus, jqXHR) {
                     $('#message_error>div.header').html("Echec de la désactivation de l'abonnement");
                     $('#message_error').show();
-                    setTimeout(function () {
-                        $('#message_error').hide();
-                    }, 4000);
+                    
                 }
             },
             success: function (response, textStatus, jqXHR) {
@@ -510,14 +483,13 @@ function disable_subscription(id) {
                 $('#enable_subscription_grid' + id).show();
                 $('#message_success>div.header').html(response.message);
                 $('#message_success').show();
-                window.location.replace(Routing.generate('subscription_index'));
+                window.location.reload();
                 setTimeout(function () {
                     $('#message_success').hide();
                 }, 4000);
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 $('#message_loading').hide();
-                /*alertify.error("Internal Server Error");*/
             }
         });
     });

@@ -1,6 +1,6 @@
 $(function () {
     $.datetimepicker.setLocale('fr');
-    $('#renewal_subscription_subcriber_date').datetimepicker({
+    $('#renewal_subscription_subscriber_date').datetimepicker({
         //timepicker: false,
         //minDate: '0',
         format: 'd-m-Y H:i',
@@ -14,7 +14,7 @@ $(function () {
         on: 'click'
     });
     $('#cancel_add_subscriber').click(function () {
-        window.location.replace(Routing.generate('subscriber_index'));
+        window.location.reload();
     });
 
     $('#add_subscriber_btn').click(function () {
@@ -192,10 +192,10 @@ function edit_subscriber(id) {
                 closable: false
             });
             $('#cancel_edit_subscriber').click(function () {
-                window.location.replace(Routing.generate('subscriber_index'));
+                window.location.reload();
             });
             $('#cancel_details_subscriber').click(function () {
-                window.location.replace(Routing.generate('subscriber_index'));
+                window.location.reload();
             });
             $('#edit_subscriber.ui.modal').modal('show');
             execute_edit(id);
@@ -335,7 +335,7 @@ function execute_edit(id) {
                             $('#edit_subscriber.ui.modal').modal('hide');
                             $('#message_success>div.header').html('Abonné modifié avec succès !');
                             $('#message_success').show();
-                            window.location.replace(Routing.generate('subscriber_index'));
+                            window.location.reload();
                             setTimeout(function () {
                                 $('#message_success').hide();
                             }, 4000);
@@ -379,17 +379,13 @@ function delete_subscriber(id) {
                 500: function (xhr) {
                     $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
                     $('#message_error').show();
-                    setTimeout(function () {
-                        $('#message_error').hide();
-                    }, 4000);
+                    
                 },
                 404: function (response, textStatus, jqXHR) {
                     $('#message_error>div.header').html(response.responseJSON.message);
                     $('#message_error').show();
-                    window.location.replace(Routing.generate('subscriber_index'));
-                    setTimeout(function () {
-                        $('#message_error').hide();
-                    }, 4000);
+                    
+                    
                 }
             },
             success: function (response, textStatus, jqXHR) {
@@ -398,6 +394,7 @@ function delete_subscriber(id) {
                 $('#message_loading').hide();
                 $('#message_success>div.header').html(response.message);
                 $('#message_success').show();
+                window.location.replace(Routing.generate('subscriber_index'));
                 setTimeout(function () {
                     $('#message_success').hide();
                 }, 4000);
@@ -432,9 +429,7 @@ function show_subscriber(id) {
             500: function (xhr) {
                 $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
                 $('#message_error').show();
-                setTimeout(function () {
-                    $('#message_error').hide();
-                }, 4000);
+                
             },
             404: function (response, textStatus, jqXHR) {
                 $('#message_error>div.header').html(response.responseJSON.message);
@@ -457,7 +452,7 @@ function show_subscriber(id) {
             });
 
             $('#cancel_details_subscriber').click(function () {
-                window.location.replace(Routing.generate('subscriber_index'));
+                window.location.reload();
             });
             $('#edit_subscriber.ui.modal').modal('show');
             execute_edit(id);
@@ -482,24 +477,22 @@ function show_subscriber(id) {
             $('#message_loading').hide();
             $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
             $('#message_error').show();
-            setTimeout(function () {
-                $('#message_error').hide();
-            }, 4000);
+            
             /*alertify.error("Internal Server Error");*/
         }
     });
 }
 
 function renewal_subscription_subscriber(id) {
-    $('#subscription_type').val(id).change();
+    //$('#subscription_type').val(id).change();
     $('#renewal_subscription_subscriber.ui.small.modal')
             .modal('show')
             ;
-    $('#renewal_subscription_subcriber_form.ui.form')
+    $('#renewal_subscription_subscriber_form.ui.form')
             .form({
                 fields: {
-                    renewal_subscription_subcriber_date: {
-                        identifier: 'renewal_subscription_subcriber_date',
+                    renewal_subscription_subscriber_date: {
+                        identifier: 'renewal_subscription_subscriber_date',
                         rules: [
                             {
                                 type: 'empty',
@@ -531,40 +524,35 @@ function renewal_subscription_subscriber(id) {
                     $.ajax({
                         type: 'PUT',
                         url: Routing.generate('subscriber_update', {id: id}),
-                        data: {'action': 'renewal-subscription', 'renewal_subscription_subcriber_date': $("#renewal_subscription_subcriber_form.ui.form input[name='renewal_subscription_subcriber_date']").val()},
+                        data: {'action': 'renewal-subscription', 'renewal_subscription_subscriber_date': $("#renewal_subscription_subscriber_form.ui.form input[name='renewal_subscription_subscriber_date']").val(), 'subscription_type': $("#subscription_type").val()},
                         dataType: 'json',
                         beforeSend: function () {
-                            //$('#message_loading').show();
-                            $('#execute_renewal_subscription_subcriber').addClass('disabled');
-                            $('#cancel_renewal_subscription_subcriber').addClass('disabled');
-                            $('#renewal_subscription_subscriber.ui.form').addClass('loading');
+                            $('#execute_renewal_subscription_subscriber').addClass('disabled');
+                            $('#cancel_renewal_subscription_subscriber').addClass('disabled');
+                            $('#renewal_subscription_subscriber_form.ui.form').addClass('loading');
                         },
                         statusCode: {
                             500: function (xhr) {
                                 $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
                                 $('#message_error').show();
-                                setTimeout(function () {
-                                    $('#message_error').hide();
-                                }, 4000);
+                                
                             },
                             404: function (response, textStatus, jqXHR) {
                                 var myerrors = response.responseJSON;
                                 $('#message_error>div.header').html(myerrors.message);
                                 $('#message_error').show();
-                                setTimeout(function () {
-                                    $('#message_error').hide();
-                                }, 4000);
+                                
                             }
                         },
                         success: function (response, textStatus, jqXHR) {
                             $('#renewal_subscription_subscriber.ui.small.modal')
                                     .modal('hide');
-                            $('#execute_renewal_subscription_subcriber').removeClass('disabled');
-                            $('#cancel_renewal_subscription_subcriber').removeClass('disabled');
-                            $('#renewal_subscription_subscriber.ui.form').removeClass('loading');
+                            $('#execute_renewal_subscription_subscriber').removeClass('disabled');
+                            $('#cancel_renewal_subscription_subscriber').removeClass('disabled');
+                            $('#renewal_subscription_subscriber_form.ui.form').removeClass('loading');
                             $('#message_success>div.header').html(response.message);
                             $('#message_success').show();
-                            window.location.replace(Routing.generate('subscriber_index'));
+                            window.location.reload();
                             setTimeout(function () {
                                 $('#message_success').hide();
                             }, 4000);
@@ -573,18 +561,15 @@ function renewal_subscription_subscriber(id) {
                             $('#message_loading').hide();
                             $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
                             $('#message_error').show();
-                            setTimeout(function () {
-                                $('#message_error').hide();
-                            }, 4000);
-                            /*alertify.error("Internal Server Error");*/
+                            
                         }
                     });
                     return false;
                 }
             });
-    $('#execute_renewal_subscription_subcriber').click(function (e) {
+    $('#execute_renewal_subscription_subscriber').click(function (e) {
         e.preventDefault();
-        $('#renewal_subscription_subcriber_form.ui.form').submit();
+        $('#renewal_subscription_subscriber_form.ui.form').submit();
     });
 }
 
@@ -628,17 +613,13 @@ function enable_subscriber(id) {
                             500: function (xhr) {
                                 $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
                                 $('#message_error').show();
-                                setTimeout(function () {
-                                    $('#message_error').hide();
-                                }, 4000);
+                                
                             },
                             404: function (response, textStatus, jqXHR) {
                                 var myerrors = response.responseJSON;
                                 $('#message_error>div.header').html(myerrors.message);
                                 $('#message_error').show();
-                                setTimeout(function () {
-                                    $('#message_error').hide();
-                                }, 4000);
+                                window.location.reload();
                             }
                         },
                         success: function (response, textStatus, jqXHR) {
@@ -647,7 +628,7 @@ function enable_subscriber(id) {
                             $('#disable_subscriber_grid' + id).show();
                             $('#message_success>div.header').html(response.message);
                             $('#message_success').show();
-                            window.location.replace(Routing.generate('subscriber_index'));
+                            window.location.reload();
                             setTimeout(function () {
                                 $('#message_success').hide();
                             }, 4000);
@@ -656,9 +637,7 @@ function enable_subscriber(id) {
                             $('#message_loading').hide();
                             $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
                             $('#message_error').show();
-                            setTimeout(function () {
-                                $('#message_error').hide();
-                            }, 4000);
+                            
                             /*alertify.error("Internal Server Error");*/
                         }
                     });
@@ -700,17 +679,13 @@ function disable_subscriber(id) {
                 500: function (xhr) {
                     $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
                     $('#message_error').show();
-                    setTimeout(function () {
-                        $('#message_error').hide();
-                    }, 4000);
+                    
                 },
                 404: function (response, textStatus, jqXHR) {
                     var myerrors = response.responseJSON;
                     $('#message_error>div.header').html(myerrors.message);
                     $('#message_error').show();
-                    setTimeout(function () {
-                        $('#message_error').hide();
-                    }, 4000);
+                    
                 }
             },
             success: function (response, textStatus, jqXHR) {
@@ -720,10 +695,8 @@ function disable_subscriber(id) {
                 $('#enable_subscriber_grid' + id).show();
                 $('#message_success>div.header').html(response.message);
                 $('#message_success').show();
-                window.location.replace(Routing.generate('subscriber_index'));
-                setTimeout(function () {
-                    $('#message_success').hide();
-                }, 4000);
+                window.location.reload();
+                
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 $('#message_loading').hide();

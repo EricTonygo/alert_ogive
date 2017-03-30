@@ -58,37 +58,6 @@ function add_entreprise() {
                             }
                         ]
                     }
-//                    name_subscriber: {
-//                        identifier: 'name_subscriber',
-//                        rules: [
-//                            {
-//                                type: 'empty',
-//                                prompt: "Veuillez saisir le nom de l'abonné"
-//                            }
-//                        ]
-//                    },
-//                    subscription_subscriber: {
-//                        identifier: 'subscription_subscriber',
-//                        rules: [
-//                            {
-//                                type: 'empty',
-//                                prompt: "Veuillez selectionner l'abonnement de l'abonné"
-//                            }
-//                        ]
-//                    },
-//                    phone_subscriber: {
-//                        identifier: 'phone_subscriber',
-//                        rules: [
-//                            {
-//                                type: 'empty',
-//                                prompt: "Veuillez saisir le numéro de téléphone de l'abonné"
-//                            },
-//                            {
-//                                type: 'regExp[/^([\+][0-9]{4,}?)$/]',
-//                                prompt: "Veuillez saisir le numéro de téléphone valide"
-//                            }
-//                        ]
-//                    }
                 },
                 inline: true,
                 on: 'change',
@@ -111,7 +80,6 @@ function add_entreprise() {
                                 $('#server_error_message').show();
                             },
                             400: function (response, textStatus, jqXHR) {
-                                console.log(response);
                                 var myerrors = response.responseJSON;
                                 if (myerrors.success === false) {
                                     $('#error_name_header').html("Echec de la validation");
@@ -128,11 +96,6 @@ function add_entreprise() {
                             $('#cancel_add_entreprise').removeClass('disabled');
                             $('#submit_entreprise').removeClass('disabled');
                             $('#add_entreprise_form.ui.form').removeClass('loading');
-//                                $('#list_as_grid_content').prepend(response.entreprise_content_grid);
-//                                $('#list_as_table_content').prepend(response.entreprise_content_list);
-//                                $('.ui.dropdown').dropdown({
-//                                    on: 'hover'
-//                                });
                             $('#add_entreprise.ui.modal').modal('hide');
                             $('#message_success>div.header').html(response.message);
                             $('#message_success').show();
@@ -146,7 +109,6 @@ function add_entreprise() {
                             $('#cancel_add_entreprise').removeClass('disabled');
                             $('#submit_entreprise').removeClass('disabled');
                             $('#add_entreprise_form.ui.form').removeClass('loading');
-                            /*alertify.error("Internal Server Error");*/
                         }
                     });
                     return false;
@@ -159,7 +121,7 @@ function add_entreprise() {
 $(function () {
     add_entreprise();
     $('#cancel_add_entreprise').click(function () {
-        window.location.replace(Routing.generate('entreprise_index'));
+        window.location.reload();
     });
 });
 
@@ -208,7 +170,7 @@ function edit_entreprise(id) {
                 on: 'click'
             });
             $('#cancel_edit_entreprise').click(function () {
-                window.location.replace(Routing.generate('entreprise_index'));
+                window.location.reload();
             });
             $('#edit_entreprise.ui.modal').modal('show');
             execute_edit(id);
@@ -217,7 +179,6 @@ function edit_entreprise(id) {
         },
         error: function (jqXHR, textStatus, errorThrown) {
             $('#message_loading').hide();
-            /*alertify.error("Internal Server Error");*/
         }
     });
 }
@@ -275,37 +236,6 @@ function execute_edit(id) {
                             }
                         ]
                     }
-//                    name_subscriber: {
-//                        identifier: 'name_subscriber',
-//                        rules: [
-//                            {
-//                                type: 'empty',
-//                                prompt: "Veuillez saisir le nom de l'abonné"
-//                            }
-//                        ]
-//                    },
-//                    subscription_subscriber: {
-//                        identifier: 'subscription_subscriber',
-//                        rules: [
-//                            {
-//                                type: 'empty',
-//                                prompt: "Veuillez selectionner l'abonnement de l'abonné"
-//                            }
-//                        ]
-//                    },
-//                    phone_subscriber: {
-//                        identifier: 'phone_subscriber',
-//                        rules: [
-//                            {
-//                                type: 'empty',
-//                                prompt: "Veuillez saisir le numéro de téléphone de l'abonné"
-//                            },
-//                            {
-//                                type: 'regExp[/^([\+][0-9]{4,}?)$/]',
-//                                prompt: "Veuillez saisir le numéro de téléphone valide"
-//                            }
-//                        ]
-//                    }
                 },
                 inline: true,
                 on: 'change',
@@ -350,15 +280,10 @@ function execute_edit(id) {
                             $('#cancel_details_entreprise').removeClass('disabled');
                             $('#disable_entreprise').removeClass('disabled');
                             $('#enable_entreprise').removeClass('disabled');
-//                                $('#entreprise_grid' + id).html(response.entreprise_content_grid);
-//                                $('#entreprise_list' + id).html(response.entreprise_content_list);
-//                                $('.ui.dropdown').dropdown({
-//                                    on: 'hover'
-//                                });
                             $('#edit_entreprise.ui.modal').modal('hide');
                             $('#message_success>div.header').html(response.message);
                             $('#message_success').show();
-                            window.location.replace(Routing.generate('entreprise_index'));
+                            window.location.reload();
                             setTimeout(function () {
                                 $('#message_success').hide();
                             }, 4000);
@@ -370,7 +295,6 @@ function execute_edit(id) {
                             $('#submit_edit_entreprise').removeClass('disabled');
                             $('#cancel_edit_entreprise').removeClass('disabled');
                             $('#edit_entreprise_form.ui.form').removeClass('loading');
-                            /*alertify.error("Internal Server Error");*/
                         }
                     });
                     return false;
@@ -409,16 +333,12 @@ function delete_entreprise(id) {
                 500: function (xhr) {
                     $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
                     $('#message_error').show();
-                    setTimeout(function () {
-                        $('#message_error').hide();
-                    }, 4000);
+
                 },
                 404: function (response, textStatus, jqXHR) {
                     $('#message_error>div.header').html(response.responseJSON.message);
                     $('#message_error').show();
-                    setTimeout(function () {
-                        $('#message_error').hide();
-                    }, 4000);
+
                 }
             },
             success: function (response, textStatus, jqXHR) {
@@ -459,7 +379,8 @@ function show_entreprise(id) {
         },
         statusCode: {
             500: function (xhr) {
-
+                $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
+                $('#message_error').show();
             },
             404: function (response, textStatus, jqXHR) {
                 $('#message_error>div.header').html(response.responseJSON.message);
@@ -482,7 +403,7 @@ function show_entreprise(id) {
             });
 
             $('#cancel_details_entreprise').click(function () {
-                window.location.replace(Routing.generate('entreprise_index'));
+                window.location.reload();
             });
             $('#edit_entreprise.ui.modal').modal('show');
             execute_edit(id);
@@ -505,7 +426,6 @@ function show_entreprise(id) {
         },
         error: function (jqXHR, textStatus, errorThrown) {
             $('#message_loading').hide();
-            /*alertify.error("Internal Server Error");*/
         }
     });
 }
@@ -522,7 +442,8 @@ function enable_entreprise(id) {
                         identifier: 'subscription_update',
                         rules: [
                             {
-                                type: 'checked'
+                                type: 'checked',
+                                prompt: "Veuillez préciser la raison de la mise à jour"
                             }
                         ]
                     }
@@ -554,26 +475,21 @@ function enable_entreprise(id) {
                             500: function (xhr) {
                                 $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
                                 $('#message_error').show();
-                                setTimeout(function () {
-                                    $('#message_error').hide();
-                                }, 4000);
+                                
                             },
                             404: function (response, textStatus, jqXHR) {
                                 $('#message_error>div.header').html(response.responseJSON.message);
                                 $('#message_error').show();
-                                setTimeout(function () {
-                                    $('#message_error').hide();
-                                }, 4000);
+                                window.location.reload();
                             }
                         },
                         success: function (response, textStatus, jqXHR) {
-                            console.log(response);
                             $('#message_loading').hide();
                             $('#enable_entreprise_grid' + id).hide();
                             $('#disable_entreprise_grid' + id).show();
                             $('#message_success>div.header').html(response.message);
                             $('#message_success').show();
-                            window.location.replace(Routing.generate('entreprise_index'));
+                            window.location.reload();
                             setTimeout(function () {
                                 $('#message_success').hide();
                             }, 4000);
@@ -625,17 +541,12 @@ function disable_entreprise(id) {
                 500: function (xhr) {
                     $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
                     $('#message_error').show();
-                    setTimeout(function () {
-                        $('#message_error').hide();
-                    }, 4000);
+                    
                 },
                 404: function (response, textStatus, jqXHR) {
                     $('#message_error>div.header').html("Echec de la désactivation de l'entreprise");
                     $('#message_error').show();
-                    window.location.replace(Routing.generate('entreprise_index'));
-                    setTimeout(function () {
-                        $('#message_error').hide();
-                    }, 4000);
+                    window.location.reload();
                 }
             },
             success: function (response, textStatus, jqXHR) {
@@ -645,14 +556,13 @@ function disable_entreprise(id) {
                 $('#enable_entreprise_grid' + id).show();
                 $('#message_success>div.header').html(response.message);
                 $('#message_success').show();
-                window.location.replace(Routing.generate('entreprise_index'));
+                window.location.reload();
                 setTimeout(function () {
                     $('#message_success').hide();
                 }, 4000);
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 $('#message_loading').hide();
-                /*alertify.error("Internal Server Error");*/
             }
         });
     });
