@@ -218,9 +218,12 @@ class SubscriberController extends Controller {
         }
 
         if ($request->get('action') == 'renewal-subscription') {
-            if ($subscriber->getState() == 1 && $subscriber->getEntreprise()->getState() == 1) {
+            if ($subscriber->getEntreprise() && $subscriber->getEntreprise()->getState() == 1) {
                 $subscriber->setLastSubscriptionDate(new \DateTime(date('Y-m-d H:i:s', strtotime($request->get('renewal_subscription_subscriber_date')))));
                 $subscriber->setSubscription($repositorySubscription->find(intval($request->get('subscription_type'))));
+                if($subscriber->getSubscription()){
+                    $subscriber->setState(1);
+                }
                 $subscriber = $repositorySubscriber->updateSubscriber($subscriber);
                 $historicalSubscriberSubscription->setSubscriber($subscriber);
                 $historicalSubscriberSubscription->setSubscription($subscriber->getSubscription());
@@ -264,10 +267,13 @@ class SubscriberController extends Controller {
             }
             if ($request->get('subscription_update') != 'others') {
                 $subscriber->setLastSubscriptionDate(new \DateTime('now'));
+                if($subscriber->getSubscription()){
+                    $subscriber->setState(1);
+                }
             }
             $subscriber = $repositorySubscriber->updateSubscriber($subscriber);
             if ($request->get('subscription_update') != 'others') {
-                if ($subscriber->getSubscription() && $subscriber->getState() == 1) {
+                if ($subscriber->getSubscription() && $subscriber->getEntreprise()) {
                     $historicalSubscriberSubscription->setSubscriber($subscriber);
                     $historicalSubscriberSubscription->setSubscription($subscriber->getSubscription());
                     $historicalSubscriberSubscription->setSubscriptionDateAndExpirationDate($subscriber->getLastSubscriptionDate());
