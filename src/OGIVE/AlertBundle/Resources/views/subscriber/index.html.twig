@@ -157,8 +157,20 @@
                             {% endfor %}
                         {% endif %}
                     </select>
-                </div>                        
-                
+                </div>
+
+                <div id="server_error_message_sub" class="ui negative message" style="display:none">
+                    <i class="close icon"></i>
+                    <div id="server_error_content_sub" class="header">Internal server error</div>
+                </div>
+                <div id="error_name_message_sub" class="ui error message" style="display: none">
+                    <i class="close icon"></i>
+                    <div id="error_name_header_sub" class="header"></div>
+                    <ul id="error_name_list_sub" class="list">
+
+                    </ul>
+                </div>
+
                 <div class="field">
                     <div class="ui error message"><ul class="list"><li>Vueillez préciser la date du l'abonnement.</li></ul></div>
                 </div>

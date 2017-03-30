@@ -307,7 +307,6 @@ function execute_edit(id) {
                                 $('#server_error_message_edit').show();
                             },
                             400: function (response, textStatus, jqXHR) {
-
                                 var myerrors = response.responseJSON;
                                 if (myerrors.success === false) {
                                     $('#error_name_header_edit').html("Echec de la validation");
@@ -379,13 +378,13 @@ function delete_subscriber(id) {
                 500: function (xhr) {
                     $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
                     $('#message_error').show();
-                    
+
                 },
                 404: function (response, textStatus, jqXHR) {
                     $('#message_error>div.header').html(response.responseJSON.message);
                     $('#message_error').show();
-                    
-                    
+
+
                 }
             },
             success: function (response, textStatus, jqXHR) {
@@ -401,11 +400,6 @@ function delete_subscriber(id) {
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 $('#message_loading').hide();
-                $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
-                $('#message_error').show();
-                setTimeout(function () {
-                    $('#message_error').hide();
-                }, 4000);
             }
         });
     });
@@ -429,7 +423,7 @@ function show_subscriber(id) {
             500: function (xhr) {
                 $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
                 $('#message_error').show();
-                
+
             },
             404: function (response, textStatus, jqXHR) {
                 $('#message_error>div.header').html(response.responseJSON.message);
@@ -477,7 +471,7 @@ function show_subscriber(id) {
             $('#message_loading').hide();
             $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
             $('#message_error').show();
-            
+
             /*alertify.error("Internal Server Error");*/
         }
     });
@@ -533,15 +527,15 @@ function renewal_subscription_subscriber(id) {
                         },
                         statusCode: {
                             500: function (xhr) {
-                                $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
-                                $('#message_error').show();
-                                
+                                $('#server_error_message_sub').show();
+
                             },
                             404: function (response, textStatus, jqXHR) {
                                 var myerrors = response.responseJSON;
-                                $('#message_error>div.header').html(myerrors.message);
-                                $('#message_error').show();
-                                
+                                $('#error_name_header_sub').html("Echec de la validation");
+                                $('#error_name_list_sub').html('<li>' + myerrors.message + '</li>');
+                                $('#error_name_message_sub').show();
+
                             }
                         },
                         success: function (response, textStatus, jqXHR) {
@@ -558,10 +552,10 @@ function renewal_subscription_subscriber(id) {
                             }, 4000);
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
-                            $('#message_loading').hide();
-                            $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
-                            $('#message_error').show();
-                            
+                            $('#execute_renewal_subscription_subscriber').removeClass('disabled');
+                            $('#cancel_renewal_subscription_subscriber').removeClass('disabled');
+                            $('#renewal_subscription_subscriber_form.ui.form').removeClass('loading');
+
                         }
                     });
                     return false;
@@ -613,7 +607,7 @@ function enable_subscriber(id) {
                             500: function (xhr) {
                                 $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
                                 $('#message_error').show();
-                                
+
                             },
                             404: function (response, textStatus, jqXHR) {
                                 var myerrors = response.responseJSON;
@@ -637,7 +631,7 @@ function enable_subscriber(id) {
                             $('#message_loading').hide();
                             $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
                             $('#message_error').show();
-                            
+
                             /*alertify.error("Internal Server Error");*/
                         }
                     });
@@ -679,13 +673,13 @@ function disable_subscriber(id) {
                 500: function (xhr) {
                     $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
                     $('#message_error').show();
-                    
+
                 },
                 404: function (response, textStatus, jqXHR) {
                     var myerrors = response.responseJSON;
                     $('#message_error>div.header').html(myerrors.message);
                     $('#message_error').show();
-                    
+
                 }
             },
             success: function (response, textStatus, jqXHR) {
@@ -696,7 +690,7 @@ function disable_subscriber(id) {
                 $('#message_success>div.header').html(response.message);
                 $('#message_success').show();
                 window.location.reload();
-                
+
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 $('#message_loading').hide();
