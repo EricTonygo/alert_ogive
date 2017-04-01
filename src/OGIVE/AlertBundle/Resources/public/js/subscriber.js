@@ -479,6 +479,11 @@ function show_subscriber(id) {
 
 function renewal_subscription_subscriber(id) {
     //$('#subscription_type').val(id).change();
+    $('#renewal_subscription_subscriber.ui.modal').modal('setting', {
+            autofocus: false,
+            inverted: true,
+            closable: false
+        });
     $('#renewal_subscription_subscriber.ui.small.modal')
             .modal('show')
             ;

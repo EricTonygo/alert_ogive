@@ -15,4 +15,4 @@ services:
             
     mail_service:
         class: OGIVE\AlertBundle\Services\MailService
-#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+        arguments: ["@mailer"]

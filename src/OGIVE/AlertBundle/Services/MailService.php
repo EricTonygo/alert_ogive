@@ -8,6 +8,14 @@ namespace OGIVE\AlertBundle\Services;
  * @author Eric TONYE
  */
 class MailService {
+    protected $mailer;
+    
+  // Dans le constructeur, on retire $locale des arguments
+  public function __construct(\Swift_Mailer $mailer)
+  {
+    $this->mailer = $mailer;
+  }
+
     public function sendMail($email, $subject, $content, $attachements=null) {
         if($email!=""){
         $message = \Swift_Message::newInstance()
@@ -17,7 +25,7 @@ class MailService {
                 ->setBody(
                 $content
         );
-        $this->get('mailer')->send($message);
+        $this->mailer->send($message);
         }else{
             return true;
         }

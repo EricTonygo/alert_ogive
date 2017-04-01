@@ -30,6 +30,9 @@
                                     </a>
 
                                 {% endif %}
+                                <a onclick="send_mail_subscriber({{subscriber.id}});" class="send_mail_subscriber_btn item" data-tooltip="Envoyer un mail" data-position="top center" data-inverted="">
+                                    <i class="mail icon"></i>
+                                </a>
                                 <a onclick="send_sms_subscriber({{subscriber.id}});" class="send_sms_subscriber_btn item" data-tooltip="Envoyer un SMS" data-position="top center" data-inverted="">
                                     <i class="talk icon"></i>
                                 </a>

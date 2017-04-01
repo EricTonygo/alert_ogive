@@ -5,18 +5,24 @@ namespace OGIVE\AlertBundle\Controller;
 use OGIVE\AlertBundle\Entity\HistoricalAlertSubscriber;
 use OGIVE\AlertBundle\Entity\Subscriber;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use FOS\RestBundle\View\ViewHandler;
 use FOS\RestBundle\View\View;
 
-class TelephoneController extends Controller {
+class MailController extends Controller {
 
     /**
      * @Rest\View()
      * @Rest\Post("/send-mail-subscriber/{id}" , name="send_mail_subscriber", options={ "method_prefix" = false, "expose" = true })
      * @param Request $request
      */
-    public function getSendSmsSubscriberAction(Request $request, Subscriber $subscriber) {
+    public function getSendMailSubscriberAction(Request $request, Subscriber $subscriber) {
         if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             return $this->redirect($this->generateUrl('fos_user_security_login'));
         }

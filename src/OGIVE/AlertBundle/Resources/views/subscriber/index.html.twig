@@ -43,6 +43,9 @@
     <div id="send_sms_subscriber_content">
 
     </div>
+    <div id="send_mail_subscriber_content">
+
+    </div>
 {% endblock %}
 
 {% block block_confirmation_modal %}
@@ -139,18 +142,18 @@
             <form class='ui form' id='renewal_subscription_subscriber_form'>
                 <input type ='hidden'>
                 <div class="field">
-                    <label>Date de l'abonnement</label>
+                    <label>Nouvelle date d'abonnement</label>
                     <div class="ui calendar" >
                         <div class="ui input left icon">
                             <i class="calendar icon"></i>
-                            <input id="renewal_subscription_subscriber_date" type="text" name="renewal_subscription_subscriber_date">
+                            <input id="renewal_subscription_subscriber_date" type="text" name="renewal_subscription_subscriber_date" placeholder="Nouvelle date d'abonnement">
                         </div>
                     </div>
                 </div>
                 <div class="field">
-                    <label>Type d'abonnement</label>
+                    <label>Nouveau type d'abonnement</label>
                     <select id="subscription_type" name="subscription_type" class="ui search fluid dropdown">
-                        <option value="">Selectionner un abonnement </option>
+                        <option value="">Selectionner le nouveau type abonnement </option>
                         {%if subscriptions%}
                             {%for subscription in subscriptions%}
                                 <option value="{{subscription.id}}">{{subscription.name}}</option>
@@ -212,4 +215,5 @@
     {{ parent()}}
     <script type="text/javascript" src="{{ asset('bundles/ogivealert/js/subscriber.js')}}"></script>
     <script type="text/javascript" src="{{ asset('bundles/ogivealert/js/send_sms.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/ogivealert/js/send_mail.js')}}"></script>
 {% endblock %}
