@@ -37,6 +37,10 @@ ogive_alert_specialFollowUp:
 ogive_alert_telephone:
     resource: "@OGIVEAlertBundle/Controller/TelephoneController.php"
     type:     rest
+    
+ogive_alert_mail:
+    resource: "@OGIVEAlertBundle/Controller/MailController.php"
+    type:     rest
 
 ogive_alert_historicalAlertSubscriber:
     resource: "@OGIVEAlertBundle/Controller/HistoricalAlertSubscriberController.php"

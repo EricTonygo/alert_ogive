@@ -56,7 +56,7 @@ function execute_send_sms_subscriber(id) {
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: "Veuillez saisir le sms à envoyer"
+                                prompt: "Veuillez saisir le message à envoyer"
                             }
                         ]
                     }

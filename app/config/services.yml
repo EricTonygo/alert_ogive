@@ -12,3 +12,7 @@ services:
         public: false
         tags:
             - { name: twig.extension }
+            
+    mail_service:
+        class: OGIVE\AlertBundle\Services\MailService
+#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]

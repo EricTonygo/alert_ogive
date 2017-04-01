@@ -33,12 +33,9 @@ class TelephoneController extends Controller {
             return $this->redirect($this->generateUrl('fos_user_security_login'));
         }
         $historiqueAlertSubscriber = new HistoricalAlertSubscriber();
-        $repositoryHistorique = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:HistoricalAlertSubscriber');
         $form = $this->createForm('OGIVE\AlertBundle\Form\HistoricalAlertSubscriberType', $historiqueAlertSubscriber);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-
-            $this->sendEmailSubscriber($subscriber, "Alert Infos", $historiqueAlertSubscriber->getMessage());
             $twilio = $this->get('twilio.client');
             $message = $twilio->messages->create(
                     $subscriber->getPhoneNumber(), // Text any number
@@ -47,11 +44,7 @@ class TelephoneController extends Controller {
                 'body' => $historiqueAlertSubscriber->getMessage()
                     )
             );
-
-            $historiqueAlertSubscriber->setSubscriber($subscriber);
-            $historiqueAlertSubscriber->setAlertType("EMAIL");
-            $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
-            $view = View::create(['message' => "SMS et Email envoyés avec succès"]);
+            $view = View::create(['message' => "Message envoyé avec succès"]);
             $view->setFormat('json');
             return $view;
         } elseif ($form->isSubmitted() && !$form->isValid()) {
