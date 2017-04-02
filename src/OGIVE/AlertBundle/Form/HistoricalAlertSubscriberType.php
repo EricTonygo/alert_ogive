@@ -14,6 +14,7 @@ class HistoricalAlertSubscriberType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('message', null, array('required' => false))
+                ->add('subject', null, array('required' => false))
 //                ->add('subscriber', 'entity', array(
 //                    'class' => 'OGIVEAlertBundle:Subscriber',
 //                    'property' => 'phoneNumber',

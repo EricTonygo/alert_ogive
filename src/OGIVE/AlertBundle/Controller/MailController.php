@@ -31,7 +31,7 @@ class MailController extends Controller {
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $this->get('mail_service')->sendMail($subscriber->getEmail(), "Alert Infos", $historiqueAlertSubscriber->getMessage());
+            $this->get('mail_service')->sendMail($subscriber->getEmail(), $historiqueAlertSubscriber->getSubject(), $historiqueAlertSubscriber->getMessage());
             
             $view = View::create(['message' => "Message envoyé avec succès"]);
             $view->setFormat('json');

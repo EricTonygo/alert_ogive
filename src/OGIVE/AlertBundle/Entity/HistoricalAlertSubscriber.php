@@ -42,6 +42,13 @@ class HistoricalAlertSubscriber
     /**
      * @var string
      *
+     * @ORM\Column(name="subject", type="string", length=255, nullable=true)
+     */
+    private $subject;
+    
+    /**
+     * @var string
+     *
      * @ORM\Column(name="message", type="text", nullable=true)
      */
     private $message;
@@ -134,6 +141,30 @@ class HistoricalAlertSubscriber
     public function getSubscriber()
     {
         return $this->subscriber;
+    }
+    
+    /**
+    * Set subject
+    *
+    * @param string $subject
+    *
+    * @return HistoricalAlertSubscriber
+    */
+    public function setSubject($subject)
+    {
+        $this->subject = $subject;
+
+        return $this;
+    }
+
+    /**
+     * Get subject
+     *
+     * @return string
+     */
+    public function getSubject()
+    {
+        return $this->subject;
     }
     
     /**
