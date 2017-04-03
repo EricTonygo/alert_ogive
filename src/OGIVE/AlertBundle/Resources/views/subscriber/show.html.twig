@@ -132,11 +132,12 @@
                 </div>
                 {%if subscriber.lastUpdateDate  %}
                     <div class="field">
-                        <span> {{ subscriber.lastSubscriptionDate ? subscriber.lastSubscriptionDate|date('d-m-Y H:i:s') : ""}}</span>
-                    </div>
-                {% else %}
-                    <div class="field">
                         <span> {{ subscriber.lastSubscriptionDate ?  subscriber.lastSubscriptionDate|date('d-m-Y H:i:s') : subscriber.lastUpdateDate|date('d-m-Y H:i:s')}}</span>
+                    </div>
+                   
+                {% else %}
+                     <div class="field">
+                        <span> {{ subscriber.lastSubscriptionDate ? subscriber.lastSubscriptionDate|date('d-m-Y H:i:s') : ""}}</span>
                     </div>
                 {% endif %}
             </div>    
