@@ -637,7 +637,6 @@ function enable_subscriber(id) {
                             $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
                             $('#message_error').show();
 
-                            /*alertify.error("Internal Server Error");*/
                         }
                     });
                     return false;
