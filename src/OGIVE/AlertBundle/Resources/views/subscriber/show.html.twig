@@ -130,13 +130,13 @@
                 <div class="field">
                     <label>Date du dernier abonnement : </label> 
                 </div>
-                {%if not subscriber.lastUpdateDate %}
+                {%if subscriber.lastUpdateDate is empty %}
                     <div class="field">
-                        <span> {{ not subscriber.lastSubscriptionDate ? "" : subscriber.lastSubscriptionDate|date('d-m-Y H:i:s')}}</span>
+                        <span> {{ subscriber.lastSubscriptionDate is empty ? "" : subscriber.lastSubscriptionDate|date('d-m-Y H:i:s')}}</span>
                     </div>
                 {% else %}
                     <div class="field">
-                        <span> {{ not subscriber.lastSubscriptionDate ? subscriber.lastUpdateDate : subscriber.lastSubscriptionDate|date('d-m-Y H:i:s')}}</span>
+                        <span> {{ subscriber.lastSubscriptionDate is empty ? subscriber.lastUpdateDate|date('d-m-Y H:i:s') : subscriber.lastSubscriptionDate|date('d-m-Y H:i:s')}}</span>
                     </div>
                 {% endif %}
             </div>    
