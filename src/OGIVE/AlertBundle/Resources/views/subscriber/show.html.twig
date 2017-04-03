@@ -130,8 +130,7 @@
                 <div class="field">
                     <label>Date du dernier abonnement : </label> 
                 </div>
-                {{ subscriber.lastSubscriptionDate|date('d-m-Y H:i:s') }}
-                {#{%if subscriber.lastUpdateDate is null %}
+                {%if subscriber.lastUpdateDate is null %}
                     <div class="field">
                         <span> {{ subscriber.lastSubscriptionDate is null ? "" : subscriber.lastSubscriptionDate|date('d-m-Y H:i:s')}}</span>
                     </div>
@@ -139,7 +138,7 @@
                     <div class="field">
                         <span> {{ subscriber.lastSubscriptionDate is null ? subscriber.lastUpdateDate|date('d-m-Y H:i:s') : subscriber.lastSubscriptionDate|date('d-m-Y H:i:s')}}</span>
                     </div>
-                {% endif %}#}
+                {% endif %}
             </div>    
 
             <div id="field_state_enable" class="two fields" {% if subscriber.state != 1 %} style="display: none" {% endif %}>
