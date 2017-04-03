@@ -136,7 +136,7 @@
                     </div>
                 {% else %}
                     <div class="field">
-                        <span> {{ subscriber.lastSubscriptionDate is empty ? subscriber.lastUpdateDate|date('d-m-Y H:i:s') : subscriber.lastSubscriptionDate|date('d-m-Y H:i:s')}}</span>
+                        <span> {{ subscriber.lastSubscriptionDate|date('d-m-Y H:i:s')}}</span>
                     </div>
                 {% endif %}
             </div>    
