@@ -113,7 +113,7 @@
                     <label>Date de création : </label>
                 </div>
                 <div class="field">
-                    <span> {{ subscriber.createDate is empty ? "" : subscriber.createDate|date('d-m-Y H:i:s')}}</span>
+                    <span> {{ subscriber.createDate is null ? "" : subscriber.createDate|date('d-m-Y H:i:s')}}</span>
                 </div>
             </div>
 
@@ -122,7 +122,7 @@
                     <label>Date de la dernière modification : </label> 
                 </div>
                 <div class="field">
-                    <span> {{ subscriber.lastUpdateDate is empty ? "" : subscriber.lastUpdateDate|date('d-m-Y H:i:s')}}</span>
+                    <span> {{ subscriber.lastUpdateDate is null ? "" : subscriber.lastUpdateDate|date('d-m-Y H:i:s')}}</span>
                 </div>
             </div>
 
@@ -130,14 +130,13 @@
                 <div class="field">
                     <label>Date du dernier abonnement : </label> 
                 </div>
-                {%if subscriber.lastUpdateDate  %}
+                {%if subscriber.lastUpdateDate is null %}
                     <div class="field">
-                        <span> {{ subscriber.lastSubscriptionDate ?  subscriber.lastSubscriptionDate|date('d-m-Y H:i:s') : subscriber.lastUpdateDate|date('d-m-Y H:i:s')}}</span>
+                        <span> {{ subscriber.lastSubscriptionDate is null ? "" : subscriber.lastSubscriptionDate|date('d-m-Y H:i:s')}}</span>
                     </div>
-                   
                 {% else %}
-                     <div class="field">
-                        <span> {{ subscriber.lastSubscriptionDate ? subscriber.lastSubscriptionDate|date('d-m-Y H:i:s') : ""}}</span>
+                    <div class="field">
+                        <span> {{ subscriber.lastSubscriptionDate is null ? subscriber.lastUpdateDate|date('d-m-Y H:i:s') : subscriber.lastSubscriptionDate|date('d-m-Y H:i:s')}}</span>
                     </div>
                 {% endif %}
             </div>    
