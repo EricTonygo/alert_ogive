@@ -43,20 +43,32 @@
             </div>
 
             <div class="field">
+                {{ form_label(form.domain,"Domaine d'activité") }}
+                {{ form_errors(form.domain, {'attr': {'class': 'ui error message'}})}}
+                {{ form_widget(form.domain,{'attr':{'data-validate': 'domain', 'class': 'ui search dropdown'}})}}
+            </div>
+
+            <div id='subDomain_add_field' class="field">
+                {{ form_label(form.subDomain,"Sous-domaine d'activité") }}
+                {{ form_errors(form.subDomain, {'attr': {'class': 'ui error message'}})}}
+                {{ form_widget(form.subDomain,{'attr':{ 'data-validate': 'subDomain', 'class': 'ui search dropdown'}})}}
+            </div>
+
+            <div class="field">
                 {{ form_label(form.object,"Objet") }}
                 {{ form_errors(form.object, {'attr': {'class': 'ui error message'}})}}
                 {{ form_widget(form.object,{'attr':{'placeholder':"Contenu de l'attribution", 'data-validate': 'object'}})}}
             </div>
-            
+
             <div class="field">
-            {{ form_label(form.publicationDate,"Date de publication", {'for': 'openingDate_edit'}) }}
-            <div class="ui calendar" >
-                <div class="ui input left icon">
-                    <i class="calendar icon"></i>
-                    {{ form_widget(form.publicationDate,{'id':'publicationDate_edit', 'attr':{'data-validate': 'publication_date'}})}}
+                {{ form_label(form.publicationDate,"Date de publication", {'for': 'openingDate_edit'}) }}
+                <div class="ui calendar" >
+                    <div class="ui input left icon">
+                        <i class="calendar icon"></i>
+                        {{ form_widget(form.publicationDate,{'id':'publicationDate_edit', 'attr':{'data-validate': 'publication_date'}})}}
+                    </div>
                 </div>
             </div>
-        </div>
 
             {#<div class="field">
                 {{ form_label(form.publicationDate,"Date de publication") }}
@@ -84,7 +96,7 @@
 
             <div class="field">
                 {{ form_label(form.uploadedFiles, "Fichiers attachés")}}           
-                    {{ form_errors(form.uploadedFiles, {'attr': {'class': 'list'}})}}           
+                {{ form_errors(form.uploadedFiles, {'attr': {'class': 'list'}})}}           
                 {{ form_widget(form.uploadedFiles) }}
             </div>
 

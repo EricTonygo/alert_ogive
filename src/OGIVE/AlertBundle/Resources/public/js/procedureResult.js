@@ -35,6 +35,14 @@ $(function () {
         }
     });
 
+    $('#ogive_alertbundle_procedureResult_domain.ui.dropdown').dropdown({
+        on: 'click'
+    });
+
+    $('#ogive_alertbundle_procedureResult_subDomain.ui.dropdown').dropdown({
+        on: 'click'
+    });
+
     $('#ogive_alertbundle_procedureResult_callOffer.ui.dropdown').dropdown({
         on: 'click'
     });
@@ -71,50 +79,20 @@ $(function () {
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: "Veuillez saisir le contenu du resultat"
+                                prompt: "Veuillez saisir l'objet de l'attribution"
                             }
                         ]
                     },
 
-                    publication_date_date: {
-                        identifier: 'publication_date_date',
+                    publication_date: {
+                        identifier: 'publication_date',
                         rules: [
                             {
                                 type: 'empty',
                                 prompt: "Veuillez renseigner la date de publication de l'attribution"
                             }
                         ]
-                    },
-
-                    publication_date_time: {
-                        identifier: 'publication_date_time',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: "Veuillez renseigner l'heure de publication de l'attribution"
-                            }
-                        ]
-                    },
-
-                    sending_date_date: {
-                        identifier: 'sending_date_date',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: "Veuillez renseigner la date de notification aux abonnés"
-                            }
-                        ]
-                    },
-                    sending_date_time: {
-                        identifier: 'sending_date_time',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: "Veuillez renseigner l'heure de notification aux abonnés"
-                            }
-                        ]
                     }
-
                 },
                 inline: true,
                 on: 'change'
@@ -262,6 +240,13 @@ function edit_procedureResult(id) {
             $('#ogive_alertbundle_procedureResult_expressionInterest.ui.dropdown').dropdown({
                 on: 'click'
             });
+            $('#ogive_alertbundle_procedureResult_domain.ui.dropdown').dropdown({
+                on: 'click'
+            });
+
+            $('#ogive_alertbundle_procedureResult_subDomain.ui.dropdown').dropdown({
+                on: 'click'
+            });
             $('#checkbox_aao_edit').change(function () {
                 if ($(this).is(':checked')) {
                     $('#field_aao_edit').show();
@@ -334,45 +319,15 @@ function execute_edit(id) {
                         ]
                     },
 
-                    publication_date_date: {
-                        identifier: 'publication_date_date',
+                    publication_date: {
+                        identifier: 'publication_date',
                         rules: [
                             {
                                 type: 'empty',
                                 prompt: "Veuillez renseigner la date de publication de l'attribution"
                             }
                         ]
-                    },
-
-                    publication_date_time: {
-                        identifier: 'publication_date_time',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: "Veuillez renseigner l'heure de publication de l'attribution"
-                            }
-                        ]
-                    },
-
-                    sending_date_date: {
-                        identifier: 'sending_date_date',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: "Veuillez renseigner la date de notification aux abonnés"
-                            }
-                        ]
-                    },
-                    sending_date_time: {
-                        identifier: 'sending_date_time',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: "Veuillez renseigner l'heure de notification aux abonnés"
-                            }
-                        ]
                     }
-
                 },
                 inline: true,
                 on: 'change'
@@ -577,6 +532,10 @@ function show_procedureResult(id) {
             $('#ogive_alertbundle_procedureResult_domain.ui.dropdown').dropdown({
                 on: 'click'
             });
+
+            $('#ogive_alertbundle_procedureResult_subDomain.ui.dropdown').dropdown({
+                on: 'click'
+            });
             $('#ogive_alertbundle_procedureResult_callOffer.ui.dropdown').dropdown({
                 on: 'click'
             });
@@ -674,12 +633,12 @@ function enable_procedureResult(id) {
                 500: function (xhr) {
                     $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
                     $('#message_error').show();
-                    
+
                 },
                 404: function (response, textStatus, jqXHR) {
                     $('#message_error>div.header').html("Echec d'activation de l'attribution");
                     $('#message_error').show();
-                    
+
                 }
             },
             success: function (response, textStatus, jqXHR) {
@@ -729,12 +688,12 @@ function disable_procedureResult(id) {
                 500: function (xhr) {
                     $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
                     $('#message_error').show();
-                    
+
                 },
                 404: function (response, textStatus, jqXHR) {
                     $('#message_error>div.header').html("Echec de la désactivation de l'attribution");
                     $('#message_error').show();
-                    
+
                 }
             },
             success: function (response, textStatus, jqXHR) {

@@ -57,7 +57,25 @@ class ProcedureResultType extends AbstractType {
                         return $repo->getExpressionInterestQueryBuilder();
                     }
                 ))
-                ;
+                ->add('domain', 'entity', array(
+                    'class' => 'OGIVEAlertBundle:Domain',
+                    'property' => 'name',
+                    'empty_value' => "Selectionner le domaine d'activité",
+                    'multiple' => false,
+                    'required' => false,
+                    'query_builder' => function(\OGIVE\AlertBundle\Repository\DomainRepository $repo) {
+                        return $repo->getDomainQueryBuilder();
+                    }))
+                ->add('subDomain', 'entity', array(
+                    'class' => 'OGIVEAlertBundle:SubDomain',
+                    'property' => 'name',
+                    'empty_value' => "Selectionner un sous-domaine",
+                    'multiple' => false,
+                    'required' => false,
+                    'query_builder' => function(\OGIVE\AlertBundle\Repository\SubDomainRepository $repo) {
+                        return $repo->getSubDomainQueryBuilder();
+                    }))
+        ;
     }
 
     /**

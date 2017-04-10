@@ -31,11 +31,11 @@ class AdditiveController extends Controller {
         }
         $em = $this->getDoctrine()->getManager();
         $additive = new Additive();
-        $page=1;
+        $page = 1;
         $maxResults = 4;
-        $route_param_page= array();
-        $route_param_search_query= array();
-        $search_query =null;
+        $route_param_page = array();
+        $route_param_search_query = array();
+        $search_query = null;
         $placeholder = "Rechercher un additif...";
         if ($request->get('page')) {
             $page = intval(htmlspecialchars(trim($request->get('page'))));
@@ -45,8 +45,8 @@ class AdditiveController extends Controller {
             $search_query = htmlspecialchars(trim($request->get('search_query')));
             $route_param_search_query['search_query'] = $search_query;
         }
-        $start_from = ($page-1)*$maxResults>=0 ? ($page-1)*$maxResults: 0;
-        $total_pages = ceil(count($em->getRepository('OGIVEAlertBundle:Additive')->getAllByString($search_query))/$maxResults);
+        $start_from = ($page - 1) * $maxResults >= 0 ? ($page - 1) * $maxResults : 0;
+        $total_pages = ceil(count($em->getRepository('OGIVEAlertBundle:Additive')->getAllByString($search_query)) / $maxResults);
         $form = $this->createForm('OGIVE\AlertBundle\Form\AdditiveType', $additive);
         $additives = $em->getRepository('OGIVEAlertBundle:Additive')->getAll($start_from, $maxResults, $search_query);
         return $this->render('OGIVEAlertBundle:additive:index.html.twig', array(
@@ -54,7 +54,7 @@ class AdditiveController extends Controller {
                     'total_pages' => $total_pages,
                     'page' => $page,
                     'form' => $form->createView(),
-                    'route_param_page'=> $route_param_page, 
+                    'route_param_page' => $route_param_page,
                     'route_param_search_query' => $route_param_search_query,
                     'search_query' => $search_query,
                     'placeholder' => $placeholder
@@ -93,7 +93,7 @@ class AdditiveController extends Controller {
         }
         $additive = new Additive();
         $repositoryAdditive = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Additive');
-        
+
         if ($request->get('testunicity') == 'yes' && $request->get('reference')) {
             $reference = $request->get('reference');
             if ($repositoryAdditive->findOneBy(array('reference' => $reference, 'status' => 1))) {
@@ -102,12 +102,12 @@ class AdditiveController extends Controller {
                 return new JsonResponse(['message' => "Add Additive is possible !"], Response::HTTP_OK);
             }
         }
-        
+
         $form = $this->createForm('OGIVE\AlertBundle\Form\AdditiveType', $additive);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            
+
             if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
                 $sendActivate = $request->get('send_activate');
                 if ($sendActivate && $sendActivate === 'on') {
@@ -117,15 +117,23 @@ class AdditiveController extends Controller {
                 }
             }
             $additive->setAbstract($this->getAbstractOfAdditive($additive));
-            if($additive->getCallOffer()){
-                $additive->setDomain($additive->getCallOffer()->getDomain());
-                $additive->setSubDomain($additive->getCallOffer()->getSubDomain());
+            if ($additive->getCallOffer()) {
+                if ($additive->getCallOffer()->getDomain()) {
+                    $additive->setDomain($additive->getCallOffer()->getDomain());
+                }
+                if ($additive->getCallOffer()->getSubDomain()) {
+                    $additive->setSubDomain($additive->getCallOffer()->getSubDomain());
+                }
                 $additive->setOwner($additive->getCallOffer()->getOwner());
                 //Set Object just for prevent database violation constraints
                 $additive->setObject($additive->getCallOffer()->getObject());
-            }elseif($additive->getExpressionInterest()){
-                $additive->setDomain($additive->getExpressionInterest()->getDomain());
-                $additive->setSubDomain($additive->getExpressionInterest()->getSubDomain());
+            } elseif ($additive->getExpressionInterest()) {
+                if ($additive->getExpressionInterest()->getDomain()) {
+                    $additive->setDomain($additive->getExpressionInterest()->getDomain());
+                }
+                if ($additive->getExpressionInterest()->getSubDomain()) {
+                    $additive->setSubDomain($additive->getExpressionInterest()->getSubDomain());
+                }
                 $additive->setOwner($additive->getExpressionInterest()->getOwner());
                 //Set Object just for prevent database violation constraints
                 $additive->setObject($additive->getExpressionInterest()->getObject());
@@ -181,7 +189,7 @@ class AdditiveController extends Controller {
         if (empty($additive)) {
             return new JsonResponse(['message' => "Additif introuvable"], Response::HTTP_NOT_FOUND);
         }
-        
+
         if ($request->get('testunicity') == 'yes' && $request->get('reference')) {
             $reference = $request->get('reference');
             $additiveUnique = $repositoryAdditive->findOneBy(array('reference' => $reference, 'status' => 1));
@@ -191,33 +199,47 @@ class AdditiveController extends Controller {
                 return new JsonResponse(['message' => "Update Additive is possible !"], Response::HTTP_OK);
             }
         }
-        
-        if($request->get('action')== 'enable'){
+
+        if ($request->get('action') == 'enable') {
             $additive->setState(1);
             $additive = $repositoryAdditive->updateAdditive($additive);
             return new JsonResponse(['message' => "Additif activé avec succcès !"], Response::HTTP_OK
-                    );
+            );
         }
-        
-        if($request->get('action')== 'disable'){
+
+        if ($request->get('action') == 'disable') {
             $additive->setState(0);
             $additive = $repositoryAdditive->updateAdditive($additive);
             return new JsonResponse(['message' => "Additif désactivé avec succcès !"], Response::HTTP_OK
-                    );
+            );
         }
         $form = $this->createForm('OGIVE\AlertBundle\Form\AdditiveType', $additive, array('method' => 'PUT'));
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            
+
             $additive->setAbstract($this->getAbstractOfAdditive($additive));
-            if($additive->getCallOffer()){
-                $additive->setDomain($additive->getCallOffer()->getDomain());
-                $additive->setSubDomain($additive->getCallOffer()->getSubDomain());
-            }elseif($additive->getExpressionInterest()){
-                $additive->setDomain($additive->getExpressionInterest()->getDomain());
-                $additive->setSubDomain($additive->getExpressionInterest()->getSubDomain());
+            if ($additive->getCallOffer()) {
+                if ($additive->getCallOffer()->getDomain()) {
+                    $additive->setDomain($additive->getCallOffer()->getDomain());
+                }
+                if ($additive->getCallOffer()->getSubDomain()) {
+                    $additive->setSubDomain($additive->getCallOffer()->getSubDomain());
+                }
+                $additive->setOwner($additive->getCallOffer()->getOwner());
+                //Set Object just for prevent database violation constraints
+                $additive->setObject($additive->getCallOffer()->getObject());
+            } elseif ($additive->getExpressionInterest()) {
+                if ($additive->getExpressionInterest()->getDomain()) {
+                    $additive->setDomain($additive->getExpressionInterest()->getDomain());
+                }
+                if ($additive->getExpressionInterest()->getSubDomain()) {
+                    $additive->setSubDomain($additive->getExpressionInterest()->getSubDomain());
+                }
+                $additive->setOwner($additive->getExpressionInterest()->getOwner());
+                //Set Object just for prevent database violation constraints
+                $additive->setObject($additive->getExpressionInterest()->getObject());
             }
             if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
                 $sendActivate = $request->get('send_activate');
@@ -227,7 +249,7 @@ class AdditiveController extends Controller {
                     $additive->setState(0);
                 }
             }
-            
+
             $additive = $repositoryAdditive->updateAdditive($additive);
             $view = View::createRedirect($this->generateUrl('additive_index'));
             $view->setFormat('html');
@@ -242,14 +264,14 @@ class AdditiveController extends Controller {
             //return new JsonResponse(['edit_additive_form' => $edit_additive_form], Response::HTTP_OK);
         }
     }
-    
-    public function getAbstractOfAdditive(Additive $additive){
-        if($additive && $additive->getCallOffer()){
-            return  "Réf : ".$additive->getType()." "."N°".$additive->getReference()."/".date("Y", strtotime($additive->getPublicationDate()))." du ".date("d/m/Y", strtotime($additive->getPublicationDate()))." relatif à ".$additive->getCallOffer()->getType()." N°".$additive->getCallOffer()->getReference()."/".$additive->getCallOffer()->getType()."/".$additive->getCallOffer()->getOwner()."/".date("Y", strtotime($additive->getCallOffer()->getPublicationDate()))." du ".date("d/m/Y", strtotime($additive->getCallOffer()->getPublicationDate())). "."; 
-        }elseif ($additive && $additive->getExpressionInterest()) {
-            return  "Réf : ".$additive->getType()." "."N°".$additive->getReference()."/".date("Y", strtotime($additive->getPublicationDate()))." du ".date("d/m/Y", strtotime($additive->getPublicationDate()))." relatif à ".$additive->getExpressionInterest()->getType()." N°".$additive->getExpressionInterest()->getReference()."/".$additive->getExpressionInterest()->getType()."/".$additive->getExpressionInterest()->getOwner()."/".date("Y", strtotime($additive->getExpressionInterest()->getPublicationDate()))." du ".date("d/m/Y", strtotime($additive->getExpressionInterest()->getPublicationDate())).'.'; 
-        }else{
-            return "";
+
+    public function getAbstractOfAdditive(Additive $additive) {
+        if ($additive && $additive->getCallOffer()) {
+            return "Réf : " . $additive->getType() . " " . "N°" . $additive->getReference() . "/" . date("Y", strtotime($additive->getPublicationDate())) . " du " . date("d/m/Y", strtotime($additive->getPublicationDate())) . " relatif à " . $additive->getCallOffer()->getType() . " N°" . $additive->getCallOffer()->getReference() . "/" . $additive->getCallOffer()->getType() . "/" . $additive->getCallOffer()->getOwner() . "/" . date("Y", strtotime($additive->getCallOffer()->getPublicationDate())) . " du " . date("d/m/Y", strtotime($additive->getCallOffer()->getPublicationDate())) . ".";
+        } elseif ($additive && $additive->getExpressionInterest()) {
+            return "Réf : " . $additive->getType() . " " . "N°" . $additive->getReference() . "/" . date("Y", strtotime($additive->getPublicationDate())) . " du " . date("d/m/Y", strtotime($additive->getPublicationDate())) . " relatif à " . $additive->getExpressionInterest()->getType() . " N°" . $additive->getExpressionInterest()->getReference() . "/" . $additive->getExpressionInterest()->getType() . "/" . $additive->getExpressionInterest()->getOwner() . "/" . date("Y", strtotime($additive->getExpressionInterest()->getPublicationDate())) . " du " . date("d/m/Y", strtotime($additive->getExpressionInterest()->getPublicationDate())) . '.';
+        } else {
+            return $additive->getObject();
         }
     }
 

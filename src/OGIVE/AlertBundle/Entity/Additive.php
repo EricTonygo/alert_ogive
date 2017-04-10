@@ -58,7 +58,7 @@ class Additive extends AlertProcedure
     /**
      * Get callOffer
      *
-     * @return OGIVE\AlertBundle\Entity\CallOffer
+     * @return \OGIVE\AlertBundle\Entity\CallOffer
      */
     public function getCallOffer() {
         return $this->callOffer;

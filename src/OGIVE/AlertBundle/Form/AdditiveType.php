@@ -48,7 +48,7 @@ class AdditiveType extends AbstractType {
 //                    'with_seconds' => false,
 //                    'required' => false,
 //                ))
-                //->add('object', null, array('required' => false))
+                ->add('object', null, array('required' => false))
                 //->add('owner', null, array('required' => false))
                 //->add('abstract')
                 ->add('uploadedFiles', FileType::class, array(
@@ -76,6 +76,24 @@ class AdditiveType extends AbstractType {
                         return $repo->getExpressionInterestQueryBuilder();
                     }
                 ))
+                    ->add('domain', 'entity', array(
+                    'class' => 'OGIVEAlertBundle:Domain',
+                    'property' => 'name',
+                    'empty_value' => "Selectionner le domaine d'activité",
+                    'multiple' => false,
+                    'required' => false,
+                    'query_builder' => function(\OGIVE\AlertBundle\Repository\DomainRepository $repo) {
+                        return $repo->getDomainQueryBuilder();
+                    }))
+                ->add('subDomain', 'entity', array(
+                    'class' => 'OGIVEAlertBundle:SubDomain',
+                    'property' => 'name',
+                    'empty_value' => "Selectionner un sous-domaine",
+                    'multiple' => false,
+                    'required' => false,
+                    'query_builder' => function(\OGIVE\AlertBundle\Repository\SubDomainRepository $repo) {
+                        return $repo->getSubDomainQueryBuilder();
+                    }))
                 ;
     }
 

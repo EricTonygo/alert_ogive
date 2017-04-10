@@ -85,21 +85,12 @@ $(function () {
                             }
                         ]
                     },
-                    opening_date_date: {
-                        identifier: 'opening_date_date',
+                    opening_date: {
+                        identifier: 'opening_date',
                         rules: [
                             {
                                 type: 'empty',
                                 prompt: "Veuillez renseigner la date d'ouverture de dépôt"
-                            }
-                        ]
-                    },
-                    opening_date_time: {
-                        identifier: 'opening_date_time',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: "Veuillez renseigner l'heure d'ouverture de dépôt"
                             }
                         ]
                     },
@@ -109,33 +100,6 @@ $(function () {
                             {
                                 type: 'empty',
                                 prompt: "Veuillez renseigner la date limite de dépôt"
-                            }
-                        ]
-                    },
-                    deadline_time: {
-                        identifier: 'deadline_time',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: "Veuillez renseigner l'heure limite de dépôt"
-                            }
-                        ]
-                    },
-                    sending_date_date: {
-                        identifier: 'sending_date_date',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: "Veuillez renseigner la date de notification aux abonnés"
-                            }
-                        ]
-                    },
-                    sending_date_time: {
-                        identifier: 'sending_date_time',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: "Veuillez renseigner l'heure de notification aux abonnés"
                             }
                         ]
                     }
@@ -369,8 +333,8 @@ function execute_edit(id) {
                             }
                         ]
                     },
-                    opening_date_date: {
-                        identifier: 'opening_date_date',
+                    opening_date: {
+                        identifier: 'opening_date',
                         rules: [
                             {
                                 type: 'empty',
@@ -378,48 +342,13 @@ function execute_edit(id) {
                             }
                         ]
                     },
-                    opening_date_time: {
-                        identifier: 'opening_date_time',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: "Veuillez renseigner l'heure d'ouverture de dépôt"
-                            }
-                        ]
-                    },
+                    
                     deadline_date: {
                         identifier: 'deadline_date',
                         rules: [
                             {
                                 type: 'empty',
                                 prompt: "Veuillez renseigner la date limite de dépôt"
-                            }
-                        ]
-                    },
-                    deadline_time: {
-                        identifier: 'deadline_time',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: "Veuillez renseigner l'heure limite de dépôt"
-                            }
-                        ]
-                    },
-                    sending_date_date: {
-                        identifier: 'sending_date_date',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: "Veuillez renseigner la date de notification aux abonnés"
-                            }
-                        ]
-                    },
-                    sending_date_time: {
-                        identifier: 'sending_date_time',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: "Veuillez renseigner l'heure de notification aux abonnés"
                             }
                         ]
                     }

@@ -45,6 +45,10 @@ $(function () {
     $('#ogive_alertbundle_additive_domain.ui.dropdown').dropdown({
         on: 'click'
     });
+
+    $('#ogive_alertbundle_additive_subDomain.ui.dropdown').dropdown({
+        on: 'click'
+    });
     $('#cancel_add_additive').click(function () {
         window.location.reload();
     });
@@ -79,88 +83,15 @@ $(function () {
                             }
                         ]
                     },
-                    owner: {
-                        identifier: 'owner',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: "Veuillez renseigner le maître d'ouvrage"
-                            }
-                        ]
-                    },
-                    domain: {
-                        identifier: 'domain',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: "Veuillez selectionner le domaine"
-                            }
-                        ]
-                    },
                     publication_date: {
                         identifier: 'publication_date',
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: "Veuillez renseigner la date de publication de l'offre"
-                            }
-                        ]
-                    },
-                    opening_date_date: {
-                        identifier: 'opening_date_date',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: "Veuillez renseigner la date d'ouverture de dépôt"
-                            }
-                        ]
-                    },
-                    opening_date_time: {
-                        identifier: 'opening_date_time',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: "Veuillez renseigner l'heure d'ouverture de dépôt"
-                            }
-                        ]
-                    },
-                    deadline_date: {
-                        identifier: 'deadline_date',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: "Veuillez renseigner la date limite de dépôt"
-                            }
-                        ]
-                    },
-                    deadline_time: {
-                        identifier: 'deadline_time',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: "Veuillez renseigner l'heure limite de dépôt"
-                            }
-                        ]
-                    },
-                    sending_date_date: {
-                        identifier: 'sending_date_date',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: "Veuillez renseigner la date de notification aux abonnés"
-                            }
-                        ]
-                    },
-                    sending_date_time: {
-                        identifier: 'sending_date_time',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: "Veuillez renseigner l'heure de notification aux abonnés"
+                                prompt: "Veuillez renseigner la date de publication de l'additif"
                             }
                         ]
                     }
-
                 },
                 inline: true,
                 on: 'change'
@@ -310,6 +241,13 @@ function edit_additive(id) {
             $('#ogive_alertbundle_additive_expressionInterest.ui.dropdown').dropdown({
                 on: 'click'
             });
+            $('#ogive_alertbundle_additive_domain.ui.dropdown').dropdown({
+                on: 'click'
+            });
+
+            $('#ogive_alertbundle_additive_subDomain.ui.dropdown').dropdown({
+                on: 'click'
+            });
             $('#checkbox_aao_edit').change(function () {
                 if ($(this).is(':checked')) {
                     $('#field_aao_edit').show();
@@ -384,84 +322,12 @@ function execute_edit(id) {
                             }
                         ]
                     },
-                    owner: {
-                        identifier: 'owner',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: "Veuillez renseigner le maître d'ouvrage"
-                            }
-                        ]
-                    },
-                    domain: {
-                        identifier: 'domain',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: "Veuillez selectionner le domaine"
-                            }
-                        ]
-                    },
                     publication_date: {
                         identifier: 'publication_date',
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: "Veuillez renseigner la date de publication de l'offre"
-                            }
-                        ]
-                    },
-                    opening_date_date: {
-                        identifier: 'opening_date_date',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: "Veuillez renseigner la date d'ouverture de dépôt"
-                            }
-                        ]
-                    },
-                    opening_date_time: {
-                        identifier: 'opening_date_time',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: "Veuillez renseigner l'heure d'ouverture de dépôt"
-                            }
-                        ]
-                    },
-                    deadline_date: {
-                        identifier: 'deadline_date',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: "Veuillez renseigner la date limite de dépôt"
-                            }
-                        ]
-                    },
-                    deadline_time: {
-                        identifier: 'deadline_time',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: "Veuillez renseigner l'heure limite de dépôt"
-                            }
-                        ]
-                    },
-                    sending_date_date: {
-                        identifier: 'sending_date_date',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: "Veuillez renseigner la date de notification aux abonnés"
-                            }
-                        ]
-                    },
-                    sending_date_time: {
-                        identifier: 'sending_date_time',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: "Veuillez renseigner l'heure de notification aux abonnés"
+                                prompt: "Veuillez renseigner la date de publication de l'additif"
                             }
                         ]
                     }
@@ -614,12 +480,12 @@ function delete_additive(id) {
                 500: function (xhr) {
                     $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
                     $('#message_error').show();
-                    
+
                 },
                 404: function (response, textStatus, jqXHR) {
                     $('#message_error>div.header').html(response.responseJSON.message);
                     $('#message_error').show();
-                    
+
                 }
             },
             success: function (response, textStatus, jqXHR) {
@@ -674,6 +540,10 @@ function show_additive(id) {
                 closable: false
             });
             $('#ogive_alertbundle_additive_domain.ui.dropdown').dropdown({
+                on: 'click'
+            });
+
+            $('#ogive_alertbundle_additive_subDomain.ui.dropdown').dropdown({
                 on: 'click'
             });
             $('#ogive_alertbundle_additive_callOffer.ui.dropdown').dropdown({
@@ -778,12 +648,12 @@ function enable_additive(id) {
                 500: function (xhr) {
                     $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
                     $('#message_error').show();
-                    
+
                 },
                 404: function (response, textStatus, jqXHR) {
                     $('#message_error>div.header').html("Echec d'activation de l'additif");
                     $('#message_error').show();
-                    
+
                 }
             },
             success: function (response, textStatus, jqXHR) {
@@ -839,12 +709,12 @@ function disable_additive(id) {
                 500: function (xhr) {
                     $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
                     $('#message_error').show();
-                    
+
                 },
                 404: function (response, textStatus, jqXHR) {
                     $('#message_error>div.header').html("Echec de la désactivation de l'additif");
                     $('#message_error').show();
-                    
+
                 }
             },
             success: function (response, textStatus, jqXHR) {

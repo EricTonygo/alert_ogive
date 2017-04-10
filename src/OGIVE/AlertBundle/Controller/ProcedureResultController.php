@@ -31,11 +31,11 @@ class ProcedureResultController extends Controller {
         }
         $em = $this->getDoctrine()->getManager();
         $procedureResult = new ProcedureResult();
-        $page=1;
+        $page = 1;
         $maxResults = 4;
-        $route_param_page= array();
-        $route_param_search_query= array();
-        $search_query =null;
+        $route_param_page = array();
+        $route_param_search_query = array();
+        $search_query = null;
         $placeholder = "Rechercher une attribution...";
         if ($request->get('page')) {
             $page = intval(htmlspecialchars(trim($request->get('page'))));
@@ -45,8 +45,8 @@ class ProcedureResultController extends Controller {
             $search_query = htmlspecialchars(trim($request->get('search_query')));
             $route_param_search_query['search_query'] = $search_query;
         }
-        $start_from = ($page-1)*$maxResults>=0 ? ($page-1)*$maxResults: 0;
-        $total_pages = ceil(count($em->getRepository('OGIVEAlertBundle:ProcedureResult')->getAllByString($search_query))/$maxResults);
+        $start_from = ($page - 1) * $maxResults >= 0 ? ($page - 1) * $maxResults : 0;
+        $total_pages = ceil(count($em->getRepository('OGIVEAlertBundle:ProcedureResult')->getAllByString($search_query)) / $maxResults);
         $form = $this->createForm('OGIVE\AlertBundle\Form\ProcedureResultType', $procedureResult);
         $procedureResults = $em->getRepository('OGIVEAlertBundle:ProcedureResult')->getAll($start_from, $maxResults, $search_query);
         return $this->render('OGIVEAlertBundle:procedureResult:index.html.twig', array(
@@ -54,7 +54,7 @@ class ProcedureResultController extends Controller {
                     'total_pages' => $total_pages,
                     'page' => $page,
                     'form' => $form->createView(),
-                    'route_param_page'=> $route_param_page, 
+                    'route_param_page' => $route_param_page,
                     'route_param_search_query' => $route_param_search_query,
                     'search_query' => $search_query,
                     'placeholder' => $placeholder
@@ -106,7 +106,7 @@ class ProcedureResultController extends Controller {
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            
+
             if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
                 $sendActivate = $request->get('send_activate');
                 if ($sendActivate && $sendActivate === 'on') {
@@ -114,16 +114,24 @@ class ProcedureResultController extends Controller {
                 }
             }
             $procedureResult->setType($request->get('attribution_type'));
-            
+
             if ($procedureResult->getCallOffer()) {
-                $procedureResult->setDomain($procedureResult->getCallOffer()->getDomain());
-                $procedureResult->setSubDomain($procedureResult->getCallOffer()->getSubDomain());
+                if ($procedureResult->getCallOffer()->getDomain()) {
+                    $procedureResult->setDomain($procedureResult->getCallOffer()->getDomain());
+                }
+                if ($procedureResult->getCallOffer()->getSubDomain()) {
+                    $procedureResult->setSubDomain($procedureResult->getCallOffer()->getSubDomain());
+                }
                 $procedureResult->setOwner($procedureResult->getCallOffer()->getOwner());
             } elseif ($procedureResult->getExpressionInterest()) {
-                $procedureResult->setDomain($procedureResult->getExpressionInterest()->getDomain());
-                $procedureResult->setSubDomain($procedureResult->getExpressionInterest()->getSubDomain());
+                if ($procedureResult->getExpressionInterest()->getDomain()) {
+                    $procedureResult->setDomain($procedureResult->getExpressionInterest()->getDomain());
+                }
+                if ($procedureResult->getExpressionInterest()->getSubDomain()) {
+                    $procedureResult->setSubDomain($procedureResult->getExpressionInterest()->getSubDomain());
+                }
                 $procedureResult->setOwner($procedureResult->getExpressionInterest()->getOwner());
-            }            
+            }
             $procedureResult->setAbstract($this->getAbstractOfProcedureResult($procedureResult));
             $procedureResult = $repositoryProcedureResult->saveProcedureResult($procedureResult);
             $view = View::createRedirect($this->generateUrl('procedureResult_index'));
@@ -203,16 +211,22 @@ class ProcedureResultController extends Controller {
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            
-            
             $procedureResult->setType($request->get('attribution_type'));
             if ($procedureResult->getCallOffer()) {
-                $procedureResult->setDomain($procedureResult->getCallOffer()->getDomain());
-                $procedureResult->setSubDomain($procedureResult->getCallOffer()->getSubDomain());
+                if ($procedureResult->getCallOffer()->getDomain()) {
+                    $procedureResult->setDomain($procedureResult->getCallOffer()->getDomain());
+                }
+                if ($procedureResult->getCallOffer()->getSubDomain()) {
+                    $procedureResult->setSubDomain($procedureResult->getCallOffer()->getSubDomain());
+                }
                 $procedureResult->setOwner($procedureResult->getCallOffer()->getOwner());
             } elseif ($procedureResult->getExpressionInterest()) {
-                $procedureResult->setDomain($procedureResult->getExpressionInterest()->getDomain());
-                $procedureResult->setSubDomain($procedureResult->getExpressionInterest()->getSubDomain());
+                if ($procedureResult->getExpressionInterest()->getDomain()) {
+                    $procedureResult->setDomain($procedureResult->getExpressionInterest()->getDomain());
+                }
+                if ($procedureResult->getExpressionInterest()->getSubDomain()) {
+                    $procedureResult->setSubDomain($procedureResult->getExpressionInterest()->getSubDomain());
+                }
                 $procedureResult->setOwner($procedureResult->getExpressionInterest()->getOwner());
             }
             if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
@@ -244,7 +258,7 @@ class ProcedureResultController extends Controller {
         } elseif ($procedureResult && $procedureResult->getExpressionInterest()) {
             return "Décision " . $procedureResult->getReference() . " : " . "N°" . $procedureResult->getReference() . "/D/" . $procedureResult->getExpressionInterest()->getOwner() . "/" . date("Y", strtotime($procedureResult->getPublicationDate())) . " portant sur " . $procedureResult->getObject() . " de l'" . $procedureResult->getExpressionInterest()->getType() . " N°" . $procedureResult->getExpressionInterest()->getReference() . "/" . $procedureResult->getExpressionInterest()->getType() . "/" . $procedureResult->getExpressionInterest()->getOwner() . "/" . date("Y", strtotime($procedureResult->getExpressionInterest()->getPublicationDate())) . " du " . date("d/m/Y", $procedureResult->getExpressionInterest()->getPublicationDate()) . ".";
         } else {
-            return "";
+            return $procedureResult->getObject();
         }
     }
 
