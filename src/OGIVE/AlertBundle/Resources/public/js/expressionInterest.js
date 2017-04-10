@@ -266,15 +266,14 @@ function edit_expressionInterest(id) {
                 lang: 'fr',
                 scrollInput: false
             });
-            $('#edit_callOffer_btn').click(function () {
-                $('#block_details').hide();
-                $('#block_form_edit').show();
-                $('#cancel_edit_callOffer').show();
-                $('#submit_edit_callOffer').show();
-                $(this).hide();
+            $('#publicationDate_edit').datetimepicker({
+                timepicker: false,
+                format: 'd-m-Y',
+                lang: 'fr',
+                scrollInput: false
             });
             execute_edit(id);
-            
+
             $('#message_loading').hide();
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -342,7 +341,7 @@ function execute_edit(id) {
                             }
                         ]
                     },
-                    
+
                     deadline_date: {
                         identifier: 'deadline_date',
                         rules: [
@@ -494,12 +493,12 @@ function delete_expressionInterest(id) {
                 500: function (xhr) {
                     $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
                     $('#message_error').show();
-                    
+
                 },
                 404: function (response, textStatus, jqXHR) {
                     $('#message_error>div.header').html(response.responseJSON.message);
                     $('#message_error').show();
-                    
+
                 }
             },
             success: function (response, textStatus, jqXHR) {
@@ -537,7 +536,7 @@ function show_expressionInterest(id) {
         statusCode: {
             500: function (xhr) {
                 $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
-                    $('#message_error').show();
+                $('#message_error').show();
             },
             404: function (response, textStatus, jqXHR) {
                 $('#message_error>div.header').html(response.responseJSON.message);
@@ -575,12 +574,11 @@ function show_expressionInterest(id) {
                 lang: 'fr',
                 scrollInput: false
             });
-            $('#edit_callOffer_btn').click(function () {
-                $('#block_details').hide();
-                $('#block_form_edit').show();
-                $('#cancel_edit_callOffer').show();
-                $('#submit_edit_callOffer').show();
-                $(this).hide();
+            $('#publicationDate_edit').datetimepicker({
+                timepicker: false,
+                format: 'd-m-Y',
+                lang: 'fr',
+                scrollInput: false
             });
             execute_edit(id);
             $('#edit_expressionInterest_btn').click(function () {
@@ -634,12 +632,12 @@ function enable_expressionInterest(id) {
                 500: function (xhr) {
                     $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
                     $('#message_error').show();
-                    
+
                 },
                 404: function (response, textStatus, jqXHR) {
                     $('#message_error>div.header').html("Echec d'activation de la manifestation");
                     $('#message_error').show();
-                    
+
                 }
             },
             success: function (response, textStatus, jqXHR) {
@@ -688,12 +686,12 @@ function disable_expressionInterest(id) {
                 500: function (xhr) {
                     $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
                     $('#message_error').show();
-                    
+
                 },
                 404: function (response, textStatus, jqXHR) {
                     $('#message_error>div.header').html("Echec de la désactivation de la manifestition");
                     $('#message_error').show();
-                    
+
                 }
             },
             success: function (response, textStatus, jqXHR) {
