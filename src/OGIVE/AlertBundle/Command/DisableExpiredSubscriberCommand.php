@@ -43,7 +43,18 @@ class DisableExpiredSubscriberCommand extends ContainerAwareCommand {
             if ($historics && !empty($historics)) {
                 $historicalSubscriberSubscription = $historics[0];
                 $expirationDate = $historicalSubscriberSubscription->getExpirationDate();
+                $interval = $today->diff( $expirationDate );
                 setlocale(LC_TIME, 'fr_FR');
+                if($subscriber->getState() == 1 && $today < $expirationDate && $interval->d ==7){
+                    $expirationTime = strtotime($expirationDate->format('Y-m-d H:i:s'));
+                    $message = 'Mmes/Mrs les dirrigeants de ' . $subscriber->getEntreprise()->getName() . ', votre abonnement à "Appels d\'Offres Infos" expirera le ' . date('d-m-Y', $expirationTime) . 'à ' . date('H', $expirationTime) . 'h' . date('i', $expirationTime) . '. Prière de passer dans nos services renouveller votre abonnement ou contacter :  243 80 38 95/694 20 03 10';
+                    $subscriber->setState(0);
+                    $repositorySubscriber->updateSubscriber($subscriber);
+                    $this->sendExpirationSubscriptionMessage($subscriber, $message);
+                    $this->sendEmailSubscriber($subscriber, 'Rappel de l\'expiration de votre abonnement à "Appels d\'Offres Infos"', $message);
+                    $admin_message .= 'Le compte de l\'abonné '.$subscriber->getPhoneNumber().' '.$subscriber->getEntreprise()->getName(). 'expirera le '. date('d-m-Y', $expirationTime) . 'à ' . date('H', $expirationTime) . 'h' . date('i', $expirationTime);
+                    $output->writeln($subscriber->getPhoneNumber() . 'expirera dans '.$interval->d." Jours");                    
+                }
                 if ($today > $expirationDate && $subscriber->getState() == 1) {
                     $expirationTime = strtotime($expirationDate->format('Y-m-d H:i:s'));
                     $message = 'Mmes/Mrs les dirrigeants de ' . $subscriber->getEntreprise()->getName() . ', votre abonnement à "Appels d\'Offres Infos" a expiré depuis le ' . date('d-m-Y', $expirationTime) . 'à ' . date('H', $expirationTime) . 'h' . date('i', $expirationTime) . '. Prière de passer dans nos services renouveller votre abonnement ou contacter :  243 80 38 95/694 20 03 10';
@@ -62,6 +73,7 @@ class DisableExpiredSubscriberCommand extends ContainerAwareCommand {
                     $admin_message .='Abonné '.$subscriber->getPhoneNumber().' '.$subscriber->getEntreprise()->getName(). ' a été reactivé \n';  
                     $output->writeln($subscriber->getPhoneNumber() . ' a été reactivé');
                 }
+                
             }
         }
         $admin = new Subscriber();
