@@ -48,7 +48,6 @@ class DisableExpiredSubscriberCommand extends ContainerAwareCommand {
                 setlocale(LC_TIME, 'fr_FR');
                 if($subscriber->getState() == 1 && $today < $expirationDate && $interval->d ==7){
                     $message = 'Mmes/Mrs les dirrigeants de ' . $subscriber->getEntreprise()->getName() . ', votre abonnement à "Appels d\'Offres Infos" expirera le ' . date('d-m-Y', $expirationTime) . 'à ' . date('H', $expirationTime) . 'h' . date('i', $expirationTime) . '. Prière de passer dans nos services renouveller votre abonnement ou contacter :  243 80 38 95/694 20 03 10';
-                    $repositorySubscriber->updateSubscriber($subscriber);
                     $this->sendExpirationSubscriptionMessage($subscriber, $message);
                     $this->sendEmailSubscriber($subscriber, 'Rappel de l\'expiration de votre abonnement à "Appels d\'Offres Infos"', $message);
                     $admin_message .= 'Le compte de l\'abonné '.$subscriber->getPhoneNumber().' '.$subscriber->getEntreprise()->getName(). 'expirera le '. date('d-m-Y', $expirationTime) . 'à ' . date('H', $expirationTime) . 'h' . date('i', $expirationTime);
