@@ -324,18 +324,17 @@ class SubscriberController extends Controller {
         }
         $content = $subscriber->getEntreprise()->getName() . ", votre souscription au service <<Appels d'offres Infos>> a été éffectuée avec succès. \nCoût du forfait = " . $cout . ". \nOGIVE SOLUTIONS vous remercie pour votre confiance.";
         $twilio = $this->get('twilio.client');
-//        $message = $twilio->messages->create(
-//                $subscriber->getPhoneNumber(), // Text any number
-//                array(
-//            'from' => 'OGIVE INFOS', // From a Twilio number in your account
-//            'body' => $content
-//                )
-//        );
+        $message = $twilio->messages->create(
+                $subscriber->getPhoneNumber(), // Text any number
+                array(
+            'from' => 'OGIVE INFOS', // From a Twilio number in your account
+            'body' => $content
+                )
+        );
         $this->sendEmailSubscriber($subscriber, "CONFIRMATION DE L'ABONNEMENT", $content);
         $historiqueAlertSubscriber->setMessage($content);
         $historiqueAlertSubscriber->setSubscriber($subscriber);
         $historiqueAlertSubscriber->setAlertType("SMS_CONFIRMATION_SUBSCRIPTION");
-
         return $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
     }
 
