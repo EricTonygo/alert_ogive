@@ -38,7 +38,7 @@ class DisableExpiredSubscriberCommand extends ContainerAwareCommand {
         $subscribers = $repositorySubscriber->findBy(array('status' => 1, 'state' => 1));
         $admin_message="";
         foreach ($subscribers as $subscriber) {
-            $historics = $repositoryHistoricalSubscriberSubscription->findBy(array('subscriber' => $subscriber, 'status' => 1), array('subscriptionDate' => 'asc'), 1, 0);
+            $historics = $repositoryHistoricalSubscriberSubscription->findBy(array('subscriber' => $subscriber, 'status' => 1), array('createDate' => 'DESC'), 1, 0);
             $today = new \DateTime('now');
             if ($historics && !empty($historics)) {
                 $historicalSubscriberSubscription = $historics[0];

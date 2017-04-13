@@ -19,34 +19,36 @@ use Symfony\Component\Security\Core\Exception\AccountStatusException;
 use FOS\UserBundle\Model\UserInterface;
 use FOS\UserBundle\Controller\RegistrationController as BaseController;
 
-
 /**
  * Controller managing the registration.
  *
  * @author Thibault Duplessis <thibault.duplessis@gmail.com>
  * @author Christophe Coevoet <stof@notk.org>
  */
-class RegistrationController extends BaseController
-{
+class RegistrationController extends BaseController {
+
     /**
      * @param Request $request
      *
      * @return Response
      */
-    public function registerAction()
-    {
+    public function registerAction() {
         /** @var $userManager UserManagerInterface */
         $userManager = $this->container->get('fos_user.user_manager');
         $form = $this->container->get('fos_user.registration.form');
         $formHandler = $this->container->get('fos_user.registration.form.handler');
         $confirmationEnabled = $this->container->getParameter('fos_user.registration.confirmation.enabled');
-
+        $page = 1;
+        $route_param_page = array();
+        $route_param_search_query = array();
+        $search_query = null;
+        $placeholder = "Rechercher un additif...";
         $process = $formHandler->process($confirmationEnabled);
         if ($process) {
             $user = $form->getData();
             $user->setRoles(array($this->container->get("request")->request->get('role')));
             $userManager->updateUser($user);
-            
+
             $authUser = false;
             if ($confirmationEnabled) {
                 $this->container->get('session')->set('fos_user_send_confirmation_email/email', $user->getEmail());
@@ -67,16 +69,22 @@ class RegistrationController extends BaseController
             return $response;
         }
 
-        return $this->container->get('templating')->renderResponse('FOSUserBundle:Registration:register.html.'.$this->getEngine(), array(
-            'form' => $form->createView(),
+        return $this->container->get('templating')->renderResponse('FOSUserBundle:Registration:register.html.' . $this->getEngine(), array(
+                    'form' => $form->createView(),
+                    'total_pages' => 1,
+                    'page' => $page,
+                    'form' => $form->createView(),
+                    'route_param_page' => $route_param_page,
+                    'route_param_search_query' => $route_param_search_query,
+                    'search_query' => $search_query,
+                    'placeholder' => $placeholder
         ));
     }
 
     /**
      * Tell the user to check his email provider
      */
-    public function checkEmailAction()
-    {
+    public function checkEmailAction() {
         $email = $this->container->get('session')->get('fos_user_send_confirmation_email/email');
         $this->container->get('session')->remove('fos_user_send_confirmation_email/email');
         $user = $this->container->get('fos_user.user_manager')->findUserByEmail($email);
@@ -85,16 +93,15 @@ class RegistrationController extends BaseController
             throw new NotFoundHttpException(sprintf('The user with email "%s" does not exist', $email));
         }
 
-        return $this->container->get('templating')->renderResponse('FOSUserBundle:Registration:checkEmail.html.'.$this->getEngine(), array(
-            'user' => $user,
+        return $this->container->get('templating')->renderResponse('FOSUserBundle:Registration:checkEmail.html.' . $this->getEngine(), array(
+                    'user' => $user,
         ));
     }
 
     /**
      * Receive the confirmation token from user email provider, login the user
      */
-    public function confirmAction($token)
-    {
+    public function confirmAction($token) {
         $user = $this->container->get('fos_user.user_manager')->findUserByConfirmationToken($token);
 
         if (null === $user) {
@@ -115,15 +122,14 @@ class RegistrationController extends BaseController
     /**
      * Tell the user his account is now confirmed
      */
-    public function confirmedAction()
-    {
+    public function confirmedAction() {
         $user = $this->container->get('security.context')->getToken()->getUser();
         if (!is_object($user) || !$user instanceof UserInterface) {
             throw new AccessDeniedException('This user does not have access to this section.');
         }
 
-        return $this->container->get('templating')->renderResponse('FOSUserBundle:Registration:confirmed.html.'.$this->getEngine(), array(
-            'user' => $user,
+        return $this->container->get('templating')->renderResponse('FOSUserBundle:Registration:confirmed.html.' . $this->getEngine(), array(
+                    'user' => $user,
         ));
     }
 
@@ -133,13 +139,10 @@ class RegistrationController extends BaseController
      * @param \FOS\UserBundle\Model\UserInterface        $user
      * @param \Symfony\Component\HttpFoundation\Response $response
      */
-    protected function authenticateUser(UserInterface $user, Response $response)
-    {
+    protected function authenticateUser(UserInterface $user, Response $response) {
         try {
             $this->container->get('fos_user.security.login_manager')->loginUser(
-                $this->container->getParameter('fos_user.firewall_name'),
-                $user,
-                $response);
+                    $this->container->getParameter('fos_user.firewall_name'), $user, $response);
         } catch (AccountStatusException $ex) {
             // We simply do not authenticate users which do not pass the user
             // checker (not enabled, expired, etc.).
@@ -150,13 +153,12 @@ class RegistrationController extends BaseController
      * @param string $action
      * @param string $value
      */
-    protected function setFlash($action, $value)
-    {
+    protected function setFlash($action, $value) {
         $this->container->get('session')->getFlashBag()->set($action, $value);
     }
 
-    protected function getEngine()
-    {
+    protected function getEngine() {
         return $this->container->getParameter('fos_user.template.engine');
     }
+
 }
