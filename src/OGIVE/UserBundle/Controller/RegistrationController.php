@@ -38,11 +38,7 @@ class RegistrationController extends BaseController {
         $form = $this->container->get('fos_user.registration.form');
         $formHandler = $this->container->get('fos_user.registration.form.handler');
         $confirmationEnabled = $this->container->getParameter('fos_user.registration.confirmation.enabled');
-        $page = 1;
-        $route_param_page = array();
-        $route_param_search_query = array();
-        $search_query = null;
-        $placeholder = "Rechercher un additif...";
+        
         $process = $formHandler->process($confirmationEnabled);
         if ($process) {
             $user = $form->getData();
@@ -65,19 +61,13 @@ class RegistrationController extends BaseController {
             if ($authUser) {
                 $this->authenticateUser($user, $response);
             }
-
+            //$url_login = $this->container->get('router')->generate('fos_user_security_login');
+            //$this->sendEmailRegistration($user, $url_login);
             return $response;
         }
 
         return $this->container->get('templating')->renderResponse('FOSUserBundle:Registration:register.html.' . $this->getEngine(), array(
-                    'form' => $form->createView(),
-                    'total_pages' => 1,
-                    'page' => $page,
-                    'form' => $form->createView(),
-                    'route_param_page' => $route_param_page,
-                    'route_param_search_query' => $route_param_search_query,
-                    'search_query' => $search_query,
-                    'placeholder' => $placeholder
+                    'form' => $form->createView()
         ));
     }
 
@@ -88,7 +78,7 @@ class RegistrationController extends BaseController {
         $email = $this->container->get('session')->get('fos_user_send_confirmation_email/email');
         $this->container->get('session')->remove('fos_user_send_confirmation_email/email');
         $user = $this->container->get('fos_user.user_manager')->findUserByEmail($email);
-
+        
         if (null === $user) {
             throw new NotFoundHttpException(sprintf('The user with email "%s" does not exist', $email));
         }
@@ -127,7 +117,7 @@ class RegistrationController extends BaseController {
         if (!is_object($user) || !$user instanceof UserInterface) {
             throw new AccessDeniedException('This user does not have access to this section.');
         }
-
+      
         return $this->container->get('templating')->renderResponse('FOSUserBundle:Registration:confirmed.html.' . $this->getEngine(), array(
                     'user' => $user,
         ));
@@ -159,6 +149,24 @@ class RegistrationController extends BaseController {
 
     protected function getEngine() {
         return $this->container->getParameter('fos_user.template.engine');
+    }
+
+    public function sendEmailRegistration(\OGIVE\UserBundle\Entity\User $user, $url_login) {
+        if ($user && $user->getEmail() != "") {
+            $message = \Swift_Message::newInstance()
+                    ->setSubject("Vos identifiants de connexion à ALERT MP")
+                    ->setFrom(array('infos@si-ogive.com' => "OGIVE INFOS"))
+                    ->setTo($user->getEmail())
+                    ->setBody(
+                    $this->container->get('templating')->renderResponse(
+                            // OGIVE/UserBundle/Resources/views/Emails/registration.html.twig
+                            'OGIVEUserBundle:Emails:registration.html.twig', array('user' => $user, "url_login" => $url_login, "password" => $user->getPlainPassword())
+                    ), 'text/html'
+            );
+            $this->container->get('mailer')->send($message);
+        } else {
+            return true;
+        }
     }
 
 }

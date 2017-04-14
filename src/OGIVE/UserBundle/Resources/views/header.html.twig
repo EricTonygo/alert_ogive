@@ -3,8 +3,14 @@
         <div class="ui container">
             <div class="ui left inverted secondary menu">
                 <a class="mobile_menu item"><i class="large sidebar icon"></i></a>
-                <a id="logo_mobile_menu" class="item">
+                <a  id="logo_mobile_menu" class="item">
                     ALERT M.P
+                </a>
+            </div>
+            <div class="ui right inverted secondary menu">
+                <a href="{{path('fos_user_security_login')}}" class="ui button item">
+                    <i class="sign in icon"></i>
+                    Se connecter
                 </a>
             </div>
         </div>
@@ -14,6 +20,12 @@
             <a class="mobile_menu disabled item"><i class="large sidebar icon"></i></a>
             <a id="logo_computer_menu" class="item">
                 ALERT M.P
+            </a>
+        </div>
+        <div class="ui right inverted secondary menu">
+            <a href="{{path('fos_user_security_login')}}" class="ui button item">
+                <i class="sign in icon"></i>
+                Se connecter
             </a>
         </div>
     </div>
