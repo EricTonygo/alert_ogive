@@ -16,9 +16,9 @@
                                 <span>{{subscriber.email}}</span><br>
                                 {%if subscriber.state == 1 %}
                                     <span class="ui green right ribbon label">Activé</span>
-                                {% elseif subscriber.expiredState == 1 and subscriber.state == 0%}
+                                {% elseif subscriber.expiredState == 0 and subscriber.state == 0%}
                                     <span class="ui red right ribbon label">Désactivé</span>
-                                {% elseif subscriber.expiredState == 0 %}
+                                {% elseif subscriber.expiredState == 1 %}
                                     <span class="ui orange right ribbon label">Expiré</span>
                                 {% endif %}
                             </div>
