@@ -58,6 +58,13 @@ class Subscriber
     protected $state;
     
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="expired_state", type="integer")
+     */
+    protected $expiredState = 0;
+    
+    /**
      * @var \Entreprise
      *
      * @ORM\ManyToOne(targetEntity="Entreprise")
@@ -257,6 +264,31 @@ class Subscriber
     public function getState()
     {
         return $this->state;
+    }
+    
+    
+    /**
+     * Set expiredState
+     *
+     * @param integer $expiredState
+     *
+     * @return Subscriber
+     */
+    public function setExpiredState($expiredState)
+    {
+        $this->expiredState = $expiredState;
+
+        return $this;
+    }
+
+    /**
+     * Get expiredState
+     *
+     * @return integer
+     */
+    public function getExpiredState()
+    {
+        return $this->expiredState;
     }
     
     /**
@@ -526,6 +558,7 @@ class Subscriber
         $this->createDate = new \DateTime('now');
         $this->lastUpdateDate = new \DateTime('now');
         $this->status = 1;
+        $this->expiredState = 0;
     }
 
 }

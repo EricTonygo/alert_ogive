@@ -149,6 +149,7 @@ class EntrepriseController extends Controller {
                     if ($subscriber->getSubscription()) {
                         $subscriber->setState(1);
                         $subscriber->setLastSubscriptionDate(new \DateTime('now'));
+                        $subscriber->setExpiredState(0);
                     }
                     $subscriber->setEntreprise($entreprise);
                 } else {
@@ -248,6 +249,7 @@ class EntrepriseController extends Controller {
                 if ($request->get('subscription_update') != 'others' && $subscriber->getSubscription()) {
                     $subscriber->setLastSubscriptionDate(new \DateTime('now'));
                 }
+                $subscriber->setExpiredState(0);
                 $subscriber->setEntreprise($entreprise);
             }
             $entreprise = $repositoryEntreprise->updateEntreprise($entreprise);

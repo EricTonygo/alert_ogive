@@ -223,6 +223,7 @@ class SubscriberController extends Controller {
                 $subscriber->setSubscription($repositorySubscription->find(intval($request->get('subscription_type'))));
                 if($subscriber->getSubscription()){
                     $subscriber->setState(1);
+                    $subscriber->setExpiredState(0);
                 }
                 $subscriber = $repositorySubscriber->updateSubscriber($subscriber);
                 $historicalSubscriberSubscription->setSubscriber($subscriber);
@@ -269,6 +270,7 @@ class SubscriberController extends Controller {
                 $subscriber->setLastSubscriptionDate(new \DateTime('now'));
                 if($subscriber->getSubscription()){
                     $subscriber->setState(1);
+                    $subscriber->setExpiredState(0);
                 }
             }
             $subscriber = $repositorySubscriber->updateSubscriber($subscriber);
