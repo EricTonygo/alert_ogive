@@ -68,7 +68,7 @@ class DisableExpiredSubscriberCommand extends ContainerAwareCommand {
                     $this->sendExpirationSubscriptionMessage($subscriber, $message);
                     $this->sendEmailSubscriber($subscriber, 'Réactivation de votre abonnement au service "APPELS D\'OFFRES INFOS"', $message);
                     $admin_message .='Abonné '.$subscriber->getPhoneNumber().' '.$subscriber->getEntreprise()->getName(). ' a été réactivé \n';  
-                    $output->writeln($subscriber->getPhoneNumber() . ' a été reactivé');
+                    $output->writeln($subscriber->getPhoneNumber() . ' a été réactivé');
                 }
             }
         }
