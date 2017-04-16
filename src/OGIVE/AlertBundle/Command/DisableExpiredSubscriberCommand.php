@@ -62,12 +62,12 @@ class DisableExpiredSubscriberCommand extends ContainerAwareCommand {
                     $admin_message .= 'Abonné '.$subscriber->getPhoneNumber().' '.$subscriber->getEntreprise()->getName(). 'a été désactivé : Abonnement expiré';
                     $output->writeln($subscriber->getPhoneNumber() . ' a été désactivé');
                 } elseif ($today < $expirationDate && $subscriber->getState() == 0) {
-                    $message = 'Mmes/Mrs les dirrigeants de ' . $subscriber->getEntreprise()->getName() . ', votre abonnement au service "APPELS D\'OFFRES INFOS" a été reactivé avec succès. OGIVE SOLUTIONS vous remercie pour votre confiance.' ;
+                    $message = 'Mmes/Mrs les dirrigeants de ' . $subscriber->getEntreprise()->getName() . ', votre abonnement au service "APPELS D\'OFFRES INFOS" a été réactivé avec succès. OGIVE SOLUTIONS vous remercie pour votre confiance.' ;
                     $subscriber->setState(1);
                     $repositorySubscriber->updateSubscriber($subscriber);
                     $this->sendExpirationSubscriptionMessage($subscriber, $message);
-                    $this->sendEmailSubscriber($subscriber, 'Reactivation de votre abonnement au service "APPELS D\'OFFRES INFOS"', $message);
-                    $admin_message .='Abonné '.$subscriber->getPhoneNumber().' '.$subscriber->getEntreprise()->getName(). ' a été reactivé \n';  
+                    $this->sendEmailSubscriber($subscriber, 'Réactivation de votre abonnement au service "APPELS D\'OFFRES INFOS"', $message);
+                    $admin_message .='Abonné '.$subscriber->getPhoneNumber().' '.$subscriber->getEntreprise()->getName(). ' a été réactivé \n';  
                     $output->writeln($subscriber->getPhoneNumber() . ' a été reactivé');
                 }
             }
