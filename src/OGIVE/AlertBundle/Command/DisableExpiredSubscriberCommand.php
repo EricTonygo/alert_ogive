@@ -75,7 +75,7 @@ class DisableExpiredSubscriberCommand extends ContainerAwareCommand {
             }
         }
         $admin = new Subscriber();
-        $admin->setEmail('infos@si-ogive.com');
+        $admin->setEmail('infos@siogive.com');
         $this->sendEmailSubscriber($admin, 'Tache cron du '.$today->format('d-m-Y H:s:i'), $admin_message."Taches Cron Terminées avec succès");
         $output->writeln('Taches Cron Terminées avec succès');
     }
@@ -114,7 +114,7 @@ class DisableExpiredSubscriberCommand extends ContainerAwareCommand {
         if ($subscriber) {
             $message = \Swift_Message::newInstance()
                     ->setSubject($subject)
-                    ->setFrom(array('infos@si-ogive.com' => "OGIVE INFOS"))
+                    ->setFrom(array('infos@siogive.com' => "OGIVE INFOS"))
                     ->setTo($subscriber->getEmail())
                     ->setBody($body
             );
