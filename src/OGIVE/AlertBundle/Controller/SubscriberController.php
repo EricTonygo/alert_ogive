@@ -364,7 +364,7 @@ class SubscriberController extends Controller {
         if ($subscriber && $subscriber->getEmail() != "") {
             $message = \Swift_Message::newInstance()
                     ->setSubject($subject)
-                    ->setFrom(array('infos@si-ogive.com' => "OGIVE INFOS"))
+                    ->setFrom(array('infos@siogive.com' => "OGIVE INFOS"))
                     ->setTo($subscriber->getEmail())
                     ->setBody(
                     $content
