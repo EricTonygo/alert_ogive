@@ -37,8 +37,16 @@ framework:
 
 # Twig Configuration
 twig:
+    cache: false
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
+
+# Assetic Configuration
+assetic:
+    debug:          '%kernel.debug%'
+    use_controller: '%kernel.debug%'
+    filters:
+        cssrewrite: ~
 
 # Doctrine Configuration
 doctrine:
