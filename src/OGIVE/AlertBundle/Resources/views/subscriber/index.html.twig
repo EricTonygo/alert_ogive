@@ -3,28 +3,43 @@
 
 {% block sub_header %}
     {{parent()}}
-    <div id="second_computer_top_nav" class="ui computer_top_nav inverted main menu" style="background-color: #eeeeee; position: fixed;
-         top: 70px; left: 0; right: 0; height:4em;">
-        <div class="ui container">
-            <div class="ui left inverted secondary menu">
-                <a id="document_title" class="item">
-                    <h3>Liste des abonnés</h3>
-                </a>
-            </div>
-
-            <div class="ui right inverted secondary menu">
-                <div id='show_list_table' class="ui circular icon button item" data-tooltip="Afficher sous forme de liste" data-position="bottom center" data-inverted="">
-                    <i class="large list layout icon"></i>
+    <form id='search_form' method='GET' action='{{path(app.request.attributes.get('_route'))}}'>
+        <div id="second_computer_top_nav" class="ui computer_top_nav inverted main menu" style="background-color: #eeeeee; position: fixed;
+             top: 70px; left: 0; right: 0; height:4em;">
+            <div class="ui container">
+                <div class="ui left inverted secondary menu">
+                    <a id="document_title" class="item">
+                        <h3>Liste des abonnés</h3>
+                    </a>
                 </div>
-                <a class="ui circular icon button item">
-                    <i class="large trash icon"></i>
-                </a>
-                <a class="ui circular icon button item">
-                    <i class="large folder icon"></i>
-                </a>
+
+                <div class="ui center inverted secondary menu">
+                    <div class="ui search item">
+                        <div class="ui action input" style="width: 35em">
+                            <div class="ui input right icon s" style="width: 35em"> 
+                                <i class="remove link icon s" {% if not search_query %} style="display: none;" {% endif %} search_input_id='s'></i>
+                                <input id="s" class="prompt search_input" type="text" placeholder="{% if placeholder %} {{placeholder}} {% endif %}" value='{% if search_query %} {{search_query}} {% endif %}' name='search_query'>
+                            </div>
+                            <button id="submit_search_form" type="submit" class="ui yellow button"><i class="search icon"></i></button>
+                        </div>
+                        <div class="results"></div>                 
+                    </div>  
+                </div>
+
+                <div class="ui right inverted secondary menu">
+                    <div id='show_list_table' class="ui circular icon button item" data-tooltip="Afficher sous forme de liste" data-position="bottom center" data-inverted="">
+                        <i class="large list layout icon"></i>
+                    </div>
+                    <a class="ui circular icon button item">
+                        <i class="large trash icon"></i>
+                    </a>
+                    <a class="ui circular icon button item">
+                        <i class="large folder icon"></i>
+                    </a>
+                </div>
             </div>
         </div>
-    </div>
+    </form>
 {% endblock %}
 {% block content %}
     {% include('OGIVEAlertBundle:subscriber:grid.html.twig') %} 

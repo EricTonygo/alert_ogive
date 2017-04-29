@@ -189,7 +189,7 @@ div#home{
 
 .ui.secondary.inverted.menu .active.item {
     background: rgba(255,255,255,.15);
-    color: #ffffff!important;
+    color: #080600!important;
 }
 
 .ui.inverted.secondary.pointing.menu .item:hover{
@@ -198,7 +198,11 @@ div#home{
 
 .ui.secondary.inverted.menu a.item:hover {
     background: transparent;
-    color: #ffffff!important;
+    color: #080600!important;
+}
+
+.ui.secondary.inverted.menu a.item {
+    color: #080600!important;
 }
 
 .flex-control-paging li a.flex-active {
@@ -442,6 +446,7 @@ canvas{
 #logo_computer_menu {
     font-size: 22px;
     font-weight: bold;
+    color: #080600;
 }
 
 /*#first_computer_top_nav .ui.secondary.inverted.menu a.item {
@@ -552,7 +557,7 @@ a.ui.dropdown{
 }
 
 .ui.sidebar.menu .item:hover {
-    background-color: #4285f4;
+    background-color: #ffdb0f;
 }
 
 .ui.sidebar.menu .sidebar_title.item:hover {
@@ -575,7 +580,7 @@ a.ui.dropdown{
 
 .ui.sidebar.menu .sidebar_title.item{
     font-weight: bold;
-    color: #4285f4!important;
+    color: #ffdb0f!important;
 }
 
 .ui.sidebar.menu .item>.menu>a{
@@ -588,7 +593,7 @@ a.ui.dropdown{
 }
 
 .ui.right.floated.pagination.menu .active_page.item{
-     background-color: #4285f4;
+     background-color: #ffdb0f;
      color: white;
 }
 
@@ -663,4 +668,32 @@ a.ui.dropdown{
     background-color: #f7fdff;
     text-align: center;
     padding: 20px;
+}
+
+.ui.action.input input{
+    border-radius: 0;
+}
+
+.ui.action.input .ui.button:last-child{
+    border-radius: 0;
+}
+
+.ui.yellow.button{
+    background-color: #ffdb0f;
+}
+
+#first_computer_top_nav .ui.left.menu{
+    margin-right: 13em!important;
+}
+
+#mobile_top_nav .ui.left.menu{
+    margin-right: 5em!important;
+}
+
+.ui.small.image.logo_desktop{
+    width: 450px!important;
+}
+
+.ui.tiny.image.logo_mobile{
+    
 }
