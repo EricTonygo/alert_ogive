@@ -334,10 +334,11 @@ class SubscriberController extends Controller {
                 )
         );
         $this->sendEmailSubscriber($subscriber, "CONFIRMATION DE L'ABONNEMENT", $content);
-        $historiqueAlertSubscriber->setMessage($content);
-        $historiqueAlertSubscriber->setSubscriber($subscriber);
-        $historiqueAlertSubscriber->setAlertType("SMS_CONFIRMATION_SUBSCRIPTION");
-        return $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
+        return true;
+//        $historiqueAlertSubscriber->setMessage($content);
+//        $historiqueAlertSubscriber->setSubscriber($subscriber);
+//        $historiqueAlertSubscriber->setAlertType("SMS_CONFIRMATION_SUBSCRIPTION");
+//        return $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
     }
 
     /**

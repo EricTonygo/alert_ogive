@@ -20,7 +20,7 @@ class MailService {
         if($email!=""){
         $message = \Swift_Message::newInstance()
                 ->setSubject($subject)
-                ->setFrom(array('infos@si-ogive.com' => "OGIVE INFOS"))
+                ->setFrom(array('infos@siogive.com' => "OGIVE INFOS"))
                 ->setTo($email)
                 ->setBody(
                 $content

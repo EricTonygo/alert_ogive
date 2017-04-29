@@ -11,7 +11,8 @@
         <tbody id='list_as_table_content'>
             {%if messages%}
                 {%for message in messages%}
-                    <tr >
+                    <tr class="tooltip">
+                        <span class="tooltiptext">message.body</span>
                         <td>
                            {% if message.subscriber and message.subscriber.entreprise %} {{ message.subscriber.entreprise.name}} {% endif %}
                         </td>
