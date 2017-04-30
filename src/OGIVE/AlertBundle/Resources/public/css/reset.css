@@ -483,7 +483,8 @@ body.pushable>.pusher {
     background: #fafafa;
 }
 
-.float_button.ui.red.button{
+.float_button.ui.yellow.button{
+    color: #080600;
     bottom: 45px;
     cursor: pointer;
     position: fixed;
@@ -680,20 +681,14 @@ a.ui.dropdown{
 
 .ui.yellow.button{
     background-color: #ffdb0f;
+    color: #080600;
 }
 
 #first_computer_top_nav .ui.left.menu{
     margin-right: 13em!important;
 }
 
-#mobile_top_nav .ui.left.menu{
-    margin-right: 5em!important;
-}
 
 .ui.small.image.logo_desktop{
     width: 450px!important;
-}
-
-.ui.tiny.image.logo_mobile{
-    
 }
