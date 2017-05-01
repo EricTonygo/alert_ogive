@@ -100,7 +100,7 @@ function execute_send_sms_subscriber(id) {
                                 $('#message_success').hide();
                             }, 4000);
                             $('#send_sms_subscriber').remove();
-                            console.log(response.whatsappResponse);
+                            //console.log(response.whatsappResponse);
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
                             $('#submit_send_sms_subscriber').removeClass('disabled');
