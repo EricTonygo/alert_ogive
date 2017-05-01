@@ -36,16 +36,16 @@ class TelephoneController extends Controller {
         $form = $this->createForm('OGIVE\AlertBundle\Form\HistoricalAlertSubscriberType', $historiqueAlertSubscriber);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-//            $twilio = $this->get('twilio.client');
-//            $message = $twilio->messages->create(
-//                    $subscriber->getPhoneNumber(), // Text any number
-//                    array(
-//                'from' => 'OGIVE INFOS', // From a Twilio number in your account
-//                'body' => $historiqueAlertSubscriber->getMessage()
-//                    )
-//            );
-            $whatsappResponse = $this->sendMessageViaWhatsapp($subscriber->getPhoneNumber(), $historiqueAlertSubscriber->getMessage());
-            $view = View::create(['message' => "Message envoyé avec succès", "whatsappResponse" => $whatsappResponse]);
+            $twilio = $this->get('twilio.client');
+            $message = $twilio->messages->create(
+                    $subscriber->getPhoneNumber(), // Text any number
+                    array(
+                'from' => 'OGIVE INFOS', // From a Twilio number in your account
+                'body' => $historiqueAlertSubscriber->getMessage()
+                    )
+            );
+//            $whatsappResponse = $this->sendMessageViaWhatsapp($subscriber->getPhoneNumber(), $historiqueAlertSubscriber->getMessage());
+            $view = View::create(['message' => "Message envoyé avec succès"]);
             $view->setFormat('json');
             return $view;
         } elseif ($form->isSubmitted() && !$form->isValid()) {
