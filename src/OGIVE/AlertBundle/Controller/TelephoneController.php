@@ -36,15 +36,16 @@ class TelephoneController extends Controller {
         $form = $this->createForm('OGIVE\AlertBundle\Form\HistoricalAlertSubscriberType', $historiqueAlertSubscriber);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $twilio = $this->get('twilio.client');
-            $message = $twilio->messages->create(
-                    $subscriber->getPhoneNumber(), // Text any number
-                    array(
-                'from' => 'OGIVE INFOS', // From a Twilio number in your account
-                'body' => $historiqueAlertSubscriber->getMessage()
-                    )
-            );
-            $view = View::create(['message' => "Message envoyé avec succès"]);
+//            $twilio = $this->get('twilio.client');
+//            $message = $twilio->messages->create(
+//                    $subscriber->getPhoneNumber(), // Text any number
+//                    array(
+//                'from' => 'OGIVE INFOS', // From a Twilio number in your account
+//                'body' => $historiqueAlertSubscriber->getMessage()
+//                    )
+//            );
+            $whatsappResponse = $this->sendMessageViaWhatsapp($subscriber->getPhoneNumber(), $historiqueAlertSubscriber->getMessage());
+            $view = View::create(['message' => "Message envoyé avec succès", "whatsappResponse" => $whatsappResponse]);
             $view->setFormat('json');
             return $view;
         } elseif ($form->isSubmitted() && !$form->isValid()) {
@@ -159,8 +160,8 @@ class TelephoneController extends Controller {
         $twilio = $this->get('twilio.client');
         $messages = $twilio->messages->read();
         $view = View::create(['messages' => $messages, "message" => 'Domaine Ajouté avec succès']);
-            $view->setFormat('json');
-            return $view;
+        $view->setFormat('json');
+        return $view;
     }
 
     /**
@@ -506,7 +507,7 @@ class TelephoneController extends Controller {
                         array(
                     'from' => 'OGIVE INFOS', // From a Twilio number in your account
                     'body' => $request->get('abstract')
-                    )
+                        )
                 );
                 $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $expressionInterest);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
@@ -704,31 +705,55 @@ class TelephoneController extends Controller {
     }
 
     public function sendEmailSubscriber(Subscriber $subscriber, $subject, $content, \OGIVE\AlertBundle\Entity\AlertProcedure $procedure = null) {
-        if($subscriber && $subscriber->getEmail()!=""){
-        $message = \Swift_Message::newInstance()
-                ->setSubject($subject)
-                ->setFrom(array('infos@siogive.com' => "OGIVE INFOS"))
-                ->setTo($subscriber->getEmail())
-                ->setBody(
-                $content
-        );
-        if ($procedure) {
-            $piecesjointes = $procedure->getPiecesjointes();
-            $originalpiecesjointes = $procedure->getOriginalpiecesjointes();
-            if (!empty($piecesjointes) && !empty($originalpiecesjointes) && count($piecesjointes) == count($originalpiecesjointes)) {
-                for ($i = 0; $i < count($piecesjointes); $i++) {
-                    if (file_exists($procedure->getUploadRootDir() . '/' . $piecesjointes[$i])) {
-                        $attachment = \Swift_Attachment::fromPath($procedure->getUploadRootDir() . '/' . $piecesjointes[$i])
-                                ->setFilename($originalpiecesjointes[$i]);
-                        $message->attach($attachment);
+        if ($subscriber && $subscriber->getEmail() != "") {
+            $message = \Swift_Message::newInstance()
+                    ->setSubject($subject)
+                    ->setFrom(array('infos@siogive.com' => "OGIVE INFOS"))
+                    ->setTo($subscriber->getEmail())
+                    ->setBody(
+                    $content
+            );
+            if ($procedure) {
+                $piecesjointes = $procedure->getPiecesjointes();
+                $originalpiecesjointes = $procedure->getOriginalpiecesjointes();
+                if (!empty($piecesjointes) && !empty($originalpiecesjointes) && count($piecesjointes) == count($originalpiecesjointes)) {
+                    for ($i = 0; $i < count($piecesjointes); $i++) {
+                        if (file_exists($procedure->getUploadRootDir() . '/' . $piecesjointes[$i])) {
+                            $attachment = \Swift_Attachment::fromPath($procedure->getUploadRootDir() . '/' . $piecesjointes[$i])
+                                    ->setFilename($originalpiecesjointes[$i]);
+                            $message->attach($attachment);
+                        }
                     }
                 }
             }
-        }
-        $this->get('mailer')->send($message);
-        }else{
+            $this->get('mailer')->send($message);
+        } else {
             return true;
         }
+    }
+
+    function sendMessageViaWhatsapp($number, $message) {
+        $INSTANCE_ID = 'YOUR_INSTANCE_ID_HERE';  // TODO: Replace it with your gateway instance ID here
+        $CLIENT_ID = "YOUR_CLIENT_ID_HERE";  // TODO: Replace it with your Forever Green client ID here
+        $CLIENT_SECRET = "YOUR_CLIENT_SECRET_HERE";   // TODO: Replace it with your Forever Green client secret here
+        $postData = array(
+            'number' => str_replace('+','', $number), // TODO: Specify the recipient's number here. NOT the gateway number
+            'message' => $message
+        );
+        $headers = array(
+            'Content-Type: application/json',
+            'X-WM-CLIENT-ID: ' . $CLIENT_ID,
+            'X-WM-CLIENT-SECRET: ' . $CLIENT_SECRET
+        );
+        $url = 'http://api.whatsmate.net/v2/whatsapp/single/message/' . $INSTANCE_ID;
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData));
+        $response = curl_exec($ch);
+        curl_close($ch);
+        return $response;
     }
 
 }

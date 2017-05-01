@@ -7,11 +7,11 @@
                     ALERT M.P
                 </a>
             </div>
-           {# <div class="ui center inverted secondary menu">
-                <a href="http://www.siogive.com" class="header item">
-                    <img class="ui tiny image logo_mobile" src="{{asset('bundles/ogivealert/images/logo_ogive.PNG')}}">
-                </a>
-            </div>#}
+            {# <div class="ui center inverted secondary menu">
+                 <a href="http://www.siogive.com" class="header item">
+                     <img class="ui tiny image logo_mobile" src="{{asset('bundles/ogivealert/images/logo_ogive.PNG')}}">
+                 </a>
+             </div>#}
             <div class="ui right inverted secondary menu">
                 <!--div class="ui dropdown top right pointing item">
                     <i class="large alarm icon"></i><div class="floating ui circular red label">2</div>
@@ -48,6 +48,13 @@
                                 Déconnexion
                             </a>
                         </div>
+                    </div>
+                {%else %}
+                    <div class="ui right inverted secondary menu">
+                        <a href="{{path('fos_user_security_login')}}" class="ui button item">
+                            <i class="sign in icon"></i>
+                            Se connecter
+                        </a>
                     </div>
                 {%endif %}
             </div>
@@ -110,6 +117,13 @@
                             Déconnexion
                         </a>
                     </div>
+                </div>
+            {%else %}
+                <div class="ui right inverted secondary menu">
+                    <a href="{{path('fos_user_security_login')}}" class="ui button item">
+                        <i class="sign in icon"></i>
+                        Se connecter
+                    </a>
                 </div>
             {%endif %}
         </div>

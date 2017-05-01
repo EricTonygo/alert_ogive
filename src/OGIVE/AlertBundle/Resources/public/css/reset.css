@@ -203,6 +203,7 @@ div#home{
 
 .ui.secondary.inverted.menu a.item {
     color: #080600!important;
+    font-weight: bold!important;
 }
 
 .flex-control-paging li a.flex-active {
