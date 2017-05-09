@@ -16,3 +16,13 @@ services:
     mail_service:
         class: OGIVE\AlertBundle\Services\MailService
         arguments: ["@mailer"]
+        
+    sms_service:
+        class: OGIVE\AlertBundle\Services\SmsService
+        
+    curl_service:
+        class: OGIVE\AlertBundle\Services\CurlService
+
+    common_service:
+        class: OGIVE\AlertBundle\Services\CommonService
+        arguments: ["@mail_service", "@sms_service"]

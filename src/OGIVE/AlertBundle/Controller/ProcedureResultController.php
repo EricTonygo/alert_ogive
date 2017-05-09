@@ -134,6 +134,10 @@ class ProcedureResultController extends Controller {
             }
             $procedureResult->setAbstract($this->getAbstractOfProcedureResult($procedureResult));
             $procedureResult = $repositoryProcedureResult->saveProcedureResult($procedureResult);
+            $curl_response = $this->get('curl_service')->sendProcedureResultToWebsite($procedureResult);
+            $curl_response_array = json_decode($curl_response, true);
+            $procedureResult->setAbstract($this->getAbstractOfProcedureResult($procedureResult, $curl_response_array['data']['url']));
+            $repositoryProcedureResult->updateProcedureResult($procedureResult);
             $view = View::createRedirect($this->generateUrl('procedureResult_index'));
             $view->setFormat('html');
             return $view;
@@ -237,8 +241,12 @@ class ProcedureResultController extends Controller {
                     $procedureResult->setState(0);
                 }
             }
-            $procedureResult->setAbstract($this->getAbstractOfProcedureResult($procedureResult));
+            $procedureResult->setAbstract($this->getAbstractOfProcedureResult($procedureResult));            
             $procedureResult = $repositoryProcedureResult->updateProcedureResult($procedureResult);
+            $curl_response = $this->get('curl_service')->sendProcedureResultToWebsite($procedureResult);
+            $curl_response_array = json_decode($curl_response, true);
+            $procedureResult->setAbstract($this->getAbstractOfProcedureResult($procedureResult, $curl_response_array['data']['url']));
+            $repositoryProcedureResult->updateProcedureResult($procedureResult);
             $view = View::createRedirect($this->generateUrl('procedureResult_index'));
             $view->setFormat('html');
             return $view;
@@ -252,14 +260,19 @@ class ProcedureResultController extends Controller {
         }
     }
 
-    public function getAbstractOfProcedureResult(ProcedureResult $procedureResult) {
+    public function getAbstractOfProcedureResult(ProcedureResult $procedureResult, $detail_url = null) {
+        $abstract = "";
         if ($procedureResult && $procedureResult->getCallOffer()) {
-            return "Décision " . "N°" . $procedureResult->getReference() . "/D/" . $procedureResult->getCallOffer()->getOwner() . "/" . date("Y", strtotime($procedureResult->getPublicationDate())) . " portant sur " . $procedureResult->getObject() . " de l'" . $procedureResult->getCallOffer()->getType() . " N°" . $procedureResult->getCallOffer()->getReference() . "/" . $procedureResult->getCallOffer()->getType() . "/" . $procedureResult->getCallOffer()->getOwner() . "/" . date("Y", strtotime($procedureResult->getCallOffer()->getPublicationDate())) . " du " . date("d/m/Y", strtotime($procedureResult->getCallOffer()->getPublicationDate())) . ".";
+            $abstract = "Décision " . "N°" . $procedureResult->getReference() . "/D/" . $procedureResult->getCallOffer()->getOwner() . "/" . date("Y", strtotime($procedureResult->getPublicationDate())) . " portant sur " . $procedureResult->getObject() . " de l'" . $procedureResult->getCallOffer()->getType() . " N°" . $procedureResult->getCallOffer()->getReference() . "/" . $procedureResult->getCallOffer()->getType() . "/" . $procedureResult->getCallOffer()->getOwner() . "/" . date("Y", strtotime($procedureResult->getCallOffer()->getPublicationDate())) . " du " . date("d/m/Y", strtotime($procedureResult->getCallOffer()->getPublicationDate())) . ".";
         } elseif ($procedureResult && $procedureResult->getExpressionInterest()) {
-            return "Décision " . $procedureResult->getReference() . " : " . "N°" . $procedureResult->getReference() . "/D/" . $procedureResult->getExpressionInterest()->getOwner() . "/" . date("Y", strtotime($procedureResult->getPublicationDate())) . " portant sur " . $procedureResult->getObject() . " de l'" . $procedureResult->getExpressionInterest()->getType() . " N°" . $procedureResult->getExpressionInterest()->getReference() . "/" . $procedureResult->getExpressionInterest()->getType() . "/" . $procedureResult->getExpressionInterest()->getOwner() . "/" . date("Y", strtotime($procedureResult->getExpressionInterest()->getPublicationDate())) . " du " . date("d/m/Y", $procedureResult->getExpressionInterest()->getPublicationDate()) . ".";
+            $abstract = "Décision " . $procedureResult->getReference() . " : " . "N°" . $procedureResult->getReference() . "/D/" . $procedureResult->getExpressionInterest()->getOwner() . "/" . date("Y", strtotime($procedureResult->getPublicationDate())) . " portant sur " . $procedureResult->getObject() . " de l'" . $procedureResult->getExpressionInterest()->getType() . " N°" . $procedureResult->getExpressionInterest()->getReference() . "/" . $procedureResult->getExpressionInterest()->getType() . "/" . $procedureResult->getExpressionInterest()->getOwner() . "/" . date("Y", strtotime($procedureResult->getExpressionInterest()->getPublicationDate())) . " du " . date("d/m/Y", $procedureResult->getExpressionInterest()->getPublicationDate()) . ".";
         } else {
-            return $procedureResult->getObject();
+            $abstract = $procedureResult->getObject();
         }
+        if ($detail_url && $detail_url != "") {
+            $abstract .= " Détail téléchargeable à l'adresse " . $detail_url;
+        }
+        return $abstract;
     }
 
 }

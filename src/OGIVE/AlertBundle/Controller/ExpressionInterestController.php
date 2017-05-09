@@ -31,11 +31,11 @@ class ExpressionInterestController extends Controller {
         }
         $em = $this->getDoctrine()->getManager();
         $expressionInterest = new ExpressionInterest();
-        $page=1;
+        $page = 1;
         $maxResults = 4;
-        $route_param_page= array();
-        $route_param_search_query= array();
-        $search_query =null;
+        $route_param_page = array();
+        $route_param_search_query = array();
+        $search_query = null;
         $placeholder = "Rechercher un ASMI...";
         if ($request->get('page')) {
             $page = intval(htmlspecialchars(trim($request->get('page'))));
@@ -45,8 +45,8 @@ class ExpressionInterestController extends Controller {
             $search_query = htmlspecialchars(trim($request->get('search_query')));
             $route_param_search_query['search_query'] = $search_query;
         }
-        $start_from = ($page-1)*$maxResults>=0 ? ($page-1)*$maxResults: 0;
-        $total_pages = ceil(count($em->getRepository('OGIVEAlertBundle:ExpressionInterest')->getAllByString($search_query))/$maxResults);
+        $start_from = ($page - 1) * $maxResults >= 0 ? ($page - 1) * $maxResults : 0;
+        $total_pages = ceil(count($em->getRepository('OGIVEAlertBundle:ExpressionInterest')->getAllByString($search_query)) / $maxResults);
         $form = $this->createForm('OGIVE\AlertBundle\Form\ExpressionInterestType', $expressionInterest);
         $expressionInterests = $em->getRepository('OGIVEAlertBundle:ExpressionInterest')->getAll($start_from, $maxResults, $search_query);
         return $this->render('OGIVEAlertBundle:expressionInterest:index.html.twig', array(
@@ -54,7 +54,7 @@ class ExpressionInterestController extends Controller {
                     'total_pages' => $total_pages,
                     'page' => $page,
                     'form' => $form->createView(),
-                    'route_param_page'=> $route_param_page, 
+                    'route_param_page' => $route_param_page,
                     'route_param_search_query' => $route_param_search_query,
                     'search_query' => $search_query,
                     'placeholder' => $placeholder
@@ -114,6 +114,10 @@ class ExpressionInterestController extends Controller {
             }
             $expressionInterest->setAbstract($this->getAbstractOfExpressionInterest($expressionInterest));
             $expressionInterest = $repositoryExpressionInterest->saveExpressionInterest($expressionInterest);
+            $curl_response = $this->get('curl_service')->sendExpressionInterestToWebsite($expressionInterest);
+            $curl_response_array = json_decode($curl_response, true);
+            $expressionInterest->setAbstract($this->getAbstractOfExpressionInterest($expressionInterest, $curl_response_array['data']['url']));
+            $repositoryExpressionInterest->updateExpressionInterest($expressionInterest);
             $view = View::createRedirect($this->generateUrl('expressionInterest_index'));
             $view->setFormat('html');
             return $view;
@@ -192,7 +196,7 @@ class ExpressionInterestController extends Controller {
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $expressionInterest->setAbstract($this->getAbstractOfExpressionInterest($expressionInterest));
+            
             if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
                 $sendActivate = $request->get('send_activate');
                 if ($sendActivate && $sendActivate === 'on') {
@@ -201,7 +205,12 @@ class ExpressionInterestController extends Controller {
                     $expressionInterest->setState(0);
                 }
             }
+            $expressionInterest->setAbstract($this->getAbstractOfExpressionInterest($expressionInterest));
             $expressionInterest = $repositoryExpressionInterest->updateExpressionInterest($expressionInterest);
+            $curl_response = $this->get('curl_service')->sendExpressionInterestToWebsite($expressionInterest);
+            $curl_response_array = json_decode($curl_response, true);
+            $expressionInterest->setAbstract($this->getAbstractOfExpressionInterest($expressionInterest, $curl_response_array['data']['url']));
+            $repositoryExpressionInterest->updateExpressionInterest($expressionInterest);
             $view = View::createRedirect($this->generateUrl('expressionInterest_index'));
             $view->setFormat('html');
             return $view;
@@ -217,13 +226,17 @@ class ExpressionInterestController extends Controller {
         }
     }
 
-    public function getAbstractOfExpressionInterest(ExpressionInterest $expressionInterest) {
+    public function getAbstractOfExpressionInterest(ExpressionInterest $expressionInterest, $detail_url=null) {
         $dot = ".";
         if ($expressionInterest) {
             if (substr(trim($expressionInterest->getObject()), -1) === ".") {
                 $dot = "";
             }
-            return $expressionInterest->getType() . " : " . "N°" . $expressionInterest->getReference() . " du " . date("d/m/Y", strtotime($expressionInterest->getPublicationDate())) . " lancé par " . $expressionInterest->getOwner() . " pour " . $expressionInterest->getObject() . $dot . " Dépôt des offres le " . date("d/m/Y", strtotime($expressionInterest->getOpeningDate())) . " à " . date("H:i", strtotime($expressionInterest->getOpeningDate())) . ".";
+            $abstract = $expressionInterest->getType() . " : " . "N°" . $expressionInterest->getReference() . " du " . date("d/m/Y", strtotime($expressionInterest->getPublicationDate())) . " lancé par " . $expressionInterest->getOwner() . " pour " . $expressionInterest->getObject() . $dot . " Dépôt des offres le " . date("d/m/Y", strtotime($expressionInterest->getOpeningDate())) . " à " . date("H:i", strtotime($expressionInterest->getOpeningDate())) . ".";
+            if ($detail_url && $detail_url != "") {
+                $abstract .= " Détail téléchargeable à l'adresse " . $detail_url;
+            }
+            return $abstract;
         } else {
             return "";
         }

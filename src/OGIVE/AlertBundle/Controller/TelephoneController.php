@@ -36,15 +36,7 @@ class TelephoneController extends Controller {
         $form = $this->createForm('OGIVE\AlertBundle\Form\HistoricalAlertSubscriberType', $historiqueAlertSubscriber);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $twilio = $this->get('twilio.client');
-            $message = $twilio->messages->create(
-                    $subscriber->getPhoneNumber(), // Text any number
-                    array(
-                'from' => 'OGIVE INFOS', // From a Twilio number in your account
-                'body' => $historiqueAlertSubscriber->getMessage()
-                    )
-            );
-//            $whatsappResponse = $this->sendMessageViaWhatsapp($subscriber->getPhoneNumber(), $historiqueAlertSubscriber->getMessage());
+            $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $historiqueAlertSubscriber->getMessage());
             $view = View::create(['message' => "Message envoyé avec succès"]);
             $view->setFormat('json');
             return $view;
@@ -76,7 +68,6 @@ class TelephoneController extends Controller {
         $repositoryHistorique = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:HistoricalAlertSubscriber');
         $repositorySubscriber = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Subscriber');
 
-        $twilio = $this->get('twilio.client');
         $sendToAll = $request->get('all_subscribers');
         $idSubscribers = $request->get('subscribers');
         if ($sendToAll && $sendToAll === 'on') {
@@ -104,15 +95,8 @@ class TelephoneController extends Controller {
                 });
             }
             foreach ($subscribers as $subscriber) {
-
-                $message = $twilio->messages->create(
-                        $subscriber->getPhoneNumber(), // Text any number
-                        array(
-                    'from' => 'OGIVE INFOS', // From a Twilio number in your account
-                    'body' => $request->get('abstract')
-                        )
-                );
-                $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $callOffer);
+                //$this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $request->get('abstract'));
+                $this->get('mail_service')->sendEmailSubscriber($subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $callOffer);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("EMAIL");
@@ -127,15 +111,8 @@ class TelephoneController extends Controller {
             foreach ($idSubscribers as $idSubscriber) {
                 $idSubscriber = (int) $idSubscriber;
                 $subscriber = $repositorySubscriber->find($idSubscriber);
-
-                $message = $twilio->messages->create(
-                        $subscriber->getPhoneNumber(), // Text any number
-                        array(
-                    'from' => 'OGIVE INFOS', // From a Twilio number in your account
-                    'body' => $request->get('abstract')
-                        )
-                );
-                $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $callOffer);
+                $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $request->get('abstract'));
+                $this->get('mail_service')->sendEmailSubscriber($subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $callOffer);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("EMAIL");
@@ -159,7 +136,7 @@ class TelephoneController extends Controller {
     public function getAllMessagesAction(Request $request) {
         $twilio = $this->get('twilio.client');
         $messages = $twilio->messages->read();
-        $view = View::create(['messages' => $messages, "message" => 'Domaine Ajouté avec succès']);
+        $view = View::create(['messages' => $messages]);
         $view->setFormat('json');
         return $view;
     }
@@ -220,7 +197,6 @@ class TelephoneController extends Controller {
         $repositoryHistorique = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:HistoricalAlertSubscriber');
         $repositorySubscriber = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Subscriber');
 
-        $twilio = $this->get('twilio.client');
         $sendToAll = $request->get('all_subscribers');
         $idSubscribers = $request->get('subscribers');
         if ($sendToAll && $sendToAll === 'on') {
@@ -248,14 +224,8 @@ class TelephoneController extends Controller {
                 });
             }
             foreach ($subscribers as $subscriber) {
-                $message = $twilio->messages->create(
-                        $subscriber->getPhoneNumber(), // Text any number
-                        array(
-                    'from' => 'OGIVE INFOS', // From a Twilio number in your account
-                    'body' => $request->get('abstract')
-                        )
-                );
-                $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $procedureResult);
+                $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $request->get('abstract'));
+                $this->get('mail_service')->sendEmailSubscriber($subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $procedureResult);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("EMAIL");
@@ -267,14 +237,8 @@ class TelephoneController extends Controller {
         } elseif ($idSubscribers && is_array($idSubscribers) && !empty($idSubscribers)) {
             foreach ($idSubscribers as $idSubscriber) {
                 $subscriber = $repositorySubscriber->find((int) $idSubscriber);
-                $message = $twilio->messages->create(
-                        $subscriber->getPhoneNumber(), // Text any number
-                        array(
-                    'from' => 'OGIVE INFOS', // From a Twilio number in your account
-                    'body' => $request->get('abstract')
-                        )
-                );
-                $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $procedureResult);
+                $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $request->get('abstract'));
+                $this->get('mail_service')->sendEmailSubscriber($subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $procedureResult);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("EMAIL");
@@ -346,7 +310,6 @@ class TelephoneController extends Controller {
         $repositoryHistorique = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:HistoricalAlertSubscriber');
         $repositorySubscriber = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Subscriber');
 
-        $twilio = $this->get('twilio.client');
         $sendToAll = $request->get('all_subscribers');
         $idSubscribers = $request->get('subscribers');
         if ($sendToAll && $sendToAll === 'on') {
@@ -374,42 +337,26 @@ class TelephoneController extends Controller {
                 });
             }
             foreach ($subscribers as $subscriber) {
-                $message = $twilio->messages->create(
-                        $subscriber->getPhoneNumber(), // Text any number
-                        array(
-                    'from' => 'OGIVE INFOS', // From a Twilio number in your account
-                    'body' => $request->get('abstract')
-                        )
-                );
-                $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $additive);
+                $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $request->get('abstract'));
+                $this->get('mail_service')->sendEmailSubscriber($subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $additive);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("EMAIL");
                 $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
             }
-//            $additive->setAbstract($request->get('abstract'));
-//            $additive = $repositoryAdditive->updateAdditive($additive);
             $view = View::create(['message' => "SMS et Email envoyés avec succès"]);
             $view->setFormat('json');
             return $view;
         } elseif ($idSubscribers && is_array($idSubscribers) && !empty($idSubscribers)) {
             foreach ($idSubscribers as $idSubscriber) {
                 $subscriber = $repositorySubscriber->find((int) $idSubscriber);
-                $message = $twilio->messages->create(
-                        $subscriber->getPhoneNumber(), // Text any number
-                        array(
-                    'from' => 'OGIVE INFOS', // From a Twilio number in your account
-                    'body' => $request->get('abstract')
-                        )
-                );
-                $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $additive);
+                $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $request->get('abstract'));
+                $this->get('mail_service')->sendEmailSubscriber($subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $additive);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("EMAIL");
                 $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
             }
-//            $additive->setAbstract($request->get('abstract'));
-//            $additive = $repositoryAdditive->updateAdditive($additive);
             $view = View::create(['message' => "SMS et Email envoyés avec succès"]);
             $view->setFormat('json');
             return $view;
@@ -474,7 +421,6 @@ class TelephoneController extends Controller {
         $repositoryHistorique = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:HistoricalAlertSubscriber');
         $repositorySubscriber = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Subscriber');
 
-        $twilio = $this->get('twilio.client');
         $sendToAll = $request->get('all_subscribers');
         $idSubscribers = $request->get('subscribers');
         if ($sendToAll && $sendToAll === 'on') {
@@ -502,14 +448,8 @@ class TelephoneController extends Controller {
                 });
             }
             foreach ($subscribers as $subscriber) {
-                $message = $twilio->messages->create(
-                        $subscriber->getPhoneNumber(), // Text any number
-                        array(
-                    'from' => 'OGIVE INFOS', // From a Twilio number in your account
-                    'body' => $request->get('abstract')
-                        )
-                );
-                $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $expressionInterest);
+                $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $request->get('abstract'));
+                $this->get('mail_service')->sendEmailSubscriber($subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $expressionInterest);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("EMAIL");
@@ -523,21 +463,13 @@ class TelephoneController extends Controller {
         } elseif ($idSubscribers && is_array($idSubscribers) && !empty($idSubscribers)) {
             foreach ($idSubscribers as $idSubscriber) {
                 $subscriber = $repositorySubscriber->find((int) $idSubscriber);
-                $message = $twilio->messages->create(
-                        $subscriber->getPhoneNumber(), // Text any number
-                        array(
-                    'from' => 'OGIVE INFOS', // From a Twilio number in your account
-                    'body' => $request->get('abstract')
-                        )
-                );
-                $this->sendEmailSubscriber($subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $expressionInterest);
+                $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $request->get('abstract'));
+                $this->get('mail_service')->sendEmailSubscriber($subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $expressionInterest);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("EMAIL");
                 $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
             }
-//            $expressionInterest->setAbstract($request->get('abstract'));
-//            $expressionInterest = $repositoryExpressionInterest->updateExpressionInterest($expressionInterest);
             $view = View::create(['message' => "SMS et Email envoyés avec succès"]);
             $view->setFormat('json');
             return $view;
@@ -587,42 +519,6 @@ class TelephoneController extends Controller {
         return $view;
     }
 
-    public function sendSubscriptionConfirmation(Subscriber $subscriber) {
-        if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-            return $this->redirect($this->generateUrl('fos_user_security_login'));
-        }
-        $historiqueAlertSubscriber = new HistoricalAlertSubscriber();
-        $repositoryHistorique = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:HistoricalAlertSubscriber');
-        $cout = "";
-        if ($subscriber->getSubscription()->getPeriodicity() === 1) {
-            $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 1 an";
-        } elseif ($subscriber->getSubscription()->getPeriodicity() === 2) {
-            $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 6 mois";
-        } elseif ($subscriber->getSubscription()->getPeriodicity() === 3) {
-            $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 3 mois";
-        } elseif ($subscriber->getSubscription()->getPeriodicity() === 4) {
-            $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 1 mois";
-        } elseif ($subscriber->getSubscription()->getPeriodicity() === 4) {
-            $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 1 semaine";
-        }
-        $content = $subscriber->getEntreprise()->getName() . ", votre souscription au service <<Appels d'offres Infos>> a été éffectuée avec succès. \nCoût du forfait = " . $cout . ". \nOGIVE SOLUTIONS vous remercie pour votre confiance.";
-        $twilio = $this->get('twilio.client');
-
-        $message = $twilio->messages->create(
-                $subscriber->getPhoneNumber(), // Text any number
-                array(
-            'from' => 'OGIVE INFOS', // From a Twilio number in your account
-            'body' => $content
-                )
-        );
-        $this->sendEmailSubscriber($subscriber, "CONFIRMATION DE L'ABONNEMENT", $content);
-        $historiqueAlertSubscriber->setMessage($content);
-        $historiqueAlertSubscriber->setSubscriber($subscriber);
-        $historiqueAlertSubscriber->setAlertType("SMS_CONFIRMATION_SUBSCRIPTION");
-
-        return $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
-    }
-
     ////////////////////send SMS Spécial Follow Up ///////////////////////////////////
 
     /**
@@ -638,20 +534,13 @@ class TelephoneController extends Controller {
         $repositoryHistorique = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:HistoricalAlertSubscriber');
         $repositorySubscriber = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Subscriber');
 
-        $twilio = $this->get('twilio.client');
         $sendToAll = $request->get('all_subscribers');
         $idSubscribers = $request->get('subscribers');
         if ($sendToAll && $sendToAll === 'on') {
             $subscribers = $repositorySubscriber->getAll();
             foreach ($subscribers as $subscriber) {
-                $message = $twilio->messages->create(
-                        $subscriber->getPhoneNumber(), // Text any number
-                        array(
-                    'from' => 'OGIVE INFOS', // From a Twilio number in your account
-                    'body' => $request->get('abstract')
-                        )
-                );
-                $this->sendEmailSubscriber($subscriber, $specialFollowUp->getName(), $request->get('abstract'));
+                $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $request->get('abstract'));
+                $this->get('mail_service')->sendEmailSubscriber($subscriber, $specialFollowUp->getName(), $request->get('abstract'));
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("EMAIL");
@@ -663,14 +552,8 @@ class TelephoneController extends Controller {
         } elseif ($idSubscribers && is_array($idSubscribers) && !empty($idSubscribers)) {
             foreach ($idSubscribers as $idSubscriber) {
                 $subscriber = $repositorySubscriber->find((int) $idSubscriber);
-                $message = $twilio->messages->create(
-                        $subscriber->getPhoneNumber(), // Text any number
-                        array(
-                    'from' => 'OGIVE INFOS', // From a Twilio number in your account
-                    'body' => $request->get('abstract')
-                        )
-                );
-                $this->sendEmailSubscriber($subscriber, $specialFollowUp->getName(), $request->get('abstract'));
+                $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $request->get('abstract'));
+                $this->get('mail_service')->sendEmailSubscriber($subscriber, $specialFollowUp->getName(), $request->get('abstract'));
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("EMAIL");
@@ -702,58 +585,6 @@ class TelephoneController extends Controller {
         $view = View::create(['send_special_follow_up_form' => $send_special_follow_up_form]);
         $view->setFormat('json');
         return $view;
-    }
-
-    public function sendEmailSubscriber(Subscriber $subscriber, $subject, $content, \OGIVE\AlertBundle\Entity\AlertProcedure $procedure = null) {
-        if ($subscriber && $subscriber->getEmail() != "") {
-            $message = \Swift_Message::newInstance()
-                    ->setSubject($subject)
-                    ->setFrom(array('infos@siogive.com' => "OGIVE INFOS"))
-                    ->setTo($subscriber->getEmail())
-                    ->setBody(
-                    $content
-            );
-            if ($procedure) {
-                $piecesjointes = $procedure->getPiecesjointes();
-                $originalpiecesjointes = $procedure->getOriginalpiecesjointes();
-                if (!empty($piecesjointes) && !empty($originalpiecesjointes) && count($piecesjointes) == count($originalpiecesjointes)) {
-                    for ($i = 0; $i < count($piecesjointes); $i++) {
-                        if (file_exists($procedure->getUploadRootDir() . '/' . $piecesjointes[$i])) {
-                            $attachment = \Swift_Attachment::fromPath($procedure->getUploadRootDir() . '/' . $piecesjointes[$i])
-                                    ->setFilename($originalpiecesjointes[$i]);
-                            $message->attach($attachment);
-                        }
-                    }
-                }
-            }
-            $this->get('mailer')->send($message);
-        } else {
-            return true;
-        }
-    }
-
-    function sendMessageViaWhatsapp($number, $message) {
-        $INSTANCE_ID = 'YOUR_INSTANCE_ID_HERE';  // TODO: Replace it with your gateway instance ID here
-        $CLIENT_ID = "YOUR_CLIENT_ID_HERE";  // TODO: Replace it with your Forever Green client ID here
-        $CLIENT_SECRET = "YOUR_CLIENT_SECRET_HERE";   // TODO: Replace it with your Forever Green client secret here
-        $postData = array(
-            'number' => str_replace('+','', $number), // TODO: Specify the recipient's number here. NOT the gateway number
-            'message' => $message
-        );
-        $headers = array(
-            'Content-Type: application/json',
-            'X-WM-CLIENT-ID: ' . $CLIENT_ID,
-            'X-WM-CLIENT-SECRET: ' . $CLIENT_SECRET
-        );
-        $url = 'http://api.whatsmate.net/v2/whatsapp/single/message/' . $INSTANCE_ID;
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData));
-        $response = curl_exec($ch);
-        curl_close($ch);
-        return $response;
     }
 
 }

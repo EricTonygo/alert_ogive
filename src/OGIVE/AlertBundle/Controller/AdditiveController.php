@@ -116,7 +116,6 @@ class AdditiveController extends Controller {
                     $additive->setState(0);
                 }
             }
-            $additive->setAbstract($this->getAbstractOfAdditive($additive));
             if ($additive->getCallOffer()) {
                 if ($additive->getCallOffer()->getDomain()) {
                     $additive->setDomain($additive->getCallOffer()->getDomain());
@@ -138,7 +137,12 @@ class AdditiveController extends Controller {
                 //Set Object just for prevent database violation constraints
                 $additive->setObject($additive->getExpressionInterest()->getObject());
             }
+            $additive->setAbstract($this->getAbstractOfAdditive($additive));            
             $additive = $repositoryAdditive->saveAdditive($additive);
+            $curl_response = $this->get('curl_service')->sendAdditiveToWebsite($additive);
+            $curl_response_array = json_decode($curl_response, true);
+            $additive->setAbstract($this->getAbstractOfAdditive($additive, $curl_response_array['data']['url']));
+            $repositoryAdditive->updateAdditive($additive);
             $view = View::createRedirect($this->generateUrl('additive_index'));
             $view->setFormat('html');
             return $view;
@@ -218,8 +222,6 @@ class AdditiveController extends Controller {
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            $additive->setAbstract($this->getAbstractOfAdditive($additive));
             if ($additive->getCallOffer()) {
                 if ($additive->getCallOffer()->getDomain()) {
                     $additive->setDomain($additive->getCallOffer()->getDomain());
@@ -249,8 +251,12 @@ class AdditiveController extends Controller {
                     $additive->setState(0);
                 }
             }
-
+            $additive->setAbstract($this->getAbstractOfAdditive($additive));
             $additive = $repositoryAdditive->updateAdditive($additive);
+            $curl_response = $this->get('curl_service')->sendAdditiveToWebsite($additive);
+            $curl_response_array = json_decode($curl_response, true);
+            $additive->setAbstract($this->getAbstractOfAdditive($additive, $curl_response_array['data']['url']));
+            $repositoryAdditive->updateAdditive($additive);
             $view = View::createRedirect($this->generateUrl('additive_index'));
             $view->setFormat('html');
             return $view;
@@ -265,14 +271,19 @@ class AdditiveController extends Controller {
         }
     }
 
-    public function getAbstractOfAdditive(Additive $additive) {
+    public function getAbstractOfAdditive(Additive $additive, $detail_url = null) {
+        $abstract = "";
         if ($additive && $additive->getCallOffer()) {
-            return "Réf : " . $additive->getType() . " " . "N°" . $additive->getReference() . "/" . date("Y", strtotime($additive->getPublicationDate())) . " du " . date("d/m/Y", strtotime($additive->getPublicationDate())) . " relatif à " . $additive->getCallOffer()->getType() . " N°" . $additive->getCallOffer()->getReference() . "/" . $additive->getCallOffer()->getType() . "/" . $additive->getCallOffer()->getOwner() . "/" . date("Y", strtotime($additive->getCallOffer()->getPublicationDate())) . " du " . date("d/m/Y", strtotime($additive->getCallOffer()->getPublicationDate())) . ".";
+            $abstract = "Réf : " . $additive->getType() . " " . "N°" . $additive->getReference() . "/" . date("Y", strtotime($additive->getPublicationDate())) . " du " . date("d/m/Y", strtotime($additive->getPublicationDate())) . " relatif à " . $additive->getCallOffer()->getType() . " N°" . $additive->getCallOffer()->getReference() . "/" . $additive->getCallOffer()->getType() . "/" . $additive->getCallOffer()->getOwner() . "/" . date("Y", strtotime($additive->getCallOffer()->getPublicationDate())) . " du " . date("d/m/Y", strtotime($additive->getCallOffer()->getPublicationDate())) . ".";
         } elseif ($additive && $additive->getExpressionInterest()) {
-            return "Réf : " . $additive->getType() . " " . "N°" . $additive->getReference() . "/" . date("Y", strtotime($additive->getPublicationDate())) . " du " . date("d/m/Y", strtotime($additive->getPublicationDate())) . " relatif à " . $additive->getExpressionInterest()->getType() . " N°" . $additive->getExpressionInterest()->getReference() . "/" . $additive->getExpressionInterest()->getType() . "/" . $additive->getExpressionInterest()->getOwner() . "/" . date("Y", strtotime($additive->getExpressionInterest()->getPublicationDate())) . " du " . date("d/m/Y", strtotime($additive->getExpressionInterest()->getPublicationDate())) . '.';
+            $abstract = "Réf : " . $additive->getType() . " " . "N°" . $additive->getReference() . "/" . date("Y", strtotime($additive->getPublicationDate())) . " du " . date("d/m/Y", strtotime($additive->getPublicationDate())) . " relatif à " . $additive->getExpressionInterest()->getType() . " N°" . $additive->getExpressionInterest()->getReference() . "/" . $additive->getExpressionInterest()->getType() . "/" . $additive->getExpressionInterest()->getOwner() . "/" . date("Y", strtotime($additive->getExpressionInterest()->getPublicationDate())) . " du " . date("d/m/Y", strtotime($additive->getExpressionInterest()->getPublicationDate())) . '.';
         } else {
-            return $additive->getObject();
+            $abstract = $additive->getObject();
         }
+        if ($detail_url && $detail_url != "") {
+            $abstract .= " Détail téléchargeable à l'adresse " . $detail_url;
+        }
+        return $abstract;
     }
 
 }

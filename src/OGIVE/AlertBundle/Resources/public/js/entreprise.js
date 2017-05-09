@@ -283,6 +283,7 @@ function execute_edit(id) {
                             $('#edit_entreprise.ui.modal').modal('hide');
                             $('#message_success>div.header').html(response.message);
                             $('#message_success').show();
+                            //console.log(response.curl_message);
                             window.location.reload();
                             setTimeout(function () {
                                 $('#message_success').hide();
@@ -475,7 +476,7 @@ function enable_entreprise(id) {
                             500: function (xhr) {
                                 $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
                                 $('#message_error').show();
-                                
+
                             },
                             404: function (response, textStatus, jqXHR) {
                                 $('#message_error>div.header').html(response.responseJSON.message);
@@ -541,7 +542,7 @@ function disable_entreprise(id) {
                 500: function (xhr) {
                     $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
                     $('#message_error').show();
-                    
+
                 },
                 404: function (response, textStatus, jqXHR) {
                     $('#message_error>div.header').html("Echec de la désactivation de l'entreprise");
@@ -550,7 +551,7 @@ function disable_entreprise(id) {
                 }
             },
             success: function (response, textStatus, jqXHR) {
-                console.log(response);
+                //console.log(response);
                 $('#message_loading').hide();
                 $('#disable_entreprise_grid' + id).hide();
                 $('#enable_entreprise_grid' + id).show();
