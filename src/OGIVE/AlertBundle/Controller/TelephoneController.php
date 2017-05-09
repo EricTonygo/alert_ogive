@@ -95,7 +95,7 @@ class TelephoneController extends Controller {
                 });
             }
             foreach ($subscribers as $subscriber) {
-                //$this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $request->get('abstract'));
+                $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $request->get('abstract'));
                 $this->get('mail_service')->sendEmailSubscriber($subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $callOffer);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
