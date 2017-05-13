@@ -34,24 +34,24 @@ class MailService {
         if ($subscriber && $subscriber->getEmail() != "") {
             $message = \Swift_Message::newInstance()
                     ->setSubject($subject)
-                    ->setFrom(array('infos@si-ogive.com' => "OGIVE INFOS"))
+                    ->setFrom(array('infos@siogive.com' => "OGIVE INFOS"))
                     ->setTo($subscriber->getEmail())
                     ->setBody(
                     $content
             );
-            if ($procedure) {
-                $piecesjointes = $procedure->getPiecesjointes();
-                $originalpiecesjointes = $procedure->getOriginalpiecesjointes();
-                if (!empty($piecesjointes) && !empty($originalpiecesjointes) && count($piecesjointes) == count($originalpiecesjointes)) {
-                    for ($i = 0; $i < count($piecesjointes); $i++) {
-                        if (file_exists($procedure->getUploadRootDir() . '/' . $piecesjointes[$i])) {
-                            $attachment = \Swift_Attachment::fromPath($procedure->getUploadRootDir() . '/' . $piecesjointes[$i])
-                                    ->setFilename($originalpiecesjointes[$i]);
-                            $message->attach($attachment);
-                        }
-                    }
-                }
-            }
+//            if ($procedure) {
+//                $piecesjointes = $procedure->getPiecesjointes();
+//                $originalpiecesjointes = $procedure->getOriginalpiecesjointes();
+//                if (!empty($piecesjointes) && !empty($originalpiecesjointes) && count($piecesjointes) == count($originalpiecesjointes)) {
+//                    for ($i = 0; $i < count($piecesjointes); $i++) {
+//                        if (file_exists($procedure->getUploadRootDir() . '/' . $piecesjointes[$i])) {
+//                            $attachment = \Swift_Attachment::fromPath($procedure->getUploadRootDir() . '/' . $piecesjointes[$i])
+//                                    ->setFilename($originalpiecesjointes[$i]);
+//                            $message->attach($attachment);
+//                        }
+//                    }
+//                }
+//            }
 
             $this->mailer->send($message);
         } else {
