@@ -550,11 +550,11 @@ function renewal_subscription_subscriber(id) {
                             $('#cancel_renewal_subscription_subscriber').removeClass('disabled');
                             $('#renewal_subscription_subscriber_form.ui.form').removeClass('loading');
                             $('#message_success>div.header').html(response.message);
-                            $('#message_success').show();
-                            window.location.reload();
+                            $('#message_success').show();                            
                             setTimeout(function () {
                                 $('#message_success').hide();
                             }, 4000);
+                            window.location.reload();
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
                             $('#execute_renewal_subscription_subscriber').removeClass('disabled');

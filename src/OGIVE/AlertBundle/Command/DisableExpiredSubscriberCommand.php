@@ -117,7 +117,6 @@ class DisableExpiredSubscriberCommand extends ContainerAwareCommand {
                     ->setBody($body
             );
         }
-
         $this->getContainer()->get('mailer')->send($message);
     }
 
