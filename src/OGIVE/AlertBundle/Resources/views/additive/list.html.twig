@@ -15,9 +15,11 @@
                         </td>
                         <td>{% if additive.object %} {{additive.object}} {% endif %}</td>
                         <td class="right aligned">
+                            {% if additive.state == 1 %}
                             <a onclick="send_procedure_additive({{additive.id}});" class="send_sms_additive_btn item" data-tooltip="Notifier les abonnés" data-position="top center" data-inverted="">
                                 <i class="alarm icon"></i>
                             </a>
+                                {% endif %}
                             <a class="ui dropdown item">
                                 <i class="ellipsis vertical icon"></i>
                                 <div class="menu">

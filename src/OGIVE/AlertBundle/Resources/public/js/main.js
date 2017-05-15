@@ -59,4 +59,33 @@ $('#pagination').change(function(e){
         window.location.replace(url);
     }
 });
+
+$('input.search_input').on("change paste keyup", function (e) {
+        var myclass = $(this).attr('id');
+        if ($(this).val() !== "") {
+            $('i.remove.link.icon.' + myclass).show();
+        } else {
+            $('i.remove.link.icon.' + myclass).hide();
+        }
+    });
+
+    $('input.search_input').on("focusout", function (e) {
+        var myclass = $(this).attr('id');
+        if ($(this).val() === "") {
+            $('i.remove.link.icon.' + myclass).hide();
+        }
+    });
+
+    $('i.remove.link.icon').click(function (e) {
+        var myid = $(this).attr('search_input_id');
+        $('#' + myid).val("");
+        $('i.remove.link.icon.' + myid).hide();
+    });
+    
+    $('#search_form').submit(function () {
+        if ($('#search_form input[name="s"]').val() === "") {
+            return false;
+        }
+        $('#submit_search_form').addClass('loading');
+    });
 });

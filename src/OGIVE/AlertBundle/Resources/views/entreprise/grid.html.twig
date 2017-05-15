@@ -12,7 +12,12 @@
                         <div class="content">
                             <div class="header">{{entreprise.name}}</div>
                             <div class="description">
-                                {{entreprise.address.phone}}
+                                <span>{{entreprise.address.phone}}</span><br>
+                                {%if entreprise.state == 1 %}
+                                    <span class="ui green right ribbon label">Activé</span>
+                                {% elseif entreprise.state == 0 %}
+                                    <span class="ui red right ribbon label">Désactivé</span>
+                                {% endif %}
                             </div>
                         </div>
                         <div class="extra content">

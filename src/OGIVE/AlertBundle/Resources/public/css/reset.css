@@ -189,7 +189,7 @@ div#home{
 
 .ui.secondary.inverted.menu .active.item {
     background: rgba(255,255,255,.15);
-    color: #ffffff!important;
+    color: #080600!important;
 }
 
 .ui.inverted.secondary.pointing.menu .item:hover{
@@ -198,7 +198,12 @@ div#home{
 
 .ui.secondary.inverted.menu a.item:hover {
     background: transparent;
-    color: #ffffff!important;
+    color: #080600!important;
+}
+
+.ui.secondary.inverted.menu a.item {
+    color: #080600!important;
+    font-weight: bold!important;
 }
 
 .flex-control-paging li a.flex-active {
@@ -442,6 +447,7 @@ canvas{
 #logo_computer_menu {
     font-size: 22px;
     font-weight: bold;
+    color: #080600;
 }
 
 /*#first_computer_top_nav .ui.secondary.inverted.menu a.item {
@@ -478,7 +484,8 @@ body.pushable>.pusher {
     background: #fafafa;
 }
 
-.float_button.ui.red.button{
+.float_button.ui.yellow.button{
+    color: #080600;
     bottom: 45px;
     cursor: pointer;
     position: fixed;
@@ -552,7 +559,7 @@ a.ui.dropdown{
 }
 
 .ui.sidebar.menu .item:hover {
-    background-color: #4285f4;
+    background-color: #ffdb0f;
 }
 
 .ui.sidebar.menu .sidebar_title.item:hover {
@@ -575,7 +582,7 @@ a.ui.dropdown{
 
 .ui.sidebar.menu .sidebar_title.item{
     font-weight: bold;
-    color: #4285f4!important;
+    color: #ffdb0f!important;
 }
 
 .ui.sidebar.menu .item>.menu>a{
@@ -588,10 +595,101 @@ a.ui.dropdown{
 }
 
 .ui.right.floated.pagination.menu .active_page.item{
-     background-color: #4285f4;
+     background-color: #ffdb0f;
      color: white;
 }
 
 .ui.pagination.menu .item {
     border-radius: 0!important;
+}
+
+/* Tooltip container */
+.tooltip {
+    position: relative;
+    /*display: inline-block;*/
+    /*border-bottom: 1px dotted black;  If you want dots under the hoverable text */
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+    visibility: hidden;
+    min-width: 150px;
+    background-color: rgba(0, 0, 0, 0.90)!important;
+    color: #fff!important;
+    border: 1px solid rgba(0, 0, 0, 0.90);
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 0;
+    font-size: 10pt;
+    font-weight: 400;
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+}
+
+/*.tooltip .tooltiptext {
+    bottom: 100%;
+    left: 50%;
+    margin-left: -75px;
+}
+
+.tooltip .tooltiptext::after {
+    content: " ";
+    position: absolute;
+    top: 100%;  At the bottom of the tooltip 
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #21BA45 transparent transparent transparent;
+}*/
+
+.tooltip .tooltiptext {
+    top: 100%;
+    left: 0%;
+    margin-left: 0px;  /*Use half of the width (120/2 = 60), to center the tooltip */
+}
+
+.tooltip .tooltiptext::after {
+    content: " ";
+    position: absolute;
+    bottom: 100%;   /*At the top of the tooltip */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent rgba(0, 0, 0, 0.90) transparent;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
+.copyright {
+    background-color: #f7fdff;
+    text-align: center;
+    padding: 20px;
+}
+
+.ui.action.input input{
+    border-radius: 0;
+}
+
+.ui.action.input .ui.button:last-child{
+    border-radius: 0;
+}
+
+.ui.yellow.button{
+    background-color: #ffdb0f;
+    color: #080600;
+}
+
+#first_computer_top_nav .ui.left.menu{
+    margin-right: 13em!important;
+}
+
+
+.ui.small.image.logo_desktop{
+    width: 450px!important;
 }

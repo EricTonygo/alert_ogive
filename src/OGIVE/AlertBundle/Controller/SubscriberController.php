@@ -120,11 +120,13 @@ class SubscriberController extends Controller {
                 $subscriber->setLastSubscriptionDate(new \DateTime('now'));
             }
             $subscriber = $repositorySubscriber->saveSubscriber($subscriber);
+            $curl_response = null;
             if ($subscriber->getSubscription() && $subscriber->getState() == 1) {
                 $historicalSubscriberSubscription->setSubscriber($subscriber);
                 $historicalSubscriberSubscription->setSubscription($subscriber->getSubscription());
                 $historicalSubscriberSubscription->setSubscriptionDateAndExpirationDate($subscriber->getLastSubscriptionDate());
                 $historicalSubscriberSubscription = $repositoryHistoricalSubscriberSubscription->saveHistoricalSubscriberSubscription($historicalSubscriberSubscription);
+                $curl_response = $this->get('curl_service')->createSubscriberAccount($subscriber);
             }
             $sendConfirmation = $request->get('send_confirmation');
             if ($sendConfirmation && $sendConfirmation === 'on') {
@@ -136,7 +138,7 @@ class SubscriberController extends Controller {
 //            $subscriber_content_grid = $this->renderView('OGIVEAlertBundle:subscriber:subscriber-grid.html.twig', array('subscriber' => $subscriber));
 //            $subscriber_content_list = $this->renderView('OGIVEAlertBundle:subscriber:subscriber-list.html.twig', array('subscriber' => $subscriber));
 //            $view = View::create(["code" => 200, 'subscriber_content_grid' => $subscriber_content_grid, 'subscriber_content_list' => $subscriber_content_list]);
-            $view = View::create(["message" => 'Abonné ajouté avec succès']);
+            $view = View::create(["message" => 'Abonné ajouté avec succès', "curl_response" => $curl_response]);
             $view->setFormat('json');
             return $view;
             //return new JsonResponse(["success" => true, 'subscriber' => $subscriber, 'subscriber_content_grid' => $subscriber_content_grid, 'subscriber_content_list' => $subscriber_content_list], Response::HTTP_OK);
@@ -198,13 +200,14 @@ class SubscriberController extends Controller {
                     $subscriber->setLastSubscriptionDate(new \DateTime('now'));
                 }
                 $subscriber = $repositorySubscriber->updateSubscriber($subscriber);
+                $curl_response = $this->get('curl_service')->enableSubscriberAccount($subscriber, $subscriber->getExpiredState());
                 if ($request->get('subscription_update') != 'others') {
                     $historicalSubscriberSubscription->setSubscriber($subscriber);
                     $historicalSubscriberSubscription->setSubscription($subscriber->getSubscription());
                     $historicalSubscriberSubscription->setSubscriptionDateAndExpirationDate($subscriber->getLastSubscriptionDate());
                     $historicalSubscriberSubscription = $repositoryHistoricalSubscriberSubscription->saveHistoricalSubscriberSubscription($historicalSubscriberSubscription);
                 }
-                return new JsonResponse(['message' => 'Abonné activé avec succcès !'], Response::HTTP_OK
+                return new JsonResponse(['message' => 'Abonné activé avec succcès !', 'curl_response' => $curl_response], Response::HTTP_OK
                 );
             } else {
                 if ($subscriber->getEntreprise()->getState() == 0) {
@@ -221,16 +224,21 @@ class SubscriberController extends Controller {
             if ($subscriber->getEntreprise() && $subscriber->getEntreprise()->getState() == 1) {
                 $subscriber->setLastSubscriptionDate(new \DateTime(date('Y-m-d H:i:s', strtotime($request->get('renewal_subscription_subscriber_date')))));
                 $subscriber->setSubscription($repositorySubscription->find(intval($request->get('subscription_type'))));
-                if($subscriber->getSubscription()){
+                $curl_response = null;
+                if ($subscriber->getSubscription()) {
                     $subscriber->setState(1);
+                    $subscriber->setExpiredState(0);
                 }
                 $subscriber = $repositorySubscriber->updateSubscriber($subscriber);
+                if ($subscriber->getSubscription() && $subscriber->getState() == 1) {
+                    $curl_response = $this->get('curl_service')->enableSubscriberAccount($subscriber, $subscriber->getExpiredState());
+                }
                 $historicalSubscriberSubscription->setSubscriber($subscriber);
                 $historicalSubscriberSubscription->setSubscription($subscriber->getSubscription());
                 $historicalSubscriberSubscription->setSubscriptionDateAndExpirationDate($subscriber->getLastSubscriptionDate());
                 $historicalSubscriberSubscription = $repositoryHistoricalSubscriberSubscription->saveHistoricalSubscriberSubscription($historicalSubscriberSubscription);
 
-                return new JsonResponse(['message' => 'Abonnement renouvelé avec succcès !'], Response::HTTP_OK
+                return new JsonResponse(['message' => 'Abonnement renouvelé avec succcès !', 'curl_response' => $curl_response], Response::HTTP_OK
                 );
             } else {
                 if ($subscriber->getEntreprise()->getState() == 0) {
@@ -245,7 +253,8 @@ class SubscriberController extends Controller {
         if ($request->get('action') == 'disable') {
             $subscriber->setState(0);
             $subscriber = $repositorySubscriber->updateSubscriber($subscriber);
-            return new JsonResponse(['message' => 'Abonné désactivé avec succcès !'], Response::HTTP_OK
+            $curl_response = $this->get('curl_service')->disableSubscriberAccount($subscriber, $subscriber->getExpiredState());
+            return new JsonResponse(['message' => 'Abonné désactivé avec succcès !', "curl_response" => $curl_response], Response::HTTP_OK
             );
         }
         $form = $this->createForm('OGIVE\AlertBundle\Form\SubscriberType', $subscriber, array('method' => 'PUT'));
@@ -267,11 +276,16 @@ class SubscriberController extends Controller {
             }
             if ($request->get('subscription_update') != 'others') {
                 $subscriber->setLastSubscriptionDate(new \DateTime('now'));
-                if($subscriber->getSubscription()){
+                if ($subscriber->getSubscription()) {
                     $subscriber->setState(1);
+                    $subscriber->setExpiredState(0);
                 }
             }
             $subscriber = $repositorySubscriber->updateSubscriber($subscriber);
+            $curl_response = null;
+            if ($subscriber->getSubscription() && $subscriber->getState() == 1) {
+                $curl_response = $this->get('curl_service')->updateSubscriberAccount($subscriber);
+            }
             if ($request->get('subscription_update') != 'others') {
                 if ($subscriber->getSubscription() && $subscriber->getEntreprise()) {
                     $historicalSubscriberSubscription->setSubscriber($subscriber);
@@ -291,7 +305,7 @@ class SubscriberController extends Controller {
                 }
             }
 
-            $view = View::create(["message" => 'Abonné modifié avec succès']);
+            $view = View::create(["message" => 'Abonné modifié avec succès', "curl_response" => $curl_response]);
             $view->setFormat('json');
             return $view;
         } elseif ($form->isSubmitted() && !$form->isValid()) {
@@ -305,9 +319,6 @@ class SubscriberController extends Controller {
     }
 
     public function sendSubscriptionConfirmation(Subscriber $subscriber) {
-        if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-            return $this->redirect($this->generateUrl('fos_user_security_login'));
-        }
         $historiqueAlertSubscriber = new HistoricalAlertSubscriber();
         $repositoryHistorique = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:HistoricalAlertSubscriber');
         $cout = "";
@@ -323,15 +334,9 @@ class SubscriberController extends Controller {
             $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 1 semaine";
         }
         $content = $subscriber->getEntreprise()->getName() . ", votre souscription au service <<Appels d'offres Infos>> a été éffectuée avec succès. \nCoût du forfait = " . $cout . ". \nOGIVE SOLUTIONS vous remercie pour votre confiance.";
-        $twilio = $this->get('twilio.client');
-        $message = $twilio->messages->create(
-                $subscriber->getPhoneNumber(), // Text any number
-                array(
-            'from' => 'OGIVE INFOS', // From a Twilio number in your account
-            'body' => $content
-                )
-        );
-        $this->sendEmailSubscriber($subscriber, "CONFIRMATION DE L'ABONNEMENT", $content);
+
+        $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $content);
+        $this->get('mail_service')->sendMail($subscriber->getEmail(), "CONFIRMATION DE L'ABONNEMENT", $content);
         $historiqueAlertSubscriber->setMessage($content);
         $historiqueAlertSubscriber->setSubscriber($subscriber);
         $historiqueAlertSubscriber->setAlertType("SMS_CONFIRMATION_SUBSCRIPTION");
@@ -356,35 +361,6 @@ class SubscriberController extends Controller {
         $view = View::create(['message' => "Accusé de reception envoyé avec succès"]);
         $view->setFormat('json');
         return $view;
-    }
-
-    public function sendEmailSubscriber(Subscriber $subscriber, $subject, $content, \OGIVE\AlertBundle\Entity\AlertProcedure $procedure = null) {
-        if ($subscriber && $subscriber->getEmail() != "") {
-            $message = \Swift_Message::newInstance()
-                    ->setSubject($subject)
-                    ->setFrom(array('infos@si-ogive.com' => "OGIVE INFOS"))
-                    ->setTo($subscriber->getEmail())
-                    ->setBody(
-                    $content
-            );
-            if ($procedure) {
-                $piecesjointes = $procedure->getPiecesjointes();
-                $originalpiecesjointes = $procedure->getOriginalpiecesjointes();
-                if (!empty($piecesjointes) && !empty($originalpiecesjointes) && count($piecesjointes) == count($originalpiecesjointes)) {
-                    for ($i = 0; $i < count($piecesjointes); $i++) {
-                        if (file_exists($procedure->getUploadRootDir() . '/' . $piecesjointes[$i])) {
-                            $attachment = \Swift_Attachment::fromPath($procedure->getUploadRootDir() . '/' . $piecesjointes[$i])
-                                    ->setFilename($originalpiecesjointes[$i]);
-                            $message->attach($attachment);
-                        }
-                    }
-                }
-            }
-
-            $this->get('mailer')->send($message);
-        } else {
-            return true;
-        }
     }
 
 }

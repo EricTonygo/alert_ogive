@@ -31,11 +31,11 @@ class CallOfferController extends Controller {
         }
         $em = $this->getDoctrine()->getManager();
         $callOffer = new CallOffer();
-        $page=1;
+        $page = 1;
         $maxResults = 4;
-        $route_param_page= array();
-        $route_param_search_query= array();
-        $search_query =null;
+        $route_param_page = array();
+        $route_param_search_query = array();
+        $search_query = null;
         $placeholder = "Rechercher un appel d'offre...";
         if ($request->get('page')) {
             $page = intval(htmlspecialchars(trim($request->get('page'))));
@@ -45,8 +45,8 @@ class CallOfferController extends Controller {
             $search_query = htmlspecialchars(trim($request->get('search_query')));
             $route_param_search_query['search_query'] = $search_query;
         }
-        $start_from = ($page-1)*$maxResults>=0 ? ($page-1)*$maxResults: 0;
-        $total_pages = ceil(count($em->getRepository('OGIVEAlertBundle:CallOffer')->getAllByString($search_query))/$maxResults);
+        $start_from = ($page - 1) * $maxResults >= 0 ? ($page - 1) * $maxResults : 0;
+        $total_pages = ceil(count($em->getRepository('OGIVEAlertBundle:CallOffer')->getAllByString($search_query)) / $maxResults);
         $form = $this->createForm('OGIVE\AlertBundle\Form\CallOfferType', $callOffer);
         $callOffers = $em->getRepository('OGIVEAlertBundle:CallOffer')->getAll($start_from, $maxResults, $search_query);
         return $this->render('OGIVEAlertBundle:callOffer:index.html.twig', array(
@@ -54,7 +54,7 @@ class CallOfferController extends Controller {
                     'total_pages' => $total_pages,
                     'page' => $page,
                     'form' => $form->createView(),
-                    'route_param_page'=> $route_param_page, 
+                    'route_param_page' => $route_param_page,
                     'route_param_search_query' => $route_param_search_query,
                     'search_query' => $search_query,
                     'placeholder' => $placeholder
@@ -117,6 +117,10 @@ class CallOfferController extends Controller {
             $callOffer->setType($request->get('call_offer_type'));
             $callOffer->setAbstract($this->getAbstractOfCallOffer($callOffer));
             $callOffer = $repositoryCallOffer->saveCallOffer($callOffer);
+            $curl_response = $this->get('curl_service')->sendCallOfferToWebsite($callOffer);
+            $curl_response_array = json_decode($curl_response, true);
+            $callOffer->setAbstract($this->getAbstractOfCallOffer($callOffer,  $curl_response_array['data']['url']));
+            $repositoryCallOffer->updateCallOffer($callOffer);            
             $view = View::createRedirect($this->generateUrl('call_offer_index'));
             $view->setFormat('html');
             return $view;
@@ -180,14 +184,20 @@ class CallOfferController extends Controller {
 
         if ($request->get('action') == 'enable') {
             $callOffer->setState(1);
+//            $curl_response = $this->get('curl_service')->sendCallOfferToWebsite($callOffer);
+//            $curl_response_array = json_decode($curl_response, true);
+//            $callOffer->setAbstract($this->getAbstractOfCallOffer($callOffer,  $curl_response_array['data']['url']));
             $callOffer = $repositoryCallOffer->updateCallOffer($callOffer);
-            return new JsonResponse(['message' => "Appel d'offre activé avec succcès !"], Response::HTTP_OK);
+            return new JsonResponse(['message' => "Appel d'offre activé avec succcès !", "url"=>$curl_response_array['data']['url']], Response::HTTP_OK);
         }
 
         if ($request->get('action') == 'disable') {
             $callOffer->setState(0);
+//            $curl_response = $this->get('curl_service')->sendCallOfferToWebsite($callOffer);
+//            $curl_response_array = json_decode($curl_response, true);
+//            $callOffer->setAbstract($this->getAbstractOfCallOffer($callOffer,  $curl_response_array['data']['url']));
             $callOffer = $repositoryCallOffer->updateCallOffer($callOffer);
-            return new JsonResponse(['message' => "Appel d'offre désactivé avec succcès !"], Response::HTTP_OK
+            return new JsonResponse(['message' => "Appel d'offre désactivé avec succcès !", "url"=>$curl_response_array['data']['url']], Response::HTTP_OK
             );
         }
         $form = $this->createForm('OGIVE\AlertBundle\Form\CallOfferType', $callOffer, array('method' => 'PUT'));
@@ -197,7 +207,7 @@ class CallOfferController extends Controller {
         if ($form->isSubmitted() && $form->isValid()) {
 
             $callOffer->setType($request->get('call_offer_type'));
-            $callOffer->setAbstract($this->getAbstractOfCallOffer($callOffer));
+            
             if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
                 $sendActivate = $request->get('send_activate');
                 if ($sendActivate && $sendActivate === 'on') {
@@ -206,7 +216,12 @@ class CallOfferController extends Controller {
                     $callOffer->setState(0);
                 }
             }
+            $callOffer->setAbstract($this->getAbstractOfCallOffer($callOffer));            
             $callOffer = $repositoryCallOffer->updateCallOffer($callOffer);
+            $curl_response = $this->get('curl_service')->sendCallOfferToWebsite($callOffer);
+            $curl_response_array = json_decode($curl_response, true);
+            $callOffer->setAbstract($this->getAbstractOfCallOffer($callOffer,  $curl_response_array['data']['url']));
+            $repositoryCallOffer->updateCallOffer($callOffer);            
             //$this->redirect($this->generateUrl('call_offer_index'));
             $view = View::createRedirect($this->generateUrl('call_offer_index'));
             $view->setFormat('html');
@@ -225,13 +240,17 @@ class CallOfferController extends Controller {
         }
     }
 
-    public function getAbstractOfCallOffer(CallOffer $callOffer) {
+    public function getAbstractOfCallOffer(CallOffer $callOffer, $detail_url = null) {
         if ($callOffer) {
             $dot = ".";
             if (substr(trim($callOffer->getObject()), -1) === ".") {
                 $dot = "";
             }
-            return $callOffer->getType() . " : " . "N°" . $callOffer->getReference() . " du " . date("d/m/Y", strtotime($callOffer->getPublicationDate())) . " lancé par " . $callOffer->getOwner() . " pour " . $callOffer->getObject() . $dot . " Dépôt des offres le " . date("d/m/Y", strtotime($callOffer->getOpeningDate())) . " à " . date("H:i", strtotime($callOffer->getOpeningDate())) . '.';
+            $abstract = $callOffer->getType() . " : " . "N°" . $callOffer->getReference() . " du " . date("d/m/Y", strtotime($callOffer->getPublicationDate())) . " lancé par " . $callOffer->getOwner() . " pour " . $callOffer->getObject() . $dot . " Dépôt des offres le " . date("d/m/Y", strtotime($callOffer->getOpeningDate())) . " à " . date("H:i", strtotime($callOffer->getOpeningDate())) . '.';
+            if ($detail_url && $detail_url != "") {
+                $abstract.= " Détail téléchargeable à l'adresse ".$detail_url;
+            }
+            return $abstract;
         } else {
             return "";
         }

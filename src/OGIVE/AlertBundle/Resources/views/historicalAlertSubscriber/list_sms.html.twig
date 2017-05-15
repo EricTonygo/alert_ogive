@@ -11,20 +11,24 @@
         <tbody id='list_as_table_content'>
             {%if messages%}
                 {%for message in messages%}
-                    <tr >
-                        <td>
+                    <tr >                        
+                        <td class="tooltip">
                            {% if message.subscriber and message.subscriber.entreprise %} {{ message.subscriber.entreprise.name}} {% endif %}
+                           <span class="tooltiptext">{{message.body}}</span>
                         </td>
-                        <td>
+                        <td class="tooltip">
                             {{message.to}}
+                            <span class="tooltiptext">{{message.body}}</span>
                         </td>
-                        <td>
+                        <td class="tooltip">
                             {{message.dateSent |date('d-m-Y H:i:s')}}
+                            <span class="tooltiptext">{{message.body}}</span>
                         </td>
-                        <td>
+                        <td class="tooltip">
                             {{message.price}}
-                        </td>
-                        <td>{{message.status}}</td>                       
+                            <span class="tooltiptext">{{message.body}}</span>
+                        </td >
+                        <td class="tooltip">{{message.status}}<span class="tooltiptext">{{message.body}}</span></td>                       
                     </tr>
                 {%endfor%} 
             {%endif%} 

@@ -1,5 +1,5 @@
 <header> 
-    <div class="ui mobile_top_nav top inverted fixed main menu" style="background-color: #4285f4; display: none">
+    <div class="ui mobile_top_nav top inverted fixed main menu" style="background-color: #ffdb0f; display: none">
         <div class="ui container">
             <div class="ui left inverted secondary menu">
                 <a class="mobile_menu item"><i class="large sidebar icon"></i></a>
@@ -7,23 +7,11 @@
                     ALERT M.P
                 </a>
             </div>
-        </div>
-    </div>
-    <form id='search_form' method='GET' action='{{path(app.request.attributes.get('_route'))}}'>
-        <div id="first_computer_top_nav" class="ui computer_top_nav top inverted fixed main menu" style="background-color: #4285f4;">
-            <div class="ui left inverted secondary menu">
-                <a class="mobile_menu item"><i class="large sidebar icon"></i></a>
-                <a href="{{ path('homepage') }}" id="logo_computer_menu" class="item">
-                    ALERT M.P
-                </a>           
-                <div class="ui search item">                
-                    <div class="ui icon input">                   
-                        <input class="prompt" type="text" placeholder="{% if placeholder %} {{placeholder}} {% endif %}" value='{% if search_query %} {{search_query}} {% endif %}' name='search_query'>
-                        <i class="search icon"></i>
-                    </div>
-                    <div class="results"></div>                 
-                </div>  
-            </div>
+            {# <div class="ui center inverted secondary menu">
+                 <a href="http://www.siogive.com" class="header item">
+                     <img class="ui tiny image logo_mobile" src="{{asset('bundles/ogivealert/images/logo_ogive.PNG')}}">
+                 </a>
+             </div>#}
             <div class="ui right inverted secondary menu">
                 <!--div class="ui dropdown top right pointing item">
                     <i class="large alarm icon"></i><div class="floating ui circular red label">2</div>
@@ -61,8 +49,84 @@
                             </a>
                         </div>
                     </div>
+                {%else %}
+                    <div class="ui right inverted secondary menu">
+                        <a href="{{path('fos_user_security_login')}}" class="ui button item">
+                            <i class="sign in icon"></i>
+                            Se connecter
+                        </a>
+                    </div>
                 {%endif %}
             </div>
-        </div>  
-    </form>
+        </div>
+
+    </div>
+    {#    <form id='search_form' method='GET' action='{{path(app.request.attributes.get('_route'))}}'>#}
+    <div id="first_computer_top_nav" class="ui computer_top_nav top inverted fixed main menu" style="background-color: #ffdb0f;">
+        <div class="ui left inverted secondary menu">
+            <a class="mobile_menu item"><i class="large sidebar icon"></i></a>
+            <a href="{{ path('homepage') }}" id="logo_computer_menu" class="item">
+                ALERT M.P
+            </a>           
+            {#<div class="ui search item">                
+                <div class="ui icon input">                   
+                    <input class="prompt" type="text" placeholder="{% if placeholder %} {{placeholder}} {% endif %}" value='{% if search_query %} {{search_query}} {% endif %}' name='search_query'>
+                    <i class="search link icon"></i>
+                </div>
+                <div class="results"></div>                 
+            </div>  #}
+        </div>
+        <div class="ui center inverted secondary menu">
+            <a href="http://www.siogive.com" class="header item" target="_blank">
+                <img class="ui small image logo_desktop" src="{{asset('bundles/ogivealert/images/large_logo_ogive.png')}}">
+            </a>
+        </div>
+        <div class="ui right inverted secondary menu">
+            <!--div class="ui dropdown top right pointing item">
+                <i class="large alarm icon"></i><div class="floating ui circular red label">2</div>
+                <div class="menu">
+                    <a href='#' class="ui item">
+                        First Notification                         
+                    </a>
+                    <div class="divider"></div>
+                    <a href="#" class="ui item">
+                        Second notification 
+                    </a>
+                </div>
+            </div-->
+            {%if app.user %}
+                <div class="ui dropdown top right pointing item"> 
+                    {%if app.user.photo %}
+                        <img src="{{asset('uploads/profils/'~app.user.photo)}}" alt="..." class="ui avatar image">
+                    {%else %}
+                        <img src="{{asset('bundles/ogivealert/images/avatar_1.png')}}" alt="..." class="ui avatar image">
+                    {%endif %}
+
+                    <div class="menu">
+                        <h2 class="header">Authentifié en tant que {{app.user.username}}</h2>
+                        <a href='#' class="ui item">
+                            Profil                         
+                        </a>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a href="{{path("fos_user_registration_register")}}" class="ui item">
+                                Créer un compte                         
+                            </a>
+                        {%endif %}
+                        <div class="divider"></div>
+                        <a href="{{ path('fos_user_security_logout') }}" class="ui item">
+                            Déconnexion
+                        </a>
+                    </div>
+                </div>
+            {%else %}
+                <div class="ui right inverted secondary menu">
+                    <a href="{{path('fos_user_security_login')}}" class="ui button item">
+                        <i class="sign in icon"></i>
+                        Se connecter
+                    </a>
+                </div>
+            {%endif %}
+        </div>
+    </div>  
+    {#    </form>#}
 </header>

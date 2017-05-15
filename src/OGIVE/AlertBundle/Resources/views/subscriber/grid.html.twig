@@ -8,10 +8,19 @@
                             <img src="{{asset('bundles/ogivealert/images/avatar_1.png')}}" alt="{{subscriber.name}}"/>
                         </div>#}
                         <div class="content">
-                            <div class="header">{{subscriber.name}}{%if subscriber.entreprise%} ({{subscriber.entreprise.name}}){% endif %}</div>
+                            <div class="header">
+                                {{subscriber.name}}{%if subscriber.entreprise%} ({{subscriber.entreprise.name}}){% endif %}
+                            </div>
                             <div class="description">
                                 <span>{{subscriber.phoneNumber}}</span><br>
-                                <span>{{subscriber.email}}</span>
+                                <span>{{subscriber.email}}</span><br>
+                                {%if subscriber.state == 1 %}
+                                    <span class="ui green right ribbon label">Activé</span>
+                                {% elseif subscriber.expiredState == 0 and subscriber.state == 0%}
+                                    <span class="ui red right ribbon label">Désactivé</span>
+                                {% elseif subscriber.expiredState == 1 %}
+                                    <span class="ui orange right ribbon label">Expiré</span>
+                                {% endif %}
                             </div>
                         </div>
                         <div class="extra content">

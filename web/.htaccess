@@ -33,7 +33,7 @@ DirectoryIndex app.php
     # Sets the HTTP_AUTHORIZATION header removed by apache
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
-
+    RewriteRule ^(.*)\.[\d]{10}\.(css|js)$ $1.$2 [L]
     # Redirect to URI without front controller to prevent duplicate content
     # (with and without `/app.php`). Only do this redirect on the initial
     # rewrite by Apache and not on subsequent cycles. Otherwise we would get an
