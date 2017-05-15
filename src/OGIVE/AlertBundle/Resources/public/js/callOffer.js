@@ -735,7 +735,7 @@ function enable_callOffer(id) {
                 $('#disable_callOffer_grid' + id).show();
                 $('#message_success>div.header').html(response.message);
                 $('#message_success').show();
-                window.location.reload();
+                //window.location.reload();
                 setTimeout(function () {
                     $('#message_success').hide();
                 }, 4000);
@@ -789,7 +789,7 @@ function disable_callOffer(id) {
                 $('#enable_callOffer_grid' + id).show();
                 $('#message_success>div.header').html(response.message);
                 $('#message_success').show();
-                window.location.reload();
+                //window.location.reload();
                 setTimeout(function () {
                     $('#message_success').hide();
                 }, 4000);

@@ -188,7 +188,7 @@ class CallOfferController extends Controller {
 //            $curl_response_array = json_decode($curl_response, true);
 //            $callOffer->setAbstract($this->getAbstractOfCallOffer($callOffer,  $curl_response_array['data']['url']));
             $callOffer = $repositoryCallOffer->updateCallOffer($callOffer);
-            return new JsonResponse(['message' => "Appel d'offre activé avec succcès !", "url"=>$curl_response_array['data']['url']], Response::HTTP_OK);
+            return new JsonResponse(['message' => "Appel d'offre activé avec succcès !"], Response::HTTP_OK);
         }
 
         if ($request->get('action') == 'disable') {
@@ -197,7 +197,7 @@ class CallOfferController extends Controller {
 //            $curl_response_array = json_decode($curl_response, true);
 //            $callOffer->setAbstract($this->getAbstractOfCallOffer($callOffer,  $curl_response_array['data']['url']));
             $callOffer = $repositoryCallOffer->updateCallOffer($callOffer);
-            return new JsonResponse(['message' => "Appel d'offre désactivé avec succcès !", "url"=>$curl_response_array['data']['url']], Response::HTTP_OK
+            return new JsonResponse(['message' => "Appel d'offre désactivé avec succcès !"], Response::HTTP_OK
             );
         }
         $form = $this->createForm('OGIVE\AlertBundle\Form\CallOfferType', $callOffer, array('method' => 'PUT'));
