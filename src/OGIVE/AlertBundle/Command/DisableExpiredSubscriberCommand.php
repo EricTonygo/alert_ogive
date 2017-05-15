@@ -102,5 +102,4 @@ class DisableExpiredSubscriberCommand extends ContainerAwareCommand {
             return pluralize($interval->i, 'minute(s)') . $suffix;
         return pluralize($interval->s, 'seconde(s)') . $suffix;
     }
-
 }

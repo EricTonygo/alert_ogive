@@ -248,6 +248,7 @@ class EntrepriseController extends Controller {
         if ($request->get('action') == 'enable') {
             $entreprise->setState(1);
             $subscribers = $repositorySubscriber->findBy(array('entreprise' => $entreprise, 'status' => 1));
+            $curl_response = null;
             foreach ($subscribers as $subscriber) {
                 $subscriber->setState(1);
                 if ($request->get('subscription_update') != 'others' && $subscriber->getSubscription()) {
@@ -272,7 +273,7 @@ class EntrepriseController extends Controller {
                     }
                 }
             }
-            return new JsonResponse(['message' => 'Entreprise activée avec succcès !', "curl_response" => $curl_response], Response::HTTP_OK
+            return new JsonResponse(['message' => 'Entreprise activée avec succcès !'], Response::HTTP_OK
             );
         }
 
@@ -288,7 +289,7 @@ class EntrepriseController extends Controller {
             foreach ($subscribers as $subscriber) {
                 $curl_response = $this->get('curl_service')->disableSubscriberAccount($subscriber, $subscriber->getExpiredState());
             }
-            return new JsonResponse(['message' => 'Entreprise désactivée avec succcès !', "curl_response" => $curl_response], Response::HTTP_OK
+            return new JsonResponse(['message' => 'Entreprise désactivée avec succcès !'], Response::HTTP_OK
             );
         }
         foreach ($entreprise->getSubscribers() as $subscriber) {
