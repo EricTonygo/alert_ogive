@@ -135,7 +135,7 @@ $(function () {
                             $('#add_subscriber.ui.modal').modal('hide');
                             $('#message_success>div.header').html('Abonné ajouté avec succès !');
                             $('#message_success').show();
-                            //window.location.replace(Routing.generate('subscriber_index'));
+                            window.location.replace(Routing.generate('subscriber_index'));
                             setTimeout(function () {
                                 $('#message_success').hide();
                             }, 4000);
@@ -334,7 +334,7 @@ function execute_edit(id) {
                             $('#edit_subscriber.ui.modal').modal('hide');
                             $('#message_success>div.header').html('Abonné modifié avec succès !');
                             $('#message_success').show();
-                            //window.location.reload();
+                            window.location.reload();
                             setTimeout(function () {
                                 $('#message_success').hide();
                             }, 4000);
@@ -687,7 +687,6 @@ function disable_subscriber(id) {
                 }
             },
             success: function (response, textStatus, jqXHR) {
-                console.log(response);
                 $('#message_loading').hide();
                 $('#disable_subscriber_grid' + id).hide();
                 $('#enable_subscriber_grid' + id).show();
