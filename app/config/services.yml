@@ -15,7 +15,7 @@ services:
             
     mail_service:
         class: OGIVE\AlertBundle\Services\MailService
-        arguments: ["@mailer"]
+        arguments: [@mailer,@templating]
         
     sms_service:
         class: OGIVE\AlertBundle\Services\SmsService

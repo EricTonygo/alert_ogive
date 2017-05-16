@@ -448,7 +448,7 @@ class TelephoneController extends Controller {
                 });
             }
             foreach ($subscribers as $subscriber) {
-                $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $request->get('abstract'));
+                //$this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $request->get('abstract'));
                 $this->get('mail_service')->sendEmailSubscriber($subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $expressionInterest);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
@@ -463,7 +463,7 @@ class TelephoneController extends Controller {
         } elseif ($idSubscribers && is_array($idSubscribers) && !empty($idSubscribers)) {
             foreach ($idSubscribers as $idSubscriber) {
                 $subscriber = $repositorySubscriber->find((int) $idSubscriber);
-                $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $request->get('abstract'));
+                //$this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $request->get('abstract'));
                 $this->get('mail_service')->sendEmailSubscriber($subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $expressionInterest);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);

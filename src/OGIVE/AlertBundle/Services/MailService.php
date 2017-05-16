@@ -2,6 +2,7 @@
 
 namespace OGIVE\AlertBundle\Services;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * Description of MailService
  *
@@ -9,10 +10,12 @@ namespace OGIVE\AlertBundle\Services;
  */
 class MailService {
     protected $mailer;
+    protected $templating;
     
-  public function __construct(\Swift_Mailer $mailer)
+  public function __construct(\Swift_Mailer $mailer, \Symfony\Bundle\TwigBundle\TwigEngine $templating)
   {
     $this->mailer = $mailer;
+    $this->templating = $templating;
   }
 
     public function sendMail($email, $subject, $content, $attachements=null) {
@@ -37,7 +40,7 @@ class MailService {
                     ->setFrom(array('infos@siogive.com' => "OGIVE INFOS"))
                     ->setTo($subscriber->getEmail())
                     ->setBody(
-                    $content, 'text/html'
+                    $this->templating->render('OGIVEAlertBundle:send_mail:template_send_procedure.html.twig', array('content' =>$content)), 'text/html'
             );
 //            if ($procedure) {
 //                $piecesjointes = $procedure->getPiecesjointes();
@@ -58,4 +61,5 @@ class MailService {
             return true;
         }
     }
+    
 }
