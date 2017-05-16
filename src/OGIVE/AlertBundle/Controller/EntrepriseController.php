@@ -161,7 +161,7 @@ class EntrepriseController extends Controller {
                 return new JsonResponse(["success" => false, 'message' => 'Veuillez ajouter un abonné à cette entreprise'], Response::HTTP_BAD_REQUEST);
             }
             $entreprise = $repositoryEntreprise->saveEntreprise($entreprise);
-            $curl_response= null;
+            $curl_response = null;
             $subscribers_enabled = $repositorySubscriber->findBy(array('entreprise' => $entreprise, 'status' => 1, 'state' => 1));
             foreach ($subscribers_enabled as $subscriber) {
                 if ($subscriber->getSubscription()) {
@@ -171,7 +171,10 @@ class EntrepriseController extends Controller {
                     $historicalSubscriberSubscription->setSubscriptionDateAndExpirationDate($subscriber->getLastSubscriptionDate());
                     $repositoryHistoricalSubscriberSubscription->saveHistoricalSubscriberSubscription($historicalSubscriberSubscription);
                     if ($subscriber->getEmail()) {
-                        $curl_response = $this->get('curl_service')->createSubscriberAccount($subscriber);
+                        $curl_response = json_decode($this->get('curl_service')->createSubscriberAccount($subscriber), true);
+                        if ($curl_response['success'] == true) {
+                            $this->get('mail_service')->sendMail($curl_response['data']['email'], $curl_response['data']['subject'], $curl_response['data']['message']);
+                        }
                     }
                 }
             }
@@ -417,11 +420,14 @@ class EntrepriseController extends Controller {
                 return new JsonResponse(["success" => false, 'message' => 'Veuillez ajouter un abonné à cette entreprise'], Response::HTTP_BAD_REQUEST);
             }
             $entreprise = $repositoryEntreprise->updateEntreprise($entreprise);
-            $curl_response= null;
+            $curl_response = null;
             $subscribers_enabled = $repositorySubscriber->findBy(array('entreprise' => $entreprise, 'status' => 1, 'state' => 1));
             foreach ($subscribers_enabled as $subscriber) {
                 if ($subscriber->getEmail() && $subscriber->getSubscription()) {
-                    $curl_response = $this->get('curl_service')->updateSubscriberAccount($subscriber);
+                    $curl_response = json_decode($this->get('curl_service')->updateSubscriberAccount($subscriber), true);
+                    if ($curl_response['success'] == true) {
+                        $this->get('mail_service')->sendMail($curl_response['data']['email'], $curl_response['data']['subject'], $curl_response['data']['message']);
+                    }
                 }
             }
             if ($request->get('subscription_update') != 'others') {
@@ -488,5 +494,4 @@ class EntrepriseController extends Controller {
         return $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
     }
 
-    
 }

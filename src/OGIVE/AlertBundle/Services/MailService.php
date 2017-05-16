@@ -22,7 +22,7 @@ class MailService {
                 ->setFrom(array('infos@siogive.com' => "OGIVE INFOS"))
                 ->setTo($email)
                 ->setBody(
-                $content
+                $content, 'text/html'
         );
         $this->mailer->send($message);
         }else{
@@ -37,7 +37,7 @@ class MailService {
                     ->setFrom(array('infos@siogive.com' => "OGIVE INFOS"))
                     ->setTo($subscriber->getEmail())
                     ->setBody(
-                    $content
+                    $content, 'text/html'
             );
 //            if ($procedure) {
 //                $piecesjointes = $procedure->getPiecesjointes();

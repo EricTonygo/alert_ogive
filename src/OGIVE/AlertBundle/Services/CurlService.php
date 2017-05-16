@@ -168,7 +168,7 @@ class CurlService {
     }
     
     private function get_home_url_website(){
-        return 'http://localhost/siogive.com';
+        return 'http://www.siogive.com';
     }
 
 }

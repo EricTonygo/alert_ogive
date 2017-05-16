@@ -126,7 +126,10 @@ class SubscriberController extends Controller {
                 $historicalSubscriberSubscription->setSubscription($subscriber->getSubscription());
                 $historicalSubscriberSubscription->setSubscriptionDateAndExpirationDate($subscriber->getLastSubscriptionDate());
                 $historicalSubscriberSubscription = $repositoryHistoricalSubscriberSubscription->saveHistoricalSubscriberSubscription($historicalSubscriberSubscription);
-                $curl_response = $this->get('curl_service')->createSubscriberAccount($subscriber);
+                $curl_response = json_decode($this->get('curl_service')->createSubscriberAccount($subscriber), true);
+                if ($curl_response['success'] == true) {
+                    $this->get('mail_service')->sendMail($curl_response['data']['email'], $curl_response['data']['subject'], $curl_response['data']['message']);
+                }
             }
             $sendConfirmation = $request->get('send_confirmation');
             if ($sendConfirmation && $sendConfirmation === 'on') {
@@ -284,7 +287,10 @@ class SubscriberController extends Controller {
             $subscriber = $repositorySubscriber->updateSubscriber($subscriber);
             $curl_response = null;
             if ($subscriber->getSubscription() && $subscriber->getState() == 1) {
-                $curl_response = $this->get('curl_service')->updateSubscriberAccount($subscriber);
+                $curl_response = json_decode($this->get('curl_service')->updateSubscriberAccount($subscriber), true);
+                if ($curl_response['success'] == true) {
+                    $this->get('mail_service')->sendMail($curl_response['data']['email'], $curl_response['data']['subject'], $curl_response['data']['message']);
+                }
             }
             if ($request->get('subscription_update') != 'others') {
                 if ($subscriber->getSubscription() && $subscriber->getEntreprise()) {
