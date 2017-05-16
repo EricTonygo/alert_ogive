@@ -102,8 +102,6 @@ class TelephoneController extends Controller {
                 $historiqueAlertSubscriber->setAlertType("EMAIL");
                 $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
             }
-//            $callOffer->setAbstract($request->get('abstract'));
-//            $callOffer = $repositoryCallOffer->updateCallOffer($callOffer);
             $view = View::create(['message' => "SMS et Email envoyés avec succès"]);
             $view->setFormat('json');
             return $view;
@@ -118,8 +116,6 @@ class TelephoneController extends Controller {
                 $historiqueAlertSubscriber->setAlertType("EMAIL");
                 $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
             }
-//            $callOffer->setAbstract($request->get('abstract'));
-//            $callOffer = $repositoryCallOffer->updateCallOffer($callOffer);
             $view = View::create(['message' => "SMS et Email envoyés avec succès"]);
             $view->setFormat('json');
             return $view;
@@ -244,8 +240,6 @@ class TelephoneController extends Controller {
                 $historiqueAlertSubscriber->setAlertType("EMAIL");
                 $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
             }
-//            $procedureResult->setAbstract($request->get('abstract'));
-//            $procedureResult = $repositoryProcedureResult->updateProcedureResult($procedureResult);
             $view = View::create(['message' => "SMS et Email envoyés avec succès"]);
             $view->setFormat('json');
             return $view;
