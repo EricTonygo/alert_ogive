@@ -2,7 +2,6 @@
 
 namespace OGIVE\AlertBundle\Services;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * Description of MailService
  *
