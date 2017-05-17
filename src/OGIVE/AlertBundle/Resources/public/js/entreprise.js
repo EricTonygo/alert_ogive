@@ -283,7 +283,6 @@ function execute_edit(id) {
                             $('#edit_entreprise.ui.modal').modal('hide');
                             $('#message_success>div.header').html(response.message);
                             $('#message_success').show();
-                            //console.log(response.curl_message);
                             window.location.reload();
                             setTimeout(function () {
                                 $('#message_success').hide();
@@ -551,7 +550,6 @@ function disable_entreprise(id) {
                 }
             },
             success: function (response, textStatus, jqXHR) {
-                //console.log(response);
                 $('#message_loading').hide();
                 $('#disable_entreprise_grid' + id).hide();
                 $('#enable_entreprise_grid' + id).show();
