@@ -42,7 +42,7 @@ class CurlService {
             'password' => $subscriber->getPhoneNumber(),
             'last_name' => $subscriber->getEntreprise()->getName(),
             'first_name' => "",
-            'state' => $subscriber->getState(),
+            'state' => 1,
             'expired_state' => $subscriber->getExpiredState()
         );
         $url = $this->get_home_url_website().'/inscription';
