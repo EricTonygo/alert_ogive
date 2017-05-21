@@ -136,10 +136,8 @@ class ProcedureResultController extends Controller {
             $procedureResult = $repositoryProcedureResult->saveProcedureResult($procedureResult);
             $curl_response = $this->get('curl_service')->sendProcedureResultToWebsite($procedureResult);
             $curl_response_array = json_decode($curl_response, true);
-            if ($curl_response_array['data']['url'] && $curl_response_array['data']['url'] != "") {
-                $procedureResult->setAbstract($this->getAbstractOfProcedureResult($procedureResult, $curl_response_array['data']['url']));
-                $repositoryProcedureResult->updateProcedureResult($procedureResult);
-            }
+            $procedureResult->setAbstract($this->getAbstractOfProcedureResult($procedureResult, $curl_response_array['data']['url']));
+            $repositoryProcedureResult->updateProcedureResult($procedureResult);
             $view = View::createRedirect($this->generateUrl('procedureResult_index'));
             $view->setFormat('html');
             return $view;
@@ -243,14 +241,12 @@ class ProcedureResultController extends Controller {
                     $procedureResult->setState(0);
                 }
             }
-            $procedureResult->setAbstract($this->getAbstractOfProcedureResult($procedureResult));
+            $procedureResult->setAbstract($this->getAbstractOfProcedureResult($procedureResult));            
             $procedureResult = $repositoryProcedureResult->updateProcedureResult($procedureResult);
             $curl_response = $this->get('curl_service')->sendProcedureResultToWebsite($procedureResult);
             $curl_response_array = json_decode($curl_response, true);
-            if ($curl_response_array['data']['url'] && $curl_response_array['data']['url'] != "") {
-                $procedureResult->setAbstract($this->getAbstractOfProcedureResult($procedureResult, $curl_response_array['data']['url']));
-                $repositoryProcedureResult->updateProcedureResult($procedureResult);
-            }
+            $procedureResult->setAbstract($this->getAbstractOfProcedureResult($procedureResult, $curl_response_array['data']['url']));
+            $repositoryProcedureResult->updateProcedureResult($procedureResult);
             $view = View::createRedirect($this->generateUrl('procedureResult_index'));
             $view->setFormat('html');
             return $view;

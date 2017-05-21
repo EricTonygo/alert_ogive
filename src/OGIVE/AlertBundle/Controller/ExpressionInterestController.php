@@ -116,10 +116,8 @@ class ExpressionInterestController extends Controller {
             $expressionInterest = $repositoryExpressionInterest->saveExpressionInterest($expressionInterest);
             $curl_response = $this->get('curl_service')->sendExpressionInterestToWebsite($expressionInterest);
             $curl_response_array = json_decode($curl_response, true);
-            if ($curl_response_array['data']['url'] && $curl_response_array['data']['url'] != "") {
-                $expressionInterest->setAbstract($this->getAbstractOfExpressionInterest($expressionInterest, $curl_response_array['data']['url']));
-                $repositoryExpressionInterest->updateExpressionInterest($expressionInterest);
-            }
+            $expressionInterest->setAbstract($this->getAbstractOfExpressionInterest($expressionInterest, $curl_response_array['data']['url']));
+            $repositoryExpressionInterest->updateExpressionInterest($expressionInterest);
             $view = View::createRedirect($this->generateUrl('expressionInterest_index'));
             $view->setFormat('html');
             return $view;
@@ -198,7 +196,7 @@ class ExpressionInterestController extends Controller {
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-
+            
             if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
                 $sendActivate = $request->get('send_activate');
                 if ($sendActivate && $sendActivate === 'on') {
@@ -211,10 +209,8 @@ class ExpressionInterestController extends Controller {
             $expressionInterest = $repositoryExpressionInterest->updateExpressionInterest($expressionInterest);
             $curl_response = $this->get('curl_service')->sendExpressionInterestToWebsite($expressionInterest);
             $curl_response_array = json_decode($curl_response, true);
-            if ($curl_response_array['data']['url'] && $curl_response_array['data']['url'] != "") {
-                $expressionInterest->setAbstract($this->getAbstractOfExpressionInterest($expressionInterest, $curl_response_array['data']['url']));
-                $repositoryExpressionInterest->updateExpressionInterest($expressionInterest);
-            }
+            $expressionInterest->setAbstract($this->getAbstractOfExpressionInterest($expressionInterest, $curl_response_array['data']['url']));
+            $repositoryExpressionInterest->updateExpressionInterest($expressionInterest);
             $view = View::createRedirect($this->generateUrl('expressionInterest_index'));
             $view->setFormat('html');
             return $view;
@@ -230,7 +226,7 @@ class ExpressionInterestController extends Controller {
         }
     }
 
-    public function getAbstractOfExpressionInterest(ExpressionInterest $expressionInterest, $detail_url = null) {
+    public function getAbstractOfExpressionInterest(ExpressionInterest $expressionInterest, $detail_url=null) {
         $dot = ".";
         if ($expressionInterest) {
             if (substr(trim($expressionInterest->getObject()), -1) === ".") {
