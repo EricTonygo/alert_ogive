@@ -137,12 +137,14 @@ class AdditiveController extends Controller {
                 //Set Object just for prevent database violation constraints
                 $additive->setObject($additive->getExpressionInterest()->getObject());
             }
-            $additive->setAbstract($this->getAbstractOfAdditive($additive));            
+            $additive->setAbstract($this->getAbstractOfAdditive($additive));
             $additive = $repositoryAdditive->saveAdditive($additive);
             $curl_response = $this->get('curl_service')->sendAdditiveToWebsite($additive);
             $curl_response_array = json_decode($curl_response, true);
-            $additive->setAbstract($this->getAbstractOfAdditive($additive, $curl_response_array['data']['url']));
-            $repositoryAdditive->updateAdditive($additive);
+            if ($curl_response_array['data']['url'] && $curl_response_array['data']['url'] != "") {
+                $additive->setAbstract($this->getAbstractOfAdditive($additive, $curl_response_array['data']['url']));
+                $repositoryAdditive->updateAdditive($additive);
+            }
             $view = View::createRedirect($this->generateUrl('additive_index'));
             $view->setFormat('html');
             return $view;
@@ -255,8 +257,10 @@ class AdditiveController extends Controller {
             $additive = $repositoryAdditive->updateAdditive($additive);
             $curl_response = $this->get('curl_service')->sendAdditiveToWebsite($additive);
             $curl_response_array = json_decode($curl_response, true);
-            $additive->setAbstract($this->getAbstractOfAdditive($additive, $curl_response_array['data']['url']));
-            $repositoryAdditive->updateAdditive($additive);
+            if ($curl_response_array['data']['url'] && $curl_response_array['data']['url'] != "") {
+                $additive->setAbstract($this->getAbstractOfAdditive($additive, $curl_response_array['data']['url']));
+                $repositoryAdditive->updateAdditive($additive);
+            }
             $view = View::createRedirect($this->generateUrl('additive_index'));
             $view->setFormat('html');
             return $view;
