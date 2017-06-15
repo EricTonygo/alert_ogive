@@ -51,7 +51,8 @@ class DisableExpiredSubscriberCommand extends ContainerAwareCommand {
                     $this->sendExpirationSubscriptionMessage($subscriber, $message);
                     $this->getContainer()->get('mail_service')->sendMail($subscriber->getEmail(), 'Rappel de l\'expiration de votre abonnement au service "APPELS D\'OFFRES INFOS"', $message);
                     $admin_message .= 'Le compte de l\'abonné '.$subscriber->getPhoneNumber().' '.$subscriber->getEntreprise()->getName(). 'expirera le '. date('d-m-Y', $expirationTime) . ' à ' . date('H', $expirationTime) . 'h' . date('i', $expirationTime);
-                    $output->writeln($subscriber->getPhoneNumber() . ' expirera dans '.$interval->d." Jours");                    
+                    //$output->writeln($subscriber->getPhoneNumber() . ' expirera dans '.$interval->d." Jours");
+                    $this->getContainer()->get('mail_service')->sendMail('genastlev01@gmail.com', 'Rappel de l\'expiration de votre abonnement au service "APPELS D\'OFFRES INFOS"', $admin_message);
                 }
                 if ($now > $expirationDate && $subscriber->getState() == 1) {
                     $message = 'Mmes/Mrs les dirrigeants de ' . $subscriber->getEntreprise()->getName() . ', votre abonnement au service "APPELS D\'OFFRES INFOS" a expiré depuis le ' . date('d-m-Y', $expirationTime) . 'à ' . date('H', $expirationTime) . 'h' . date('i', $expirationTime) . '. Prière de passer dans nos services renouveller votre abonnement ou contacter :  243 80 38 95/694 20 03 10';
@@ -62,7 +63,8 @@ class DisableExpiredSubscriberCommand extends ContainerAwareCommand {
                     $this->sendExpirationSubscriptionMessage($subscriber, $message);
                     $this->getContainer()->get('mail_service')->sendMail($subscriber->getEmail(), 'Expiration de votre abonnement au service "APPELS D\'OFFRES INFOS"', $message);
                     $admin_message .= 'Abonné '.$subscriber->getPhoneNumber().' '.$subscriber->getEntreprise()->getName(). 'a été désactivé : Abonnement expiré';
-                    $output->writeln($subscriber->getPhoneNumber() . ' a été désactivé');
+                    //$output->writeln($subscriber->getPhoneNumber() . ' a été désactivé');
+                    $this->getContainer()->get('mail_service')->sendMail('genastlev01@gmail.com', 'Expiration d\'un abonnement au service "APPELS D\'OFFRES INFOS"', $admin_message);
                 } elseif ($now < $expirationDate && $subscriber->getState() == 0) {
                     $message = 'Mmes/Mrs les dirrigeants de ' . $subscriber->getEntreprise()->getName() . ', votre abonnement au service "APPELS D\'OFFRES INFOS" a été réactivé avec succès. OGIVE SOLUTIONS vous remercie pour votre confiance.' ;
                     $subscriber->setState(1);
@@ -71,8 +73,9 @@ class DisableExpiredSubscriberCommand extends ContainerAwareCommand {
                     $curl_response = $this->get('curl_service')->enableSubscriberAccount($subscriber, 0);
                     $this->sendExpirationSubscriptionMessage($subscriber, $message);
                     $this->getContainer()->get('mail_service')->sendMail($subscriber->getEmail(), 'Réactivation de votre abonnement au service "APPELS D\'OFFRES INFOS"', $message);
-                    $admin_message .='Abonné '.$subscriber->getPhoneNumber().' '.$subscriber->getEntreprise()->getName(). ' a été réactivé \n';  
-                    $output->writeln($subscriber->getPhoneNumber() . ' a été réactivé');
+                    $admin_message .='Abonné '.$subscriber->getPhoneNumber().' '.$subscriber->getEntreprise()->getName(). ' a été réactivé';  
+                    //$output->writeln($subscriber->getPhoneNumber() . ' a été réactivé');
+                    $this->getContainer()->get('mail_service')->sendMail('genastlev01@gmail.com', 'Réactivation d\'un abonnement au service "APPELS D\'OFFRES INFOS"', $admin_message);
                 }
             }
         }
