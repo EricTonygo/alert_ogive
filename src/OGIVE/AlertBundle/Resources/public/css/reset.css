@@ -12,8 +12,8 @@ body, a, p, h1, div, h2, h3, h4, h5, h6 {
 
 .pushable>.pusher{
     background-color: #fafafa;
-/*    padding-bottom: 3em;
-    min-height: 40em;*/
+    padding-bottom: 2em;
+    /*min-height: 40em;*/
 }
 
 .computer_top_nav.menu.main{
@@ -160,6 +160,10 @@ div#home{
     top: auto;
     color: #ffffff;
     display: inline-block;
+}
+
+#pagination.ui.basic.segment.container{
+    margin-top: 3em;
 }
 
 .flexslider .slides .flex-caption .main {
