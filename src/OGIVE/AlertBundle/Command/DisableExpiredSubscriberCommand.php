@@ -50,7 +50,7 @@ class DisableExpiredSubscriberCommand extends ContainerAwareCommand {
                     $message = 'Mmes/Mrs les dirrigeants de ' . $subscriber->getEntreprise()->getName() . ', votre abonnement au service "APPELS D\'OFFRES INFOS" expirera le ' . date('d-m-Y', $expirationTime) . ' à ' . date('H', $expirationTime) . 'h' . date('i', $expirationTime) . '. Prière de passer dans nos services renouveller votre abonnement ou contacter :  243 80 38 95/694 20 03 10';
                     $this->sendExpirationSubscriptionMessage($subscriber, $message);
                     $this->getContainer()->get('mail_service')->sendMail($subscriber->getEmail(), 'Rappel de l\'expiration de votre abonnement au service "APPELS D\'OFFRES INFOS"', $message);
-                    $admin_message .= 'Le compte de l\'abonné '.$subscriber->getPhoneNumber().' '.$subscriber->getEntreprise()->getName(). 'expirera le '. date('d-m-Y', $expirationTime) . ' à ' . date('H', $expirationTime) . 'h' . date('i', $expirationTime);
+                    $admin_message .= 'L\'abonnement de '.$subscriber->getPhoneNumber().' de l\'entreprise '.$subscriber->getEntreprise()->getName(). 'expirera le '. date('d-m-Y', $expirationTime) . ' à ' . date('H', $expirationTime) . 'h' . date('i', $expirationTime);
                     //$output->writeln($subscriber->getPhoneNumber() . ' expirera dans '.$interval->d." Jours");
                     $this->getContainer()->get('mail_service')->sendMail('genastlev01@gmail.com', 'Rappel de l\'expiration de votre abonnement au service "APPELS D\'OFFRES INFOS"', $admin_message);
                 }
