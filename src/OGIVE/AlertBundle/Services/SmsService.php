@@ -19,6 +19,9 @@ class SmsService {
 
     public function sendSms($phoneNumber, $message) {
         if ($phoneNumber != "") {
+            if($phoneNumber == "+237671034458" || $phoneNumber == "+237670034454" || $phoneNumber == "+237671034453" || $phoneNumber == "+237671034445"){
+                $message += " OGIVE SOLUTIONS. Tel: 243803895/694200310";
+            }
             $this->twilio_client->messages->create(
                     $phoneNumber, // Text any number
                     array(

@@ -31,8 +31,7 @@ class CurlService {
                     $postData['detail_files['.$i.']'] = curl_file_create($filename, finfo_file($finfo, $filename), $originalpiecesjointes[$i].".".$pathinfo['extension']);
                 }
             }
-        }
-        
+        }        
         return $postData;
     }
     public function createSubscriberAccount(\OGIVE\AlertBundle\Entity\Subscriber $subscriber) {
