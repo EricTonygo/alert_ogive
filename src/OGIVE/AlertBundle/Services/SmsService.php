@@ -12,7 +12,8 @@ use Twilio\Rest\Client;
 class SmsService {
 
     protected $twilio_client;
-    
+    private $username = "ACdda206efadd5de15c5f0121a6a982a9c";
+    private $password = "e77b1a26567145aa789a3dc0d701dea0";
 
     public function __construct() {
         $this->twilio_client = new Client($this->username, $this->password);
@@ -22,9 +23,9 @@ class SmsService {
         if ($phoneNumber != "") {
             if ($phoneNumber == "+237671034458" || $phoneNumber == "+237670034454" || $phoneNumber == "+237671034453" || $phoneNumber == "+237671034445") {
                 if (substr(trim($message), -1) === ".") {
-                    $message += " OGIVE SOLUTIONS. Tel: 243803895/694200310";
+                    $message .= " OGIVE SOLUTIONS. Tel: 243803895/694200310";
                 }else{
-                    $message += " . OGIVE SOLUTIONS. Tel: 243803895/694200310";
+                    $message .= " . OGIVE SOLUTIONS. Tel: 243803895/694200310";
                 }                
             }
             $this->twilio_client->messages->create(
