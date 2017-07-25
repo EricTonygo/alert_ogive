@@ -14,7 +14,7 @@
                             <div class="description">
                                 <span>{{subscriber.phoneNumber}}</span><br>
                                 <span>{{subscriber.email}}</span><br>
-                                <span>{{subscriber.notificationType|notificationType}}</span><br>
+                                <span>Type notif: {{subscriber.notificationType|notificationType}}</span><br>
                                 {%if subscriber.state == 1 %}
                                     <span class="ui green right ribbon label">Activé</span>
                                 {% elseif subscriber.expiredState == 0 and subscriber.state == 0%}

@@ -21,7 +21,7 @@
                     <option value="">Selectionner les abonnés à notifier</option>
                     {%if subscribers%}
                         {%for subscriber in subscribers %}
-                            <option value="{{subscriber.id}}">{{subscriber.phoneNumber}}</option>
+                            <option value="{{subscriber.id}}">{{subscriber.name}}({{subscriber.entreprise.name}})</option>
                         {%endfor%} 
                     {%endif%}
                 </select>
