@@ -37,6 +37,10 @@ function send_procedure_additive(id) {
                 $('#subscribers.ui.dropdown').dropdown({
                     on: 'click'
                 });
+                $('#notificationTypes.ui.dropdown').dropdown({
+                    on: 'click'
+                });
+                
                 $('#send_notification_additive.ui.modal').modal('show');
                 execute_send_notification_additive(id);
             

@@ -42,6 +42,13 @@ class Subscriber
      * @ORM\Column(name="phone_number", type="string", length=255)
      */
     private $phoneNumber;
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="notification_type", type="integer", length=255)
+     */
+    private $notificationType= 3;
 
     /**
      * @var integer
@@ -216,6 +223,30 @@ class Subscriber
     public function getPhoneNumber()
     {
         return $this->phoneNumber;
+    }
+    
+    /**
+     * Set notificationType
+     *
+     * @param integer $notificationType
+     *
+     * @return Subscriber
+     */
+    public function setNotificationType($notificationType)
+    {
+        $this->notificationType = $notificationType;
+
+        return $this;
+    }
+
+    /**
+     * Get notificationType
+     *
+     * @return integer
+     */
+    public function getNotificationType()
+    {
+        return $this->notificationType;
     }
 
     /**

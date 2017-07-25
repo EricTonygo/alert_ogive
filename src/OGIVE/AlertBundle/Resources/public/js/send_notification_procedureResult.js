@@ -37,6 +37,9 @@ function send_procedure_procedureResult(id) {
             $('#subscribers.ui.dropdown').dropdown({
                 on: 'click'
             });
+            $('#notificationTypes.ui.dropdown').dropdown({
+                on: 'click'
+            });
             $('#send_notification_procedureResult.ui.modal').modal('show');
             execute_send_notification_procedureResult(id);
 
@@ -101,17 +104,17 @@ function execute_send_notification_procedureResult(id) {
                             }
                         },
                         success: function (response, textStatus, jqXHR) {
-                                $('#submit_send_notification_procedureResult').removeClass('disabled');
-                                $('#cancel_send_notification_procedureResult').removeClass('disabled');
-                                $('#send_notification_procedureResult_form.ui.form').removeClass('loading');
-                                $('#send_notification_procedureResult.ui.modal').modal('hide');
-                                $('#message_success>div.header').html(response.message);
-                                $('#message_success').show();
-                                setTimeout(function () {
-                                    $('#message_success').hide();
-                                }, 4000);
-                                $('#send_notification_procedureResult').remove();
-                            
+                            $('#submit_send_notification_procedureResult').removeClass('disabled');
+                            $('#cancel_send_notification_procedureResult').removeClass('disabled');
+                            $('#send_notification_procedureResult_form.ui.form').removeClass('loading');
+                            $('#send_notification_procedureResult.ui.modal').modal('hide');
+                            $('#message_success>div.header').html(response.message);
+                            $('#message_success').show();
+                            setTimeout(function () {
+                                $('#message_success').hide();
+                            }, 4000);
+                            $('#send_notification_procedureResult').remove();
+
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
                             $('#submit_send_notification_procedureResult').removeClass('disabled');

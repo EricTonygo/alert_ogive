@@ -26,6 +26,14 @@
                     {%endif%}
                 </select>
             </div>
+            <div id='field_common_notification' class="field">
+                <select id='notificationTypes'  name="common_notification" class="ui search fluid dropdown">
+                    <option value="">Selectionner un type de notification commun si nécessaire</option>                    
+                    <option value="3">SMS et Email</option>
+                    <option value="2">SMS seulement</option>
+                    <option value="1">Email seulement</option>
+                </select>
+            </div>
 
             <div class="field">
                 <div id="server_error_message_send_notification" class="ui negative message" style="display:none">

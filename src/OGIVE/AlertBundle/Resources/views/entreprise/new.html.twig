@@ -86,6 +86,7 @@
                                     <th>Téléphone</th>
                                     <th>Email</th>
                                     <th>Abonnement</th>
+                                    <th>Type de notification</th>
                                     <th class="right aligned">Action</th>
                                 </tr>
                             </thead>
@@ -101,6 +102,7 @@
                                 <td>{{ form_widget(childForm.phoneNumber,{'attr':{'data-validate': 'phone_subscriber'}}) }}</td>
                                 <td>{{ form_widget(childForm.email,{'attr':{'data-validate': 'email_subscriber'}}) }}</td>
                                 <td>{{ form_widget(childForm.subscription,{'attr':{'data-validate': 'subscription_subscriber', 'class': 'ui subscriber_ent_subscription search dropdown'}}) }}</td>
+                                <td>{{ form_widget(childForm.notificationType,{'attr':{'data-validate': 'notificationType_subscriber', 'class': 'ui subscriber_ent_subscription search dropdown'}}) }}</td>
                             {% endmacro %}
                         </table>
                     </div>

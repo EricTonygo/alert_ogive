@@ -31,6 +31,12 @@
                 {{ form_widget(form.entreprise,{'attr':{'data-validate': 'enterprise', 'class': 'ui search dropdown'}})}}
             </div>
             
+            <div class="field">
+                {{ form_label(form.notificationType,"Type de notification") }}
+                {{ form_errors(form.notificationType, {'attr': {'class': 'ui error message'}})}}
+                {{ form_widget(form.notificationType,{'attr':{'data-validate': 'notificationType', 'class': 'ui search dropdown'}})}}
+            </div>
+            
             <div class="field" {% if not is_granted('ROLE_ADMIN')%} style="display: none;"{% endif %}>
                 <div class="ui checkbox">
                     <input id='checkbox_activate' type="checkbox" name="send_activate" >

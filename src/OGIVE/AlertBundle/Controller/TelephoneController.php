@@ -70,6 +70,7 @@ class TelephoneController extends Controller {
 
         $sendToAll = $request->get('all_subscribers');
         $idSubscribers = $request->get('subscribers');
+        $common_notification = $request->get('common_notification');
         if ($sendToAll && $sendToAll === 'on') {
             if ($callOffer->getSubDomain()) {
                 $entreprises = $callOffer->getSubDomain()->getEntreprises()->filter(function ($entreprise) {
@@ -95,28 +96,26 @@ class TelephoneController extends Controller {
                 });
             }
             foreach ($subscribers as $subscriber) {
-                $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $request->get('abstract'));
-                $this->get('mail_service')->sendEmailSubscriber($subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $callOffer);
+                $this->sendNotificationAccordingToType($common_notification, $subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'),$callOffer);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("EMAIL");
                 $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
             }
-            $view = View::create(['message' => "SMS et Email envoyés avec succès"]);
+            $view = View::create(['message' => "Message(s) envoyé(s) avec succès"]);
             $view->setFormat('json');
             return $view;
         } elseif ($idSubscribers && is_array($idSubscribers) && !empty($idSubscribers)) {
             foreach ($idSubscribers as $idSubscriber) {
                 $idSubscriber = (int) $idSubscriber;
                 $subscriber = $repositorySubscriber->find($idSubscriber);
-                $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $request->get('abstract'));
-                $this->get('mail_service')->sendEmailSubscriber($subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $callOffer);
+                $this->sendNotificationAccordingToType($common_notification, $subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'),$callOffer);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("EMAIL");
                 $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
             }
-            $view = View::create(['message' => "SMS et Email envoyés avec succès"]);
+            $view = View::create(['message' => "Message(s) envoyé(s) avec succès"]);
             $view->setFormat('json');
             return $view;
         } else {
@@ -195,6 +194,7 @@ class TelephoneController extends Controller {
 
         $sendToAll = $request->get('all_subscribers');
         $idSubscribers = $request->get('subscribers');
+        $common_notification = $request->get('common_notification');
         if ($sendToAll && $sendToAll === 'on') {
             if ($procedureResult->getSubDomain()) {
                 $entreprises = $procedureResult->getSubDomain()->getEntreprises()->filter(function ($entreprise) {
@@ -220,27 +220,25 @@ class TelephoneController extends Controller {
                 });
             }
             foreach ($subscribers as $subscriber) {
-                $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $request->get('abstract'));
-                $this->get('mail_service')->sendEmailSubscriber($subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $procedureResult);
+                $this->sendNotificationAccordingToType($common_notification, $subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'),$procedureResult);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("EMAIL");
                 $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
             }
-            $view = View::create(['message' => "SMS et Email envoyés avec succès"]);
+            $view = View::create(['message' => "Message(s) envoyé(s) avec succès"]);
             $view->setFormat('json');
             return $view;
         } elseif ($idSubscribers && is_array($idSubscribers) && !empty($idSubscribers)) {
             foreach ($idSubscribers as $idSubscriber) {
                 $subscriber = $repositorySubscriber->find((int) $idSubscriber);
-                $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $request->get('abstract'));
-                $this->get('mail_service')->sendEmailSubscriber($subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $procedureResult);
+                $this->sendNotificationAccordingToType($common_notification, $subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'),$procedureResult);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("EMAIL");
                 $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
             }
-            $view = View::create(['message' => "SMS et Email envoyés avec succès"]);
+            $view = View::create(['message' => "Message(s) envoyé(s) avec succès"]);
             $view->setFormat('json');
             return $view;
         } else {
@@ -306,6 +304,7 @@ class TelephoneController extends Controller {
 
         $sendToAll = $request->get('all_subscribers');
         $idSubscribers = $request->get('subscribers');
+        $common_notification = $request->get('common_notification');
         if ($sendToAll && $sendToAll === 'on') {
             if ($additive->getSubDomain()) {
                 $entreprises = $additive->getSubDomain()->getEntreprises()->filter(function ($entreprise) {
@@ -331,27 +330,25 @@ class TelephoneController extends Controller {
                 });
             }
             foreach ($subscribers as $subscriber) {
-                $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $request->get('abstract'));
-                $this->get('mail_service')->sendEmailSubscriber($subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $additive);
+                $this->sendNotificationAccordingToType($common_notification, $subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'),$additive);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("EMAIL");
                 $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
             }
-            $view = View::create(['message' => "SMS et Email envoyés avec succès"]);
+            $view = View::create(['message' => "Message(s) envoyé(s) avec succès"]);
             $view->setFormat('json');
             return $view;
         } elseif ($idSubscribers && is_array($idSubscribers) && !empty($idSubscribers)) {
             foreach ($idSubscribers as $idSubscriber) {
                 $subscriber = $repositorySubscriber->find((int) $idSubscriber);
-                $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $request->get('abstract'));
-                $this->get('mail_service')->sendEmailSubscriber($subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $additive);
+                $this->sendNotificationAccordingToType($common_notification, $subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'),$additive);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("EMAIL");
                 $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
             }
-            $view = View::create(['message' => "SMS et Email envoyés avec succès"]);
+            $view = View::create(['message' => "Message(s) envoyé(s) avec succès"]);
             $view->setFormat('json');
             return $view;
         } else {
@@ -417,6 +414,7 @@ class TelephoneController extends Controller {
 
         $sendToAll = $request->get('all_subscribers');
         $idSubscribers = $request->get('subscribers');
+        $common_notification = $request->get('common_notification');
         if ($sendToAll && $sendToAll === 'on') {
             if ($expressionInterest->getSubDomain()) {
                 $entreprises = $expressionInterest->getSubDomain()->getEntreprises()->filter(function ($entreprise) {
@@ -442,27 +440,25 @@ class TelephoneController extends Controller {
                 });
             }
             foreach ($subscribers as $subscriber) {
-                $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $request->get('abstract'));
-                $this->get('mail_service')->sendEmailSubscriber($subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $expressionInterest);
+                $this->sendNotificationAccordingToType($common_notification, $subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'),$expressionInterest);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("EMAIL");
                 $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
             }
-            $view = View::create(['message' => "SMS et Email envoyés avec succès"]);
+            $view = View::create(['message' => "Message(s) envoyé(s) avec succès"]);
             $view->setFormat('json');
             return $view;
         } elseif ($idSubscribers && is_array($idSubscribers) && !empty($idSubscribers)) {
             foreach ($idSubscribers as $idSubscriber) {
                 $subscriber = $repositorySubscriber->find((int) $idSubscriber);
-                $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $request->get('abstract'));
-                $this->get('mail_service')->sendEmailSubscriber($subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $expressionInterest);
+                $this->sendNotificationAccordingToType($common_notification, $subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'),$expressionInterest);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("EMAIL");
                 $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
             }
-            $view = View::create(['message' => "SMS et Email envoyés avec succès"]);
+            $view = View::create(['message' => "Message(s) envoyé(s) avec succès"]);
             $view->setFormat('json');
             return $view;
         } else {
@@ -528,30 +524,29 @@ class TelephoneController extends Controller {
 
         $sendToAll = $request->get('all_subscribers');
         $idSubscribers = $request->get('subscribers');
+        $common_notification = $request->get('common_notification');
         if ($sendToAll && $sendToAll === 'on') {
             $subscribers = $repositorySubscriber->getAll();
             foreach ($subscribers as $subscriber) {
-                $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $request->get('abstract'));
-                $this->get('mail_service')->sendEmailSubscriber($subscriber, $specialFollowUp->getName(), $request->get('abstract'));
+                $this->sendNotificationAccordingToType($common_notification, $subscriber, $specialFollowUp->getName(), $request->get('abstract'));
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("EMAIL");
                 $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
             }
-            $view = View::create(['message' => "SMS et Email envoyés avec succès"]);
+            $view = View::create(['message' => "Message(s) envoyé(s) avec succès"]);
             $view->setFormat('json');
             return $view;
         } elseif ($idSubscribers && is_array($idSubscribers) && !empty($idSubscribers)) {
             foreach ($idSubscribers as $idSubscriber) {
                 $subscriber = $repositorySubscriber->find((int) $idSubscriber);
-                $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $request->get('abstract'));
-                $this->get('mail_service')->sendEmailSubscriber($subscriber, $specialFollowUp->getName(), $request->get('abstract'));
+                $this->sendNotificationAccordingToType($common_notification, $subscriber, $specialFollowUp->getName(), $request->get('abstract'));
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("EMAIL");
                 $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
             }
-            $view = View::create(['message' => "SMS et Email envoyés avec succès"]);
+            $view = View::create(['message' => "Message(s) envoyé(s) avec succès"]);
             $view->setFormat('json');
             return $view;
         } else {
@@ -577,6 +572,26 @@ class TelephoneController extends Controller {
         $view = View::create(['send_special_follow_up_form' => $send_special_follow_up_form]);
         $view->setFormat('json');
         return $view;
+    }
+
+    public function sendNotificationAccordingToType($common_notification, Subscriber $subscriber, $subject, $message, \OGIVE\AlertBundle\Entity\AlertProcedure $alertProcedure=null) {
+        if ($common_notification && $comment_statements = "3") {
+            $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $message);
+            $this->get('mail_service')->sendEmailSubscriber($subscriber, $subject, $message, $alertProcedure);
+        } elseif ($common_notification && $comment_statements == "2") {
+            $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $message);
+        } elseif ($common_notification && $comment_statements == "1") {
+            $this->get('mail_service')->sendEmailSubscriber($subscriber, $subject, $message, $alertProcedure);
+        } else {
+            if ($subscriber->getNotificationType() == 2) {
+                $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $message);
+            } elseif ($subscriber->getNotificationType() == 1) {
+                $this->get('mail_service')->sendEmailSubscriber($subscriber, $subject, $message, $alertProcedure);
+            } else {
+                $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $message);
+                $this->get('mail_service')->sendEmailSubscriber($subscriber, $subject, $message, $alertProcedure);
+            }
+        }
     }
 
 }

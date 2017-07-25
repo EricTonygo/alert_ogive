@@ -340,9 +340,7 @@ class SubscriberController extends Controller {
             $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 1 semaine";
         }
         $content = $subscriber->getEntreprise()->getName() . ", votre souscription au service <<Appels d'offres Infos>> a été éffectuée avec succès. \nCoût du forfait = " . $cout . ". \nOGIVE SOLUTIONS vous remercie pour votre confiance.";
-
-        $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $content);
-        $this->get('mail_service')->sendMail($subscriber->getEmail(), "CONFIRMATION DE L'ABONNEMENT", $content);
+        $this->sendNotificationAccordingToType($subscriber, "CONFIRMATION DE L'ABONNEMENT", $content);
         $historiqueAlertSubscriber->setMessage($content);
         $historiqueAlertSubscriber->setSubscriber($subscriber);
         $historiqueAlertSubscriber->setAlertType("SMS_CONFIRMATION_SUBSCRIPTION");
@@ -369,4 +367,15 @@ class SubscriberController extends Controller {
         return $view;
     }
 
+    public function sendNotificationAccordingToType(Subscriber $subscriber, $subject, $message) {
+            if ($subscriber->getNotificationType() == 2) {
+                $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $message);
+            } elseif ($subscriber->getNotificationType() == 1) {
+                $this->get('mail_service')->sendEmailSubscriber($subscriber, $subject, $message);
+            } else {
+                $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $message);
+                $this->get('mail_service')->sendEmailSubscriber($subscriber, $subject, $message);
+            }
+        
+    }
 }

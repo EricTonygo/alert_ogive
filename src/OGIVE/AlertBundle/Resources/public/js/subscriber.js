@@ -13,6 +13,9 @@ $(function () {
     $('#ogive_alertbundle_subscriber_subscription.ui.dropdown').dropdown({
         on: 'click'
     });
+    $('#ogive_alertbundle_subscriber_notificationType.ui.dropdown').dropdown({
+        on: 'click'
+    });
     $('#cancel_add_subscriber').click(function () {
         window.location.reload();
     });
@@ -78,6 +81,16 @@ $(function () {
                             {
                                 type: 'empty',
                                 prompt: "Veuillez selectionner son entreprise"
+                            }
+                        ]
+                    },
+                    
+                    notificationType: {
+                        identifier: 'notificationType',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Veuillez selectionner son type de notification"
                             }
                         ]
                     },
@@ -186,6 +199,9 @@ function edit_subscriber(id) {
             $('#ogive_alertbundle_subscriber_subscription.ui.dropdown').dropdown({
                 on: 'click'
             });
+            $('#ogive_alertbundle_subscriber_notificationType.ui.dropdown').dropdown({
+                on: 'click'
+            });
             $('#edit_subscriber.ui.modal').modal('setting', {
                 autofocus: false,
                 inverted: true,
@@ -262,6 +278,16 @@ function execute_edit(id) {
                             {
                                 type: 'empty',
                                 prompt: "Veuillez selectionner son entreprise"
+                            }
+                        ]
+                    },
+                    
+                    notificationType: {
+                        identifier: 'notificationType',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Veuillez selectionner son type de notification"
                             }
                         ]
                     },
@@ -480,10 +506,10 @@ function show_subscriber(id) {
 function renewal_subscription_subscriber(id) {
     //$('#subscription_type').val(id).change();
     $('#renewal_subscription_subscriber.ui.modal').modal('setting', {
-            autofocus: false,
-            inverted: true,
-            closable: false
-        });
+        autofocus: false,
+        inverted: true,
+        closable: false
+    });
     $('#renewal_subscription_subscriber.ui.small.modal')
             .modal('show')
             ;
@@ -550,7 +576,7 @@ function renewal_subscription_subscriber(id) {
                             $('#cancel_renewal_subscription_subscriber').removeClass('disabled');
                             $('#renewal_subscription_subscriber_form.ui.form').removeClass('loading');
                             $('#message_success>div.header').html(response.message);
-                            $('#message_success').show();                            
+                            $('#message_success').show();
                             setTimeout(function () {
                                 $('#message_success').hide();
                             }, 4000);

@@ -18,12 +18,21 @@
             </div>
             <div id='field_select_subscribers' class="field">
                 <select id='subscribers'  name="subscribers" multiple="" class="ui search fluid dropdown">
-                    <option value="">Selectionner les abonnés vers qui envoyé</option>
+                    <option value="">Selectionner les abonnés à notifier</option>
                     {%if subscribers%}
                         {%for subscriber in subscribers %}
                             <option value="{{subscriber.id}}">{{subscriber.phoneNumber}}</option>
                         {%endfor%} 
                     {%endif%}
+                </select>
+            </div>
+                
+            <div id='field_common_notification' class="field">
+                <select id='notificationTypes'  name="common_notification" class="ui search fluid dropdown">
+                    <option value="">Selectionner un type de notification commun si nécessaire</option>                    
+                    <option value="3">SMS et Email</option>
+                    <option value="2">SMS seulement</option>
+                    <option value="1">Email seulement</option>
                 </select>
             </div>
 

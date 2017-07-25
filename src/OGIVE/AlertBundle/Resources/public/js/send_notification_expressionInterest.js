@@ -37,6 +37,9 @@ function send_procedure_expressionInterest(id) {
                 $('#subscribers.ui.dropdown').dropdown({
                     on: 'click'
                 });
+                $('#notificationTypes.ui.dropdown').dropdown({
+                    on: 'click'
+                });
                 $('#send_notification_expressionInterest.ui.modal').modal('show');
                 execute_send_notification_expressionInterest(id);
             

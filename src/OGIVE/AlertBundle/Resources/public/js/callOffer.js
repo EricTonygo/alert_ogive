@@ -411,72 +411,7 @@ function execute_edit(id) {
                 },
                 inline: true,
                 on: 'change'
-//                onSuccess: function (event, fields) {
-//                    $.ajax({
-//                        type: 'PUT',
-//                        url: Routing.generate('call_offer_update', {id: id}),
-//                        data: $('#edit_callOffer_form.ui.form').serialize(),
-//                        dataType: 'json',
-//                        processData: false,
-//                        //contentType: false,
-//                        cache: false,
-//                        beforeSend: function () {
-//                            $('#submit_edit_callOffer').addClass('disabled');
-//                            $('#cancel_edit_callOffer').addClass('disabled');
-//                            $('#edit_callOffer_form.ui.form').addClass('loading');
-//                            $('#cancel_details_callOffer').addClass('disabled');
-//                            $('#disable_callOffer').addClass('disabled');
-//                            $('#enable_callOffer').addClass('disabled');
-//                        },
-//                        statusCode: {
-//                            500: function (xhr) {
-//                                $('#server_error_message_edit').show();
-//                            },
-//                            400: function (response, textStatus, jqXHR) {
-//                                var myerrors = response.responseJSON;
-//                                if (myerrors.success === false) {
-//                                    $('#error_name_header_edit').html("Echec de la validation");
-//                                    $('#error_name_list_edit').html('<li>' + myerrors.message + '</li>');
-//                                    $('#error_name_message_edit').show();
-//                                } else {
-//                                    $('#error_name_header_edit').html("Echec de la validation");
-//                                    $('#error_name_message_edit').show();
-//                                }
-//
-//                            }
-//                        },
-//                        success: function (response, textStatus, jqXHR) {
-//                            $('#submit_edit_callOffer').removeClass('disabled');
-//                            $('#cancel_edit_callOffer').removeClass('disabled');
-//                            $('#edit_callOffer_form.ui.form').removeClass('loading');
-//                            $('#cancel_details_callOffer').removeClass('disabled');
-//                            $('#disable_callOffer').removeClass('disabled');
-//                            $('#enable_callOffer').removeClass('disabled');
-////                                $('#callOffer_grid' + id).html(response.callOffer_content_grid);
-////                                $('#callOffer_list' + id).html(response.callOffer_content_list);
-////                                $('.ui.dropdown').dropdown({
-////                                    on: 'hover'
-////                                });
-//                            $('#edit_callOffer.ui.modal').modal('hide');
-//                            $('#message_success>div.header').html(response.message);
-//                            $('#message_success').show();
-//                            window.location.replace(Routing.generate('call_offer_index'));
-//                            setTimeout(function () {
-//                                $('#message_success').hide();
-//                            }, 4000);
-//                            $('#edit_callOffer').remove();
-//
-//
-//                        },
-//                        error: function (jqXHR, textStatus, errorThrown) {
-//                            $('#submit_edit_callOffer').removeClass('disabled');
-//                            $('#cancel_edit_callOffer').removeClass('disabled');
-//                            $('#edit_callOffer_form.ui.form').removeClass('loading');
-//                            /*alertify.error("Internal Server Error");*/
-//                        }
-//                    });
-//                    return false;
-//                }
+
             }
             );
     $('#submit_edit_callOffer').click(function (e) {
