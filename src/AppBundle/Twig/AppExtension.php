@@ -15,7 +15,7 @@ class AppExtension extends \Twig_Extension {
                         return \Symfony\Component\Intl\Intl::getRegionBundle()->getCountryName($value);
                     }),
             new \Twig_SimpleFilter('periodicity', function($value) {
-                        switch ($value){
+                        switch ($value) {
                             case 1:
                                 return "Annuelle";
                             case 2:
@@ -26,6 +26,16 @@ class AppExtension extends \Twig_Extension {
                                 return "Mensuelle";
                             case 3:
                                 return "Hebdomadaire";
+                        }
+                    }),
+            new \Twig_SimpleFilter('notificationType', function($value) {
+                        switch ($value) {
+                            case 1:
+                                return "Email seulement";
+                            case 2:
+                                return "SMS seulement";
+                            default:
+                                return "SMS et Email";
                         }
                     }),
         );
