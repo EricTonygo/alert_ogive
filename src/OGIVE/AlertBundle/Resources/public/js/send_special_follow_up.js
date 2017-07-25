@@ -37,6 +37,9 @@ function send_special_follow_up(id) {
                 $('#subscribers.ui.dropdown').dropdown({
                     on: 'click'
                 });
+                $('#notificationTypes.ui.dropdown').dropdown({
+                on: 'click'
+            });
                 $('#send_special_follow_up.ui.modal').modal('show');
                 execute_send_special_follow_up(id);
             
