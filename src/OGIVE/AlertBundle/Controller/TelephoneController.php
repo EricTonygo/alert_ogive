@@ -575,12 +575,12 @@ class TelephoneController extends Controller {
     }
 
     public function sendNotificationAccordingToType($common_notification, Subscriber $subscriber, $subject, $message, \OGIVE\AlertBundle\Entity\AlertProcedure $alertProcedure=null) {
-        if ($common_notification && $comment_statements = "3") {
+        if ($common_notification && $common_notification == "3") {
             $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $message);
             $this->get('mail_service')->sendEmailSubscriber($subscriber, $subject, $message, $alertProcedure);
-        } elseif ($common_notification && $comment_statements == "2") {
+        } elseif ($common_notification && $common_notification == "2") {
             $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $message);
-        } elseif ($common_notification && $comment_statements == "1") {
+        } elseif ($common_notification && $common_notification == "1") {
             $this->get('mail_service')->sendEmailSubscriber($subscriber, $subject, $message, $alertProcedure);
         } else {
             if ($subscriber->getNotificationType() == 2) {
