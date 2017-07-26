@@ -18,31 +18,31 @@ function send_special_follow_up(id) {
             }
         },
         success: function (response, textStatus, jqXHR) {
-                $('#send_special_follow_up').remove();
-                $('#send_special_follow_up_content').html(response.send_special_follow_up_form);
+            $('#send_special_follow_up').remove();
+            $('#send_special_follow_up_content').html(response.send_special_follow_up_form);
 
-                $('#send_special_follow_up.ui.modal').modal('setting', {
-                    autofocus: false,
-                    inverted: true,
-                    closable: false
-                });
-                $('#checkbox_all_subscribers').change(function () {
-                    if ($(this).is(':checked')) {
-                        $('#field_select_subscribers').hide();
-                        $('#field_select_subscribers>.ui.dropdown').dropdown('clear');
-                    } else {
-                        $('#field_select_subscribers').show();
-                    }
-                });
-                $('#subscribers.ui.dropdown').dropdown({
-                    on: 'click'
-                });
-                $('#notificationTypes.ui.dropdown').dropdown({
+            $('#send_special_follow_up.ui.modal').modal('setting', {
+                autofocus: false,
+                inverted: true,
+                closable: false
+            });
+            $('#checkbox_all_subscribers').change(function () {
+                if ($(this).is(':checked')) {
+                    $('#field_select_subscribers').hide();
+                    $('#field_select_subscribers>.ui.dropdown').dropdown('clear');
+                } else {
+                    $('#field_select_subscribers').show();
+                }
+            });
+            $('#subscribers.ui.dropdown').dropdown({
                 on: 'click'
             });
-                $('#send_special_follow_up.ui.modal').modal('show');
-                execute_send_special_follow_up(id);
-            
+            $('#notificationTypes.ui.dropdown').dropdown({
+                on: 'click'
+            });
+            $('#send_special_follow_up.ui.modal').modal('show');
+            execute_send_special_follow_up(id);
+
             $('#message_loading').hide();
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -104,17 +104,17 @@ function execute_send_special_follow_up(id) {
                             }
                         },
                         success: function (response, textStatus, jqXHR) {
-                                $('#submit_send_special_follow_up').removeClass('disabled');
-                                $('#cancel_send_special_follow_up').removeClass('disabled');
-                                $('#send_special_follow_up_form.ui.form').removeClass('loading');
-                                $('#send_special_follow_up.ui.modal').modal('hide');
-                                $('#message_success>div.header').html(response.message);
-                                $('#message_success').show();
-                                setTimeout(function () {
-                                    $('#message_success').hide();
-                                }, 4000);
-                                $('#send_special_follow_up').remove();
-                            
+                            $('#submit_send_special_follow_up').removeClass('disabled');
+                            $('#cancel_send_special_follow_up').removeClass('disabled');
+                            $('#send_special_follow_up_form.ui.form').removeClass('loading');
+                            $('#send_special_follow_up.ui.modal').modal('hide');
+                            $('#message_success>div.header').html(response.message);
+                            $('#message_success').show();
+                            setTimeout(function () {
+                                $('#message_success').hide();
+                            }, 4000);
+                            $('#send_special_follow_up').remove();
+
 
                         },
                         error: function (jqXHR, textStatus, errorThrown) {

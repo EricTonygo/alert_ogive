@@ -24,7 +24,7 @@ class MailService {
                 ->setFrom(array('infos@siogive.com' => "OGIVE INFOS"))
                 ->setTo($email)
                 ->setBody(
-                $content, 'text/html'
+                $this->templating->render('OGIVEAlertBundle:send_mail:template_send_procedure.html.twig', array('content' =>$content)), 'text/html'
         );
         $this->mailer->send($message);
         }else{

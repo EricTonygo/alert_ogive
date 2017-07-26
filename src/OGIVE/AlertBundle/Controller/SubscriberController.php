@@ -324,6 +324,26 @@ class SubscriberController extends Controller {
         }
     }
 
+    /**
+     * @Rest\View()
+     * @Rest\Post("/send-subscription-confirmation/{id}", name="send_subscription_confirmation_post", options={ "method_prefix" = false, "expose" = true  })
+     */
+    public function postSendSubcriptionConfirmationAction(Request $request, Subscriber $subscriber) {
+        if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            return $this->redirect($this->generateUrl('fos_user_security_login'));
+        }
+        if (empty($subscriber)) {
+            return new JsonResponse(['message' => 'Abonné introuvable'], Response::HTTP_NOT_FOUND);
+        }
+        $historical = $this->sendSubscriptionConfirmation($subscriber);
+        if (empty($historical)) {
+            return new JsonResponse(['message' => "Error lors de l'envoi du message"], Response::HTTP_NOT_FOUND);
+        }
+        $view = View::create(['message' => "Accusé de reception envoyé avec succès"]);
+        $view->setFormat('json');
+        return $view;
+    }
+    
     public function sendSubscriptionConfirmation(Subscriber $subscriber) {
         $historiqueAlertSubscriber = new HistoricalAlertSubscriber();
         $repositoryHistorique = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:HistoricalAlertSubscriber');
@@ -345,26 +365,6 @@ class SubscriberController extends Controller {
         $historiqueAlertSubscriber->setSubscriber($subscriber);
         $historiqueAlertSubscriber->setAlertType("SMS_CONFIRMATION_SUBSCRIPTION");
         return $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
-    }
-
-    /**
-     * @Rest\View()
-     * @Rest\Post("/send-subscription-confirmation/{id}", name="send_subscription_confirmation_post", options={ "method_prefix" = false, "expose" = true  })
-     */
-    public function postSendSubcriptionConfirmationAction(Request $request, Subscriber $subscriber) {
-        if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-            return $this->redirect($this->generateUrl('fos_user_security_login'));
-        }
-        if (empty($subscriber)) {
-            return new JsonResponse(['message' => 'Abonné introuvable'], Response::HTTP_NOT_FOUND);
-        }
-        $historical = $this->sendSubscriptionConfirmation($subscriber);
-        if (empty($historical)) {
-            return new JsonResponse(['message' => "Error lors de l'envoi du message"], Response::HTTP_NOT_FOUND);
-        }
-        $view = View::create(['message' => "Accusé de reception envoyé avec succès"]);
-        $view->setFormat('json');
-        return $view;
     }
 
     public function sendNotificationAccordingToType(Subscriber $subscriber, $subject, $message) {
