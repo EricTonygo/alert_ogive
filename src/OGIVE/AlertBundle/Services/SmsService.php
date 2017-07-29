@@ -12,8 +12,7 @@ use Twilio\Rest\Client;
 class SmsService {
 
     protected $twilio_client;
-    private $username = "ACdda206efadd5de15c5f0121a6a982a9c";
-    private $password = "e77b1a26567145aa789a3dc0d701dea0";
+    
 
     public function __construct() {
         $this->twilio_client = new Client($this->username, $this->password);
