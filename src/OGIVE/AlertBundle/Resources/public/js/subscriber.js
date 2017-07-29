@@ -570,11 +570,11 @@ function renewal_subscription_subscriber(id) {
                             }
                         },
                         success: function (response, textStatus, jqXHR) {
-                            $('#renewal_subscription_subscriber.ui.small.modal')
-                                    .modal('hide');
                             $('#execute_renewal_subscription_subscriber').removeClass('disabled');
                             $('#cancel_renewal_subscription_subscriber').removeClass('disabled');
                             $('#renewal_subscription_subscriber_form.ui.form').removeClass('loading');
+                            $('#renewal_subscription_subscriber')
+                                    .modal('hide');
                             $('#message_success>div.header').html(response.message);
                             $('#message_success').show();
                             setTimeout(function () {

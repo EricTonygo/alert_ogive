@@ -363,7 +363,7 @@ class SubscriberController extends Controller {
         } elseif ($subscriber->getSubscription()->getPeriodicity() === 4) {
             $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 1 semaine";
         }
-        $content = $subscriber->getEntreprise()->getName() . ", votre souscription au service <<APPELS D'OFFRES INFOS>> a été éffectuée avec succès. \nCoût du forfait = " . $cout . ". \nOGIVE SOLUTIONS vous remercie pour votre confiance.";
+        $content = $subscriber->getEntreprise()->getName() . ", votre souscription au service <<APPELS D'OFFRES INFOS>> a été éffectuée avec succès. \nCoût du forfait = " . $cout;
         $this->sendNotificationAccordingToType($subscriber, "CONFIRMATION DE L'ABONNEMENT", $content);
         $historiqueAlertSubscriber->setMessage($content);
         $historiqueAlertSubscriber->setSubscriber($subscriber);
@@ -387,7 +387,7 @@ class SubscriberController extends Controller {
             } elseif ($subscriber->getSubscription()->getPeriodicity() === 4) {
                 $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 1 semaine";
             }
-            $content = $subscriber->getEntreprise()->getName() . ", votre abonnement au service <<APPELS D'OFFRES INFOS>> a été réactivé avec succès. \nCoût du forfait = " . $cout . ". \nOGIVE SOLUTIONS vous remercie pour votre confiance.";
+            $content = $subscriber->getEntreprise()->getName() . ", votre abonnement au service <<APPELS D'OFFRES INFOS>> a été réactivé avec succès. \nCoût du nouveau forfait = " . $cout;
             $this->sendNotificationAccordingToType($subscriber, "RENOUVELLEMENT DE L'ABONNEMENT", $content);
             $historiqueAlertSubscriber->setMessage($content);
             $historiqueAlertSubscriber->setSubscriber($subscriber);
@@ -400,11 +400,11 @@ class SubscriberController extends Controller {
 
     public function sendNotificationAccordingToType(Subscriber $subscriber, $subject, $message) {
         if ($subscriber->getNotificationType() == 2) {
-            $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $message);
+            $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $message. ". \nOGIVE SOLUTIONS vous remercie pour votre confiance.");
         } elseif ($subscriber->getNotificationType() == 1) {
             $this->get('mail_service')->sendEmailSubscriber($subscriber, $subject, $message);
         } else {
-            $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $message);
+            $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $message. ". \nOGIVE SOLUTIONS vous remercie pour votre confiance.");
             $this->get('mail_service')->sendEmailSubscriber($subscriber, $subject, $message);
         }
     }
