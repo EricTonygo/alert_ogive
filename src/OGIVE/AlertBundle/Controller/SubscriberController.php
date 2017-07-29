@@ -387,7 +387,7 @@ class SubscriberController extends Controller {
             } elseif ($subscriber->getSubscription()->getPeriodicity() === 4) {
                 $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 1 semaine";
             }
-            $content = $subscriber->getEntreprise()->getName() . ", votre abonnement au service <<APPELS D'OFFRES INFOS>> a été réactivé avec succès. \nCoût du nouveau forfait = " . $cout;
+            $content = $subscriber->getEntreprise()->getName() . ", votre abonnement au service <<APPELS D'OFFRES INFOS>> a été renouvelé avec succès. \nCoût du nouveau forfait = " . $cout;
             $this->sendNotificationAccordingToType($subscriber, "RENOUVELLEMENT DE L'ABONNEMENT", $content);
             $historiqueAlertSubscriber->setMessage($content);
             $historiqueAlertSubscriber->setSubscriber($subscriber);

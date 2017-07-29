@@ -50,7 +50,7 @@ $('.message .close')
             })
             ;
             
-$('#pagination').change(function(e){
+$('.pagination').change(function(e){
     e.preventDefault();
     $('.nav_link').removeClass('is-active');
     $('#home').addClass('is-active');
