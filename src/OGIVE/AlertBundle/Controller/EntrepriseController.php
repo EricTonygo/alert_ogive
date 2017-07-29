@@ -248,13 +248,15 @@ class EntrepriseController extends Controller {
         if (empty($entreprise)) {
             return new JsonResponse(['message' => 'Entreprise introuvable'], Response::HTTP_NOT_FOUND);
         }
+        $historiqueAlertSubscriber = null;
         if ($request->get('action') == 'enable') {
             $entreprise->setState(1);
             $subscribers = $repositorySubscriber->findBy(array('entreprise' => $entreprise, 'status' => 1));
             $curl_response = null;
             foreach ($subscribers as $subscriber) {
                 $subscriber->setState(1);
-                if ($request->get('subscription_update') != 'others' && $subscriber->getSubscription()) {
+                $subscription_update = $request->get('subscription_update');
+                if ($subscription_update && $subscription_update!= 'others' && $subscriber->getSubscription()) {
                     $subscriber->setLastSubscriptionDate(new \DateTime('now'));
                     $subscriber->setExpiredState(0);
                 }
@@ -264,7 +266,7 @@ class EntrepriseController extends Controller {
             foreach ($subscribers as $subscriber) {
                 $curl_response = $this->get('curl_service')->enableSubscriberAccount($subscriber, $subscriber->getExpiredState());
             }
-            if ($request->get('subscription_update') != 'others') {
+            if ($subscription_update && $subscription_update != 'others') {
                 $subscribers_enabled = $repositorySubscriber->findBy(array('entreprise' => $entreprise, 'status' => 1, 'state' => 1));
                 foreach ($subscribers_enabled as $subscriber) {
                     if ($subscriber->getSubscription()) {
@@ -273,6 +275,7 @@ class EntrepriseController extends Controller {
                         $historicalSubscriberSubscription->setSubscription($subscriber->getSubscription());
                         $historicalSubscriberSubscription->setSubscriptionDateAndExpirationDate($subscriber->getLastSubscriptionDate());
                         $repositoryHistoricalSubscriberSubscription->saveHistoricalSubscriberSubscription($historicalSubscriberSubscription);
+                        $historiqueAlertSubscriber = $this->sendRenewalSubscriptionConfirmation($subscriber, $subscription_update);
                     }
                 }
             }
@@ -430,7 +433,8 @@ class EntrepriseController extends Controller {
 //                    }
                 }
             }
-            if ($request->get('subscription_update') != 'others') {
+            $subscription_update = $request->get('subscription_update');
+            if ($subscription_update && $subscription_update != 'others') {
                 foreach ($subscribers_enabled as $subscriber) {
                     if ($subscriber->getSubscription()) {
                         $historicalSubscriberSubscription = new HistoricalSubscriberSubscription();
@@ -438,16 +442,17 @@ class EntrepriseController extends Controller {
                         $historicalSubscriberSubscription->setSubscription($subscriber->getSubscription());
                         $historicalSubscriberSubscription->setSubscriptionDateAndExpirationDate($subscriber->getLastSubscriptionDate());
                         $repositoryHistoricalSubscriberSubscription->saveHistoricalSubscriberSubscription($historicalSubscriberSubscription);
+                        $historiqueAlertSubscriber = $this->sendRenewalSubscriptionConfirmation($subscriber, $subscription_update);
                     }
                 }
             }
             $sendConfirmation = $request->get('send_confirmation');
-            if ($sendConfirmation && $sendConfirmation === 'on') {
+            if ($historiqueAlertSubscriber === null && $sendConfirmation && $sendConfirmation === 'on') {
                 foreach ($subscribers_enabled as $subscriber) {
                     if (false === $originalSubscribers->contains($subscriber) && $subscriber->getSubscription()) {
-                        $this->sendSubscriptionConfirmation($subscriber);
+                        $historiqueAlertSubscriber = $this->sendSubscriptionConfirmation($subscriber);
                     } elseif ($originalSubscribers->contains($subscriber) && $subscriber->getSubscription() && $repositoryHistoriqueSubscriber->findBy(array('subscriber' => $subscriber, 'alertType' => "SMS_CONFIRMATION_SUBSCRIPTION")) === null && $subscriber->getStatus() == 1 && $subscriber->getState() == 1) {
-                        $this->sendSubscriptionConfirmation($subscriber);
+                        $historiqueAlertSubscriber = $this->sendSubscriptionConfirmation($subscriber);
                     }
                 }
             }
@@ -485,12 +490,39 @@ class EntrepriseController extends Controller {
         } elseif ($subscriber->getSubscription()->getPeriodicity() === 5) {
             $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 1 semaine";
         }
-        $content = $subscriber->getEntreprise()->getName() . ", votre souscription au service <<Appels d'offres Infos>> a été éffectuée avec succès. \nCoût du forfait = " . $cout . ". \nOGIVE SOLUTIONS vous remercie pour votre confiance.";
+        $content = $subscriber->getEntreprise()->getName() . ", votre souscription au service <<APPELS D'OFFRES INFOS>> a été éffectuée avec succès. \nCoût du forfait = " . $cout . ". \nOGIVE SOLUTIONS vous remercie pour votre confiance.";
         $this->sendNotificationAccordingToType($subscriber, "CONFIRMATION DE L'ABONNEMENT", $content);
         $historiqueAlertSubscriber->setMessage($content);
         $historiqueAlertSubscriber->setSubscriber($subscriber);
         $historiqueAlertSubscriber->setAlertType("SMS_CONFIRMATION_SUBSCRIPTION");
         return $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
+    }
+    
+    public function sendRenewalSubscriptionConfirmation(Subscriber $subscriber, $subscription_update) {
+        if ($subscription_update && $subscription_update === "renewal-subscription") {
+            $historiqueAlertSubscriber = new HistoricalAlertSubscriber();
+            $repositoryHistorique = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:HistoricalAlertSubscriber');
+            $cout = "";
+            if ($subscriber->getSubscription()->getPeriodicity() === 1) {
+                $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 1 an";
+            } elseif ($subscriber->getSubscription()->getPeriodicity() === 2) {
+                $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 6 mois";
+            } elseif ($subscriber->getSubscription()->getPeriodicity() === 3) {
+                $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 3 mois";
+            } elseif ($subscriber->getSubscription()->getPeriodicity() === 4) {
+                $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 1 mois";
+            } elseif ($subscriber->getSubscription()->getPeriodicity() === 4) {
+                $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 1 semaine";
+            }
+            $content = $subscriber->getEntreprise()->getName() . ", votre abonnement au service <<APPELS D'OFFRES INFOS>> a été réactivé avec succès. \nCoût du forfait = " . $cout . ". \nOGIVE SOLUTIONS vous remercie pour votre confiance.";
+            $this->sendNotificationAccordingToType($subscriber, "RENOUVELLEMENT DE L'ABONNEMENT", $content);
+            $historiqueAlertSubscriber->setMessage($content);
+            $historiqueAlertSubscriber->setSubscriber($subscriber);
+            $historiqueAlertSubscriber->setAlertType("SMS_CONFIRMATION_RENEWAL_SUBSCRIPTION");
+            return $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
+        } else {
+            return null;
+        }
     }
 
     public function sendNotificationAccordingToType(Subscriber $subscriber, $subject, $message) {
