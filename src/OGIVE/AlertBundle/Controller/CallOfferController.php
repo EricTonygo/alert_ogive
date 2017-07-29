@@ -32,7 +32,7 @@ class CallOfferController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $callOffer = new CallOffer();
         $page = 1;
-        $maxResults = 8;
+        $maxResults = 4;
         $route_param_page = array();
         $route_param_search_query = array();
         $search_query = null;

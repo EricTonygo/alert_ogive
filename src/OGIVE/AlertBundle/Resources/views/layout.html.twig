@@ -25,34 +25,6 @@
     <div class="ui bottom attached segment pushable">
         <div class="pusher">
             {% include('OGIVEAlertBundle::sidebar.html.twig') %}
-            {% block pagination1 %}
-                {%if total_pages>1 and total_pages >= page %}
-                    <div  class="ui basic segment container">
-                        <div class="ui right floated pagination menu">
-                            {%if page > 1 %}
-                                <a href="{{path(app.request.attributes.get('_route'), route_param_search_query|merge({page: page-1}))}}" class="icon item">
-                                    <i class="left chevron icon"></i>
-                                </a>
-                            {% endif %}
-                            <select id='pagination1' class="ui item pagination dropdown">
-                            {% for i in 1..total_pages %}
-                                <option value="{{path(app.request.attributes.get('_route'), route_param_search_query|merge({page: i}))}}" {% if i== page %}selected="selected"{% endif %}>{{i}}</option>
-                                {#{% if i== page %}
-                                    <a href="{{path(app.request.attributes.get('_route'), route_param_search_query|merge({page: i}))}}" class="active_page item">{{i}}</a>
-                                {% else %}
-                                    <a href="{{path(app.request.attributes.get('_route'), route_param_search_query|merge({page: i}))}}" class="item">{{i}}</a>
-                                {% endif %}#}
-                            {% endfor %}
-                            </select>
-                            {%if page <= total_pages-1 %}
-                                <a href="{{path(app.request.attributes.get('_route'), route_param_search_query|merge({page: page+1}))}}" class="icon item">
-                                    <i class="right chevron icon"></i>
-                                </a>
-                            {% endif %}
-                        </div>
-                    </div>
-                {% endif %}
-            {% endblock %} 
             {% block content %}
             {% endblock content %}
             {% block pagination %}
