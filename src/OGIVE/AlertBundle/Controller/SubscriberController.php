@@ -128,7 +128,7 @@ class SubscriberController extends Controller {
                 $historicalSubscriberSubscription = $repositoryHistoricalSubscriberSubscription->saveHistoricalSubscriberSubscription($historicalSubscriberSubscription);
                 $curl_response = json_decode($this->get('curl_service')->createSubscriberAccount($subscriber), true);
                 if ($curl_response['success'] == true) {
-                    $this->get('mail_service')->sendMail($curl_response['data']['email'], $curl_response['data']['subject'], $curl_response['data']['message']);
+                    $this->get('mail_service')->sendMailForWebsiteAccount($curl_response['data']['email'], $curl_response['data']['subject'], $curl_response['data']['message']);
                 }
             }
             $sendConfirmation = $request->get('send_confirmation');

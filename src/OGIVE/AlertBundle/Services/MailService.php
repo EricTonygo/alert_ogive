@@ -8,30 +8,45 @@ namespace OGIVE\AlertBundle\Services;
  * @author Eric TONYE
  */
 class MailService {
+
     protected $mailer;
     protected $templating;
-    
-  public function __construct(\Swift_Mailer $mailer, \Symfony\Bundle\TwigBundle\TwigEngine $templating)
-  {
-    $this->mailer = $mailer;
-    $this->templating = $templating;
-  }
 
-    public function sendMail($email, $subject, $content, $attachements=null) {
-        if($email!=""){
-        $message = \Swift_Message::newInstance()
-                ->setSubject($subject)
-                ->setFrom(array('infos@siogive.com' => "OGIVE INFOS"))
-                ->setTo($email)
-                ->setBody(
-                $this->templating->render('OGIVEAlertBundle:send_mail:template_send_procedure.html.twig', array('content' =>$content)), 'text/html'
-        );
-        $this->mailer->send($message);
-        }else{
+    public function __construct(\Swift_Mailer $mailer, \Symfony\Bundle\TwigBundle\TwigEngine $templating) {
+        $this->mailer = $mailer;
+        $this->templating = $templating;
+    }
+
+    public function sendMailForWebsiteAccount($email, $subject, $content, $attachements = null) {
+        if ($email != "") {
+            $message = \Swift_Message::newInstance()
+                    ->setSubject($subject)
+                    ->setFrom(array('infos@siogive.com' => "OGIVE INFOS"))
+                    ->setTo($email)
+                    ->setBody(
+                    $content
+            );
+            $this->mailer->send($message);
+        } else {
             return true;
         }
     }
-    
+
+    public function sendMail($email, $subject, $content, $attachements = null) {
+        if ($email != "") {
+            $message = \Swift_Message::newInstance()
+                    ->setSubject($subject)
+                    ->setFrom(array('infos@siogive.com' => "OGIVE INFOS"))
+                    ->setTo($email)
+                    ->setBody(
+                    $this->templating->render('OGIVEAlertBundle:send_mail:template_send_procedure.html.twig', array('content' => $content)), 'text/html'
+            );
+            $this->mailer->send($message);
+        } else {
+            return true;
+        }
+    }
+
     public function sendEmailSubscriber(\OGIVE\AlertBundle\Entity\Subscriber $subscriber, $subject, $content, \OGIVE\AlertBundle\Entity\AlertProcedure $procedure = null) {
         if ($subscriber && $subscriber->getEmail() != "") {
             $message = \Swift_Message::newInstance()
@@ -39,7 +54,7 @@ class MailService {
                     ->setFrom(array('infos@siogive.com' => "OGIVE INFOS"))
                     ->setTo($subscriber->getEmail())
                     ->setBody(
-                    $this->templating->render('OGIVEAlertBundle:send_mail:template_send_procedure.html.twig', array('content' =>$content)), 'text/html'
+                    $this->templating->render('OGIVEAlertBundle:send_mail:template_send_procedure.html.twig', array('content' => $content)), 'text/html'
             );
 //            if ($procedure) {
 //                $piecesjointes = $procedure->getPiecesjointes();
@@ -60,5 +75,5 @@ class MailService {
             return true;
         }
     }
-    
+
 }
