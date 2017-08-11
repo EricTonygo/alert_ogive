@@ -47,14 +47,14 @@ class DisableExpiredSubscriberCommand extends ContainerAwareCommand {
                 $interval = date_create('today')->diff( new \DateTime(date('Y-m-d', $expirationTime)));
                 setlocale(LC_TIME, 'fr_FR');
                 if($subscriber->getState() == 1 && $now < $expirationDate && $interval->d ==7 && $interval->m == 0 && $interval->y == 0){
-                    $message = 'Mmes/Mrs les dirrigeants de ' . $subscriber->getEntreprise()->getName() . ', votre abonnement au service "APPELS D\'OFFRES INFOS" expirera le ' . date('d-m-Y', $expirationTime) . ' à ' . date('H', $expirationTime) . 'h' . date('i', $expirationTime) . '. Prière de passer dans nos services renouveller votre abonnement ou contacter :  243 80 38 95/694 20 03 10';
+                    $message = 'Mmes/Mrs les dirrigeants de ' . $subscriber->getEntreprise()->getName() . ', votre abonnement au service "APPELS D\'OFFRES INFOS" expirera le ' . date('d-m-Y', $expirationTime) . ' à ' . date('H', $expirationTime) . 'h' . date('i', $expirationTime) . '. Prière de passer dans nos services renouveler votre abonnement ou contacter : 243 80 38 95/694 20 03 10';
                     $this->sendExpirationSubscriptionMessage($subscriber, 'Rappel de l\'expiration de votre abonnement au service "APPELS D\'OFFRES INFOS"', $message);
                     $admin_message .= 'L\'abonnement de '.$subscriber->getPhoneNumber().' de l\'entreprise '.$subscriber->getEntreprise()->getName(). 'expirera le '. date('d-m-Y', $expirationTime) . ' à ' . date('H', $expirationTime) . 'h' . date('i', $expirationTime);
                     //$output->writeln($subscriber->getPhoneNumber() . ' expirera dans '.$interval->d." Jours");
                     $this->getContainer()->get('mail_service')->sendMail('genastlev01@gmail.com', 'Rappel de l\'expiration de votre abonnement au service "APPELS D\'OFFRES INFOS"', $admin_message);
                 }
                 if ($now > $expirationDate && $subscriber->getState() == 1) {
-                    $message = 'Mmes/Mrs les dirrigeants de ' . $subscriber->getEntreprise()->getName() . ', votre abonnement au service "APPELS D\'OFFRES INFOS" a expiré depuis le ' . date('d-m-Y', $expirationTime) . 'à ' . date('H', $expirationTime) . 'h' . date('i', $expirationTime) . '. Prière de passer dans nos services renouveller votre abonnement ou contacter :  243 80 38 95/694 20 03 10';
+                    $message = 'Mmes/Mrs les dirrigeants de ' . $subscriber->getEntreprise()->getName() . ', votre abonnement au service "APPELS D\'OFFRES INFOS" a expiré depuis le ' . date('d-m-Y', $expirationTime) . 'à ' . date('H', $expirationTime) . 'h' . date('i', $expirationTime) . '. Prière de passer dans nos services renouveler votre abonnement ou contacter : 243 80 38 95/694 20 03 10';
                     $subscriber->setState(0);
                     $subscriber->setExpiredState(1);
                     $repositorySubscriber->updateSubscriber($subscriber);
