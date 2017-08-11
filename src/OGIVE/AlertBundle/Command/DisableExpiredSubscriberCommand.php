@@ -58,7 +58,7 @@ class DisableExpiredSubscriberCommand extends ContainerAwareCommand {
                     $subscriber->setState(0);
                     $subscriber->setExpiredState(1);
                     $repositorySubscriber->updateSubscriber($subscriber);
-                    $curl_response = $this->get('curl_service')->disableSubscriberAccount($subscriber, 1);
+                    $curl_response = $this->getContainer()->get('curl_service')->disableSubscriberAccount($subscriber, 1);
                     $this->sendExpirationSubscriptionMessage($subscriber, 'Expiration de votre abonnement au service "APPELS D\'OFFRES INFOS"', $message);
                     $admin_message .= 'Abonné '.$subscriber->getPhoneNumber().' '.$subscriber->getEntreprise()->getName(). 'a été désactivé : Abonnement expiré';
                     //$output->writeln($subscriber->getPhoneNumber() . ' a été désactivé');
@@ -68,7 +68,7 @@ class DisableExpiredSubscriberCommand extends ContainerAwareCommand {
                     $subscriber->setState(1);
                     $subscriber->setExpiredState(0);
                     $repositorySubscriber->updateSubscriber($subscriber);
-                    $curl_response = $this->get('curl_service')->enableSubscriberAccount($subscriber, 0);
+                    $curl_response = $this->getContainer()->get('curl_service')->enableSubscriberAccount($subscriber, 0);
                     $this->sendExpirationSubscriptionMessage($subscriber, 'Réactivation de votre abonnement au service "APPELS D\'OFFRES INFOS"', $message);
                     $admin_message .='Abonné '.$subscriber->getPhoneNumber().' '.$subscriber->getEntreprise()->getName(). ' a été réactivé';  
                     //$output->writeln($subscriber->getPhoneNumber() . ' a été réactivé');
