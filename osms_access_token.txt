@@ -1,0 +1,15 @@
+curl -X POST \
+-H "Authorization: Basic VnR6T2FyWk5DdGc5WXZYa0RPWkJUMGRLQXBWUUVZbGo6bTZyR3hxM1VVb2ZEZnlvdA==" \
+-d "grant_type=client_credentials" \
+https://api.orange.com/oauth/v2/token
+
+access_token: 5RvSJAL7yY4wId3X7apA2lfIOHnN
+
+Bruno Ndongo zinga le pdg
+
+SSH:
+	username: ogivehosting
+	password: $97eFzJUi$
+	ip: 198.57.247.145
+	command: ssh -p 2222 cpanelusername@cpanelipaddress
+	os: centos
