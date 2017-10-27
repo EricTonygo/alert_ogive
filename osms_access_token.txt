@@ -9,7 +9,8 @@ Bruno Ndongo zinga le pdg
 
 SSH:
 	username: ogivehosting
-	password: $97eFzJUi$
+	old-password: $97eFzJUi$
+	password: Ogive2017
 	ip: 198.57.247.145
 	command: ssh -p 2222 cpanelusername@cpanelipaddress
 	os: centos
