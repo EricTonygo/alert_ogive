@@ -47,7 +47,8 @@ class SmsService {
     public function sendSms($phoneNumber, $message) {
         if ($phoneNumber != "") {
             $config = array(
-                'token' => "BuBQvwnAZZPHw4EVjbPv5h2D9cYU",
+                'token' => "MskEAyO9WuuKsljXho8VuGP263VE",
+                //'token' => "BuBQvwnAZZPHw4EVjbPv5h2D9cYU"
             );
             try {
                 $osms = new Osms\Osms($config);
