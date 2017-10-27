@@ -55,7 +55,8 @@ class SmsService {
                 $osms->setVerifyPeerSSL(false);
                 $response = $osms->sendSms(
                         // sender
-                        'tel:+237699001539',
+                        //'tel:+237699001539',
+                        'tel:+237699213790',
                         // receiver
                         'tel:' . $phoneNumber,
                         // message
