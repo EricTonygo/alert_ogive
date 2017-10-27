@@ -8,10 +8,11 @@
             <div class="field">
                 <label>Le resumé à envoyer par SMS</label>
                 <textarea name='abstract_sms' rows="5">{{procedureResult.abstractForSmsNotification}}</textarea>
+                <label>longueur du message : {{procedureResult.abstractForSmsNotification|length}}</label>
             </div>
             
             <div class="field">
-                <label>Le resumé à envoyer</label>
+                <label>Le resumé à envoyer par Email</label>
                 <textarea name='abstract' rows="5">{{procedureResult.abstract}}</textarea>
             </div>
 
