@@ -40,6 +40,7 @@ function send_procedure_callOffer(id) {
             $('#notificationTypes.ui.dropdown').dropdown({
                     on: 'click'
                 });
+            show_sms_message_length();
             $('#send_notification_callOffer.ui.modal').modal('show');
             execute_send_notification_callOffer(id);
 

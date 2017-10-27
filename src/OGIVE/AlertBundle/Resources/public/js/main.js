@@ -89,3 +89,9 @@ $('input.search_input').on("change paste keyup", function (e) {
         $('#submit_search_form').addClass('loading');
     });
 });
+
+function show_sms_message_length(){
+    $('#abstract_sms').change(function(e){
+        $('#abstract_sms_count').html($(this).val().length);
+    });
+}

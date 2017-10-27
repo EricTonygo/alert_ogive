@@ -40,6 +40,7 @@ function send_procedure_expressionInterest(id) {
                 $('#notificationTypes.ui.dropdown').dropdown({
                     on: 'click'
                 });
+                show_sms_message_length();
                 $('#send_notification_expressionInterest.ui.modal').modal('show');
                 execute_send_notification_expressionInterest(id);
             

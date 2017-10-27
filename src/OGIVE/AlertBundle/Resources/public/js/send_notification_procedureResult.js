@@ -40,6 +40,7 @@ function send_procedure_procedureResult(id) {
             $('#notificationTypes.ui.dropdown').dropdown({
                 on: 'click'
             });
+            show_sms_message_length();
             $('#send_notification_procedureResult.ui.modal').modal('show');
             execute_send_notification_procedureResult(id);
 

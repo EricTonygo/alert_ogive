@@ -40,7 +40,7 @@ function send_procedure_additive(id) {
                 $('#notificationTypes.ui.dropdown').dropdown({
                     on: 'click'
                 });
-                
+                show_sms_message_length();
                 $('#send_notification_additive.ui.modal').modal('show');
                 execute_send_notification_additive(id);
             

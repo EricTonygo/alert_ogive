@@ -26,6 +26,7 @@ function send_sms_subscriber(id) {
                 inverted: true,
                 closable: false
             });
+            //show_sms_message_length();
             $('#send_sms_subscriber.ui.modal').modal('show');
             execute_send_sms_subscriber(id);
 
