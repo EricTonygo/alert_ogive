@@ -43,6 +43,7 @@ class SmsService {
 //    }
 
     public function sendSms($phoneNumber, $message) {
+        if ($phoneNumber != "") {
         $config = array(
             'token' => "BuBQvwnAZZPHw4EVjbPv5h2D9cYU",
 //    'clientId' =>'VtzOarZNCtg9YvXkDOZBT0dKApVQEYlj',
@@ -59,11 +60,13 @@ class SmsService {
                 // message
                 $message
         );
-        if (empty($response['error'])) {
-//        return 'Done!';
-            return json_encode($response);
+//        if (empty($response['error'])) {
+//            return json_encode($response);
+//        } else {
+//            return json_encode($response);
+//        }
         } else {
-            return json_encode($response);
+            return true;
         }
     }
 

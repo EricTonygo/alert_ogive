@@ -280,9 +280,9 @@ class AdditiveController extends Controller {
         } else {
             $abstract = $additive->getObject();
         }
-        if ($detail_url && $detail_url != "") {
-            $abstract .= " Détail téléchargeable à l'adresse " . $detail_url;
-        }
+//        if ($detail_url && $detail_url != "") {
+//            $abstract .= " Détail téléchargeable à l'adresse " . $detail_url;
+//        }
         return $abstract;
     }
 

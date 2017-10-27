@@ -269,9 +269,9 @@ class ProcedureResultController extends Controller {
         } else {
             $abstract = $procedureResult->getObject();
         }
-        if ($detail_url && $detail_url != "") {
-            $abstract .= " Détail téléchargeable à l'adresse " . $detail_url;
-        }
+//        if ($detail_url && $detail_url != "") {
+//            $abstract .= " Détail téléchargeable à l'adresse " . $detail_url;
+//        }
         return $abstract;
     }
 
