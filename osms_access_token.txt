@@ -1,9 +1,15 @@
 curl -X POST \
--H "Authorization: Basic VnR6T2FyWk5DdGc5WXZYa0RPWkJUMGRLQXBWUUVZbGo6bTZyR3hxM1VVb2ZEZnlvdA==" \
+-H "Authorization: Basic MEVDbTU2RUFTOVBndTJTVE5HdHZYTFI2QXFEWmFkY006VVJBS1dGQUtjYk1FNVJCNQ==" \
 -d "grant_type=client_credentials" \
 https://api.orange.com/oauth/v2/token
 
+
+
 access_token: 5RvSJAL7yY4wId3X7apA2lfIOHnN
+
+client ID : 0ECm56EAS9Pgu2STNGtvXLR6AqDZadcM
+
+client Secret : URAKWFAKcbME5RB5
 
 Bruno Ndongo zinga le pdg
 

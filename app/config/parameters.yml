@@ -2,8 +2,8 @@
 parameters:
     database_host: 127.0.0.1
     database_port: 3306
-    database_name: ogivehos_appels_offres_infos_db
-    database_user: ogivehos_b5f4_cg
+    database_name: db_alert_ogive
+    database_user: ogive
     database_password: Ogive2017
     mailer_transport: smtp
     mailer_host: gator3181.hostgator.com

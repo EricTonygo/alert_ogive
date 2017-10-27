@@ -44,7 +44,7 @@ class SmsService {
 
     public function sendSms($phoneNumber, $message) {
         $config = array(
-            'token' => "5RvSJAL7yY4wId3X7apA2lfIOHnN",
+            'token' => "BuBQvwnAZZPHw4EVjbPv5h2D9cYU",
 //    'clientId' =>'VtzOarZNCtg9YvXkDOZBT0dKApVQEYlj',
 //    'clientSecret'=> 'm6rGxq3UUofDfyot'
         );
@@ -53,7 +53,7 @@ class SmsService {
         $osms->setVerifyPeerSSL(false);
         $response = $osms->sendSms(
                 // sender
-                'tel:+237697704889',
+                'tel:+237699001539',
                 // receiver
                 'tel:' . $phoneNumber,
                 // message
