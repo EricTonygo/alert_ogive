@@ -91,7 +91,7 @@ $('input.search_input').on("change paste keyup", function (e) {
 });
 
 function show_sms_message_length(){
-    $('#abstract_sms').change(function(e){
+    $('#abstract_sms').keypress(function(e){
         $('#abstract_sms_count').html($(this).val().length);
     });
 }
