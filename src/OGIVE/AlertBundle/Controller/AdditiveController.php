@@ -137,7 +137,7 @@ class AdditiveController extends Controller {
                 //Set Object just for prevent database violation constraints
                 $additive->setObject($additive->getExpressionInterest()->getObject());
             }
-            $additive->setAbstract($this->getAbstractOfAdditive($additive));            
+            $additive->setAbstract($this->getAbstractOfAdditive($additive));
             $additive = $repositoryAdditive->saveAdditive($additive);
             $curl_response = $this->get('curl_service')->sendAdditiveToWebsite($additive);
             $curl_response_array = json_decode($curl_response, true);
@@ -280,9 +280,9 @@ class AdditiveController extends Controller {
         } else {
             $abstract = $additive->getObject();
         }
-//        if ($detail_url && $detail_url != "") {
-//            $abstract .= " Détail téléchargeable à l'adresse " . $detail_url;
-//        }
+        if ($detail_url && $detail_url != "") {
+            $abstract .= " Détail téléchargeable à l'adresse " . $detail_url;
+        }
         return $abstract;
     }
 

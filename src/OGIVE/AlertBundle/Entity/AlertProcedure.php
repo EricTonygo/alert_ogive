@@ -590,5 +590,7 @@ class AlertProcedure {
         $this->sendingDate = new \DateTime('now');
         $this->status = 1;
     }
+    
+    //public abstract function getAbstractForSmsNotification();
 
 }

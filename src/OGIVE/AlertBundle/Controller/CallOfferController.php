@@ -119,8 +119,8 @@ class CallOfferController extends Controller {
             $callOffer = $repositoryCallOffer->saveCallOffer($callOffer);
             $curl_response = $this->get('curl_service')->sendCallOfferToWebsite($callOffer);
             $curl_response_array = json_decode($curl_response, true);
-            $callOffer->setAbstract($this->getAbstractOfCallOffer($callOffer,  $curl_response_array['data']['url']));
-            $repositoryCallOffer->updateCallOffer($callOffer);            
+            $callOffer->setAbstract($this->getAbstractOfCallOffer($callOffer, $curl_response_array['data']['url']));
+            $repositoryCallOffer->updateCallOffer($callOffer);
             $view = View::createRedirect($this->generateUrl('call_offer_index'));
             $view->setFormat('html');
             return $view;
@@ -207,7 +207,7 @@ class CallOfferController extends Controller {
         if ($form->isSubmitted() && $form->isValid()) {
 
             $callOffer->setType($request->get('call_offer_type'));
-            
+
             if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
                 $sendActivate = $request->get('send_activate');
                 if ($sendActivate && $sendActivate === 'on') {
@@ -216,12 +216,12 @@ class CallOfferController extends Controller {
                     $callOffer->setState(0);
                 }
             }
-            $callOffer->setAbstract($this->getAbstractOfCallOffer($callOffer));            
+            $callOffer->setAbstract($this->getAbstractOfCallOffer($callOffer));
             $callOffer = $repositoryCallOffer->updateCallOffer($callOffer);
             $curl_response = $this->get('curl_service')->sendCallOfferToWebsite($callOffer);
             $curl_response_array = json_decode($curl_response, true);
-            $callOffer->setAbstract($this->getAbstractOfCallOffer($callOffer,  $curl_response_array['data']['url']));
-            $repositoryCallOffer->updateCallOffer($callOffer);            
+            $callOffer->setAbstract($this->getAbstractOfCallOffer($callOffer, $curl_response_array['data']['url']));
+            $repositoryCallOffer->updateCallOffer($callOffer);
             //$this->redirect($this->generateUrl('call_offer_index'));
             $view = View::createRedirect($this->generateUrl('call_offer_index'));
             $view->setFormat('html');

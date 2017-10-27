@@ -6,8 +6,13 @@
     <div class="content">
         <form method = 'POST' action= '{{path('send_notification_additive_post', {'id': additive.id})}}' class = 'ui form' id ='send_notification_additive_form' name='send_notification_additive_form'>
             <div class="field">
-                <label>Le resumé à envoyer</label>
-                <textarea name='abstract'>{{additive.abstract}}</textarea>
+                <label>Le resumé à envoyer par SMS</label>
+                <textarea name='abstract_sms' rows="5">{{additive.abstractForSmsNotification}}</textarea>
+            </div>
+            
+            <div class="field">
+                <label>Le resumé à envoyer par Email</label>
+                <textarea name='abstract' rows="5">{{additive.abstract}}</textarea>
             </div>
 
             <div class="field" >

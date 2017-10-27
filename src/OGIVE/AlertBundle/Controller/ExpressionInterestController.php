@@ -196,7 +196,7 @@ class ExpressionInterestController extends Controller {
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            
+
             if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
                 $sendActivate = $request->get('send_activate');
                 if ($sendActivate && $sendActivate === 'on') {
@@ -226,16 +226,16 @@ class ExpressionInterestController extends Controller {
         }
     }
 
-    public function getAbstractOfExpressionInterest(ExpressionInterest $expressionInterest, $detail_url=null) {
+    public function getAbstractOfExpressionInterest(ExpressionInterest $expressionInterest, $detail_url = null) {
         $dot = ".";
         if ($expressionInterest) {
             if (substr(trim($expressionInterest->getObject()), -1) === ".") {
                 $dot = "";
             }
             $abstract = $expressionInterest->getType() . " : " . "N°" . $expressionInterest->getReference() . " du " . date("d/m/Y", strtotime($expressionInterest->getPublicationDate())) . " lancé par " . $expressionInterest->getOwner() . " pour " . $expressionInterest->getObject() . $dot . " Dépôt des offres le " . date("d/m/Y", strtotime($expressionInterest->getOpeningDate())) . " à " . date("H:i", strtotime($expressionInterest->getOpeningDate())) . ".";
-//            if ($detail_url && $detail_url != "") {
-//                $abstract .= " Détail téléchargeable à l'adresse " . $detail_url;
-//            }
+            if ($detail_url && $detail_url != "") {
+                $abstract .= " Détail téléchargeable à l'adresse " . $detail_url;
+            }
             return $abstract;
         } else {
             return "";

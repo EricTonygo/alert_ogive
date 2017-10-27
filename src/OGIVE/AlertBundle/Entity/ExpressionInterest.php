@@ -11,9 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="\OGIVE\AlertBundle\Repository\ExpressionInterestRepository")
  * @ORM\HasLifecycleCallbacks
  */
-class ExpressionInterest extends AlertProcedure
-{
-    
+class ExpressionInterest extends AlertProcedure {
+
     /**
      * Constructor
      */
@@ -21,6 +20,23 @@ class ExpressionInterest extends AlertProcedure
         parent::__construct();
         $this->setType("ASMI");
     }
-        
-}
 
+    public function getAbstractForSmsNotification() {
+        if (strlen(trim($this->getObject())) > 58) {
+            $object_abstract = trim(substr($this->getObject(), 0, 55));
+            $dot = "...";
+            if (substr($object_abstract, -1) === ".") {
+                $dot = "..";
+            }
+        } else {
+            $object_abstract = trim($this->getObject());
+            $dot = ".";
+            if (substr(trim($object_abstract), -1) === ".") {
+                $dot = "";
+            }
+        }
+        $abstract = $this->getReference() . " du " . date("d/m/Y", strtotime($this->getPublicationDate())) . " lance par " . $this->getOwner() . " pour " . $object_abstract . $dot . " Depot des offres le " . date("d/m/Y", strtotime($this->getOpeningDate())) . " a " . date("H:i", strtotime($this->getOpeningDate())) . ".";
+        return $abstract;
+    }
+
+}

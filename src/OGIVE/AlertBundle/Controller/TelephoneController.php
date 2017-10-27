@@ -96,7 +96,7 @@ class TelephoneController extends Controller {
                 });
             }
             foreach ($subscribers as $subscriber) {
-                $this->sendNotificationAccordingToType($common_notification, $subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'),$callOffer);
+                $this->sendNotificationAccordingToType($common_notification, $subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $request->get('abstract_sms') ,$callOffer);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("EMAIL");
@@ -220,7 +220,7 @@ class TelephoneController extends Controller {
                 });
             }
             foreach ($subscribers as $subscriber) {
-                $this->sendNotificationAccordingToType($common_notification, $subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'),$procedureResult);
+                $this->sendNotificationAccordingToType($common_notification, $subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $request->get('abstract_sms'), $procedureResult);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("EMAIL");
@@ -330,7 +330,7 @@ class TelephoneController extends Controller {
                 });
             }
             foreach ($subscribers as $subscriber) {
-                $this->sendNotificationAccordingToType($common_notification, $subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'),$additive);
+                $this->sendNotificationAccordingToType($common_notification, $subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $request->get('abstract_sms'), $additive);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("EMAIL");
@@ -440,7 +440,7 @@ class TelephoneController extends Controller {
                 });
             }
             foreach ($subscribers as $subscriber) {
-                $this->sendNotificationAccordingToType($common_notification, $subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'),$expressionInterest);
+                $this->sendNotificationAccordingToType($common_notification, $subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $request->get('abstract_sms'), $expressionInterest);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("EMAIL");
@@ -452,7 +452,7 @@ class TelephoneController extends Controller {
         } elseif ($idSubscribers && is_array($idSubscribers) && !empty($idSubscribers)) {
             foreach ($idSubscribers as $idSubscriber) {
                 $subscriber = $repositorySubscriber->find((int) $idSubscriber);
-                $this->sendNotificationAccordingToType($common_notification, $subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'),$expressionInterest);
+                $this->sendNotificationAccordingToType($common_notification, $subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $request->get('abstract_sms'), $expressionInterest);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("EMAIL");
@@ -528,7 +528,7 @@ class TelephoneController extends Controller {
         if ($sendToAll && $sendToAll === 'on') {
             $subscribers = $repositorySubscriber->getAll();
             foreach ($subscribers as $subscriber) {
-                $this->sendNotificationAccordingToType($common_notification, $subscriber, $specialFollowUp->getName(), $request->get('abstract'));
+                $this->sendNotificationAccordingToType($common_notification, $subscriber, $specialFollowUp->getName(), $request->get('abstract'), $request->get('abstract'));
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("EMAIL");
@@ -540,7 +540,7 @@ class TelephoneController extends Controller {
         } elseif ($idSubscribers && is_array($idSubscribers) && !empty($idSubscribers)) {
             foreach ($idSubscribers as $idSubscriber) {
                 $subscriber = $repositorySubscriber->find((int) $idSubscriber);
-                $this->sendNotificationAccordingToType($common_notification, $subscriber, $specialFollowUp->getName(), $request->get('abstract'));
+                $this->sendNotificationAccordingToType($common_notification, $subscriber, $specialFollowUp->getName(), $request->get('abstract'), $request->get('abstract'));
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("EMAIL");
@@ -574,22 +574,22 @@ class TelephoneController extends Controller {
         return $view;
     }
 
-    public function sendNotificationAccordingToType($common_notification, Subscriber $subscriber, $subject, $message, \OGIVE\AlertBundle\Entity\AlertProcedure $alertProcedure=null) {
+    public function sendNotificationAccordingToType($common_notification, Subscriber $subscriber, $subject, $message_email, $message_sms, \OGIVE\AlertBundle\Entity\AlertProcedure $alertProcedure=null) {
         if ($common_notification && $common_notification == "3") {
-            $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $message);
-            $this->get('mail_service')->sendEmailSubscriber($subscriber, $subject, $message, $alertProcedure);
+            $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $message_sms);
+            $this->get('mail_service')->sendEmailSubscriber($subscriber, $subject, $message_email, $alertProcedure);
         } elseif ($common_notification && $common_notification == "2") {
-            $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $message);
+            $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $message_sms);
         } elseif ($common_notification && $common_notification == "1") {
-            $this->get('mail_service')->sendEmailSubscriber($subscriber, $subject, $message, $alertProcedure);
+            $this->get('mail_service')->sendEmailSubscriber($subscriber, $subject, $message_email, $alertProcedure);
         } else {
             if ($subscriber->getNotificationType() == 2) {
-                $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $message);
+                $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $message_sms);
             } elseif ($subscriber->getNotificationType() == 1) {
-                $this->get('mail_service')->sendEmailSubscriber($subscriber, $subject, $message, $alertProcedure);
+                $this->get('mail_service')->sendEmailSubscriber($subscriber, $subject, $message_email, $alertProcedure);
             } else {
-                $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $message);
-                $this->get('mail_service')->sendEmailSubscriber($subscriber, $subject, $message, $alertProcedure);
+                $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $message_email);
+                $this->get('mail_service')->sendEmailSubscriber($subscriber, $subject, $message_email, $alertProcedure);
             }
         }
     }

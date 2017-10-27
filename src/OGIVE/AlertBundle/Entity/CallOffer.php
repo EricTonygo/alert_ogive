@@ -11,8 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="\OGIVE\AlertBundle\Repository\CallOfferRepository")
  * @ORM\HasLifecycleCallbacks
  */
-class CallOffer extends AlertProcedure
-{
+class CallOffer extends AlertProcedure {
+
     /**
      * @var \ExpressionInterest
      *
@@ -22,7 +22,7 @@ class CallOffer extends AlertProcedure
      * })
      */
     protected $expressionInterest;
-    
+
     /**
      * Constructor
      */
@@ -30,7 +30,7 @@ class CallOffer extends AlertProcedure
         parent::__construct();
         //$this->setType("AAO");
     }
-    
+
     /**
      * Set expressionInterest
      *
@@ -38,7 +38,7 @@ class CallOffer extends AlertProcedure
      *
      * @return CallOffer
      */
-    public function setExpressionInterest(\OGIVE\AlertBundle\Entity\ExpressionInterest $expressionInterest=null) {
+    public function setExpressionInterest(\OGIVE\AlertBundle\Entity\ExpressionInterest $expressionInterest = null) {
         $this->expressionInterest = $expressionInterest;
 
         return $this;
@@ -52,5 +52,23 @@ class CallOffer extends AlertProcedure
     public function getExpressionInterest() {
         return $this->expressionInterest;
     }
-}
 
+    public function getAbstractForSmsNotification() {
+        if (strlen(trim($this->getObject())) > 58) {
+            $object_abstract = trim(substr($this->getObject(), 0, 55));
+            $dot = "...";
+            if (substr($object_abstract, -1) === ".") {
+                $dot = "..";
+            }
+        } else {
+            $object_abstract = trim($this->getObject());
+            $dot = ".";
+            if (substr(trim($object_abstract), -1) === ".") {
+                $dot = "";
+            }
+        }
+        $abstract = $this->getReference() . " du " . date("d/m/Y", strtotime($this->getPublicationDate())) . " lance par " . $this->getOwner() . " pour " . $object_abstract . $dot . " Depot des offres le " . date("d/m/Y", strtotime($this->getOpeningDate())) . " a " . date("H:i", strtotime($this->getOpeningDate())) . '.';
+        return $abstract;
+    }
+
+}
