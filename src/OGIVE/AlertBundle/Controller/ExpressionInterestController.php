@@ -116,6 +116,7 @@ class ExpressionInterestController extends Controller {
             $expressionInterest = $repositoryExpressionInterest->saveExpressionInterest($expressionInterest);
             $curl_response = $this->get('curl_service')->sendExpressionInterestToWebsite($expressionInterest);
             $curl_response_array = json_decode($curl_response, true);
+            $expressionInterest->setUrlDetails($curl_response_array['data']['url']);
             $expressionInterest->setAbstract($this->getAbstractOfExpressionInterest($expressionInterest, $curl_response_array['data']['url']));
             $repositoryExpressionInterest->updateExpressionInterest($expressionInterest);
             $view = View::createRedirect($this->generateUrl('expressionInterest_index'));
@@ -209,6 +210,7 @@ class ExpressionInterestController extends Controller {
             $expressionInterest = $repositoryExpressionInterest->updateExpressionInterest($expressionInterest);
             $curl_response = $this->get('curl_service')->sendExpressionInterestToWebsite($expressionInterest);
             $curl_response_array = json_decode($curl_response, true);
+            $expressionInterest->setUrlDetails($curl_response_array['data']['url']);
             $expressionInterest->setAbstract($this->getAbstractOfExpressionInterest($expressionInterest, $curl_response_array['data']['url']));
             $repositoryExpressionInterest->updateExpressionInterest($expressionInterest);
             $view = View::createRedirect($this->generateUrl('expressionInterest_index'));

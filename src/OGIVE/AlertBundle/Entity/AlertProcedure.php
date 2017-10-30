@@ -36,6 +36,13 @@ class AlertProcedure {
      * @ORM\Column(name="reference", type="string", length=255)
      */
     protected $reference;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="url_details", type="string", length=255)
+     */
+    protected $urlDetails;
 
     /**
      * @var \DateTime
@@ -206,6 +213,28 @@ class AlertProcedure {
      */
     public function getReference() {
         return $this->reference;
+    }
+    
+    /**
+     * Set url_Details
+     *
+     * @param string $urlDetails
+     *
+     * @return AlertProcedure
+     */
+    public function setUrlDetails($urlDetails) {
+        $this->urlDetails = $urlDetails;
+
+        return $this;
+    }
+
+    /**
+     * Get urlDetails
+     *
+     * @return string
+     */
+    public function getUrlDetails() {
+        return $this->urlDetails;
     }
 
     /**

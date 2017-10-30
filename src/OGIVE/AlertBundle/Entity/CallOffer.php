@@ -67,7 +67,8 @@ class CallOffer extends AlertProcedure {
                 $dot = "";
             }
         }
-        $abstract = $this->getReference() . " du " . date("d/m/Y", strtotime($this->getPublicationDate())) . " lance par " . $this->getOwner() . " pour " . $object_abstract . $dot . " Depot des offres le " . date("d/m/Y", strtotime($this->getOpeningDate())) . " a " . date("H:i", strtotime($this->getOpeningDate())) . '.';
+        //$abstract = $this->getReference() . " du " . date("d/m/Y", strtotime($this->getPublicationDate())) . " lance par " . $this->getOwner() . " pour " . $object_abstract . $dot . " Depot des offres le " . date("d/m/Y", strtotime($this->getOpeningDate())) . " a " . date("H:i", strtotime($this->getOpeningDate())) . '.';
+        $abstract = $this->getReference() . " du " . date("d/m/Y", strtotime($this->getPublicationDate())) . " lance par " . $this->getOwner()." Depot des offres le " . date("d/m/Y", strtotime($this->getOpeningDate())) . " a " . date("H:i", strtotime($this->getOpeningDate())) . '. Detail par email ou à ' . $this->getUrlDetails();
         return $abstract;
     }
 
