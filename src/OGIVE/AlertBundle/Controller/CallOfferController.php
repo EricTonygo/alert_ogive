@@ -249,9 +249,9 @@ class CallOfferController extends Controller {
                 $dot = "";
             }
             $abstract = $callOffer->getType() . " : " . "N°" . $callOffer->getReference() . " du " . date("d/m/Y", strtotime($callOffer->getPublicationDate())) . " lancé par " . $callOffer->getOwner() . " pour " . $callOffer->getObject() . $dot . " Dépôt des offres le " . date("d/m/Y", strtotime($callOffer->getOpeningDate())) . " à " . date("H:i", strtotime($callOffer->getOpeningDate())) . '.';
-//            if ($detail_url && $detail_url != "") {
-//                $abstract.= " Détail téléchargeable à l'adresse ".$detail_url;
-//            }
+            if ($detail_url && $detail_url != "") {
+                $abstract.= " Détail téléchargeable à l'adresse ".$detail_url;
+            }
             return $abstract;
         } else {
             return "";
