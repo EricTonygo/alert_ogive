@@ -6,6 +6,9 @@
                     <div class="ui fluid card">
                         <div class="content">
                             <div class="header">{{procedureResult.reference}}</div>
+                            <div class="meta">
+                                Créé le <span> {{ procedureResult.createDate is empty ? "" : procedureResult.createDate|date('d-m-Y H:i:s')}}</span>
+                            </div>
                             <div class="description">
                                 {{procedureResult.object}}
                             </div>

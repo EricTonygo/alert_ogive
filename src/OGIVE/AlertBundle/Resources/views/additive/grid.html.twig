@@ -6,6 +6,9 @@
                     <div class="ui fluid card">
                         <div class="content">
                             <div class="header">{% if additive.reference %}{{additive.reference}}{% endif %}</div>
+                            <div class="meta">
+                                Créé le <span> {{ additive.createDate is empty ? "" : additive.createDate|date('d-m-Y H:i:s')}}</span>
+                            </div>
                             <div class="description">
                                 {% if additive.object %}
                                     {{additive.object}}
