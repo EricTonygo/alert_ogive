@@ -36,8 +36,14 @@ class ExpressionInterest extends AlertProcedure {
             }
         }
         $subject_array = explode(" ", $this->getObject());
+        $subject = "";
+        if(strlen($subject_array[0])>3){
+            $subject = $subject_array[0];
+        }else{
+            $subject = $subject_array[0]." ".$subject_array[1];
+        }
         //$abstract = $this->getReference() . " du " . date("d/m/Y", strtotime($this->getPublicationDate())) . " lancé par " . $this->getOwner() . " pour " . $object_abstract . $dot . " Dépôt des offres le " . date("d/m/Y", strtotime($this->getOpeningDate())) . " à " . date("H:i", strtotime($this->getOpeningDate())) . ".";
-        $abstract = $this->getType() . " : " . "N°". explode("/", $this->getReference())[0] . " du " . date("d/m/Y", strtotime($this->getPublicationDate())) . " lancé par " . $this->getOwner(). " pour " .$subject_array[0]." ".$subject_array[1] . ". Dépôt des offres le " . date("d/m/Y", strtotime($this->getOpeningDate())) . " à " . date("H:i", strtotime($this->getOpeningDate())) . ". Détail à " . $this->getUrlDetails();
+        $abstract = $this->getType() . " : " . "N°". explode("/", $this->getReference())[0] . " du " . date("d/m/Y", strtotime($this->getPublicationDate())) . " lancé par " . $this->getOwner(). " pour " .$subject. ". Dépôt des offres le " . date("d/m/Y", strtotime($this->getOpeningDate())) . " à " . date("H:i", strtotime($this->getOpeningDate())) . ". Détail à " . $this->getUrlDetails();
         return $abstract;
     }
 
