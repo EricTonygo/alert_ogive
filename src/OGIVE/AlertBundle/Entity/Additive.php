@@ -101,9 +101,9 @@ class Additive extends AlertProcedure
     public function getAbstractForSmsNotification() {
         $abstract = "";
         if ($this->getCallOffer()) {
-            $abstract = "Réf : " . $this->getType() . " " . "N°" . $this->getReference() ." du " . date("d/m/Y", strtotime($this->getPublicationDate())) . " relatif à l'" . $this->getCallOffer()->getType() . " N°" . $this->getCallOffer()->getReference()." du " . date("d/m/Y", strtotime($this->getCallOffer()->getPublicationDate())) . ".";
+            $abstract = "Réf : " . $this->getType() . " " . "N°" . explode("/", $this->getReference())[0] ." du " . $this->getStringDateForSms($this->getPublicationDate()) . " relatif à l'" . $this->getCallOffer()->getType() . " N°" . $this->getCallOffer()->getReference()." du " . date("d/m/Y", strtotime($this->getCallOffer()->getPublicationDate())) . ".";
         } elseif ($this->getExpressionInterest()) {
-            $abstract = "Réf : " . $this->getType() . " " . "N°" . $this->getReference() ." du " . $this->getStringDateForSms($this->getPublicationDate()). " relatif à l'" . $this->getExpressionInterest()->getType() . " N°" . $this->getExpressionInterest()->getReference() . " du " . $this->getStringDateForSms($this->getExpressionInterest()->getPublicationDate()). '.';
+            $abstract = "Réf : " . $this->getType() . " " . "N°" . explode("/", $this->getReference())[0] ." du " . $this->getStringDateForSms($this->getPublicationDate()). " relatif à l'" . $this->getExpressionInterest()->getType() . " N°" . $this->getExpressionInterest()->getReference() . " du " . $this->getStringDateForSms($this->getExpressionInterest()->getPublicationDate()). '.';
         } else {
             if (strlen(trim($this->getObject())) > 160) {
                 $abstract = trim(substr($this->getObject(), 0, 157)) . "...";

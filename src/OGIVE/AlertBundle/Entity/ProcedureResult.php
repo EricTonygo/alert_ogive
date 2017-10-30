@@ -104,9 +104,9 @@ class ProcedureResult extends AlertProcedure
             $object_abstract = trim($this->getObject());
         }
         if ($this->getCallOffer()) {
-            $abstract = $this->getReference() . " portant sur " . $object_abstract . " de l'" . $this->getCallOffer()->getType() . " N°" . $this->getCallOffer()->getReference() ." du " . $this->getStringDateForSms($this->getCallOffer()->getPublicationDate()). ".";
+            $abstract = "Décision " . "N°" . explode("/", $this->getReference())[0] . " du " . $this->getStringDateForSms($this->getPublicationDate()) . " portant sur " . $object_abstract . " de l'" . $this->getCallOffer()->getType() . " N°" . $this->getCallOffer()->getReference() ." du " . $this->getStringDateForSms($this->getCallOffer()->getPublicationDate()). ".";
         } elseif ($this->getExpressionInterest()) {
-            $abstract = $this->getReference() ." portant sur " . $object_abstract . " de l'" . $this->getExpressionInterest()->getType() . " N°" . $this->getExpressionInterest()->getReference() ." du " . $this->getStringDateForSms($this->getExpressionInterest()->getPublicationDate()) . ".";
+            $abstract = "Décision " . "N°" . explode("/", $this->getReference())[0] . " du " . $this->getStringDateForSms($this->getPublicationDate()) ." portant sur " . $object_abstract . " de l'" . $this->getExpressionInterest()->getType() . " N°" . $this->getExpressionInterest()->getReference() ." du " . $this->getStringDateForSms($this->getExpressionInterest()->getPublicationDate()) . ".";
         } else {
             $abstract = $object_abstract;
         }
