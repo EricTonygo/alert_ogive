@@ -35,8 +35,8 @@ class ExpressionInterest extends AlertProcedure {
                 $dot = "";
             }
         }
-        //$abstract = $this->getReference() . " du " . date("d/m/Y", strtotime($this->getPublicationDate())) . " lance par " . $this->getOwner() . " pour " . $object_abstract . $dot . " Depot des offres le " . date("d/m/Y", strtotime($this->getOpeningDate())) . " a " . date("H:i", strtotime($this->getOpeningDate())) . ".";
-        $abstract = $this->getReference() . " du " . date("d/m/Y", strtotime($this->getPublicationDate())) . " lance par " . $this->getOwner() . ". Dépôt des offres le " . date("d/m/Y", strtotime($this->getOpeningDate())) . " à " . date("H:i", strtotime($this->getOpeningDate())) . ". Détail à " . $this->getUrlDetails();
+        //$abstract = $this->getReference() . " du " . date("d/m/Y", strtotime($this->getPublicationDate())) . " lancé par " . $this->getOwner() . " pour " . $object_abstract . $dot . " Dépôt des offres le " . date("d/m/Y", strtotime($this->getOpeningDate())) . " à " . date("H:i", strtotime($this->getOpeningDate())) . ".";
+        $abstract = $this->getReference() . " du " . date("d/m/Y", strtotime($this->getPublicationDate())) . " lancé par " . $this->getOwner() . ". Dépôt des offres le " . date("d/m/Y", strtotime($this->getOpeningDate())) . " à " . date("H:i", strtotime($this->getOpeningDate())) . ". Détail à " . $this->getUrlDetails();
         return $abstract;
     }
 
