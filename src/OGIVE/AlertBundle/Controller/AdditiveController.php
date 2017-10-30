@@ -142,7 +142,7 @@ class AdditiveController extends Controller {
             $curl_response = $this->get('curl_service')->sendAdditiveToWebsite($additive);
             $curl_response_array = json_decode($curl_response, true);
             $additive->setUrlDetails($curl_response_array['data']['url']);
-            $additive->setAbstract($this->getAbstractOfAdditive($additive, $curl_response_array['data']['url']));
+            $additive->setAbstract($this->getAbstractOfAdditive($additive, $additive->getUrlDetails()));
             $repositoryAdditive->updateAdditive($additive);
             $view = View::createRedirect($this->generateUrl('additive_index'));
             $view->setFormat('html');
@@ -257,7 +257,7 @@ class AdditiveController extends Controller {
             $curl_response = $this->get('curl_service')->sendAdditiveToWebsite($additive);
             $curl_response_array = json_decode($curl_response, true);
             $additive->setUrlDetails($curl_response_array['data']['url']);
-            $additive->setAbstract($this->getAbstractOfAdditive($additive, $curl_response_array['data']['url']));
+            $additive->setAbstract($this->getAbstractOfAdditive($additive, $additive->getUrlDetails()));
             $repositoryAdditive->updateAdditive($additive);
             $view = View::createRedirect($this->generateUrl('additive_index'));
             $view->setFormat('html');

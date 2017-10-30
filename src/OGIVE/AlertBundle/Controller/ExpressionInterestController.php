@@ -117,7 +117,7 @@ class ExpressionInterestController extends Controller {
             $curl_response = $this->get('curl_service')->sendExpressionInterestToWebsite($expressionInterest);
             $curl_response_array = json_decode($curl_response, true);
             $expressionInterest->setUrlDetails($curl_response_array['data']['url']);
-            $expressionInterest->setAbstract($this->getAbstractOfExpressionInterest($expressionInterest, $curl_response_array['data']['url']));
+            $expressionInterest->setAbstract($this->getAbstractOfExpressionInterest($expressionInterest, $expressionInterest->getUrlDetails()));
             $repositoryExpressionInterest->updateExpressionInterest($expressionInterest);
             $view = View::createRedirect($this->generateUrl('expressionInterest_index'));
             $view->setFormat('html');
@@ -211,7 +211,7 @@ class ExpressionInterestController extends Controller {
             $curl_response = $this->get('curl_service')->sendExpressionInterestToWebsite($expressionInterest);
             $curl_response_array = json_decode($curl_response, true);
             $expressionInterest->setUrlDetails($curl_response_array['data']['url']);
-            $expressionInterest->setAbstract($this->getAbstractOfExpressionInterest($expressionInterest, $curl_response_array['data']['url']));
+            $expressionInterest->setAbstract($this->getAbstractOfExpressionInterest($expressionInterest, $expressionInterest->getUrlDetails()));
             $repositoryExpressionInterest->updateExpressionInterest($expressionInterest);
             $view = View::createRedirect($this->generateUrl('expressionInterest_index'));
             $view->setFormat('html');

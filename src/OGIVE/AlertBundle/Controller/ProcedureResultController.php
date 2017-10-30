@@ -137,7 +137,7 @@ class ProcedureResultController extends Controller {
             $curl_response = $this->get('curl_service')->sendProcedureResultToWebsite($procedureResult);
             $curl_response_array = json_decode($curl_response, true);
             $procedureResult->setUrlDetails($curl_response_array['data']['url']);
-            $procedureResult->setAbstract($this->getAbstractOfProcedureResult($procedureResult, $curl_response_array['data']['url']));
+            $procedureResult->setAbstract($this->getAbstractOfProcedureResult($procedureResult, $procedureResult->getUrlDetails()));
             $repositoryProcedureResult->updateProcedureResult($procedureResult);
             $view = View::createRedirect($this->generateUrl('procedureResult_index'));
             $view->setFormat('html');
@@ -247,7 +247,7 @@ class ProcedureResultController extends Controller {
             $curl_response = $this->get('curl_service')->sendProcedureResultToWebsite($procedureResult);
             $curl_response_array = json_decode($curl_response, true);
             $procedureResult->setUrlDetails($curl_response_array['data']['url']);
-            $procedureResult->setAbstract($this->getAbstractOfProcedureResult($procedureResult, $curl_response_array['data']['url']));
+            $procedureResult->setAbstract($this->getAbstractOfProcedureResult($procedureResult, $procedureResult->getUrlDetails()));
             $repositoryProcedureResult->updateProcedureResult($procedureResult);
             $view = View::createRedirect($this->generateUrl('procedureResult_index'));
             $view->setFormat('html');

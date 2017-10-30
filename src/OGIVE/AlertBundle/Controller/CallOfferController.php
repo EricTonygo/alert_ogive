@@ -120,7 +120,7 @@ class CallOfferController extends Controller {
             $curl_response = $this->get('curl_service')->sendCallOfferToWebsite($callOffer);
             $curl_response_array = json_decode($curl_response, true);
             $callOffer->setUrlDetails($curl_response_array['data']['url']);
-            $callOffer->setAbstract($this->getAbstractOfCallOffer($callOffer, $curl_response_array['data']['url']));
+            $callOffer->setAbstract($this->getAbstractOfCallOffer($callOffer, $callOffer->getUrlDetails()));
             $repositoryCallOffer->updateCallOffer($callOffer);
             $view = View::createRedirect($this->generateUrl('call_offer_index'));
             $view->setFormat('html');
@@ -222,7 +222,7 @@ class CallOfferController extends Controller {
             $curl_response = $this->get('curl_service')->sendCallOfferToWebsite($callOffer);
             $curl_response_array = json_decode($curl_response, true);
             $callOffer->setUrlDetails($curl_response_array['data']['url']);
-            $callOffer->setAbstract($this->getAbstractOfCallOffer($callOffer, $curl_response_array['data']['url']));
+            $callOffer->setAbstract($this->getAbstractOfCallOffer($callOffer, $callOffer->getUrlDetails()));
             $repositoryCallOffer->updateCallOffer($callOffer);
             //$this->redirect($this->generateUrl('call_offer_index'));
             $view = View::createRedirect($this->generateUrl('call_offer_index'));
