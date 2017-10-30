@@ -74,6 +74,9 @@ class CallOffer extends AlertProcedure {
         }else{
             $subject = $subject_array[0]." ".$subject_array[1];
         }
+        if(strtolower($subject) == "l'exécution" || strtolower($subject) == "l'execution" || strtolower($subject) == "l'éxécution"){
+            $subject = 'les travaux';
+        }
         //$abstract = $this->getReference() . " du " . date("d/m/Y", strtotime($this->getPublicationDate())) . " lancé par " . $this->getOwner() . " pour " . $object_abstract . $dot . " Dépôt des offres le " . date("d/m/Y", strtotime($this->getOpeningDate())) . " à " . date("H:i", strtotime($this->getOpeningDate())) . '.';
         $abstract = $this->getType() . " : " . "N°". explode("/", $this->getReference())[0] . " du " . $this->getStringDateForSms($this->getPublicationDate()) . " lancé par " . $this->getOwner(). " pour " .$subject.". Dépôt des offres le " . $this->getStringDateForSms($this->getOpeningDate()) . " à " . date("H:i", strtotime($this->getOpeningDate())) . ". Détail à " . $this->getUrlDetails();
         return $abstract;
