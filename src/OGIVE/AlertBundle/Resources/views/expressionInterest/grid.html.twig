@@ -7,7 +7,7 @@
                         <div class="content">
                             <div class="header">{{expressionInterest.reference}}</div>
                             <div class="meta">
-                                Créé le <span> {{ expressionInterest.createDate is empty ? "" : expressionInterest.createDate|date('d-m-Y H:i:s')}}</span>
+                                Créé le <span> {{ expressionInterest.createDate is empty ? "" : expressionInterest.createDate|date('d-m-Y')}}</span> à <span> {{ expressionInterest.createDate is empty ? "" : expressionInterest.createDate|date('H:i:s')}}</span>
                             </div>
                             <div class="description">
                                 {{expressionInterest.object}}
