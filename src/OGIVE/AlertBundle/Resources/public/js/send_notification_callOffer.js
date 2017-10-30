@@ -38,8 +38,8 @@ function send_procedure_callOffer(id) {
                 on: 'click'
             });
             $('#notificationTypes.ui.dropdown').dropdown({
-                    on: 'click'
-                });
+                on: 'click'
+            });
             show_sms_message_length();
             $('#send_notification_callOffer.ui.modal').modal('show');
             execute_send_notification_callOffer(id);
@@ -101,21 +101,13 @@ function execute_send_notification_callOffer(id) {
                                     $('#error_name_list_send_notification').html('<li>' + myerrors.message + '</li>');
                                     $('#error_name_message_send_notification').show();
                                 }
-
+                            },
+                            200: function (response, texStatus, jqXHR) {
+                                execute_success("Message(s) envoyé(s) avec succès");
                             }
                         },
-                        success: function (response, textStatus, jqXHR) {
-                                $('#submit_send_notification_callOffer').removeClass('disabled');
-                                $('#cancel_send_notification_callOffer').removeClass('disabled');
-                                $('#send_notification_callOffer_form.ui.form').removeClass('loading');
-                                $('#send_notification_callOffer.ui.modal').modal('hide');
-                                $('#message_success>div.header').html(response.message);
-                                $('#message_success').show();
-                                setTimeout(function () {
-                                    $('#message_success').hide();
-                                }, 4000);
-                                $('#send_notification_callOffer').remove();
-                            
+                        success: function (response, textStatus, jqXHR) {                           
+                            execute_success(response.message);
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
                             $('#submit_send_notification_callOffer').removeClass('disabled');
@@ -128,4 +120,17 @@ function execute_send_notification_callOffer(id) {
                 }
             }
             );
+}
+
+function execute_success(success_message) {
+    $('#submit_send_notification_callOffer').removeClass('disabled');
+    $('#cancel_send_notification_callOffer').removeClass('disabled');
+    $('#send_notification_callOffer_form.ui.form').removeClass('loading');
+    $('#send_notification_callOffer.ui.modal').modal('hide');
+    $('#message_success>div.header').html(success_message);
+    $('#message_success').show();
+    setTimeout(function () {
+        $('#message_success').hide();
+    }, 4000);
+    $('#send_notification_callOffer').remove();
 }

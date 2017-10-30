@@ -101,7 +101,9 @@ function execute_send_notification_expressionInterest(id) {
                                     $('#error_name_list_send_notification').html('<li>' + myerrors.message + '</li>');
                                     $('#error_name_message_send_notification').show();
                                 }
-
+                            },
+                            200:function(response, texStatus, jqXHR){
+                                
                             }
                         },
                         success: function (response, textStatus, jqXHR) {
