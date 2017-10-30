@@ -109,7 +109,7 @@ class TelephoneController extends Controller {
             foreach ($idSubscribers as $idSubscriber) {
                 $idSubscriber = (int) $idSubscriber;
                 $subscriber = $repositorySubscriber->find($idSubscriber);
-                $this->sendNotificationAccordingToType($common_notification, $subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'),$callOffer);
+                $this->sendNotificationAccordingToType($common_notification, $subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $request->get('abstract_sms'),$callOffer);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("EMAIL");
@@ -232,7 +232,7 @@ class TelephoneController extends Controller {
         } elseif ($idSubscribers && is_array($idSubscribers) && !empty($idSubscribers)) {
             foreach ($idSubscribers as $idSubscriber) {
                 $subscriber = $repositorySubscriber->find((int) $idSubscriber);
-                $this->sendNotificationAccordingToType($common_notification, $subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'),$procedureResult);
+                $this->sendNotificationAccordingToType($common_notification, $subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $request->get('abstract_sms'), $procedureResult);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("EMAIL");
@@ -342,7 +342,7 @@ class TelephoneController extends Controller {
         } elseif ($idSubscribers && is_array($idSubscribers) && !empty($idSubscribers)) {
             foreach ($idSubscribers as $idSubscriber) {
                 $subscriber = $repositorySubscriber->find((int) $idSubscriber);
-                $this->sendNotificationAccordingToType($common_notification, $subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'),$additive);
+                $this->sendNotificationAccordingToType($common_notification, $subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $request->get('abstract_sms'), $additive);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("EMAIL");
