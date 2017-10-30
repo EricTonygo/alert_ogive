@@ -104,13 +104,18 @@ class ProcedureResult extends AlertProcedure
             $object_abstract = trim($this->getObject());
         }
         if ($this->getCallOffer()) {
-            $abstract = $this->getReference() . " portant sur " . $object_abstract . " de l'" . $this->getCallOffer()->getType() . " N°" . $this->getCallOffer()->getReference() ." du " . date("d/m/Y", strtotime($this->getCallOffer()->getPublicationDate())) . ".";
+            $abstract = $this->getReference() . " portant sur " . $object_abstract . " de l'" . $this->getCallOffer()->getType() . " N°" . $this->getCallOffer()->getReference() ." du " . $this->getStringDateForSms($this->getCallOffer()->getPublicationDate()). ".";
         } elseif ($this->getExpressionInterest()) {
-            $abstract = $this->getReference() ." portant sur " . $object_abstract . " de l'" . $this->getExpressionInterest()->getType() . " N°" . $this->getExpressionInterest()->getReference() ." du " . date("d/m/Y", $this->getExpressionInterest()->getPublicationDate()) . ".";
+            $abstract = $this->getReference() ." portant sur " . $object_abstract . " de l'" . $this->getExpressionInterest()->getType() . " N°" . $this->getExpressionInterest()->getReference() ." du " . $this->getStringDateForSms($this->getExpressionInterest()->getPublicationDate()) . ".";
         } else {
             $abstract = $object_abstract;
         }
         return $abstract;
+    }
+    
+    //get string date as dd/mm/yy
+    public function getStringDateForSms($date){
+        return date("d", strtotime($date))."/".date("m", strtotime($date))."/".substr(date("Y", strtotime($date), -2));
     }
 }
 

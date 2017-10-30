@@ -267,7 +267,7 @@ class ProcedureResultController extends Controller {
         if ($procedureResult && $procedureResult->getCallOffer()) {
             $abstract = "Décision " . "N°" . $procedureResult->getReference() . " portant sur " . $procedureResult->getObject() . " de l'" . $procedureResult->getCallOffer()->getType() . " N°" . $procedureResult->getCallOffer()->getReference() . " du " . date("d/m/Y", strtotime($procedureResult->getCallOffer()->getPublicationDate())) . ".";
         } elseif ($procedureResult && $procedureResult->getExpressionInterest()) {
-            $abstract = "Décision " . "N°" . $procedureResult->getReference() . " portant sur " . $procedureResult->getObject() . " de l'" . $procedureResult->getExpressionInterest()->getType() . " N°" . $procedureResult->getExpressionInterest()->getReference() . " du " . date("d/m/Y", $procedureResult->getExpressionInterest()->getPublicationDate()) . ".";
+            $abstract = "Décision " . "N°" . $procedureResult->getReference() . " portant sur " . $procedureResult->getObject() . " de l'" . $procedureResult->getExpressionInterest()->getType() . " N°" . $procedureResult->getExpressionInterest()->getReference() . " du " . date("d/m/Y", strtotime($procedureResult->getExpressionInterest()->getPublicationDate())) . ".";
         } else {
             $abstract = $procedureResult->getObject();
         }

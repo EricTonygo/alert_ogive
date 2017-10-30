@@ -75,8 +75,12 @@ class CallOffer extends AlertProcedure {
             $subject = $subject_array[0]." ".$subject_array[1];
         }
         //$abstract = $this->getReference() . " du " . date("d/m/Y", strtotime($this->getPublicationDate())) . " lancé par " . $this->getOwner() . " pour " . $object_abstract . $dot . " Dépôt des offres le " . date("d/m/Y", strtotime($this->getOpeningDate())) . " à " . date("H:i", strtotime($this->getOpeningDate())) . '.';
-        $abstract = $this->getType() . " : " . "N°". explode("/", $this->getReference())[0] . " du " . date("d/m/Y", strtotime($this->getPublicationDate())) . " lancé par " . $this->getOwner(). " pour " .$subject.". Dépôt des offres le " . date("d/m/Y", strtotime($this->getOpeningDate())) . " à " . date("H:i", strtotime($this->getOpeningDate())) . ". Détail à " . $this->getUrlDetails();
+        $abstract = $this->getType() . " : " . "N°". explode("/", $this->getReference())[0] . " du " . $this->getStringDateForSms($this->getPublicationDate()) . " lancé par " . $this->getOwner(). " pour " .$subject.". Dépôt des offres le " . $this->getStringDateForSms($this->getOpeningDate()) . " à " . date("H:i", strtotime($this->getOpeningDate())) . ". Détail à " . $this->getUrlDetails();
         return $abstract;
     }
 
+    //get string date as dd/mm/yy
+    public function getStringDateForSms($date){
+        return date("d", strtotime($date))."/".date("m", strtotime($date))."/".substr(date("Y", strtotime($date), -2));
+    }
 }

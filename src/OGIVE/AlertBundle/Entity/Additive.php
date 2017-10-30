@@ -103,7 +103,7 @@ class Additive extends AlertProcedure
         if ($this->getCallOffer()) {
             $abstract = "Réf : " . $this->getType() . " " . "N°" . $this->getReference() ." du " . date("d/m/Y", strtotime($this->getPublicationDate())) . " relatif à l'" . $this->getCallOffer()->getType() . " N°" . $this->getCallOffer()->getReference()." du " . date("d/m/Y", strtotime($this->getCallOffer()->getPublicationDate())) . ".";
         } elseif ($this->getExpressionInterest()) {
-            $abstract = "Réf : " . $this->getType() . " " . "N°" . $this->getReference() ." du " . date("d/m/Y", strtotime($this->getPublicationDate())) . " relatif à l'" . $this->getExpressionInterest()->getType() . " N°" . $this->getExpressionInterest()->getReference() . " du " . date("d/m/Y", strtotime($this->getExpressionInterest()->getPublicationDate())) . '.';
+            $abstract = "Réf : " . $this->getType() . " " . "N°" . $this->getReference() ." du " . $this->getStringDateForSms($this->getPublicationDate()). " relatif à l'" . $this->getExpressionInterest()->getType() . " N°" . $this->getExpressionInterest()->getReference() . " du " . $this->getStringDateForSms($this->getExpressionInterest()->getPublicationDate()). '.';
         } else {
             if (strlen(trim($this->getObject())) > 160) {
                 $abstract = trim(substr($this->getObject(), 0, 157)) . "...";
@@ -112,6 +112,11 @@ class Additive extends AlertProcedure
             }
         }
         return $abstract;
+    }
+    
+    //get string date as dd/mm/yy
+    public function getStringDateForSms($date){
+        return date("d", strtotime($date))."/".date("m", strtotime($date))."/".substr(date("Y", strtotime($date), -2));
     }
 }
 
