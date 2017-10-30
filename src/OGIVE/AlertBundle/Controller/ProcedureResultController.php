@@ -32,7 +32,7 @@ class ProcedureResultController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $procedureResult = new ProcedureResult();
         $page = 1;
-        $maxResults = 4;
+        $maxResults = 6;
         $route_param_page = array();
         $route_param_search_query = array();
         $search_query = null;

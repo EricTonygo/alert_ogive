@@ -32,7 +32,7 @@ class AdditiveController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $additive = new Additive();
         $page = 1;
-        $maxResults = 4;
+        $maxResults = 6;
         $route_param_page = array();
         $route_param_search_query = array();
         $search_query = null;
