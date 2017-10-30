@@ -115,7 +115,7 @@ class ProcedureResult extends AlertProcedure
     
     //get string date as dd/mm/yy
     public function getStringDateForSms($date){
-        return date("d", strtotime($date))."/".date("m", strtotime($date))."/".substr(date("Y", strtotime($date), -2));
+        return date("d", strtotime($date))."/".date("m", strtotime($date))."/".substr(date("Y", strtotime($date)), -2);
     }
 }
 
