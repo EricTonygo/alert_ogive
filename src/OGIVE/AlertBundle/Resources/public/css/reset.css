@@ -697,3 +697,7 @@ a.ui.dropdown{
 .ui.small.image.logo_desktop{
     width: 450px!important;
 }
+
+#abstract_sms_length_notif{
+    color: red;
+}

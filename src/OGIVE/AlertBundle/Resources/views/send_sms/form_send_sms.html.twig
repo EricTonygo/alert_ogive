@@ -7,7 +7,8 @@
         {{ form_start(form, {'method': 'POST', 'action': path('send_sms_subscriber', {'id': subscriber.id}), 'attr': {'class': 'ui form', 'id': 'send_sms_subscriber_form'} }) }}
         <div class="field">
             {{ form_label(form.message,"Message") }}
-            {{ form_widget(form.message,{'attr':{'placeholder':"Le message à envoyer", 'data-validate': 'message'}})}}
+            {{ form_widget(form.message,{'attr':{'id': 'abstract_sms', 'placeholder':"Le message à envoyer", 'data-validate': 'message'}})}}
+            <label id="abstract_sms_length_notif">longueur du message : <span id="abstract_sms_count">{{form.message|length}}</span></label>
         </div>
 
         <div class="field">

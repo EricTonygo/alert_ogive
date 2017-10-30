@@ -7,7 +7,8 @@
         <form method = 'POST' action= '{{path('send_special_follow_up_post', {'id': specialFollowUp.id})}}' class = 'ui form' id ='send_special_follow_up_form' name='send_notification_specialFollowUp_form'>
             <div class="field">
                 <label>Le message à envoyer</label>
-                <textarea name='abstract'>{{specialFollowUp.description}}</textarea>
+                <textarea id='abstract_sms' name='abstract'>{{specialFollowUp.description}}</textarea>
+                <label id="abstract_sms_length_notif">longueur du message : <span id="abstract_sms_count">{{specialFollowUp.description|length}}</span></label>
             </div>
 
             <div class="field" >
