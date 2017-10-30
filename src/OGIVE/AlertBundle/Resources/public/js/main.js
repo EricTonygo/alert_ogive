@@ -94,4 +94,10 @@ function show_sms_message_length(){
     $('#abstract_sms').keypress(function(e){
         $('#abstract_sms_count').html($(this).val().length);
     });
+    $('#abstract_sms').keyup(function(e){
+        $('#abstract_sms_count').html($(this).val().length);
+    });
+    $('#abstract_sms').keydown(function(e){
+        $('#abstract_sms_count').html($(this).val().length);
+    });
 }

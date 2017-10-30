@@ -32,15 +32,20 @@ class SmsService {
                     $message .= " . OGIVE SOLUTIONS. Tel: 243803895/694200310";
                 }
             }
-            $this->twilio_client->messages->create(
-                    $phoneNumber, // Text any number
-                    array(
-                'from' => 'OGIVE INFOS', // From a Twilio number in your account
-                'body' => $message
-                    )
-            );
+            try {
+                $this->twilio_client->messages->create(
+                        $phoneNumber, // Text any number
+                        array(
+                    'from' => 'OGIVE INFOS', // From a Twilio number in your account
+                    'body' => $message
+                        )
+                );
+                return true;
+            } catch (Exception $ex) {
+                return false;
+            }
         } else {
-            return true;
+            return false;
         }
     }
 
@@ -62,14 +67,15 @@ class SmsService {
                         // message
                         $message
                 );
-                return true;
-            } catch (Exception $ex) {
-                try{
+                if (empty($response['error'])) {
+                    return true;
+                } else {
                     $this->sendTwilioSms($phoneNumber, $message);
                     return true;
-                } catch (Exception $ex) {
-                    return false;
                 }
+            } catch (Exception $ex) {
+                $this->sendTwilioSms($phoneNumber, $message);
+                return true;
             }
         } else {
             return false;
