@@ -51,34 +51,29 @@ class SmsService {
 
     public function sendSms($phoneNumber, $message) {
         if ($phoneNumber != "") {
-            if (strlen(trim($message)) <= 160) {
-                $config = array(
-                    //'token' => "MskEAyO9WuuKsljXho8VuGP263VE",
-                    'token' => "BuBQvwnAZZPHw4EVjbPv5h2D9cYU"
+            $config = array(
+                //'token' => "MskEAyO9WuuKsljXho8VuGP263VE",
+                'token' => "BuBQvwnAZZPHw4EVjbPv5h2D9cYU"
+            );
+            try {
+                $osms = new Osms\Osms($config);
+                $osms->setVerifyPeerSSL(false);
+                $response = $osms->sendSms(
+                        // sender
+                        'tel:+237699001539',
+                        //'tel:+237699213790',
+                        // receiver
+                        'tel:' . $phoneNumber,
+                        // message
+                        $message
                 );
-                try {
-                    $osms = new Osms\Osms($config);
-                    $osms->setVerifyPeerSSL(false);
-                    $response = $osms->sendSms(
-                            // sender
-                            'tel:+237699001539',
-                            //'tel:+237699213790',
-                            // receiver
-                            'tel:' . $phoneNumber,
-                            // message
-                            $message
-                    );
-                    if (empty($response['error'])) {
-                        return true;
-                    } else {
-                        $this->sendTwilioSms($phoneNumber, $message);
-                        return true;
-                    }
-                } catch (Exception $ex) {
+                if (empty($response['error'])) {
+                    return true;
+                } else {
                     $this->sendTwilioSms($phoneNumber, $message);
                     return true;
                 }
-            } else {
+            } catch (Exception $ex) {
                 $this->sendTwilioSms($phoneNumber, $message);
                 return true;
             }
