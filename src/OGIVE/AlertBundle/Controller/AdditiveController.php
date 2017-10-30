@@ -276,9 +276,9 @@ class AdditiveController extends Controller {
     public function getAbstractOfAdditive(Additive $additive, $detail_url = null) {
         $abstract = "";
         if ($additive && $additive->getCallOffer()) {
-            $abstract = "Réf : " . $additive->getType() . " " . "N°" . $additive->getReference() ." du " . date("d/m/Y", strtotime($additive->getPublicationDate())) . " relatif à l'" . $additive->getCallOffer()->getType() . " N°" . $additive->getCallOffer()->getReference() ." du " . date("d/m/Y", strtotime($additive->getCallOffer()->getPublicationDate())) . ".";
+            $abstract = "Réf : " . $additive->getType() . " " . "N°" . $additive->getReference() ." du " . date("d/m/Y", strtotime($additive->getPublicationDate())) . " relatif à l'" . $additive->getCallOffer()->getType() . " N°" . $additive->getCallOffer()->getReference(). " lancé par " . $additive->getCallOffer()->getOwner() ." le " . date("d/m/Y", strtotime($additive->getCallOffer()->getPublicationDate())) . ".";
         } elseif ($additive && $additive->getExpressionInterest()) {
-            $abstract = "Réf : " . $additive->getType() . " " . "N°" . $additive->getReference() ." du " . date("d/m/Y", strtotime($additive->getPublicationDate())) . " relatif à l'" . $additive->getExpressionInterest()->getType() . " N°" . $additive->getExpressionInterest()->getReference() . " du " . date("d/m/Y", strtotime($additive->getExpressionInterest()->getPublicationDate())) . '.';
+            $abstract = "Réf : " . $additive->getType() . " " . "N°" . $additive->getReference() ." du " . date("d/m/Y", strtotime($additive->getPublicationDate())) . " relatif à l'" . $additive->getExpressionInterest()->getType() . " N°" . $additive->getExpressionInterest()->getReference()." lancé par " . $additive->getExpressionInterest()->getOwner() . " du " . date("d/m/Y", strtotime($additive->getExpressionInterest()->getPublicationDate())) . '.';
         } else {
             $abstract = $additive->getObject();
         }

@@ -242,7 +242,7 @@ class ProcedureResultController extends Controller {
                     $procedureResult->setState(0);
                 }
             }
-            $procedureResult->setAbstract($this->getAbstractOfProcedureResult($procedureResult));            
+            $procedureResult->setAbstract($this->getAbstractOfProcedureResult($procedureResult));
             $procedureResult = $repositoryProcedureResult->updateProcedureResult($procedureResult);
             $curl_response = $this->get('curl_service')->sendProcedureResultToWebsite($procedureResult);
             $curl_response_array = json_decode($curl_response, true);
@@ -265,9 +265,9 @@ class ProcedureResultController extends Controller {
     public function getAbstractOfProcedureResult(ProcedureResult $procedureResult, $detail_url = null) {
         $abstract = "";
         if ($procedureResult && $procedureResult->getCallOffer()) {
-            $abstract = "Décision " . "N°" . $procedureResult->getReference() . " du " . date("d/m/Y", strtotime($procedureResult->getPublicationDate())) . " portant sur " . $procedureResult->getObject() . " de l'" . $procedureResult->getCallOffer()->getType() . " N°" . $procedureResult->getCallOffer()->getReference() . " du " . date("d/m/Y", strtotime($procedureResult->getCallOffer()->getPublicationDate())) . ".";
+            $abstract = "Décision " . "N°" . $procedureResult->getReference() . " du " . date("d/m/Y", strtotime($procedureResult->getPublicationDate())) . " portant sur " . $procedureResult->getObject() . " de l'" . $procedureResult->getCallOffer()->getType() . " N°" . $procedureResult->getCallOffer()->getReference() . " lancé par " . $procedureResult->getCallOffer()->getOwner() . " le " . date("d/m/Y", strtotime($procedureResult->getCallOffer()->getPublicationDate())) . ".";
         } elseif ($procedureResult && $procedureResult->getExpressionInterest()) {
-            $abstract = "Décision " . "N°" . $procedureResult->getReference() . " du " . date("d/m/Y", strtotime($procedureResult->getPublicationDate())) . " portant sur " . $procedureResult->getObject() . " de l'" . $procedureResult->getExpressionInterest()->getType() . " N°" . $procedureResult->getExpressionInterest()->getReference() . " du " . date("d/m/Y", strtotime($procedureResult->getExpressionInterest()->getPublicationDate())) . ".";
+            $abstract = "Décision " . "N°" . $procedureResult->getReference() . " du " . date("d/m/Y", strtotime($procedureResult->getPublicationDate())) . " portant sur " . $procedureResult->getObject() . " de l'" . $procedureResult->getExpressionInterest()->getType() . " N°" . $procedureResult->getExpressionInterest()->getReference() . " lancé par " . $procedureResult->getCallOffer()->getOwner() . " du " . date("d/m/Y", strtotime($procedureResult->getExpressionInterest()->getPublicationDate())) . ".";
         } else {
             $abstract = $procedureResult->getObject();
         }
