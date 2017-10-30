@@ -36,7 +36,7 @@ class ExpressionInterest extends AlertProcedure {
             }
         }
         //$abstract = $this->getReference() . " du " . date("d/m/Y", strtotime($this->getPublicationDate())) . " lance par " . $this->getOwner() . " pour " . $object_abstract . $dot . " Depot des offres le " . date("d/m/Y", strtotime($this->getOpeningDate())) . " a " . date("H:i", strtotime($this->getOpeningDate())) . ".";
-        $abstract = $this->getReference() . " du " . date("d/m/Y", strtotime($this->getPublicationDate())) . " lance par " . $this->getOwner() . ". Dépot des offres le " . date("d/m/Y", strtotime($this->getOpeningDate())) . " à " . date("H:i", strtotime($this->getOpeningDate())) . ". Détails à" . $this->getUrlDetails();
+        $abstract = $this->getReference() . " du " . date("d/m/Y", strtotime($this->getPublicationDate())) . " lance par " . $this->getOwner() . ". Dépot des offres le " . date("d/m/Y", strtotime($this->getOpeningDate())) . " à " . date("H:i", strtotime($this->getOpeningDate())) . ". Détail à " . $this->getUrlDetails();
         return $abstract;
     }
 
