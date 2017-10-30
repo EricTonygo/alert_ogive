@@ -276,9 +276,9 @@ class AdditiveController extends Controller {
     public function getAbstractOfAdditive(Additive $additive, $detail_url = null) {
         $abstract = "";
         if ($additive && $additive->getCallOffer()) {
-            $abstract = "Réf : " . $additive->getType() . " " . "N°" . $additive->getReference() . "/" . date("Y", strtotime($additive->getPublicationDate())) . " du " . date("d/m/Y", strtotime($additive->getPublicationDate())) . " relatif à " . $additive->getCallOffer()->getType() . " N°" . $additive->getCallOffer()->getReference() . "/" . $additive->getCallOffer()->getType() . "/" . $additive->getCallOffer()->getOwner() . "/" . date("Y", strtotime($additive->getCallOffer()->getPublicationDate())) . " du " . date("d/m/Y", strtotime($additive->getCallOffer()->getPublicationDate())) . ".";
+            $abstract = "Réf : " . $additive->getType() . " " . "N°" . $additive->getReference() ." du " . date("d/m/Y", strtotime($additive->getPublicationDate())) . " relatif à l'" . $additive->getCallOffer()->getType() . " N°" . $additive->getCallOffer()->getReference() ." du " . date("d/m/Y", strtotime($additive->getCallOffer()->getPublicationDate())) . ".";
         } elseif ($additive && $additive->getExpressionInterest()) {
-            $abstract = "Réf : " . $additive->getType() . " " . "N°" . $additive->getReference() . "/" . date("Y", strtotime($additive->getPublicationDate())) . " du " . date("d/m/Y", strtotime($additive->getPublicationDate())) . " relatif à " . $additive->getExpressionInterest()->getType() . " N°" . $additive->getExpressionInterest()->getReference() . "/" . $additive->getExpressionInterest()->getType() . "/" . $additive->getExpressionInterest()->getOwner() . "/" . date("Y", strtotime($additive->getExpressionInterest()->getPublicationDate())) . " du " . date("d/m/Y", strtotime($additive->getExpressionInterest()->getPublicationDate())) . '.';
+            $abstract = "Réf : " . $additive->getType() . " " . "N°" . $additive->getReference() ." du " . date("d/m/Y", strtotime($additive->getPublicationDate())) . " relatif à l'" . $additive->getExpressionInterest()->getType() . " N°" . $additive->getExpressionInterest()->getReference() . " du " . date("d/m/Y", strtotime($additive->getExpressionInterest()->getPublicationDate())) . '.';
         } else {
             $abstract = $additive->getObject();
         }

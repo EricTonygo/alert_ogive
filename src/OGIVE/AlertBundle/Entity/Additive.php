@@ -101,9 +101,9 @@ class Additive extends AlertProcedure
     public function getAbstractForSmsNotification() {
         $abstract = "";
         if ($this->getCallOffer()) {
-            $abstract = "Réf : " . $this->getType() . " " . "N°" . $this->getReference() . "/" . date("Y", strtotime($this->getPublicationDate())) . " du " . date("d/m/Y", strtotime($this->getPublicationDate())) . " relatif à " . $this->getCallOffer()->getType() . " N°" . $this->getCallOffer()->getReference() . "/" . $this->getCallOffer()->getType() . "/" . $this->getCallOffer()->getOwner() . "/" . date("Y", strtotime($this->getCallOffer()->getPublicationDate())) . " du " . date("d/m/Y", strtotime($this->getCallOffer()->getPublicationDate())) . ".";
+            $abstract = "Réf : " . $this->getType() . " " . "N°" . $this->getReference() ." du " . date("d/m/Y", strtotime($this->getPublicationDate())) . " relatif à l'" . $this->getCallOffer()->getType() . " N°" . $this->getCallOffer()->getReference()." du " . date("d/m/Y", strtotime($this->getCallOffer()->getPublicationDate())) . ".";
         } elseif ($this->getExpressionInterest()) {
-            $abstract = "Réf : " . $this->getType() . " " . "N°" . $this->getReference() . "/" . date("Y", strtotime($this->getPublicationDate())) . " du " . date("d/m/Y", strtotime($this->getPublicationDate())) . " relatif à " . $this->getExpressionInterest()->getType() . " N°" . $this->getExpressionInterest()->getReference() . "/" . $this->getExpressionInterest()->getType() . "/" . $this->getExpressionInterest()->getOwner() . "/" . date("Y", strtotime($this->getExpressionInterest()->getPublicationDate())) . " du " . date("d/m/Y", strtotime($this->getExpressionInterest()->getPublicationDate())) . '.';
+            $abstract = "Réf : " . $this->getType() . " " . "N°" . $this->getReference() ." du " . date("d/m/Y", strtotime($this->getPublicationDate())) . " relatif à l'" . $this->getExpressionInterest()->getType() . " N°" . $this->getExpressionInterest()->getReference() . " du " . date("d/m/Y", strtotime($this->getExpressionInterest()->getPublicationDate())) . '.';
         } else {
             if (strlen(trim($this->getObject())) > 160) {
                 $abstract = trim(substr($this->getObject(), 0, 157)) . "...";

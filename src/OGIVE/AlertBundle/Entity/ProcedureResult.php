@@ -104,9 +104,9 @@ class ProcedureResult extends AlertProcedure
             $object_abstract = trim($this->getObject());
         }
         if ($this->getCallOffer()) {
-            $abstract = $this->getReference() . "/D/" . $this->getCallOffer()->getOwner() . "/" . date("Y", strtotime($this->getPublicationDate())) . " portant sur " . $object_abstract . " de l'" . $this->getCallOffer()->getType() . " N°" . $this->getCallOffer()->getReference() . "/" . $this->getCallOffer()->getType() . "/" . $this->getCallOffer()->getOwner() . "/" . date("Y", strtotime($this->getCallOffer()->getPublicationDate())) . " du " . date("d/m/Y", strtotime($this->getCallOffer()->getPublicationDate())) . ".";
+            $abstract = $this->getReference() . " portant sur " . $object_abstract . " de l'" . $this->getCallOffer()->getType() . " N°" . $this->getCallOffer()->getReference() ." du " . date("d/m/Y", strtotime($this->getCallOffer()->getPublicationDate())) . ".";
         } elseif ($this->getExpressionInterest()) {
-            $abstract = $this->getReference() . "/D/" . $this->getExpressionInterest()->getOwner() . "/" . date("Y", strtotime($this->getPublicationDate())) . " portant sur " . $object_abstract . " de l'" . $this->getExpressionInterest()->getType() . " N°" . $this->getExpressionInterest()->getReference() . "/" . $this->getExpressionInterest()->getType() . "/" . $this->getExpressionInterest()->getOwner() . "/" . date("Y", strtotime($this->getExpressionInterest()->getPublicationDate())) . " du " . date("d/m/Y", $this->getExpressionInterest()->getPublicationDate()) . ".";
+            $abstract = $this->getReference() ." portant sur " . $object_abstract . " de l'" . $this->getExpressionInterest()->getType() . " N°" . $this->getExpressionInterest()->getReference() ." du " . date("d/m/Y", $this->getExpressionInterest()->getPublicationDate()) . ".";
         } else {
             $abstract = $object_abstract;
         }

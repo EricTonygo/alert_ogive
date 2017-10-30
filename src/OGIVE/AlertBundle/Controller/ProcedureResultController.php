@@ -265,31 +265,14 @@ class ProcedureResultController extends Controller {
     public function getAbstractOfProcedureResult(ProcedureResult $procedureResult, $detail_url = null) {
         $abstract = "";
         if ($procedureResult && $procedureResult->getCallOffer()) {
-            $abstract = "Décision " . "N°" . $procedureResult->getReference() . "/D/" . $procedureResult->getCallOffer()->getOwner() . "/" . date("Y", strtotime($procedureResult->getPublicationDate())) . " portant sur " . $procedureResult->getObject() . " de l'" . $procedureResult->getCallOffer()->getType() . " N°" . $procedureResult->getCallOffer()->getReference() . "/" . $procedureResult->getCallOffer()->getType() . "/" . $procedureResult->getCallOffer()->getOwner() . "/" . date("Y", strtotime($procedureResult->getCallOffer()->getPublicationDate())) . " du " . date("d/m/Y", strtotime($procedureResult->getCallOffer()->getPublicationDate())) . ".";
+            $abstract = "Décision " . "N°" . $procedureResult->getReference() . " portant sur " . $procedureResult->getObject() . " de l'" . $procedureResult->getCallOffer()->getType() . " N°" . $procedureResult->getCallOffer()->getReference() . " du " . date("d/m/Y", strtotime($procedureResult->getCallOffer()->getPublicationDate())) . ".";
         } elseif ($procedureResult && $procedureResult->getExpressionInterest()) {
-            $abstract = "Décision " . "N°" . $procedureResult->getReference() . "/D/" . $procedureResult->getExpressionInterest()->getOwner() . "/" . date("Y", strtotime($procedureResult->getPublicationDate())) . " portant sur " . $procedureResult->getObject() . " de l'" . $procedureResult->getExpressionInterest()->getType() . " N°" . $procedureResult->getExpressionInterest()->getReference() . "/" . $procedureResult->getExpressionInterest()->getType() . "/" . $procedureResult->getExpressionInterest()->getOwner() . "/" . date("Y", strtotime($procedureResult->getExpressionInterest()->getPublicationDate())) . " du " . date("d/m/Y", $procedureResult->getExpressionInterest()->getPublicationDate()) . ".";
+            $abstract = "Décision " . "N°" . $procedureResult->getReference() . " portant sur " . $procedureResult->getObject() . " de l'" . $procedureResult->getExpressionInterest()->getType() . " N°" . $procedureResult->getExpressionInterest()->getReference() . " du " . date("d/m/Y", $procedureResult->getExpressionInterest()->getPublicationDate()) . ".";
         } else {
             $abstract = $procedureResult->getObject();
         }
         if ($detail_url && $detail_url != "") {
             $abstract .= " Détail téléchargeable à l'adresse " . $detail_url;
-        }
-        return $abstract;
-    }
-
-    public function getAbstractForSmsNotification(ProcedureResult $procedureResult) {
-        $abstract = "";
-        if (strlen(trim($procedureResult->getObject())) > 160) {
-            $object_abstract = trim(substr($procedureResult->getObject(), 0, 157)) . "...";
-        } else {
-            $object_abstract = trim($procedureResult->getObject());
-        }
-        if ($procedureResult && $procedureResult->getCallOffer()) {
-            $abstract = $procedureResult->getReference() . "/D/" . $procedureResult->getCallOffer()->getOwner() . "/" . date("Y", strtotime($procedureResult->getPublicationDate())) . " portant sur " . $object_abstract . " de l'" . $procedureResult->getCallOffer()->getType() . " N°" . $procedureResult->getCallOffer()->getReference() . "/" . $procedureResult->getCallOffer()->getType() . "/" . $procedureResult->getCallOffer()->getOwner() . "/" . date("Y", strtotime($procedureResult->getCallOffer()->getPublicationDate())) . " du " . date("d/m/Y", strtotime($procedureResult->getCallOffer()->getPublicationDate())) . ".";
-        } elseif ($procedureResult && $procedureResult->getExpressionInterest()) {
-            $abstract = $procedureResult->getReference() . "/D/" . $procedureResult->getExpressionInterest()->getOwner() . "/" . date("Y", strtotime($procedureResult->getPublicationDate())) . " portant sur " . $object_abstract . " de l'" . $procedureResult->getExpressionInterest()->getType() . " N°" . $procedureResult->getExpressionInterest()->getReference() . "/" . $procedureResult->getExpressionInterest()->getType() . "/" . $procedureResult->getExpressionInterest()->getOwner() . "/" . date("Y", strtotime($procedureResult->getExpressionInterest()->getPublicationDate())) . " du " . date("d/m/Y", $procedureResult->getExpressionInterest()->getPublicationDate()) . ".";
-        } else {
-            $abstract = $object_abstract;
         }
         return $abstract;
     }
