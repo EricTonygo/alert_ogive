@@ -11,8 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="\OGIVE\AlertBundle\Repository\SubscriberRepository")
  * @ORM\HasLifecycleCallbacks
  */
-class Subscriber
-{
+class Subscriber {
+
     /**
      * @var integer
      *
@@ -42,13 +42,13 @@ class Subscriber
      * @ORM\Column(name="phone_number", type="string", length=255)
      */
     private $phoneNumber;
-    
+
     /**
      * @var integer
      *
      * @ORM\Column(name="notification_type", type="integer", length=255)
      */
-    private $notificationType= 3;
+    private $notificationType = 3;
 
     /**
      * @var integer
@@ -63,14 +63,14 @@ class Subscriber
      * @ORM\Column(name="state", type="integer")
      */
     protected $state;
-    
+
     /**
      * @var integer
      *
      * @ORM\Column(name="expired_state", type="integer")
      */
     protected $expiredState = 0;
-    
+
     /**
      * @var \Entreprise
      *
@@ -80,7 +80,7 @@ class Subscriber
      * })
      */
     private $entreprise;
-    
+
     /**
      * @var \Subscription
      *
@@ -90,21 +90,21 @@ class Subscriber
      * })
      */
     private $subscription;
-    
+
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\OneToMany(targetEntity="HistoricalSubscriberSubscription", mappedBy="subscriber", cascade={"remove", "persist"})
      */
     private $historicalSubscriberSubscriptions;
-    
+
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\OneToMany(targetEntity="HistoricalAlertSubscriber", mappedBy="subscriber", cascade={"remove", "persist"})
      */
     private $historicalAlertSubscribers;
-    
+
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
@@ -112,21 +112,21 @@ class Subscriber
      * 
      */
     private $specialFollowUps;
-    
-     /**
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="create_date", type="datetime")
      */
     private $createDate;
-    
+
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="last_update_date", type="datetime")
      */
     private $lastUpdateDate;
-    
+
     /**
      * @var \DateTime
      *
@@ -134,7 +134,7 @@ class Subscriber
      */
     private $lastSubscriptionDate;
 
-    /** 
+    /**
      * Constructor
      */
     public function __construct() {
@@ -142,14 +142,13 @@ class Subscriber
         $this->specialFollowUps = new \Doctrine\Common\Collections\ArrayCollection();
         $this->historicalAlertSubscribers = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
     /**
      * Get id
      *
      * @return int
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -160,8 +159,7 @@ class Subscriber
      *
      * @return Subscriber
      */
-    public function setName($name)
-    {
+    public function setName($name) {
         $this->name = $name;
 
         return $this;
@@ -172,8 +170,7 @@ class Subscriber
      *
      * @return string
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
@@ -184,8 +181,7 @@ class Subscriber
      *
      * @return Subscriber
      */
-    public function setEmail($email)
-    {
+    public function setEmail($email) {
         $this->email = $email;
 
         return $this;
@@ -196,8 +192,7 @@ class Subscriber
      *
      * @return string
      */
-    public function getEmail()
-    {
+    public function getEmail() {
         return $this->email;
     }
 
@@ -208,8 +203,7 @@ class Subscriber
      *
      * @return Subscriber
      */
-    public function setPhoneNumber($phoneNumber)
-    {
+    public function setPhoneNumber($phoneNumber) {
         $this->phoneNumber = $phoneNumber;
 
         return $this;
@@ -220,11 +214,10 @@ class Subscriber
      *
      * @return string
      */
-    public function getPhoneNumber()
-    {
+    public function getPhoneNumber() {
         return $this->phoneNumber;
     }
-    
+
     /**
      * Set notificationType
      *
@@ -232,8 +225,7 @@ class Subscriber
      *
      * @return Subscriber
      */
-    public function setNotificationType($notificationType)
-    {
+    public function setNotificationType($notificationType) {
         $this->notificationType = $notificationType;
 
         return $this;
@@ -244,8 +236,7 @@ class Subscriber
      *
      * @return integer
      */
-    public function getNotificationType()
-    {
+    public function getNotificationType() {
         return $this->notificationType;
     }
 
@@ -256,8 +247,7 @@ class Subscriber
      *
      * @return Subscriber
      */
-    public function setStatus($status)
-    {
+    public function setStatus($status) {
         $this->status = $status;
 
         return $this;
@@ -268,8 +258,7 @@ class Subscriber
      *
      * @return integer
      */
-    public function getStatus()
-    {
+    public function getStatus() {
         return $this->status;
     }
 
@@ -280,8 +269,7 @@ class Subscriber
      *
      * @return Subscriber
      */
-    public function setState($state)
-    {
+    public function setState($state) {
         $this->state = $state;
 
         return $this;
@@ -292,12 +280,10 @@ class Subscriber
      *
      * @return integer
      */
-    public function getState()
-    {
+    public function getState() {
         return $this->state;
     }
-    
-    
+
     /**
      * Set expiredState
      *
@@ -305,8 +291,7 @@ class Subscriber
      *
      * @return Subscriber
      */
-    public function setExpiredState($expiredState)
-    {
+    public function setExpiredState($expiredState) {
         $this->expiredState = $expiredState;
 
         return $this;
@@ -317,11 +302,10 @@ class Subscriber
      *
      * @return integer
      */
-    public function getExpiredState()
-    {
+    public function getExpiredState() {
         return $this->expiredState;
     }
-    
+
     /**
      * Set entreprise
      *
@@ -329,8 +313,7 @@ class Subscriber
      *
      * @return Subscriber
      */
-    public function setEntreprise($entreprise)
-    {
+    public function setEntreprise($entreprise) {
         $this->entreprise = $entreprise;
 
         return $this;
@@ -341,12 +324,10 @@ class Subscriber
      *
      * @return \OGIVE\AlertBundle\Entity\Entreprise
      */
-    public function getEntreprise()
-    {
+    public function getEntreprise() {
         return $this->entreprise;
     }
-    
-    
+
     /**
      * Set subscription
      *
@@ -354,8 +335,7 @@ class Subscriber
      *
      * @return Subscriber
      */
-    public function setSubscription(\OGIVE\AlertBundle\Entity\Subscription $subscription=null)
-    {
+    public function setSubscription(\OGIVE\AlertBundle\Entity\Subscription $subscription = null) {
         $this->subscription = $subscription;
 
         return $this;
@@ -366,11 +346,10 @@ class Subscriber
      *
      * @return \OGIVE\AlertBundle\Entity\Subscription
      */
-    public function getSubscription()
-    {
+    public function getSubscription() {
         return $this->subscription;
     }
-    
+
     /**
      * Add historicalSubscriberSubscription
      *
@@ -413,7 +392,7 @@ class Subscriber
         $this->historicalSubscriberSubscriptions->removeElement($historicalSubscriberSubscription);
         return $this;
     }
-    
+
     /**
      * Add historicalAlertSubscriber
      *
@@ -456,8 +435,7 @@ class Subscriber
         $this->historicalAlertSubscribers->removeElement($historicalAlertSubscriber);
         return $this;
     }
-    
-    
+
     /**
      * Add specialFollowUp
      *
@@ -500,7 +478,7 @@ class Subscriber
         $this->entreprises->removeElement($specialFollowUp);
         return $this;
     }
-    
+
     /**
      * Set createDate
      *
@@ -508,23 +486,21 @@ class Subscriber
      *
      * @return Subscriber
      */
-    public function setCreateDate($createDate)
-    {
+    public function setCreateDate($createDate) {
         $this->createDate = $createDate;
 
         return $this;
     }
-    
+
     /**
      * Get createDate
      *
      * @return \DateTime
      */
-    public function getCreateDate()
-    {
+    public function getCreateDate() {
         return $this->createDate;
     }
-    
+
     /**
      * Set lastUpdateDate
      *
@@ -532,8 +508,7 @@ class Subscriber
      *
      * @return Subscriber
      */
-    public function setLastUpdateDate($lastUpdateDate)
-    {
+    public function setLastUpdateDate($lastUpdateDate) {
         $this->lastUpdateDate = $lastUpdateDate;
 
         return $this;
@@ -544,11 +519,10 @@ class Subscriber
      *
      * @return \DateTime
      */
-    public function getLastUpdateDate()
-    {
+    public function getLastUpdateDate() {
         return $this->lastUpdateDate;
     }
-    
+
     /**
      * Set lastSubscriptionDate
      *
@@ -556,8 +530,7 @@ class Subscriber
      *
      * @return Subscriber
      */
-    public function setLastSubscriptionDate($lastSubscriptionDate)
-    {
+    public function setLastSubscriptionDate($lastSubscriptionDate) {
         $this->lastSubscriptionDate = $lastSubscriptionDate;
 
         return $this;
@@ -568,29 +541,41 @@ class Subscriber
      *
      * @return \DateTime
      */
-    public function getLastSubscriptionDate()
-    {
+    public function getLastSubscriptionDate() {
         return $this->lastSubscriptionDate;
     }
-    
+
     /**
      * @ORM\PreUpdate() 
      */
-    public function preUpdate()
-    {
+    public function preUpdate() {
         $this->lastUpdateDate = new \DateTime('now');
     }
 
     /**
      * @ORM\PrePersist() 
      */
-    public function prePersist()
-    {
+    public function prePersist() {
         $this->createDate = new \DateTime('now');
         $this->lastUpdateDate = new \DateTime('now');
         $this->status = 1;
         $this->expiredState = 0;
     }
 
-}
+    public function getSubscriptionCostAndValidity() {
+        $costAndValidity = "";
+        if ($this->getSubscription()->getPeriodicity() === 1) {
+            $costAndValidity = $this->getSubscription()->getPrice() . " " . $this->getSubscription()->getCurrency() . ", validite = 1 an";
+        } elseif ($this->getSubscription()->getPeriodicity() === 2) {
+            $costAndValidity = $this->getSubscription()->getPrice() . " " . $this->getSubscription()->getCurrency() . ", validite = 6 mois";
+        } elseif ($this->getSubscription()->getPeriodicity() === 3) {
+            $costAndValidity = $this->getSubscription()->getPrice() . " " . $this->getSubscription()->getCurrency() . ", validite = 3 mois";
+        } elseif ($this->getSubscription()->getPeriodicity() === 4) {
+            $costAndValidity = $this->getSubscription()->getPrice() . " " . $this->getSubscription()->getCurrency() . ", validite = 1 mois";
+        } elseif ($this->getSubscription()->getPeriodicity() === 4) {
+            $costAndValidity = $this->getSubscription()->getPrice() . " " . $this->getSubscription()->getCurrency() . ", validite = 1 semaine";
+        }
+        return $costAndValidity;
+    }
 
+}

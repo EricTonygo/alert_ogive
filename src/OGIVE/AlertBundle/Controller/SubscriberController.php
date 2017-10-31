@@ -341,7 +341,7 @@ class SubscriberController extends Controller {
         }
         $historical = $this->sendSubscriptionConfirmation($subscriber);
         if (empty($historical)) {
-            return new JsonResponse(['message' => "Error lors de l'envoi du message"], Response::HTTP_NOT_FOUND);
+            return new JsonResponse(['message' => "Erreur lors de l'envoi du message"], Response::HTTP_NOT_FOUND);
         }
         $view = View::create(['message' => "Accusé de reception envoyé avec succès"]);
         $view->setFormat('json');
@@ -351,21 +351,11 @@ class SubscriberController extends Controller {
     public function sendSubscriptionConfirmation(Subscriber $subscriber) {
         $historiqueAlertSubscriber = new HistoricalAlertSubscriber();
         $repositoryHistorique = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:HistoricalAlertSubscriber');
-        $cout = "";
-        if ($subscriber->getSubscription()->getPeriodicity() === 1) {
-            $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 1 an";
-        } elseif ($subscriber->getSubscription()->getPeriodicity() === 2) {
-            $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 6 mois";
-        } elseif ($subscriber->getSubscription()->getPeriodicity() === 3) {
-            $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 3 mois";
-        } elseif ($subscriber->getSubscription()->getPeriodicity() === 4) {
-            $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 1 mois";
-        } elseif ($subscriber->getSubscription()->getPeriodicity() === 4) {
-            $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 1 semaine";
-        }
-        $content = $subscriber->getEntreprise()->getName() . ", votre souscription au service <<APPELS D'OFFRES INFOS>> a été éffectuée avec succès. \nCoût du forfait = " . $cout;
-        $this->sendNotificationAccordingToType($subscriber, "CONFIRMATION DE L'ABONNEMENT", $content);
-        $historiqueAlertSubscriber->setMessage($content);
+        $cout = $subscriber->getSubscriptionCostAndValidity();
+        $content_email = $subscriber->getEntreprise()->getName() . ", votre souscription au service <<APPELS D'OFFRES INFOS>> a été éffectuée avec succès. \nCoût du forfait = " . $cout;
+        $content_sms = $subscriber->getEntreprise()->getName() . ", votre souscription au service APPELS D'OFFRES INFOS a ete effectuee avec succes. \nCout du forfait = " . $cout;
+        $this->sendNotificationAccordingToType($subscriber, "CONFIRMATION DE L'ABONNEMENT", $content_email, $content_sms);
+        $historiqueAlertSubscriber->setMessage($content_email);
         $historiqueAlertSubscriber->setSubscriber($subscriber);
         $historiqueAlertSubscriber->setAlertType("SMS_CONFIRMATION_SUBSCRIPTION");
         return $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
@@ -375,21 +365,11 @@ class SubscriberController extends Controller {
         if ($subscription_update && $subscription_update === "renewal-subscription") {
             $historiqueAlertSubscriber = new HistoricalAlertSubscriber();
             $repositoryHistorique = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:HistoricalAlertSubscriber');
-            $cout = "";
-            if ($subscriber->getSubscription()->getPeriodicity() === 1) {
-                $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 1 an";
-            } elseif ($subscriber->getSubscription()->getPeriodicity() === 2) {
-                $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 6 mois";
-            } elseif ($subscriber->getSubscription()->getPeriodicity() === 3) {
-                $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 3 mois";
-            } elseif ($subscriber->getSubscription()->getPeriodicity() === 4) {
-                $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 1 mois";
-            } elseif ($subscriber->getSubscription()->getPeriodicity() === 4) {
-                $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 1 semaine";
-            }
-            $content = $subscriber->getEntreprise()->getName() . ", votre abonnement au service <<APPELS D'OFFRES INFOS>> a été renouvelé avec succès. \nCoût du nouveau forfait = " . $cout;
-            $this->sendNotificationAccordingToType($subscriber, "RENOUVELLEMENT DE L'ABONNEMENT", $content);
-            $historiqueAlertSubscriber->setMessage($content);
+            $cout = $subscriber->getSubscriptionCostAndValidity();
+            $content_email = $subscriber->getEntreprise()->getName() . ", votre abonnement au service <<APPELS D'OFFRES INFOS>> a été renouvelé avec succès. \nCoût du nouveau forfait = " . $cout;
+            $content_sms = $subscriber->getEntreprise()->getName() . ", votre abonnement au service APPELS D'OFFRES INFOS a ete renouvele avec succes. \nCout du nouveau forfait = " . $cout;
+            $this->sendNotificationAccordingToType($subscriber, "RENOUVELLEMENT DE L'ABONNEMENT", $content_email, $content_sms);
+            $historiqueAlertSubscriber->setMessage($content_email);
             $historiqueAlertSubscriber->setSubscriber($subscriber);
             $historiqueAlertSubscriber->setAlertType("SMS_CONFIRMATION_RENEWAL_SUBSCRIPTION");
             return $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
@@ -398,15 +378,15 @@ class SubscriberController extends Controller {
         }
     }
 
-    public function sendNotificationAccordingToType(Subscriber $subscriber, $subject, $message) {
+    public function sendNotificationAccordingToType(Subscriber $subscriber, $subject, $message_email, $message_sms) {
+        //Backup:  ". OGIVE SOLUTIONS vous remercie pour votre confiance."
         if ($subscriber->getNotificationType() == 2) {
-            $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $message. ". \nOGIVE SOLUTIONS vous remercie pour votre confiance.");
+            $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $message_sms);
         } elseif ($subscriber->getNotificationType() == 1) {
-            $this->get('mail_service')->sendEmailSubscriber($subscriber, $subject, $message);
+            $this->get('mail_service')->sendEmailSubscriber($subscriber, $subject, $message_email);
         } else {
-            $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $message. ". \nOGIVE SOLUTIONS vous remercie pour votre confiance.");
-            $this->get('mail_service')->sendEmailSubscriber($subscriber, $subject, $message);
+            $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $message_sms);
+            $this->get('mail_service')->sendEmailSubscriber($subscriber, $subject, $message_email);
         }
     }
-
 }
