@@ -84,7 +84,7 @@ $(function () {
                             }
                         ]
                     },
-                    
+
                     notificationType: {
                         identifier: 'notificationType',
                         rules: [
@@ -133,26 +133,15 @@ $(function () {
                                     $('#error_name_header').html("Echec de la validation. Veuillez vérifier vos données");
                                     $('#error_name_message').show();
                                 }
-
+                            },
+                            200: function (response, textStatus, jqXHR) {
+                                execute_success_add_subscriber();
                             }
                         },
                         success: function (response, textStatus, jqXHR) {
-                            $('#cancel_add_subscriber').removeClass('disabled');
-                            $('#submit_subscriber').removeClass('disabled');
-                            $('#add_subscriber_form.ui.form').removeClass('loading');
                             $('#list_as_grid_content').prepend(response.subscriber_content_grid);
                             $('#list_as_table_content').prepend(response.subscriber_content_list);
-                            $('.ui.dropdown').dropdown({
-                                on: 'hover'
-                            });
-                            $('#add_subscriber.ui.modal').modal('hide');
-                            $('#message_success>div.header').html('Abonné ajouté avec succès !');
-                            $('#message_success').show();
-                            window.location.replace(Routing.generate('subscriber_index'));
-                            setTimeout(function () {
-                                $('#message_success').hide();
-                            }, 4000);
-
+                            execute_success_add_subscriber();
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
                             $('#cancel_add_subscriber').removeClass('disabled');
@@ -166,6 +155,22 @@ $(function () {
             }
             );
 });
+
+function execute_success_add_subscriber() {
+    $('#cancel_add_subscriber').removeClass('disabled');
+    $('#submit_subscriber').removeClass('disabled');
+    $('#add_subscriber_form.ui.form').removeClass('loading');
+    $('.ui.dropdown').dropdown({
+        on: 'hover'
+    });
+    $('#add_subscriber.ui.modal').modal('hide');
+    $('#message_success>div.header').html('Abonné ajouté avec succès !');
+    $('#message_success').show();
+    window.location.replace(Routing.generate('subscriber_index'));
+    setTimeout(function () {
+        $('#message_success').hide();
+    }, 4000);
+}
 
 function edit_subscriber(id) {
     $('#message_error').hide();
@@ -281,7 +286,7 @@ function execute_edit(id) {
                             }
                         ]
                     },
-                    
+
                     notificationType: {
                         identifier: 'notificationType',
                         rules: [
@@ -343,28 +348,15 @@ function execute_edit(id) {
                                     $('#error_name_message_edit').show();
                                 }
 
+                            },
+                            200: function (response, textStatus, jqXHR) {
+                                execute_success_edit();
                             }
                         },
                         success: function (response, textStatus, jqXHR) {
-                            $('#submit_edit_subscriber').removeClass('disabled');
-                            $('#cancel_edit_subscriber').removeClass('disabled');
-                            $('#edit_subscriber_form.ui.form').removeClass('loading');
-                            $('#cancel_details_subscriber').removeClass('disabled');
-                            $('#disable_subscriber').removeClass('disabled');
-                            $('#enable_subscriber').removeClass('disabled');
                             $('#subscriber_grid' + id).html(response.subscriber_content_grid);
                             $('#subscriber_list' + id).html(response.subscriber_content_list);
-                            $('.ui.dropdown').dropdown({
-                                on: 'hover'
-                            });
-                            $('#edit_subscriber.ui.modal').modal('hide');
-                            $('#message_success>div.header').html('Abonné modifié avec succès !');
-                            $('#message_success').show();
-                            window.location.reload();
-                            setTimeout(function () {
-                                $('#message_success').hide();
-                            }, 4000);
-                            $('#edit_subscriber').remove();
+                            execute_success_edit();
 
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
@@ -377,6 +369,26 @@ function execute_edit(id) {
                 }
             }
             );
+}
+
+function execute_success_edit() {
+    $('#submit_edit_subscriber').removeClass('disabled');
+    $('#cancel_edit_subscriber').removeClass('disabled');
+    $('#edit_subscriber_form.ui.form').removeClass('loading');
+    $('#cancel_details_subscriber').removeClass('disabled');
+    $('#disable_subscriber').removeClass('disabled');
+    $('#enable_subscriber').removeClass('disabled');
+    $('.ui.dropdown').dropdown({
+        on: 'hover'
+    });
+    $('#edit_subscriber.ui.modal').modal('hide');
+    $('#message_success>div.header').html('Abonné modifié avec succès !');
+    $('#message_success').show();
+    window.location.reload();
+    setTimeout(function () {
+        $('#message_success').hide();
+    }, 4000);
+    $('#edit_subscriber').remove();
 }
 
 function delete_subscriber(id) {
@@ -566,21 +578,13 @@ function renewal_subscription_subscriber(id) {
                                 $('#error_name_header_sub').html("Echec de la validation");
                                 $('#error_name_list_sub').html('<li>' + myerrors.message + '</li>');
                                 $('#error_name_message_sub').show();
-
+                            },
+                            200: function (response, textStatus, jqXHR) {
+                                execute_success_renewal("Abonnement renouvellé avec succès");
                             }
                         },
                         success: function (response, textStatus, jqXHR) {
-                            $('#execute_renewal_subscription_subscriber').removeClass('disabled');
-                            $('#cancel_renewal_subscription_subscriber').removeClass('disabled');
-                            $('#renewal_subscription_subscriber_form.ui.form').removeClass('loading');
-                            $('#renewal_subscription_subscriber')
-                                    .modal('hide');
-                            $('#message_success>div.header').html(response.message);
-                            $('#message_success').show();
-                            setTimeout(function () {
-                                $('#message_success').hide();
-                            }, 4000);
-                            window.location.reload();
+                            execute_success_renewal(response.message);
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
                             $('#execute_renewal_subscription_subscriber').removeClass('disabled');
@@ -598,6 +602,19 @@ function renewal_subscription_subscriber(id) {
     });
 }
 
+function execute_success_renewal(success_message) {
+    $('#execute_renewal_subscription_subscriber').removeClass('disabled');
+    $('#cancel_renewal_subscription_subscriber').removeClass('disabled');
+    $('#renewal_subscription_subscriber_form.ui.form').removeClass('loading');
+    $('#renewal_subscription_subscriber')
+            .modal('hide');
+    $('#message_success>div.header').html(success_message);
+    $('#message_success').show();
+    setTimeout(function () {
+        $('#message_success').hide();
+    }, 4000);
+    window.location.reload();
+}
 
 function enable_subscriber(id) {
     $('#confirm_enable_subscriber.ui.small.modal')
@@ -645,18 +662,13 @@ function enable_subscriber(id) {
                                 $('#message_error>div.header').html(myerrors.message);
                                 $('#message_error').show();
                                 window.location.reload();
+                            },
+                            200: function (response, textStatus, jqXHR) {
+                                execute_success_enable(id, "Abonné activé avec succès!");
                             }
                         },
                         success: function (response, textStatus, jqXHR) {
-                            $('#message_loading').hide();
-                            $('#enable_subscriber_grid' + id).hide();
-                            $('#disable_subscriber_grid' + id).show();
-                            $('#message_success>div.header').html(response.message);
-                            $('#message_success').show();
-                            window.location.reload();
-                            setTimeout(function () {
-                                $('#message_success').hide();
-                            }, 4000);
+                            execute_success_enable(id, response.message);
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
                             $('#message_loading').hide();
@@ -672,6 +684,18 @@ function enable_subscriber(id) {
         e.preventDefault();
         $('#enable_subscriber_form.ui.form').submit();
     });
+}
+
+function execute_success_enable(id, success_message) {
+    $('#message_loading').hide();
+    $('#enable_subscriber_grid' + id).hide();
+    $('#disable_subscriber_grid' + id).show();
+    $('#message_success>div.header').html(success_message);
+    $('#message_success').show();
+    window.location.reload();
+    setTimeout(function () {
+        $('#message_success').hide();
+    }, 4000);
 }
 
 function disable_subscriber(id) {

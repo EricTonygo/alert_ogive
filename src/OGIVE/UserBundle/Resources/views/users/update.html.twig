@@ -1,16 +1,16 @@
 {% extends "OGIVEUserBundle::layout.html.twig" %}
 {% trans_default_domain 'FOSUserBundle' %}
-{% block title %}Nouveau compte{% endblock %}
+{% block title %}Modification du compte{% endblock %}
 
 {% block login_content %}
     <div class="ui singup_contenair basic segment container">
         <div class="ui centered card">
             <div class="first content text center aligned">
-                <h2 class="header">Créer un compte utilisateur</h2>
+                <h2 class="header">Modification du compte de {{user.username}}</h2>
             </div>
             <div class="content">
                 <p>Veuillez renseigner les informations de l'utilisateur ici                    
-                    {{ form_start(form, {'method': 'POST', 'action': path('fos_user_registration_register'), 'attr': {'class': 'ui form', 'id': 'register_form'} }) }}
+                    {{ form_start(form, {'method': 'POST', 'action': path('user_update', {'id': user.id}), 'attr': {'class': 'ui form', 'id': 'update_user_form'} }) }}
 
                 <div class="inline fields">
                     <label>Privilège: </label>
@@ -101,8 +101,8 @@
                     {{form_rest(form)}}
                 </div>
 
-                <button class="ui right floated primary button" type="submit">Créer le compte</button>
-                <button class="ui right floated red button" type="reset">Effacer tout</button>
+                <button class="ui right floated primary button" type="submit">Modifier</button>
+                <a href="{{path('users_index')}}}}" class="ui right floated red button" type="reset">Annuler</a>
                 {{ form_end(form) }}
             </div>
         </div> 

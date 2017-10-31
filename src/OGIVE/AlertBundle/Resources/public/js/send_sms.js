@@ -88,19 +88,13 @@ function execute_send_sms_subscriber(id) {
                                     $('#error_name_message_send_sms').show();
                                 }
 
+                            },
+                            200: function (response, textStatus, jqXHR) {
+                                execute_success_send_sms();
                             }
                         },
                         success: function (response, textStatus, jqXHR) {
-                            $('#submit_send_sms_subscriber').removeClass('disabled');
-                            $('#cancel_send_sms_subscriber').removeClass('disabled');
-                            $('#send_sms_subscriber_form.ui.form').removeClass('loading');
-                            $('#send_sms_subscriber.ui.modal').modal('hide');
-                            $('#message_success>div.header').html('Message envoyé avec succès !');
-                            $('#message_success').show();
-                            setTimeout(function () {
-                                $('#message_success').hide();
-                            }, 4000);
-                            $('#send_sms_subscriber').remove();
+
                             //console.log(response.whatsappResponse);
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
@@ -114,6 +108,19 @@ function execute_send_sms_subscriber(id) {
                 }
             }
             );
+}
+
+function execute_success_send_sms() {
+    $('#submit_send_sms_subscriber').removeClass('disabled');
+    $('#cancel_send_sms_subscriber').removeClass('disabled');
+    $('#send_sms_subscriber_form.ui.form').removeClass('loading');
+    $('#send_sms_subscriber.ui.modal').modal('hide');
+    $('#message_success>div.header').html('Message envoyé avec succès !');
+    $('#message_success').show();
+    setTimeout(function () {
+        $('#message_success').hide();
+    }, 4000);
+    $('#send_sms_subscriber').remove();
 }
 
 function send_subscription_confirmation(id) {
@@ -137,40 +144,35 @@ function send_subscription_confirmation(id) {
                 500: function (xhr) {
                     $('#message_error>div.header').html("Une erreur s'est produite au niveau du serveur");
                     $('#message_error').show();
-//                    setTimeout(function () {
-//                        $('#message_error').hide();
-//                    }, 4000);
                 },
                 404: function (response, textStatus, jqXHR) {
                     var myerrors = response.responseJSON;
                     $('#message_error>div.header').html(myerrors.message);
                     $('#message_error').show();
-//                    setTimeout(function () {
-//                        $('#message_error').hide();
-//                    }, 4000);
+                },
+                200: function (response, textStatus, jqXHR) {
+                    execute_success_send_confirm_subscription(id, "Accusé de reception envoyé avec succès");
                 }
             },
             success: function (response, textStatus, jqXHR) {
-                $('#message_loading').hide();
-                $('#enable_subscriber_grid' + id).hide();
-                $('#disable_subscriber_grid' + id).show();
-                $('#message_success>div.header').html(response.message);
-                $('#message_success').show();
-                setTimeout(function () {
-                    $('#message_success').hide();
-                }, 4000);
-
+                execute_success_send_confirm_subscription(id, response.message);
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 $('#message_loading').hide();
                 $('#message_error>div.header').html("Une erreur s'est produite au niveau du serveur");
                 $('#message_error').show();
-//                setTimeout(function () {
-//                    $('#message_error').hide();
-//                }, 4000);
-                /*alertify.error("Internal Server Error");*/
             }
         });
     });
 }
 
+function execute_success_send_confirm_subscription(id, success_message) {
+    $('#message_loading').hide();
+    $('#enable_subscriber_grid' + id).hide();
+    $('#disable_subscriber_grid' + id).show();
+    $('#message_success>div.header').html(success_message);
+    $('#message_success').show();
+    setTimeout(function () {
+        $('#message_success').hide();
+    }, 4000);
+}
