@@ -353,7 +353,7 @@ class SubscriberController extends Controller {
         $repositoryHistorique = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:HistoricalAlertSubscriber');
         $cout = $subscriber->getSubscriptionCostAndValidity();
         $content_email = $subscriber->getEntreprise()->getName() . ", votre souscription au service <<APPELS D'OFFRES INFOS>> a été éffectuée avec succès. \nCoût du forfait = " . $cout;
-        $content_sms = $subscriber->getEntreprise()->getName() . ", votre souscription au service APPELS D'OFFRES INFOS a ete effectuee avec succes. \nCout du forfait = " . $cout;
+        $content_sms = $subscriber->getEntreprise()->getName() . ", votre souscription au service APPELS D'OFFRES INFOS a ete effectuee avec succes. Cout du forfait = " . $cout;
         $this->sendNotificationAccordingToType($subscriber, "CONFIRMATION DE L'ABONNEMENT", $content_email, $content_sms);
         $historiqueAlertSubscriber->setMessage($content_email);
         $historiqueAlertSubscriber->setSubscriber($subscriber);
@@ -367,7 +367,7 @@ class SubscriberController extends Controller {
             $repositoryHistorique = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:HistoricalAlertSubscriber');
             $cout = $subscriber->getSubscriptionCostAndValidity();
             $content_email = $subscriber->getEntreprise()->getName() . ", votre abonnement au service <<APPELS D'OFFRES INFOS>> a été renouvelé avec succès. \nCoût du nouveau forfait = " . $cout;
-            $content_sms = $subscriber->getEntreprise()->getName() . ", votre abonnement au service APPELS D'OFFRES INFOS a ete renouvele avec succes. \nCout du nouveau forfait = " . $cout;
+            $content_sms = $subscriber->getEntreprise()->getName() . ", votre abonnement au service APPELS D'OFFRES INFOS a ete renouvele avec succes. Cout du nouveau forfait = " . $cout;
             $this->sendNotificationAccordingToType($subscriber, "RENOUVELLEMENT DE L'ABONNEMENT", $content_email, $content_sms);
             $historiqueAlertSubscriber->setMessage($content_email);
             $historiqueAlertSubscriber->setSubscriber($subscriber);
