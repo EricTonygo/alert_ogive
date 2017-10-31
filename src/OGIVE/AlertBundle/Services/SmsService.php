@@ -70,11 +70,11 @@ class SmsService {
                 if (empty($response['error'])) {
                     return true;
                 } else {
-                    //$this->sendTwilioSms($phoneNumber, $message);
+                    $this->sendTwilioSms($phoneNumber, $message);
                     return true;
                 }
             } catch (Exception $ex) {
-                //$this->sendTwilioSms($phoneNumber, $message);
+                $this->sendTwilioSms($phoneNumber, $message);
                 return true;
             }
         } else {

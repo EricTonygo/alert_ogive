@@ -102,20 +102,13 @@ function execute_send_notification_procedureResult(id) {
                                     $('#error_name_message_send_notification').show();
                                 }
 
+                            },
+                            200: function (response, texStatus, jqXHR) {
+                                execute_success("Message(s) envoyé(s) avec succès");
                             }
                         },
                         success: function (response, textStatus, jqXHR) {
-                            $('#submit_send_notification_procedureResult').removeClass('disabled');
-                            $('#cancel_send_notification_procedureResult').removeClass('disabled');
-                            $('#send_notification_procedureResult_form.ui.form').removeClass('loading');
-                            $('#send_notification_procedureResult.ui.modal').modal('hide');
-                            $('#message_success>div.header').html(response.message);
-                            $('#message_success').show();
-                            setTimeout(function () {
-                                $('#message_success').hide();
-                            }, 4000);
-                            $('#send_notification_procedureResult').remove();
-
+                            execute_success(response.message);
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
                             $('#submit_send_notification_procedureResult').removeClass('disabled');
@@ -128,4 +121,17 @@ function execute_send_notification_procedureResult(id) {
                 }
             }
             );
+}
+
+function execute_success(success_message) {
+    $('#submit_send_notification_procedureResult').removeClass('disabled');
+    $('#cancel_send_notification_procedureResult').removeClass('disabled');
+    $('#send_notification_procedureResult_form.ui.form').removeClass('loading');
+    $('#send_notification_procedureResult.ui.modal').modal('hide');
+    $('#message_success>div.header').html(success_message);
+    $('#message_success').show();
+    setTimeout(function () {
+        $('#message_success').hide();
+    }, 4000);
+    $('#send_notification_procedureResult').remove();
 }

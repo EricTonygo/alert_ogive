@@ -18,32 +18,32 @@ function send_procedure_expressionInterest(id) {
             }
         },
         success: function (response, textStatus, jqXHR) {
-                $('#send_notification_expressionInterest').remove();
-                $('#send_notification_expressionInterest_content').html(response.send_notification_expressionInterest_form);
+            $('#send_notification_expressionInterest').remove();
+            $('#send_notification_expressionInterest_content').html(response.send_notification_expressionInterest_form);
 
-                $('#send_notification_expressionInterest.ui.modal').modal('setting', {
-                    autofocus: false,
-                    inverted: true,
-                    closable: false
-                });
-                $('#checkbox_all_subscribers').change(function () {
-                    if ($(this).is(':checked')) {
-                        $('#field_select_subscribers').hide();
-                        $('#field_select_subscribers>.ui.dropdown').dropdown('clear');
-                    } else {
-                        $('#field_select_subscribers').show();
-                    }
-                });
-                $('#subscribers.ui.dropdown').dropdown({
-                    on: 'click'
-                });
-                $('#notificationTypes.ui.dropdown').dropdown({
-                    on: 'click'
-                });
-                show_sms_message_length();
-                $('#send_notification_expressionInterest.ui.modal').modal('show');
-                execute_send_notification_expressionInterest(id);
-            
+            $('#send_notification_expressionInterest.ui.modal').modal('setting', {
+                autofocus: false,
+                inverted: true,
+                closable: false
+            });
+            $('#checkbox_all_subscribers').change(function () {
+                if ($(this).is(':checked')) {
+                    $('#field_select_subscribers').hide();
+                    $('#field_select_subscribers>.ui.dropdown').dropdown('clear');
+                } else {
+                    $('#field_select_subscribers').show();
+                }
+            });
+            $('#subscribers.ui.dropdown').dropdown({
+                on: 'click'
+            });
+            $('#notificationTypes.ui.dropdown').dropdown({
+                on: 'click'
+            });
+            show_sms_message_length();
+            $('#send_notification_expressionInterest.ui.modal').modal('show');
+            execute_send_notification_expressionInterest(id);
+
             $('#message_loading').hide();
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -102,22 +102,12 @@ function execute_send_notification_expressionInterest(id) {
                                     $('#error_name_message_send_notification').show();
                                 }
                             },
-                            200:function(response, texStatus, jqXHR){
-                                $('#send_notification_expressionInterest.ui.modal').modal('hide');
+                            200: function (response, texStatus, jqXHR) {
+                                execute_success("Message(s) envoyé(s) avec succès");
                             }
                         },
                         success: function (response, textStatus, jqXHR) {
-                                $('#submit_send_notification_expressionInterest').removeClass('disabled');
-                                $('#cancel_send_notification_expressionInterest').removeClass('disabled');
-                                $('#send_notification_expressionInterest_form.ui.form').removeClass('loading');
-                                $('#send_notification_expressionInterest.ui.modal').modal('hide');
-                                $('#message_success>div.header').html(response.message);
-                                $('#message_success').show();
-                                setTimeout(function () {
-                                    $('#message_success').hide();
-                                }, 4000);
-                                $('#send_notification_expressionInterest').remove();
-                            
+                            execute_success(response.message);
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
                             $('#submit_send_notification_expressionInterest').removeClass('disabled');
@@ -130,4 +120,16 @@ function execute_send_notification_expressionInterest(id) {
                 }
             }
             );
+}
+function execute_success(success_message) {
+    $('#submit_send_notification_expressionInterest').removeClass('disabled');
+    $('#cancel_send_notification_expressionInterest').removeClass('disabled');
+    $('#send_notification_expressionInterest_form.ui.form').removeClass('loading');
+    $('#send_notification_expressionInterest.ui.modal').modal('hide');
+    $('#message_success>div.header').html(success_message);
+    $('#message_success').show();
+    setTimeout(function () {
+        $('#message_success').hide();
+    }, 4000);
+    $('#send_notification_expressionInterest').remove();
 }
