@@ -66,7 +66,7 @@ class UsersController extends Controller {
 
     /**
      * @Rest\View()
-     * @Rest\Get("/users/{id}" , name="user_update", options={ "method_prefix" = false, "expose" = true })
+     * @Rest\Get("/users/{id}" , name="get_user_update", options={ "method_prefix" = false, "expose" = true })
      */
     public function getUserByIdAction(User $user) {
         if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
@@ -81,7 +81,7 @@ class UsersController extends Controller {
     
     /**
      * @Rest\View()
-     * @Rest\Post("/users/{id}" , name="user_update", options={ "method_prefix" = false, "expose" = true })
+     * @Rest\Post("/users/{id}" , name="post_user_update", options={ "method_prefix" = false, "expose" = true })
      */
     public function postUserAction(Request $request, User $user) {
         if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
