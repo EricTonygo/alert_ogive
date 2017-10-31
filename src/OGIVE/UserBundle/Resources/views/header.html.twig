@@ -22,11 +22,13 @@
                 ALERT M.P
             </a>
         </div>
-        <div class="ui right inverted secondary menu">
-            <a href="{{path('fos_user_security_login')}}" class="ui button item">
-                <i class="sign in icon"></i>
-                Se connecter
-            </a>
-        </div>
+        {%if not app.user %}
+            <div class="ui right inverted secondary menu">
+                <a href="{{path('fos_user_security_login')}}" class="ui button item">
+                    <i class="sign in icon"></i>
+                    Se connecter
+                </a>
+            </div>
+        {% endif %}
     </div>
 </header>
