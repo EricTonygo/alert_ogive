@@ -103,7 +103,7 @@ function execute_send_notification_expressionInterest(id) {
                                 }
                             },
                             200:function(response, texStatus, jqXHR){
-                                
+                                $('#send_notification_expressionInterest.ui.modal').modal('hide');
                             }
                         },
                         success: function (response, textStatus, jqXHR) {
