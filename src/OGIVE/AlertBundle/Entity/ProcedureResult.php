@@ -104,9 +104,9 @@ class ProcedureResult extends AlertProcedure
             $object_abstract = trim($this->getObject());
         }
         if ($this->getCallOffer()) {
-            $abstract = "Décision " . "N°" . explode("/", $this->getReference())[0] . " du " . $this->getStringDateForSms($this->getPublicationDate()) . " portant sur " . $object_abstract . " de l'" . $this->getCallOffer()->getType() . " N°" .explode("/", $this->getCallOffer()->getReference())[0]. " lancé par " . $this->getCallOffer()->getOwner() ." le " . $this->getStringDateForSms($this->getCallOffer()->getPublicationDate()). ".";
+            $abstract = "Decision " . "N°" . explode("/", $this->getReference())[0] . " du " . $this->getStringDateForSms($this->getPublicationDate()) . " portant sur " . $object_abstract . " de l'" . $this->getCallOffer()->getType() . " N°" .explode("/", $this->getCallOffer()->getReference())[0]. " lance par " . $this->getCallOffer()->getOwner() ." le " . $this->getStringDateForSms($this->getCallOffer()->getPublicationDate()). ".";
         } elseif ($this->getExpressionInterest()) {
-            $abstract = "Décision " . "N°" . explode("/", $this->getReference())[0] . " du " . $this->getStringDateForSms($this->getPublicationDate()) ." portant sur " . $object_abstract . " de l'" . $this->getExpressionInterest()->getType() . " N°" .explode("/", $this->getExpressionInterest()->getReference())[0]." lancé par " . $this->getExpressionInterest()->getOwner()  ." le " . $this->getStringDateForSms($this->getExpressionInterest()->getPublicationDate()) . ".";
+            $abstract = "Decision " . "N°" . explode("/", $this->getReference())[0] . " du " . $this->getStringDateForSms($this->getPublicationDate()) ." portant sur " . $object_abstract . " de l'" . $this->getExpressionInterest()->getType() . " N°" .explode("/", $this->getExpressionInterest()->getReference())[0]." lance par " . $this->getExpressionInterest()->getOwner()  ." le " . $this->getStringDateForSms($this->getExpressionInterest()->getPublicationDate()) . ".";
         } else {
             $abstract = $object_abstract;
         }

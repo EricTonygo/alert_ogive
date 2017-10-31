@@ -45,6 +45,11 @@ ogive_alert_mail:
 ogive_alert_historicalAlertSubscriber:
     resource: "@OGIVEAlertBundle/Controller/HistoricalAlertSubscriberController.php"
     type:     rest
+    
+ogive_users_controller:
+    resource: "@OGIVEUserBundle/Controller/UsersController.php"
+    type:     rest
+    prefix:   /admin
 
 ogive_alert:
     resource: "@OGIVEAlertBundle/Resources/config/routing.yml"
@@ -52,7 +57,7 @@ ogive_alert:
 
 ogive_user:
     resource: "@OGIVEUserBundle/Resources/config/routing.yml"
-    prefix:   /
+    prefix:   /admin
 
 app:
     resource: "@AppBundle/Controller/"

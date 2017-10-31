@@ -1,0 +1,34 @@
+<div id='list_as_table' class="ui basic segment container">
+    <table class="ui very basic table">
+        <thead>
+            <tr><th>Username</th>
+                <th>Email</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id='list_as_table_content'>
+            {%if users%}
+                {%for user in users%}
+                    <tr >                        
+                        <td>
+                           <span>{{user.username}}</span>
+                        </td>
+                        <td>
+                            <span>{{user.email}}</span>
+                        </td>
+                        <td>
+                            <span >{{user.firstname}}</span>
+                        </td>
+                        <td>
+                            <span>{{message.lastname}}</span>
+                        </td >
+                        <td ></td>                       
+                    </tr>
+                {%endfor%} 
+            {%endif%} 
+
+        </tbody>
+    </table>
+</div> 

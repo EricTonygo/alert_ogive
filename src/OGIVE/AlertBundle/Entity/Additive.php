@@ -101,9 +101,9 @@ class Additive extends AlertProcedure
     public function getAbstractForSmsNotification() {
         $abstract = "";
         if ($this->getCallOffer()) {
-            $abstract = "Réf : " . $this->getType() . " " . "N°" . explode("/", $this->getReference())[0] ." du " . $this->getStringDateForSms($this->getPublicationDate()) . " relatif à l'" . $this->getCallOffer()->getType() . " N°" .explode("/", $this->getCallOffer()->getReference())[0]." lancé par " . $this->getCallOffer()->getOwner(). " le " . $this->getStringDateForSms($this->getCallOffer()->getPublicationDate()) . ".";
+            $abstract = "Ref : " . $this->getType() . " " . "N°" . explode("/", $this->getReference())[0] ." du " . $this->getStringDateForSms($this->getPublicationDate()) . " relatif a l'" . $this->getCallOffer()->getType() . " N°" .explode("/", $this->getCallOffer()->getReference())[0]." lance par " . $this->getCallOffer()->getOwner(). " le " . $this->getStringDateForSms($this->getCallOffer()->getPublicationDate()) . ".";
         } elseif ($this->getExpressionInterest()) {
-            $abstract = "Réf : " . $this->getType() . " " . "N°" . explode("/", $this->getReference())[0] ." du " . $this->getStringDateForSms($this->getPublicationDate()). " relatif à l'" . $this->getExpressionInterest()->getType() . " N°" . explode("/", $this->getExpressionInterest()->getReference())[0]." lancé par " . $this->getExpressionInterest()->getOwner() . " le " . $this->getStringDateForSms($this->getExpressionInterest()->getPublicationDate()). '.';
+            $abstract = "Ref : " . $this->getType() . " " . "N°" . explode("/", $this->getReference())[0] ." du " . $this->getStringDateForSms($this->getPublicationDate()). " relatif a l'" . $this->getExpressionInterest()->getType() . " N°" . explode("/", $this->getExpressionInterest()->getReference())[0]." lance par " . $this->getExpressionInterest()->getOwner() . " le " . $this->getStringDateForSms($this->getExpressionInterest()->getPublicationDate()). '.';
         } else {
             if (strlen(trim($this->getObject())) > 160) {
                 $abstract = trim(substr($this->getObject(), 0, 157)) . "...";
