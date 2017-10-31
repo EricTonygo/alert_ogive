@@ -68,7 +68,22 @@ class UsersController extends Controller {
      * @Rest\View()
      * @Rest\Get("/users/{id}" , name="user_update", options={ "method_prefix" = false, "expose" = true })
      */
-    public function updateUserAction(Request $request, User $user) {
+    public function getUserByIdAction(User $user) {
+        if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            return $this->redirect($this->generateUrl('fos_user_security_login'));
+        }
+        $form = $this->createForm('OGIVE\UserBundle\Form\RegistrationType', $user);
+        return $this->renderView('OGIVEUserBundle:users:update.html.twig', array(
+                    'user' => $user,
+                    'form' => $form->createView()
+        ));
+    }
+    
+    /**
+     * @Rest\View()
+     * @Rest\Post("/users/{id}" , name="user_update", options={ "method_prefix" = false, "expose" = true })
+     */
+    public function postUserAction(Request $request, User $user) {
         if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             return $this->redirect($this->generateUrl('fos_user_security_login'));
         }

@@ -69,34 +69,6 @@
                     </div>
                     {{ form_widget(form.firstname,{'attr':{'placeholder': 'Prénom', 'data-validate': 'firstname'}})}}
                 </div>
-
-                <div class="field">
-                    {{ form_label(form.plainPassword.first,"Mot de passe") }}
-                    <div class="ui error message">
-                        <i class="close icon"></i>
-                        {{ form_errors(form.plainPassword.first, {'attr': {'class': 'list'}})}}
-                    </div>
-                    {{ form_widget(form.plainPassword.first,{'attr':{'placeholder':'Mot de passe', 'data-validate': 'password'}})}}
-                </div>
-
-                <div class="field">
-                    {{ form_label(form.plainPassword.second,"Confirmation mot de passe") }}
-                    <div class="ui error message">
-                        <i class="close icon"></i>
-                        {{ form_errors(form.plainPassword.second, {'attr': {'class': 'list'}})}}
-                    </div>
-                    {{ form_widget(form.plainPassword.second,{'attr':{'placeholder':'Confirmation mot de passe', 'data-validate': 'passwordConfirm'}})}}
-                </div>
-
-                <div class="field">
-                    {{ form_label(form.file, "Photo de profil")}}
-                    <div class="ui error message">
-                        <i class="close icon"></i>
-                        {{ form_errors(form.file, {'attr': {'class': 'list'}})}}
-                    </div>
-                    {{ form_widget(form.file, { 'attr' : {'class' : 'inputfile' }}) }}
-                </div>
-
                 <div class="field">
                     {{form_rest(form)}}
                 </div>
