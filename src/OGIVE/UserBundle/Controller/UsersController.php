@@ -32,6 +32,22 @@ class UsersController extends Controller {
         }
         $userManager = $this->container->get('fos_user.user_manager');
 
+        $page = 1;
+        //$maxResults = 8;
+        $route_param_page = array();
+        $route_param_search_query = array();
+        $search_query = null;
+        $placeholder = "Rechercher un utilisateur...";
+        if ($request->get('page')) {
+            $page = intval(htmlspecialchars(trim($request->get('page'))));
+            $route_param_page['page'] = $page;
+        }
+        if ($request->get('search_query')) {
+            $search_query = htmlspecialchars(trim($request->get('search_query')));
+            $route_param_search_query['search_query'] = $search_query;
+        }
+        //$start_from = 0;
+        $total_pages = 1;
         try {
             $users = $userManager->findUsers();
         } catch (Exception $exc) {
@@ -39,6 +55,12 @@ class UsersController extends Controller {
         }
         return $this->render('OGIVEUserBundle:users:index.html.twig', array(
                     'users' => $users,
+                    'total_pages' => $total_pages,
+                    'page' => $page,
+                    'route_param_page' => $route_param_page,
+                    'route_param_search_query' => $route_param_search_query,
+                    'search_query' => $search_query,
+                    'placeholder' => $placeholder
         ));
     }
 
@@ -52,8 +74,8 @@ class UsersController extends Controller {
         }
         $form = $this->createForm('OGIVE\UserBundle\Form\RegistrationType', $user);
         return $this->renderView('OGIVEUserBundle:users:update.html.twig', array(
-            'user' => $user,
-            'form' => $form->createView()
+                    'user' => $user,
+                    'form' => $form->createView()
         ));
     }
 
@@ -66,7 +88,6 @@ class UsersController extends Controller {
         if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
             return $this->redirect($this->generateUrl('fos_user_security_login'));
         }
-        
     }
 
 }
