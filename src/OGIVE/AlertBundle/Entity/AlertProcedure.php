@@ -40,7 +40,7 @@ class AlertProcedure {
     /**
      * @var string
      *
-     * @ORM\Column(name="url_details", type="string", length=255)
+     * @ORM\Column(name="url_details", type="string", length=255, nullable=true)
      */
     protected $urlDetails;
 
