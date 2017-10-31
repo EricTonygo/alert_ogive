@@ -16,7 +16,7 @@
                     <label>Privilège: </label>
                     <div class="field">
                         <div class="ui radio checkbox">
-                            <input type="radio" name="role" value="ROLE_ADMIN" checked="checked">
+                            <input type="radio" name="role" value="ROLE_ADMIN">
                             <label>Administrateur</label>
                         </div>
                     </div>
@@ -70,7 +70,7 @@
                     {{ form_widget(form.firstname,{'attr':{'placeholder': 'Prénom', 'data-validate': 'firstname'}})}}
                 </div>
                 <div class="field">
-                    {{form_rest(form)}}
+                    {{form_widget(form._token)}}
                 </div>
 
                 <button class="ui right floated primary button" type="submit">Modifier</button>
