@@ -379,7 +379,7 @@ class SubscriberController extends Controller {
     }
 
     public function sendNotificationAccordingToType(Subscriber $subscriber, $subject, $message_email, $message_sms) {
-        //Backup:  ". OGIVE SOLUTIONS vous remercie pour votre confiance."
+        //Backup:  "SI OGIVE vous remercie pour votre confiance."
         if ($subscriber->getNotificationType() == 2) {
             $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $message_sms);
         } elseif ($subscriber->getNotificationType() == 1) {

@@ -565,15 +565,15 @@ class Subscriber {
     public function getSubscriptionCostAndValidity() {
         $costAndValidity = "";
         if ($this->getSubscription()->getPeriodicity() === 1) {
-            $costAndValidity = $this->getSubscription()->getPrice() . " " . $this->getSubscription()->getCurrency() . ", validite = 1 an";
+            $costAndValidity = $this->getSubscription()->getPrice() . " " . $this->getSubscription()->getCurrency() . ", validite = 1 an.";
         } elseif ($this->getSubscription()->getPeriodicity() === 2) {
-            $costAndValidity = $this->getSubscription()->getPrice() . " " . $this->getSubscription()->getCurrency() . ", validite = 6 mois";
+            $costAndValidity = $this->getSubscription()->getPrice() . " " . $this->getSubscription()->getCurrency() . ", validite = 6 mois.";
         } elseif ($this->getSubscription()->getPeriodicity() === 3) {
-            $costAndValidity = $this->getSubscription()->getPrice() . " " . $this->getSubscription()->getCurrency() . ", validite = 3 mois";
+            $costAndValidity = $this->getSubscription()->getPrice() . " " . $this->getSubscription()->getCurrency() . ", validite = 3 mois.";
         } elseif ($this->getSubscription()->getPeriodicity() === 4) {
-            $costAndValidity = $this->getSubscription()->getPrice() . " " . $this->getSubscription()->getCurrency() . ", validite = 1 mois";
+            $costAndValidity = $this->getSubscription()->getPrice() . " " . $this->getSubscription()->getCurrency() . ", validite = 1 mois.";
         } elseif ($this->getSubscription()->getPeriodicity() === 4) {
-            $costAndValidity = $this->getSubscription()->getPrice() . " " . $this->getSubscription()->getCurrency() . ", validite = 1 semaine";
+            $costAndValidity = $this->getSubscription()->getPrice() . " " . $this->getSubscription()->getCurrency() . ", validite = 1 semaine.";
         }
         return $costAndValidity;
     }
