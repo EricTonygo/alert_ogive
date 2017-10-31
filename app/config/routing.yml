@@ -48,7 +48,7 @@ ogive_alert_historicalAlertSubscriber:
     
 ogive_users_controller:
     resource: "@OGIVEUserBundle/Controller/UsersController.php"
-    type:     rest
+    type:     annotation
     prefix:   /admin
 
 ogive_alert:

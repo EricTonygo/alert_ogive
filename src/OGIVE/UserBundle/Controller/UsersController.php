@@ -21,8 +21,9 @@ use FOS\RestBundle\View\View;
 class UsersController extends Controller {
 
     /**
-     * @Rest\View()
-     * @Rest\Get("/users" , name="users_index", options={ "method_prefix" = false, "expose" = true })
+     * @Security("has_role('ROLE_ADMIN')")
+     * @Route("/users", name="users_index")
+     * @Method({"GET"})
      * @param Request $request
      */
     public function getUsersAction(Request $request) {
@@ -65,25 +66,11 @@ class UsersController extends Controller {
     }
 
     /**
-     * @Rest\View()
-     * @Rest\Get("/users/{id}" , name="get_user_update", options={ "method_prefix" = false, "expose" = true })
+     * @Security("has_role('ROLE_ADMIN')")
+     * @Route("/users/{id}", name="user_update")
+      @Method({"GET", "POST"})
      */
-    public function getUserByIdAction(User $user) {
-        if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-            return $this->redirect($this->generateUrl('fos_user_security_login'));
-        }
-        $form = $this->createForm('OGIVE\UserBundle\Form\RegistrationType', $user);
-        return $this->renderView('OGIVEUserBundle:users:update.html.twig', array(
-                    'user' => $user,
-                    'form' => $form->createView()
-        ));
-    }
-    
-    /**
-     * @Rest\View()
-     * @Rest\Post("/users/{id}" , name="post_user_update", options={ "method_prefix" = false, "expose" = true })
-     */
-    public function postUserAction(Request $request, User $user) {
+    public function updateUserAction(Request $request, User $user) {
         if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             return $this->redirect($this->generateUrl('fos_user_security_login'));
         }
