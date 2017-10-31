@@ -13,7 +13,7 @@
                 {%for user in users%}
                     <tr >                        
                         <td>
-                           <span>{{user.username}}</span>
+                            <span>{{user.username}}</span>
                         </td>
                         <td>
                             <span>{{user.email}}</span>
@@ -24,7 +24,13 @@
                         <td>
                             <span>{{user.lastname}}</span>
                         </td >
-                        <td ></td>                       
+                        <td >
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <a href="{{path('user_update', {'id': user.id})}}">
+                                    <i class="edit icon"></i>
+                                </a>
+                            {% endif %}
+                        </td>                       
                     </tr>
                 {%endfor%} 
             {%endif%} 
