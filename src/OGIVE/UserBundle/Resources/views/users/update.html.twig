@@ -16,19 +16,19 @@
                     <label>Privilège: </label>
                     <div class="field">
                         <div class="ui radio checkbox">
-                            <input type="radio" name="role" value="ROLE_ADMIN">
+                            <input type="radio" name="role" value="ROLE_ADMIN" {% if user_role == "ROLE_ADMIN" %} checked="checked" {% endif %}>
                             <label>Administrateur</label>
                         </div>
                     </div>
                     <div class="field">
                         <div class="ui radio checkbox">
-                            <input type="radio" name="role" value="REDACTEUR">
+                            <input type="radio" name="role" value="REDACTEUR" {% if user_role == "REDACTEUR" %} checked="checked" {% endif %}>
                             <label>Redacteur</label>
                         </div>
                     </div>
                     <div class="field">
                         <div class="ui radio checkbox">
-                            <input type="radio" name="role" value="FACTURIER">
+                            <input type="radio" name="role" value="FACTURIER" {% if user_role == "FACTURIER" %} checked="checked" {% endif %}>
                             <label>Facturier</label>
                         </div>
                     </div>

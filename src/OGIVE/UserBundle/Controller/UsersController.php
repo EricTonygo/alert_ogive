@@ -85,8 +85,10 @@ class UsersController extends Controller {
             $userManager->updateUser($user);
             return $this->redirectToRoute('users_index');
         }
+        $user_role = $user->getRoles()[0];
         return $this->render('OGIVEUserBundle:users:update.html.twig', array(
                     'user' => $user,
+                    'user_role' => $user_role,
                     'form' => $form->createView()
         ));
     }
