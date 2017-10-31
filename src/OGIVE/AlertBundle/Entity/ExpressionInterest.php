@@ -40,7 +40,7 @@ class ExpressionInterest extends AlertProcedure {
         if(strlen($subject_array[0])>3){
             $subject = $subject_array[0];
         }else{
-            $subject = $subject_array[0]." ".$subject_array[1];
+            $subject = $subject_array[0]." ".$subject_array[1]." ".$subject_array[2]." ".$subject_array[3];
         }
         if(strtolower($subject) == "l'exécution" || strtolower($subject) == "l'execution" || strtolower($subject) == "l'éxécution"){
             $subject = 'les travaux';
