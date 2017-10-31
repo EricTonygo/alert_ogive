@@ -85,7 +85,7 @@ class UsersController extends Controller {
             $userManager->updateUser($user);
             return $this->redirectToRoute('users_index');
         }
-        return $this->renderView('OGIVEUserBundle:users:update.html.twig', array(
+        return $this->render('OGIVEUserBundle:users:update.html.twig', array(
                     'user' => $user,
                     'form' => $form->createView()
         ));
