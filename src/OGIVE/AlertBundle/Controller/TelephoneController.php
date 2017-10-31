@@ -588,7 +588,7 @@ class TelephoneController extends Controller {
             } elseif ($subscriber->getNotificationType() == 1) {
                 $this->get('mail_service')->sendEmailSubscriber($subscriber, $subject, $message_email, $alertProcedure);
             } else {
-                $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $message_email);
+                $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $message_sms);
                 $this->get('mail_service')->sendEmailSubscriber($subscriber, $subject, $message_email, $alertProcedure);
             }
         }
