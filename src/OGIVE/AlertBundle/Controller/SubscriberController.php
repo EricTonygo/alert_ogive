@@ -242,7 +242,10 @@ class SubscriberController extends Controller {
                 $historicalSubscriberSubscription->setSubscription($subscriber->getSubscription());
                 $historicalSubscriberSubscription->setSubscriptionDateAndExpirationDate($subscriber->getLastSubscriptionDate());
                 $historicalSubscriberSubscription = $repositoryHistoricalSubscriberSubscription->saveHistoricalSubscriberSubscription($historicalSubscriberSubscription);
-                $historiqueAlertSubscriber = $this->sendRenewalSubscriptionConfirmation($subscriber, $action);
+                $sendRenewalNotification = $request->get('send_renewal_notification');
+                if ($sendRenewalNotification == "on") {
+                    $historiqueAlertSubscriber = $this->sendRenewalSubscriptionConfirmation($subscriber, $action);
+                }
                 return new JsonResponse(['message' => 'Abonnement renouvelé avec succcès !', 'curl_response' => $curl_response], Response::HTTP_OK
                 );
             } else {
@@ -296,7 +299,7 @@ class SubscriberController extends Controller {
 //                }
             }
             if ($subscription_update && $subscription_update != 'others') {
-                if ($subscriber->getSubscription() && $subscriber->getState()== 1) {
+                if ($subscriber->getSubscription() && $subscriber->getState() == 1) {
                     $historicalSubscriberSubscription->setSubscriber($subscriber);
                     $historicalSubscriberSubscription->setSubscription($subscriber->getSubscription());
                     $historicalSubscriberSubscription->setSubscriptionDateAndExpirationDate($subscriber->getLastSubscriptionDate());
@@ -383,10 +386,11 @@ class SubscriberController extends Controller {
         if ($subscriber->getNotificationType() == 2) {
             $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $message_sms);
         } elseif ($subscriber->getNotificationType() == 1) {
-            $this->get('mail_service')->sendEmailSubscriber($subscriber, $subject, $message_email);
+            $this->get('mail_service')->sendEmailSubscriber($subscriber, $subject, $message_email . " SI OGIVE vous remercie pour votre confiance.");
         } else {
             $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $message_sms);
-            $this->get('mail_service')->sendEmailSubscriber($subscriber, $subject, $message_email);
+            $this->get('mail_service')->sendEmailSubscriber($subscriber, $subject, $message_email . " SI OGIVE vous remercie pour votre confiance.");
         }
     }
+
 }

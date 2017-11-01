@@ -81,7 +81,9 @@ class UsersController extends Controller {
 
         if ($form->isSubmitted() && $form->isValid()) {
             $userManager = $this->container->get('fos_user.user_manager');
-            $user->setRoles(array($this->container->get("request")->request->get('role')));
+            if ($request->get('role')) {
+                $user->setRoles(array($request->get('role')));
+            }
             $userManager->updateUser($user);
             return $this->redirectToRoute('users_index');
         }

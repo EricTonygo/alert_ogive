@@ -177,6 +177,15 @@
                     </select>
                 </div>
 
+                {% if is_granted('ROLE_ADMIN')%}
+                    <div class="field">
+                        <div class="ui checkbox">
+                            <input id='checkbox_activate' type="checkbox" name="send_renewal_notification" checked="checked">
+                            <label>Notifier l'abonné</label>
+                        </div>
+                    </div>
+                {% endif %}
+
                 <div id="server_error_message_sub" class="ui negative message" style="display:none">
                     <i class="close icon"></i>
                     <div id="server_error_content_sub" class="header">Internal server error</div>
