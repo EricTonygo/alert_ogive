@@ -13,6 +13,7 @@
                             <div class="header">{{entreprise.name}}</div>
                             <div class="description">
                                 <span>{{entreprise.address.phone}}</span><br>
+                                <span>{{entreprise.address.email}}</span><br>
                                 {%if entreprise.state == 1 %}
                                     <span class="ui green right ribbon label">Activé</span>
                                 {% elseif entreprise.state == 0 %}
