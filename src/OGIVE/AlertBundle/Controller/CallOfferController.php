@@ -116,6 +116,8 @@ class CallOfferController extends Controller {
             }
             $callOffer->setType($request->get('call_offer_type'));
             $callOffer->setAbstract($this->getAbstractOfCallOffer($callOffer));
+            $user = $this->getUser();
+            $callOffer->setUser($user);
             $callOffer = $repositoryCallOffer->saveCallOffer($callOffer);
             $curl_response = $this->get('curl_service')->sendCallOfferToWebsite($callOffer);
             $curl_response_array = json_decode($curl_response, true);
@@ -218,6 +220,8 @@ class CallOfferController extends Controller {
                 }
             }
             $callOffer->setAbstract($this->getAbstractOfCallOffer($callOffer));
+            $user = $this->getUser();
+            $callOffer->setUser($user);
             $callOffer = $repositoryCallOffer->updateCallOffer($callOffer);
             $curl_response = $this->get('curl_service')->sendCallOfferToWebsite($callOffer);
             $curl_response_array = json_decode($curl_response, true);

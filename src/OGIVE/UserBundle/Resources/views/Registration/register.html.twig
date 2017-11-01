@@ -14,16 +14,18 @@
 
                 <div class="inline fields">
                     <label>Privilège: </label>
-                    <div class="field">
-                        <div class="ui radio checkbox">
-                            <input type="radio" name="role" value="ROLE_ADMIN" checked="checked">
-                            <label>Administrateur</label>
+                    {% if is_granted('ROLE_SUPER_ADMIN') %}
+                        <div class="field">
+                            <div class="ui radio checkbox">
+                                <input type="radio" name="role" value="ROLE_ADMIN" checked="checked">
+                                <label>Administrateur</label>
+                            </div>
                         </div>
-                    </div>
+                    {%endif %}
                     <div class="field">
                         <div class="ui radio checkbox">
                             <input type="radio" name="role" value="REDACTEUR">
-                            <label>Redacteur</label>
+                            <label>Rédacteur</label>
                         </div>
                     </div>
                     <div class="field">

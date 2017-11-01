@@ -133,6 +133,8 @@ class ProcedureResultController extends Controller {
                 $procedureResult->setOwner($procedureResult->getExpressionInterest()->getOwner());
             }
             $procedureResult->setAbstract($this->getAbstractOfProcedureResult($procedureResult));
+            $user = $this->getUser();
+            $procedureResult->setUser($user);
             $procedureResult = $repositoryProcedureResult->saveProcedureResult($procedureResult);
             $curl_response = $this->get('curl_service')->sendProcedureResultToWebsite($procedureResult);
             $curl_response_array = json_decode($curl_response, true);
@@ -243,6 +245,8 @@ class ProcedureResultController extends Controller {
                 }
             }
             $procedureResult->setAbstract($this->getAbstractOfProcedureResult($procedureResult));
+            $user = $this->getUser();
+            $procedureResult->setUser($user);
             $procedureResult = $repositoryProcedureResult->updateProcedureResult($procedureResult);
             $curl_response = $this->get('curl_service')->sendProcedureResultToWebsite($procedureResult);
             $curl_response_array = json_decode($curl_response, true);

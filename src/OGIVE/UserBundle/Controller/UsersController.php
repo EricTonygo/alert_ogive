@@ -23,14 +23,14 @@ use FOS\RestBundle\View\View;
 class UsersController extends Controller {
 
     /**
-     * @Security("has_role('ROLE_ADMIN')")
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
      * @Route("/users", name="users_index")
      * @Method({"GET"})
      * @param Request $request
      */
     public function getUsersAction(Request $request) {
 
-        if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+        if (!$this->get('security.context')->isGranted('ROLE_SUPER_ADMIN')) {
             return $this->redirect($this->generateUrl('fos_user_security_login'));
         }
         $userManager = $this->container->get('fos_user.user_manager');
@@ -68,12 +68,12 @@ class UsersController extends Controller {
     }
 
     /**
-     * @Security("has_role('ROLE_ADMIN')")
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
      * @Route("/users/{id}", name="user_update")
       @Method({"GET", "POST"})
      */
     public function updateUserAction(Request $request, User $user) {
-        if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+        if (!$this->get('security.context')->isGranted('ROLE_SUPER_ADMIN')) {
             return $this->redirect($this->generateUrl('fos_user_security_login'));
         }
         $form = $this->createForm('OGIVE\UserBundle\Form\RegistrationType', $user);

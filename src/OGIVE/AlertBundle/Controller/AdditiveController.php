@@ -138,6 +138,8 @@ class AdditiveController extends Controller {
                 $additive->setObject($additive->getExpressionInterest()->getObject());
             }
             $additive->setAbstract($this->getAbstractOfAdditive($additive));
+            $user = $this->getUser();
+            $additive->setUser($user);
             $additive = $repositoryAdditive->saveAdditive($additive);
             $curl_response = $this->get('curl_service')->sendAdditiveToWebsite($additive);
             $curl_response_array = json_decode($curl_response, true);
@@ -253,6 +255,8 @@ class AdditiveController extends Controller {
                 }
             }
             $additive->setAbstract($this->getAbstractOfAdditive($additive));
+            $user = $this->getUser();
+            $additive->setUser($user);
             $additive = $repositoryAdditive->updateAdditive($additive);
             $curl_response = $this->get('curl_service')->sendAdditiveToWebsite($additive);
             $curl_response_array = json_decode($curl_response, true);
