@@ -7,7 +7,7 @@
                         <div class="content">
                             <div class="header">{% if additive.reference %}{{additive.reference}}{% endif %}</div>
                             <div class="meta">
-                                Créé le <span> {{ additive.createDate is empty ? "" : additive.createDate|date('d-m-Y')}}</span> à <span> {{ additive.createDate is empty ? "" : additive.createDate|date('H:i:s')}}</span>
+                                <span>Créé le {{ additive.createDate is empty ? "" : additive.createDate|date('d-m-Y')}} à {{ additive.createDate is empty ? "" : additive.createDate|date('H:i:s')}} {% if additive.user %}par {{ additive.user.username }} {% endif %}</span>
                             </div>
                             <div class="description">
                                 {% if additive.object %}
