@@ -7,7 +7,7 @@
                         <div class="content">
                             <div class="header">{{expressionInterest.reference}}</div>
                             <div class="meta">
-                                <span>Créé le {{ expressionInterest.createDate is empty ? "" : expressionInterest.createDate|date('d-m-Y')}} à {{ expressionInterest.createDate is empty ? "" : expressionInterest.createDate|date('H:i:s')}} {% if expressionInterest.user %}par {{ expressionInterest.user.username }} {% endif %}</span>
+                                <span>Créé le {{ expressionInterest.createDate is empty ? "" : expressionInterest.createDate|date('d-m-Y')}} à {{ expressionInterest.createDate is empty ? "" : expressionInterest.createDate|date('H:i')}} {% if expressionInterest.user %}par {{ expressionInterest.user.username }} {% endif %}</span>
                             </div>
                             <div class="description">
                                 {{expressionInterest.object}}
