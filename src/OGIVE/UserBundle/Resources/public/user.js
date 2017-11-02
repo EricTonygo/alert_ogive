@@ -81,4 +81,15 @@ $(function () {
             }
             );
 
+    $('#update_profile_btn').click(function(e){
+        e.preventDefault();
+        $('#show_profile').hide();
+        $('#update_profile').show();
+    });
+    
+    $('#show_profile_btn').click(function(e){
+        e.preventDefault();
+        $('#update_profile').hide();
+        $('#show_profile').show();
+    });
 });

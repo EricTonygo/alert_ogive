@@ -35,7 +35,7 @@
 
                         <div class="menu">
                             <h2 class="header">Authentifié en tant que {{app.user.username}}</h2>
-                            <a href='#' class="ui item">
+                            <a href='{{path('fos_user_profile_show')}}' class="ui item">
                                 Profil                         
                             </a>
                             {% if is_granted('ROLE_ADMIN') %}

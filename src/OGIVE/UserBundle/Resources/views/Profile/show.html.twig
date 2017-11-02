@@ -1,0 +1,105 @@
+{% extends "OGIVEUserBundle::layout.html.twig" %}
+{% trans_default_domain 'FOSUserBundle' %}
+{% block title %}Profil{% endblock %}
+
+{% block login_content %}
+    <div class="ui singup_contenair basic segment container">
+        <div id='show_profile' class="ui centered card">
+            <div class="first content text center aligned">
+                <h2 class="header">Votre profil</h2>
+            </div>
+            <div class="content">
+                <div class='ui form'>
+                    <div class="fields">
+                        <div class="five wide field">
+                            <label>Username</label>
+                        </div>
+                        <div class="eleven wide field">
+                            <span class="span_value">{{user.name}}</span>
+                        </div>                              
+                    </div>
+                    <div class="fields">
+                        <div class="five wide field">
+                            <label>Email</label>
+                        </div>
+                        <div class="eleven wide field">
+                            <span class="span_value">{{user.email}}</span>
+                        </div>                              
+                    </div>
+                        
+                    <div class="fields">
+                        <div class="five wide field">
+                            <label>First Name</label>
+                        </div>
+                        <div class="eleven wide field">
+                            <span class="span_value">{{user.firstname}}</span>
+                        </div>                              
+                    </div>
+                        
+                    <div class="fields">
+                        <div class="five wide field">
+                            <label>Last Name</label>
+                        </div>
+                        <div class="eleven wide field">
+                            <span class="span_value">{{user.lastname}}</span>
+                        </div>                              
+                    </div>
+                        
+                    <a id='update_profile_btn' class="ui right floated primary button" >Modifier</a>   
+                </div>
+            </div>
+        </div>
+        <div id='update_profile' class="ui centered card" style="display:none;">
+            <div class="first content text center aligned">
+                <h2 class="header">Modification votre profil</h2>
+            </div>
+            <div class="content">
+                <p>Veuillez renseigner les informations de l'utilisateur ici                    
+                    {{ form_start(form, {'method': 'POST', 'action': path('user_update', {'id': user.id}), 'attr': {'class': 'ui form', 'id': 'update_user_form'} }) }}
+
+                <div class="field">
+                    {{ form_label(form.username,"Username") }}
+                    <div class="ui error message">
+                        <i class="close icon"></i>
+                        {{ form_errors(form.username, {'attr': {'class': 'list'}})}}
+                    </div>
+                    {{ form_widget(form.username,{'attr':{'placeholder':'Matricule', 'data-validate': 'username'}})}}
+                </div>
+
+                <div class="field">
+                    {{ form_label(form.email,"Adresse email") }}
+                    <div class="ui error message">
+                        <i class="close icon"></i>
+                        {{ form_errors(form.email, {'attr': {'class': 'list'}})}}
+                    </div>
+                    {{ form_widget(form.email,{'attr':{'placeholder':'Adresse email', 'data-validate': 'email'}})}}
+                </div>
+
+                <div class="field">
+                    {{ form_label(form.lastname,"Nom") }}
+                    <div class="ui error message">
+                        <i class="close icon"></i>
+                        {{ form_errors(form.lastname, {'attr': {'class': 'list'}})}}
+                    </div>
+                    {{ form_widget(form.lastname,{'attr':{'placeholder': 'Nom', 'data-validate': 'lastname'}})}}
+                </div>
+
+                <div class="field">
+                    {{ form_label(form.firstname,"Prénom") }}
+                    <div class="ui error message">
+                        <i class="close icon"></i>
+                        {{ form_errors(form.firstname, {'attr': {'class': 'list'}})}}
+                    </div>
+                    {{ form_widget(form.firstname,{'attr':{'placeholder': 'Prénom', 'data-validate': 'firstname'}})}}
+                </div>
+                <div class="field">
+                    {{form_widget(form._token)}}
+                </div>
+
+                <button class="ui right floated primary button" type="submit">Modifier</button>
+                <a id="show_profile_btn" class="ui right floated red button" type="reset">Annuler</a>
+                </form>
+            </div>
+        </div> 
+    </div>
+{% endblock %}

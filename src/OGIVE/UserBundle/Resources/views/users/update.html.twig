@@ -35,12 +35,12 @@
                 </div>
 
                 <div class="field">
-                    {{ form_label(form.username,"Matricule") }}
+                    {{ form_label(form.username,"Username") }}
                     <div class="ui error message">
                         <i class="close icon"></i>
                         {{ form_errors(form.username, {'attr': {'class': 'list'}})}}
                     </div>
-                    {{ form_widget(form.username,{'attr':{'placeholder':'Matricule', 'data-validate': 'username'}})}}
+                    {{ form_widget(form.username,{'attr':{'placeholder':'Username', 'data-validate': 'username'}})}}
                 </div>
 
                 <div class="field">
