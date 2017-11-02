@@ -155,7 +155,7 @@ class RegistrationController extends BaseController {
         if ($user && $user->getEmail() != "") {
             $message = \Swift_Message::newInstance()
                     ->setSubject("Vos identifiants de connexion à ALERT MP")
-                    ->setFrom(array('infos@si-ogive.com' => "OGIVE INFOS"))
+                    ->setFrom(array('infos@siogive.com' => "OGIVE INFOS"))
                     ->setTo($user->getEmail())
                     ->setBody(
                     $this->container->get('templating')->renderResponse(
