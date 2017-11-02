@@ -45,61 +45,9 @@
                         </div>                              
                     </div>
                         
-{#                    <a id='update_profile_btn' class="ui right floated primary button" >Modifier</a>   #}
+                    <a id='{{path('fos_user_profile_edit')}}' class="ui right floated primary button" >Modifier</a>   
                 </div>
             </div>
         </div>
-        {#<div id='update_profile' class="ui centered card" style="display:none;">
-            <div class="first content text center aligned">
-                <h2 class="header">Modification votre profil</h2>
-            </div>
-            <div class="content">
-                <p>Veuillez renseigner les informations de l'utilisateur ici                    
-                    {{ form_start(form, {'method': 'POST', 'action': path('user_update', {'id': user.id}), 'attr': {'class': 'ui form', 'id': 'update_user_form'} }) }}
-
-                <div class="field">
-                    {{ form_label(form.username,"Username") }}
-                    <div class="ui error message">
-                        <i class="close icon"></i>
-                        {{ form_errors(form.username, {'attr': {'class': 'list'}})}}
-                    </div>
-                    {{ form_widget(form.username,{'attr':{'placeholder':'Matricule', 'data-validate': 'username'}})}}
-                </div>
-
-                <div class="field">
-                    {{ form_label(form.email,"Adresse email") }}
-                    <div class="ui error message">
-                        <i class="close icon"></i>
-                        {{ form_errors(form.email, {'attr': {'class': 'list'}})}}
-                    </div>
-                    {{ form_widget(form.email,{'attr':{'placeholder':'Adresse email', 'data-validate': 'email'}})}}
-                </div>
-
-                <div class="field">
-                    {{ form_label(form.lastname,"Nom") }}
-                    <div class="ui error message">
-                        <i class="close icon"></i>
-                        {{ form_errors(form.lastname, {'attr': {'class': 'list'}})}}
-                    </div>
-                    {{ form_widget(form.lastname,{'attr':{'placeholder': 'Nom', 'data-validate': 'lastname'}})}}
-                </div>
-
-                <div class="field">
-                    {{ form_label(form.firstname,"Prénom") }}
-                    <div class="ui error message">
-                        <i class="close icon"></i>
-                        {{ form_errors(form.firstname, {'attr': {'class': 'list'}})}}
-                    </div>
-                    {{ form_widget(form.firstname,{'attr':{'placeholder': 'Prénom', 'data-validate': 'firstname'}})}}
-                </div>
-                <div class="field">
-                    {{form_widget(form._token)}}
-                </div>
-
-                <button class="ui right floated primary button" type="submit">Modifier</button>
-                <a id="show_profile_btn" class="ui right floated red button" type="reset">Annuler</a>
-                </form>
-            </div>
-        </div> #}
     </div>
 {% endblock %}
