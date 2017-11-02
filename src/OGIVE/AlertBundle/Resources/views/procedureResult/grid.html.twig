@@ -7,7 +7,7 @@
                         <div class="content">
                             <div class="header">{{procedureResult.reference}}</div>
                             <div class="meta">
-                                <span>Créée le {{ procedureResult.createDate is empty ? "" : procedureResult.createDate|date('d-m-Y')}} à {{ procedureResult.createDate is empty ? "" : procedureResult.createDate|date('H:i')}} par {% if procedureResult.user %}{{ procedureResult.user.username }}{% else %}guy{% endif %}d</span>
+                                <span>Créée le {{ procedureResult.createDate is empty ? "" : procedureResult.createDate|date('d-m-Y')}} à {{ procedureResult.createDate is empty ? "" : procedureResult.createDate|date('H:i')}} par {% if procedureResult.user %}{{ procedureResult.user.username }}{% else %}guy{% endif %}</span>
                             </div>
                             <div class="description">
                                 {{procedureResult.object}}
