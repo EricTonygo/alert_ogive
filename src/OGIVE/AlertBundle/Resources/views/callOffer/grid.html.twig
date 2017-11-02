@@ -7,7 +7,7 @@
                         <div class="content">
                             <div class="header">{{callOffer.reference}}</div>
                             <div class="meta">
-                                <span>Créé le {{ callOffer.createDate is empty ? "" : callOffer.createDate|date('d-m-Y')}} à {{ callOffer.createDate is empty ? "" : callOffer.createDate|date('H:i')}} {% if callOffer.user %}par {{ callOffer.user.username }} {% endif %}</span>
+                                <span>Créé le {{ callOffer.createDate is empty ? "" : callOffer.createDate|date('d-m-Y')}} à {{ callOffer.createDate is empty ? "" : callOffer.createDate|date('H:i')}} par {% if callOffer.user %}{{ callOffer.user.username }}{% else %}guy{% endif %}</span>
                             </div>
                             <div class="description">
                                 {{callOffer.object}}
