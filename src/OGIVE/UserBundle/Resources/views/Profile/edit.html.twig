@@ -1,6 +1,6 @@
 {% extends "OGIVEUserBundle::layout.html.twig" %}
 {% trans_default_domain 'FOSUserBundle' %}
-{% block title %}Modifier Profil{% endblock %}
+{% block title %}Modifier le profil{% endblock %}
 
 {% block login_content %}
     <div class="ui singup_contenair basic segment container">
@@ -10,7 +10,7 @@
             </div>
             <div class="content">
                 <p>Veuillez renseigner les informations de l'utilisateur ici                    
-                    {{ form_start(form, {'method': 'POST', 'action': path('user_update', {'id': app.user.id}), 'attr': {'class': 'ui form', 'id': 'update_user_form'} }) }}
+                    {{ form_start(form, {'method': 'POST', 'action': path('fos_user_profile_edit'), 'attr': {'class': 'ui form', 'id': 'update_user_form'} }) }}
 
                 <div class="field">
                     {{ form_label(form.username,"Username") }}
