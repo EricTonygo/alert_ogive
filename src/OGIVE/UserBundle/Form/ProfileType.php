@@ -30,26 +30,7 @@ class ProfileType extends AbstractType
             ))
             ->add('username', null, array('label' => 'form.username', 'translation_domain' => 'FOSUserBundle', 'required'=> false))
             ->add('email', 'email', array('label' => 'form.email', 'translation_domain' => 'FOSUserBundle', 'required'=> false))
-            ->add('plainPassword', 'repeated', array(
-                'type' => 'password',
-                'options' => array('translation_domain' => 'FOSUserBundle'),
-                'first_options' => array('label' => 'form.password'),
-                'second_options' => array('label' => 'form.password_confirmation'),
-                'invalid_message' => 'fos_user.password.mismatch',
-                'required'=> false
-            ));
-           /*->add('roles', ChoiceType::class, array(
-                        'label' => 'Privileges',
-                       'multiple' => true,
-                       'expanded' => true,
-                       'choices' => array(
-                           'Super Administrateur' => 'ROLE_SUPER_ADMIN',
-                           'Administrateur' => 'ROLE_ADMIN',
-                           'Redacteur' => 'REDACTEUR',
-                           'Facturier' => 'FACTURIER'
-                   )
-               )
-           );*/
+            ;
         
     }
     
