@@ -90,7 +90,7 @@ class ProfileController extends Controller
             return $response;
         }
 
-        return $this->render('FOSUserBundle:Profile:edit.html.twig', array(
+        return $this->render('OGIVEUserBundle:Profile:edit.html.twig', array(
             'form' => $form->createView()
         ));
     }
