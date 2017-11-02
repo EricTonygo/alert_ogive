@@ -10,7 +10,7 @@
             </div>
             <div class="content">
                 <p>Veuillez renseigner les informations de l'utilisateur ici                    
-                    {{ form_start(form, {'method': 'POST', 'action': path('user_update', {'id': app.user.id}), 'attr': {'class': 'ui form', 'id': 'update_user_form'} }) }}
+                    {{ form_start(form, {'method': 'POST', 'action': path('user_update', {'id': user.id}), 'attr': {'class': 'ui form', 'id': 'update_user_form'} }) }}
 
                 <div class="field">
                     {{ form_label(form.username,"Username") }}
