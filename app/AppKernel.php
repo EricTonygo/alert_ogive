@@ -22,7 +22,7 @@ class AppKernel extends Kernel {
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new Blackford\TwilioBundle\BlackfordTwilioBundle(),
-//            new Symfony\Bundle\AsseticBundle\AsseticBundle(),
+            new Symfony\Bundle\AsseticBundle\AsseticBundle(),
 //            new JMS\JobQueueBundle\JMSJobQueueBundle(),
 //            new JMS\DiExtraBundle\JMSDiExtraBundle($this),
 //            new JMS\AopBundle\JMSAopBundle(),
