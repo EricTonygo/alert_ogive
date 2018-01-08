@@ -2,7 +2,7 @@
     <div class="ui container">
         <div class="ui fluid card">
             <div class="content">
-                <form id="filter_form" class='ui fluid form' method='GET' action='{{path(app.request.attributes.get('_route'))}}'>
+                <form id="filter_form" class='ui fluid form' method='GET' action='{{path(app.request.attributes.get('_route'))}}' autocomplete="off">
                     <div class="fields">
                         <div class="three wide field">
                             <div class="field">
@@ -27,7 +27,7 @@
                         <div class="three wide field">
                             <select class="ui fluid dropdown" name="owner">
                                 <option value="">Maitre d'ouvrage</option>
-                                <option value="0"></option>
+                                <option value="0">Tous les M.O</option>
                                 {%if owners%}
                                     {%for owner in owners%}
                                         <option value="{{owner.name}}" {%if queried_owner and queried_owner == owner.name%} selected {%endif%}>{{owner.name}}</option>
@@ -38,7 +38,7 @@
                         <div class="three wide field">
                             <select class="ui fluid dropdown" name="domain">
                                 <option value="">Domaine</option>
-                                <option value="0"></option>
+                                <option value="0">Tous les Domaines</option>
                                 {%if domains %}
                                     {%for domain in domains%}
                                         <option value="{{domain.id}}" {%if queried_domain and queried_domain == domain.id%} selected {%endif%}>{{domain.name}}</option>
@@ -49,7 +49,7 @@
 
                         <div class="four wide field">
                             <button id="submit_filter_form" type="submit" class="ui yellow button">Filter</button>
-                            <a id="export_csv_link" >Export to csv</a>
+                            <a id="export_csv_link" href="exports/excel/stats_appels_offres_infos.xlsx">Export to csv</a>
                         </div>
                     </div>
                 </form>

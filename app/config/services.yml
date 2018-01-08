@@ -25,4 +25,4 @@ services:
 
     common_service:
         class: OGIVE\AlertBundle\Services\CommonService
-        arguments: ["@mail_service", "@sms_service"]
+        arguments: ["@mail_service", "@sms_service", "@doctrine.orm.entity_manager"]
