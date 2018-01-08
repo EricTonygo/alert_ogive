@@ -41,6 +41,7 @@
     </form>
 {% endblock %}
 {% block content %}
+    {% include('OGIVEAlertBundle::filter-procedure-form.html.twig') %}
     {% include('OGIVEAlertBundle:additive:grid.html.twig') %} 
     {% include('OGIVEAlertBundle:additive:list.html.twig') %}
 {% endblock %}

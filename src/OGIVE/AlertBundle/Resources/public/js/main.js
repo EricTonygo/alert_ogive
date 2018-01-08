@@ -1,5 +1,21 @@
 $(function () {
     var init = 0;
+    
+    $('input[name="start-date"').datetimepicker({
+        timepicker: false,
+        //minDate: '0',
+        format: 'd-m-Y',
+        lang: 'fr',
+        scrollInput: false
+    });
+    
+    $('input[name="end-date"').datetimepicker({
+        timepicker: false,
+        //minDate: '0',
+        format: 'd-m-Y',
+        lang: 'fr',
+        scrollInput: false
+    });
 
     $('#show_list_table').click(function () {
         if (init === 0) {

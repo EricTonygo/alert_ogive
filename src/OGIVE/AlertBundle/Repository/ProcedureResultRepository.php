@@ -56,21 +56,39 @@ class ProcedureResultRepository extends \Doctrine\ORM\EntityRepository
         }
         return $procedureResult;
     }
-    public function getAll($offset = null, $limit = null, $search_query = null) {
+    public function getAll($offset = null, $limit = null, $search_query = null, $start_date = null, $end_date = null, $owner = null, $domain = null) {
         $qb = $this->createQueryBuilder('e');
-        $qb->where('e.status = ?1');
+        $qb->where('e.status = 1');
         if ($search_query) {
             $qb->andWhere(
                     $qb->expr()->orX(
-                            $qb->expr()->like('lower(e.reference)', '?2'), $qb->expr()->like('lower(e.object)', '?2'), $qb->expr()->like('lower(e.owner)', '?2')
+                            $qb->expr()->like('lower(e.reference)', ':search_query'), $qb->expr()->like('lower(e.object)', ':search_query'), $qb->expr()->like('lower(e.owner)', ':search_query')
             ));
+            $search_query = strtolower($search_query);
+            $qb->setParameter('search_query', '%' . strtolower($search_query) . '%');
+        }
+        if ($start_date && $end_date) {
+            $qb->andWhere(
+                    $qb->expr()->between('e.publicationDate', ':start_date', ':end_date')
+            );
+            $start_date_DT = new \DateTime(date('Y-m-d H:i:s', strtotime(str_replace('/', '-', $start_date))));
+            $end_date_DT = new \DateTime(date('Y-m-d H:i:s', strtotime(str_replace('/', '-', $end_date))));
+            $qb->setParameter("start_date", $start_date_DT);
+            $qb->setParameter("end_date", $end_date_DT);
+        }
+        if ($owner && $owner !="0") {
+            $qb->andWhere(
+                    $qb->expr()->orX(
+                            $qb->expr()->like('lower(e.owner)', ':owner'), $qb->expr()->like('e.owner', ':owner')
+            ));
+            $qb->setParameter('owner', '%' . $owner . '%');
+        }
+        if ($domain && $domain != "0") {
+            $qb->join("e.domain", 'd');
+            $qb->andWhere('d.id = :domain');
+            $qb->setParameter("domain", intval($domain));
         }
         $qb->orderBy('e.createDate', 'DESC');
-        if ($search_query) {
-            $qb->setParameters(array(1 => 1, 2 => '%' . strtolower($search_query) . '%'));
-        } else {
-            $qb->setParameters(array(1 => 1));
-        }
         if ($offset) {
             $qb->setFirstResult($offset);
         }
@@ -80,23 +98,40 @@ class ProcedureResultRepository extends \Doctrine\ORM\EntityRepository
         return $qb->getQuery()->getResult();
     }
 
-    public function getAllByString($search_query = null) {
+    public function getAllByQueriedParameters($search_query = null, $start_date = null, $end_date = null, $owner = null, $domain = null) {
         
         $qb = $this->createQueryBuilder('e');
-        $qb->where('e.status = ?1');
+        $qb->where('e.status = 1');
         if ($search_query) {
             $qb->andWhere(
                     $qb->expr()->orX(
-                            $qb->expr()->like('lower(e.reference)', '?2'), $qb->expr()->like('lower(e.object)', '?2'), $qb->expr()->like('lower(e.owner)', '?2')
+                            $qb->expr()->like('lower(e.reference)', ':search_query'), $qb->expr()->like('lower(e.object)', ':search_query'), $qb->expr()->like('lower(e.owner)', ':search_query')
             ));
+            $search_query = strtolower($search_query);
+            $qb->setParameter('search_query', '%' . strtolower($search_query) . '%');
+        }
+        if ($start_date && $end_date) {
+            $qb->andWhere(
+                    $qb->expr()->between('e.publicationDate', ':start_date', ':end_date')
+            );
+            $start_date_DT = new \DateTime(date('Y-m-d H:i:s', strtotime(str_replace('/', '-', $start_date))));
+            $end_date_DT = new \DateTime(date('Y-m-d H:i:s', strtotime(str_replace('/', '-', $end_date))));
+            $qb->setParameter("start_date", $start_date_DT);
+            $qb->setParameter("end_date", $end_date_DT);
+        }
+        if ($owner && $owner !="0") {
+            $qb->andWhere(
+                    $qb->expr()->orX(
+                            $qb->expr()->like('lower(e.owner)', ':owner'), $qb->expr()->like('e.owner', ':owner')
+            ));
+            $qb->setParameter('owner', '%' . $owner . '%');
+        }
+        if ($domain && $domain != "0") {
+            $qb->join("e.domain", 'd');
+            $qb->andWhere('d.id = :domain');
+            $qb->setParameter("domain", intval($domain));
         }
         $qb->orderBy('e.createDate', 'DESC');
-        if ($search_query) {
-            $search_query = strtolower($search_query);
-            $qb->setParameters(array(1 => 1, 2 => '%' . strtolower($search_query) . '%'));
-        } else {
-            $qb->setParameters(array(1 => 1));
-        }
         return $qb->getQuery()->getResult();
     }
     

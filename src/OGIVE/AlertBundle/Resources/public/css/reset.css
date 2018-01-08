@@ -701,3 +701,21 @@ a.ui.dropdown{
 #abstract_sms_length_notif{
     color: red;
 }
+
+#third_computer_top_nav.ui.menu{
+    background-color: #eeeeee;
+    height: 4em;
+    margin-top: 0.1em;
+    border-top: 1px solid #D4D4D5;
+}
+
+#third_computer_top_nav.ui.menu .ui.container .ui.fluid.card{
+    box-shadow: none;
+    background-color: transparent;
+}
+
+#third_computer_top_nav.ui.menu .ui.container .ui.fluid.card .content{
+    background-color: transparent;
+    padding: 0;
+    padding-top: 0.5em;
+}

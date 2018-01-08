@@ -1,0 +1,59 @@
+<div id="third_computer_top_nav" class="ui inverted main menu">
+    <div class="ui container">
+        <div class="ui fluid card">
+            <div class="content">
+                <form id="filter_form" class='ui fluid form' method='GET' action='{{path(app.request.attributes.get('_route'))}}'>
+                    <div class="fields">
+                        <div class="three wide field">
+                            <div class="field">
+                                <div class="ui calendar" >
+                                    <div class="ui input left icon">
+                                        <i class="calendar icon"></i>
+                                        <input type="text" name="start-date" placeholder="Start date" value="{{start_date}}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="three wide field">
+                            <div class="field">
+                                <div class="ui calendar" >
+                                    <div class="ui input left icon">
+                                        <i class="calendar icon"></i>
+                                        <input type="text" name="end-date" placeholder="End date" value="{{end_date}}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="three wide field">
+                            <select class="ui fluid dropdown" name="owner">
+                                <option value="">Maitre d'ouvrage</option>
+                                <option value="0"></option>
+                                {%if owners%}
+                                    {%for owner in owners%}
+                                        <option value="{{owner.name}}" {%if queried_owner and queried_owner == owner.name%} selected {%endif%}>{{owner.name}}</option>
+                                    {%endfor%}
+                                {%endif%}
+                            </select>
+                        </div>
+                        <div class="three wide field">
+                            <select class="ui fluid dropdown" name="domain">
+                                <option value="">Domaine</option>
+                                <option value="0"></option>
+                                {%if domains %}
+                                    {%for domain in domains%}
+                                        <option value="{{domain.id}}" {%if queried_domain and queried_domain == domain.id%} selected {%endif%}>{{domain.name}}</option>
+                                    {%endfor%}
+                                {%endif%}
+                            </select>
+                        </div>
+
+                        <div class="four wide field">
+                            <button id="submit_filter_form" type="submit" class="ui yellow button">Filter</button>
+                            <a id="export_csv_link" >Export to csv</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -37,6 +37,10 @@ class ProcedureResultController extends Controller {
         $route_param_search_query = array();
         $search_query = null;
         $placeholder = "Rechercher une attribution...";
+        $start_date = null;
+        $end_date = null;
+        $owner = null;
+        $domain = null;
         if ($request->get('page')) {
             $page = intval(htmlspecialchars(trim($request->get('page'))));
             $route_param_page['page'] = $page;
@@ -45,19 +49,45 @@ class ProcedureResultController extends Controller {
             $search_query = htmlspecialchars(trim($request->get('search_query')));
             $route_param_search_query['search_query'] = $search_query;
         }
+        if ($request->get('start-date')) {
+            $start_date = htmlspecialchars(trim($request->get('start-date')));
+            $route_param_search_query['start-date'] = $start_date;
+        }
+        if ($request->get('end-date')) {
+            $end_date = htmlspecialchars(trim($request->get('end-date')));
+            $route_param_search_query['end-date'] = $end_date;
+        }
+        if ($request->get('owner')) {
+            $owner = htmlspecialchars(trim($request->get('owner')));
+            $route_param_search_query['owner'] = $owner;
+        }
+        if ($request->get('domain')) {
+            $domain = htmlspecialchars(trim($request->get('domain')));
+            $route_param_search_query['domain'] = $domain;
+        }
         $start_from = ($page - 1) * $maxResults >= 0 ? ($page - 1) * $maxResults : 0;
-        $total_pages = ceil(count($em->getRepository('OGIVEAlertBundle:ProcedureResult')->getAllByString($search_query)) / $maxResults);
+        $total_procedures = count($em->getRepository('OGIVEAlertBundle:ProcedureResult')->getAllByQueriedParameters($search_query, $start_date, $end_date, $owner, $domain));
+        $total_pages = ceil($total_procedures / $maxResults);
         $form = $this->createForm('OGIVE\AlertBundle\Form\ProcedureResultType', $procedureResult);
-        $procedureResults = $em->getRepository('OGIVEAlertBundle:ProcedureResult')->getAll($start_from, $maxResults, $search_query);
+        $procedureResults = $em->getRepository('OGIVEAlertBundle:ProcedureResult')->getAll($start_from, $maxResults, $search_query, $start_date, $end_date, $owner, $domain);
+        $owners = $em->getRepository('OGIVEAlertBundle:Owner')->findBy(array("state"=>1, "status"=>1));
+        $domains = $em->getRepository('OGIVEAlertBundle:Domain')->findBy(array("state"=>1, "status"=>1));
         return $this->render('OGIVEAlertBundle:procedureResult:index.html.twig', array(
                     'procedureResults' => $procedureResults,
+                    'total_procedures' => $total_procedures,
                     'total_pages' => $total_pages,
                     'page' => $page,
                     'form' => $form->createView(),
                     'route_param_page' => $route_param_page,
                     'route_param_search_query' => $route_param_search_query,
                     'search_query' => $search_query,
-                    'placeholder' => $placeholder
+                    'placeholder' => $placeholder,
+                    'owners' => $owners,
+                    'domains'=> $domains,
+                    'start_date' => $start_date,
+                    'end_date' => $end_date,
+                    'queried_owner'=> $owner,
+                    'queried_domain'=> $domain
         ));
     }
 
