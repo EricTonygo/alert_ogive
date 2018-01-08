@@ -54,7 +54,7 @@ class CommonService {
         set_include_path( get_include_path().PATH_SEPARATOR."..");
         include_once("xlsxwriter.class.php");
         $writer = new \XLSXWriter();
-        $writer->setAuthor('Some Author');
+        $writer->setAuthor('SI OGIVE');
         $writer->setTempDir(sys_get_temp_dir()); //set custom tempdir
         $owners = $this->em->getRepository('OGIVEAlertBundle:Owner')->findBy(array("state" => 1, "status" => 1));
         $domains = $this->em->getRepository('OGIVEAlertBundle:Domain')->findBy(array("state" => 1, "status" => 1));
