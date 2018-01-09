@@ -150,6 +150,16 @@ class AlertProcedure {
      * })
      */
     protected $user;
+    
+    /**
+     * @var \OGIVE\UserBundle\Entity\User
+     *
+     * @ORM\ManyToOne(targetEntity="\OGIVE\UserBundle\Entity\User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="updated_user", referencedColumnName="id")
+     * })
+     */
+    protected $updatedUser;
 
     /**
      * @ORM\Column(type="array", nullable=true)
@@ -448,7 +458,7 @@ class AlertProcedure {
     }
     
     /**
-     * Set domain
+     * Set user
      *
      * @param \OGIVE\UserBundle\Entity\User $user
      *
@@ -461,12 +471,34 @@ class AlertProcedure {
     }
 
     /**
-     * Get status
+     * Get user
      *
      * @return \OGIVE\UserBundle\Entity\User
      */
     public function getUser() {
         return $this->user;
+    }
+    
+    /**
+     * Set updatedUser
+     *
+     * @param \OGIVE\UserBundle\Entity\User $user
+     *
+     * @return AlertProcedure
+     */
+    public function setUpdatedUser(\OGIVE\UserBundle\Entity\User $user = null) {
+        $this->updatedUser = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedUser
+     *
+     * @return \OGIVE\UserBundle\Entity\User
+     */
+    public function getUpdatedUser() {
+        return $this->updatedUser;
     }
 
     /**
@@ -483,7 +515,7 @@ class AlertProcedure {
     }
 
     /**
-     * Get status
+     * Get domain
      *
      * @return \OGIVE\AlertBundle\Entity\SubDomain
      */

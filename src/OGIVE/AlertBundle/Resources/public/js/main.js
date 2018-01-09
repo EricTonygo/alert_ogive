@@ -1,6 +1,6 @@
 $(function () {
     var init = 0;
-    
+
     $('input[name="start-date"').datetimepicker({
         timepicker: false,
         //minDate: '0',
@@ -8,7 +8,7 @@ $(function () {
         lang: 'fr',
         scrollInput: false
     });
-    
+
     $('input[name="end-date"').datetimepicker({
         timepicker: false,
         //minDate: '0',
@@ -60,23 +60,23 @@ $(function () {
 //                        ;
 //            })
 //            ;
-$('.message .close')
+    $('.message .close')
             .on('click', function () {
-                $(this).parent( ".message" ).hide();
+                $(this).parent(".message").hide();
             })
             ;
-            
-$('.pagination').change(function(e){
-    e.preventDefault();
-    $('.nav_link').removeClass('is-active');
-    $('#home').addClass('is-active');
-    var url = $(this).find('option:selected').val();
-    if(url !==""){
-        window.location.replace(url);
-    }
-});
 
-$('input.search_input').on("change paste keyup", function (e) {
+    $('.pagination').change(function (e) {
+        e.preventDefault();
+        $('.nav_link').removeClass('is-active');
+        $('#home').addClass('is-active');
+        var url = $(this).find('option:selected').val();
+        if (url !== "") {
+            window.location.replace(url);
+        }
+    });
+
+    $('input.search_input').on("change paste keyup", function (e) {
         var myclass = $(this).attr('id');
         if ($(this).val() !== "") {
             $('i.remove.link.icon.' + myclass).show();
@@ -97,23 +97,40 @@ $('input.search_input').on("change paste keyup", function (e) {
         $('#' + myid).val("");
         $('i.remove.link.icon.' + myid).hide();
     });
-    
+
     $('#search_form').submit(function () {
         if ($('#search_form input[name="s"]').val() === "") {
             return false;
         }
         $('#submit_search_form').addClass('loading');
     });
+
+    $('#filter_form').submit(function () {
+        if ($('#filter_form input[name="start-date"]').val() === "" && $('#filter_form input[name="end-date"]').val() === "" && $('#filter_form input[name="owner"]').val() === "" && $('#filter_form input[name="domain"]').val() === "") {
+            return false;
+        }
+        $('#submit_filter_form').addClass('loading');
+    });
+
+    $('#filter_form select[name="owner"]').change(function (e) {
+        e.preventDefault();
+        $('#filter_form').submit();
+    });
+    
+    $('#filter_form select[name="domain"]').change(function (e) {
+        e.preventDefault();
+        $('#filter_form').submit();
+    });
 });
 
-function show_sms_message_length(){
-    $('#abstract_sms').keypress(function(e){
+function show_sms_message_length() {
+    $('#abstract_sms').keypress(function (e) {
         $('#abstract_sms_count').html($(this).val().length);
     });
-    $('#abstract_sms').keyup(function(e){
+    $('#abstract_sms').keyup(function (e) {
         $('#abstract_sms_count').html($(this).val().length);
     });
-    $('#abstract_sms').keydown(function(e){
+    $('#abstract_sms').keydown(function (e) {
         $('#abstract_sms_count').html($(this).val().length);
     });
 }

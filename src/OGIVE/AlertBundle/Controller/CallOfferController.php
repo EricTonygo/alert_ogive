@@ -126,6 +126,7 @@ class CallOfferController extends Controller {
         }
         $callOffer = new CallOffer();
         $repositoryCallOffer = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:CallOffer');
+        $repositoryOwner = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Owner');
 
         if ($request->get('testunicity') == 'yes' && $request->get('reference')) {
             $reference = $request->get('reference');
@@ -157,6 +158,7 @@ class CallOfferController extends Controller {
             $callOffer->setUrlDetails($curl_response_array['data']['url']);
             $callOffer->setAbstract($this->getAbstractOfCallOffer($callOffer, $callOffer->getUrlDetails()));
             $repositoryCallOffer->updateCallOffer($callOffer);
+            $repositoryOwner->saveOwnerForProcedure($callOffer);
             $view = View::createRedirect($this->generateUrl('call_offer_index'));
             $view->setFormat('html');
             return $view;
@@ -203,6 +205,7 @@ class CallOfferController extends Controller {
     public function updateCallOfferAction(Request $request, CallOffer $callOffer) {
 
         $repositoryCallOffer = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:CallOffer');
+        $repositoryOwner = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Owner');
 
         if (empty($callOffer)) {
             return new JsonResponse(['message' => "Appel d'offre introuvable"], Response::HTTP_NOT_FOUND);
@@ -254,14 +257,14 @@ class CallOfferController extends Controller {
             }
             $callOffer->setAbstract($this->getAbstractOfCallOffer($callOffer));
             $user = $this->getUser();
-            $callOffer->setUser($user);
+            $callOffer->setUpdatedUser($user);
             $callOffer = $repositoryCallOffer->updateCallOffer($callOffer);
             $curl_response = $this->get('curl_service')->sendCallOfferToWebsite($callOffer);
             $curl_response_array = json_decode($curl_response, true);
             $callOffer->setUrlDetails($curl_response_array['data']['url']);
             $callOffer->setAbstract($this->getAbstractOfCallOffer($callOffer, $callOffer->getUrlDetails()));
             $repositoryCallOffer->updateCallOffer($callOffer);
-            //$this->redirect($this->generateUrl('call_offer_index'));
+            $repositoryOwner->saveOwnerForProcedure($callOffer);
             $view = View::createRedirect($this->generateUrl('call_offer_index'));
             $view->setFormat('html');
             return $view;

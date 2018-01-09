@@ -122,6 +122,7 @@ class ProcedureResultController extends Controller {
         }
         $procedureResult = new ProcedureResult();
         $repositoryProcedureResult = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:ProcedureResult');
+        $repositoryOwner = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Owner');
 
         if ($request->get('testunicity') == 'yes' && $request->get('reference')) {
             $reference = $request->get('reference');
@@ -171,6 +172,7 @@ class ProcedureResultController extends Controller {
             $procedureResult->setUrlDetails($curl_response_array['data']['url']);
             $procedureResult->setAbstract($this->getAbstractOfProcedureResult($procedureResult, $procedureResult->getUrlDetails()));
             $repositoryProcedureResult->updateProcedureResult($procedureResult);
+            $repositoryOwner->saveOwnerForProcedure($procedureResult);
             $view = View::createRedirect($this->generateUrl('procedureResult_index'));
             $view->setFormat('html');
             return $view;
@@ -215,6 +217,7 @@ class ProcedureResultController extends Controller {
     public function updateProcedureResultAction(Request $request, ProcedureResult $procedureResult) {
 
         $repositoryProcedureResult = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:ProcedureResult');
+        $repositoryOwner = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Owner');
 
         if (empty($procedureResult)) {
             return new JsonResponse(['message' => "Attribution introuvable"], Response::HTTP_NOT_FOUND);
@@ -283,6 +286,7 @@ class ProcedureResultController extends Controller {
             $procedureResult->setUrlDetails($curl_response_array['data']['url']);
             $procedureResult->setAbstract($this->getAbstractOfProcedureResult($procedureResult, $procedureResult->getUrlDetails()));
             $repositoryProcedureResult->updateProcedureResult($procedureResult);
+            $repositoryOwner->saveOwnerForProcedure($procedureResult);
             $view = View::createRedirect($this->generateUrl('procedureResult_index'));
             $view->setFormat('html');
             return $view;

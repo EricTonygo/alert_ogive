@@ -122,6 +122,7 @@ class ExpressionInterestController extends Controller {
         }
         $expressionInterest = new ExpressionInterest();
         $repositoryExpressionInterest = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:ExpressionInterest');
+        $repositoryOwner = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Owner');
 
         if ($request->get('testunicity') == 'yes' && $request->get('reference')) {
             $reference = $request->get('reference');
@@ -151,6 +152,7 @@ class ExpressionInterestController extends Controller {
             $expressionInterest->setUrlDetails($curl_response_array['data']['url']);
             $expressionInterest->setAbstract($this->getAbstractOfExpressionInterest($expressionInterest, $expressionInterest->getUrlDetails()));
             $repositoryExpressionInterest->updateExpressionInterest($expressionInterest);
+            $repositoryOwner->saveOwnerForProcedure($expressionInterest);
             $view = View::createRedirect($this->generateUrl('expressionInterest_index'));
             $view->setFormat('html');
             return $view;
@@ -195,6 +197,7 @@ class ExpressionInterestController extends Controller {
     public function updateExpressionInterestAction(Request $request, ExpressionInterest $expressionInterest) {
 
         $repositoryExpressionInterest = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:ExpressionInterest');
+        $repositoryOwner = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Owner');
 
         if (empty($expressionInterest)) {
             return new JsonResponse(['message' => "Manifestation d'intérêt introuvable"], Response::HTTP_NOT_FOUND);
@@ -247,6 +250,7 @@ class ExpressionInterestController extends Controller {
             $expressionInterest->setUrlDetails($curl_response_array['data']['url']);
             $expressionInterest->setAbstract($this->getAbstractOfExpressionInterest($expressionInterest, $expressionInterest->getUrlDetails()));
             $repositoryExpressionInterest->updateExpressionInterest($expressionInterest);
+            $repositoryOwner->saveOwnerForProcedure($expressionInterest);
             $view = View::createRedirect($this->generateUrl('expressionInterest_index'));
             $view->setFormat('html');
             return $view;

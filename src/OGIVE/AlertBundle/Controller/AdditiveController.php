@@ -123,6 +123,7 @@ class AdditiveController extends Controller {
         }
         $additive = new Additive();
         $repositoryAdditive = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Additive');
+        $repositoryOwner = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Owner');
 
         if ($request->get('testunicity') == 'yes' && $request->get('reference')) {
             $reference = $request->get('reference');
@@ -176,6 +177,7 @@ class AdditiveController extends Controller {
             $additive->setUrlDetails($curl_response_array['data']['url']);
             $additive->setAbstract($this->getAbstractOfAdditive($additive, $additive->getUrlDetails()));
             $repositoryAdditive->updateAdditive($additive);
+            $repositoryOwner->saveOwnerForProcedure($additive);
             $view = View::createRedirect($this->generateUrl('additive_index'));
             $view->setFormat('html');
             return $view;
@@ -222,6 +224,7 @@ class AdditiveController extends Controller {
     public function updateAdditiveAction(Request $request, Additive $additive) {
 
         $repositoryAdditive = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Additive');
+        $repositoryOwner = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Owner');
 
         if (empty($additive)) {
             return new JsonResponse(['message' => "Additif introuvable"], Response::HTTP_NOT_FOUND);
@@ -293,6 +296,7 @@ class AdditiveController extends Controller {
             $additive->setUrlDetails($curl_response_array['data']['url']);
             $additive->setAbstract($this->getAbstractOfAdditive($additive, $additive->getUrlDetails()));
             $repositoryAdditive->updateAdditive($additive);
+            $repositoryOwner->saveOwnerForProcedure($additive);
             $view = View::createRedirect($this->generateUrl('additive_index'));
             $view->setFormat('html');
             return $view;
