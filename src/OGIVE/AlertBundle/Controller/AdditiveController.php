@@ -289,7 +289,7 @@ class AdditiveController extends Controller {
             }
             $additive->setAbstract($this->getAbstractOfAdditive($additive));
             $user = $this->getUser();
-            $additive->setUser($user);
+            $additive->setUpdatedUser($user);
             $additive = $repositoryAdditive->updateAdditive($additive);
             $curl_response = $this->get('curl_service')->sendAdditiveToWebsite($additive);
             $curl_response_array = json_decode($curl_response, true);

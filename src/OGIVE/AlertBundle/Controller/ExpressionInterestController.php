@@ -243,7 +243,7 @@ class ExpressionInterestController extends Controller {
             }
             $expressionInterest->setAbstract($this->getAbstractOfExpressionInterest($expressionInterest));
             $user = $this->getUser();
-            $expressionInterest->setUser($user);
+            $expressionInterest->setUpdatedUser($user);
             $expressionInterest = $repositoryExpressionInterest->updateExpressionInterest($expressionInterest);
             $curl_response = $this->get('curl_service')->sendExpressionInterestToWebsite($expressionInterest);
             $curl_response_array = json_decode($curl_response, true);
