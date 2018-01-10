@@ -73,7 +73,8 @@ class CallOfferController extends Controller {
         $owners = $em->getRepository('OGIVEAlertBundle:Owner')->findBy(array("state"=>1, "status"=>1));
         $domains = $em->getRepository('OGIVEAlertBundle:Domain')->findBy(array("state"=>1, "status"=>1));
         if($start_date && $end_date){
-            $this->get('common_service')->getStatisticsOfProceduresByOwner($start_date, $end_date);
+            //$this->get('common_service')->getStatisticsOfProceduresByOwner($start_date, $end_date);
+            $this->get('common_service')->getStatisticsOfProceduresByMonth($start_date, $end_date);
         }
         return $this->render('OGIVEAlertBundle:callOffer:index.html.twig', array(
                     'callOffers' => $callOffers,
