@@ -386,10 +386,10 @@ class SubscriberController extends Controller {
         if ($subscriber->getNotificationType() == 2) {
             $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $message_sms);
         } elseif ($subscriber->getNotificationType() == 1) {
-            $this->get('mail_service')->sendEmailSubscriber($subscriber, $subject, $message_email . " SI OGIVE vous remercie pour votre confiance.");
+            $this->get('mail_service')->sendEmailSubscriber($subscriber, $subject, $message_email);
         } else {
             $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $message_sms);
-            $this->get('mail_service')->sendEmailSubscriber($subscriber, $subject, $message_email . " SI OGIVE vous remercie pour votre confiance.");
+            $this->get('mail_service')->sendEmailSubscriber($subscriber, $subject, $message_email);
         }
     }
 

@@ -558,10 +558,14 @@ function renewal_subscription_subscriber(id) {
                     $('.ui.dropdown').dropdown('remove visible');
                     $('.ui.dropdown>div.menu').removeClass('visible');
                     $('.ui.dropdown>div.menu').addClass('hidden');
+                    var send_renewal_notification = 'no';
+                    if($("#renewal_subscription_subscriber_form.ui.form input[name='send_renewal_notification']").is(":checked")){
+                        send_renewal_notification = 'on';
+                    }
                     $.ajax({
                         type: 'PUT',
                         url: Routing.generate('subscriber_update', {id: id}),
-                        data: {'action': 'renewal-subscription', 'send_renewal_notification': $("#renewal_subscription_subscriber_form.ui.form input[name='send_renewal_notification']:checked").val(), 'renewal_subscription_subscriber_date': $("#renewal_subscription_subscriber_form.ui.form input[name='renewal_subscription_subscriber_date']").val(), 'subscription_type': $("#subscription_type").val()},
+                        data: {'action': 'renewal-subscription', 'send_renewal_notification': send_renewal_notification, 'renewal_subscription_subscriber_date': $("#renewal_subscription_subscriber_form.ui.form input[name='renewal_subscription_subscriber_date']").val(), 'subscription_type': $("#subscription_type").val()},
                         dataType: 'json',
                         beforeSend: function () {
                             $('#execute_renewal_subscription_subscriber').addClass('disabled');
