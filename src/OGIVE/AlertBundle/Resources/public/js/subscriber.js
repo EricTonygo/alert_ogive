@@ -561,7 +561,7 @@ function renewal_subscription_subscriber(id) {
                     $.ajax({
                         type: 'PUT',
                         url: Routing.generate('subscriber_update', {id: id}),
-                        data: {'action': 'renewal-subscription', 'renewal_subscription_subscriber_date': $("#renewal_subscription_subscriber_form.ui.form input[name='renewal_subscription_subscriber_date']").val(), 'subscription_type': $("#subscription_type").val()},
+                        data: {'action': 'renewal-subscription', 'send_renewal_notification': $("#renewal_subscription_subscriber_form.ui.form input[name='send_renewal_notification']").val(), 'renewal_subscription_subscriber_date': $("#renewal_subscription_subscriber_form.ui.form input[name='renewal_subscription_subscriber_date']").val(), 'subscription_type': $("#subscription_type").val()},
                         dataType: 'json',
                         beforeSend: function () {
                             $('#execute_renewal_subscription_subscriber').addClass('disabled');
