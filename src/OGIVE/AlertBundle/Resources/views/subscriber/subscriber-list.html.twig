@@ -7,34 +7,34 @@
     <td>{%if subscriber.subscription%}{{subscriber.subscription.name}}{% endif %}</td>
     <td class="right aligned">
         {% if subscriber.state == 1 %}
-            <a onclick="send_subscription_confirmation({{subscriber.id}});" class="send_sms_subscriber_btn item" data-tooltip="Envoyer un accusé de reception" data-position="top center" data-inverted="">
+            <a onclick="send_subscription_confirmation({{subscriber.id}});" class="send_sms_subscriber_btn unbind_btn item" data-tooltip="Envoyer un accusé de reception" data-position="top center" data-inverted="">
                 <i class="alarm icon"></i>
             </a>
         {% endif %}
-        <a onclick="send_sms_subscriber({{subscriber.id}});" class="send_sms_subscriber_btn item" data-tooltip="Envoyer un SMS" data-position="top center" data-inverted="">
+        <a onclick="send_sms_subscriber({{subscriber.id}});" class="send_sms_subscriber_btn unbind_btn item" data-tooltip="Envoyer un SMS" data-position="top center" data-inverted="">
             <i class="talk icon"></i>
         </a>
         <a class="ui dropdown item">
             <i class="ellipsis vertical icon"></i>
             <div class="menu">
-                <div onclick="show_subscriber({{subscriber.id}});" class="show_subscriber_btn item">
+                <div onclick="show_subscriber({{subscriber.id}});" class="show_subscriber_btn unbind_btn item">
                     <i class="unhide icon"></i>
                     Détails
                 </div>
-                <div onclick="edit_subscriber({{subscriber.id}});" class="edit_subscriber_btn item">
+                <div onclick="edit_subscriber({{subscriber.id}});" class="edit_subscriber_btn unbind_btn item">
                     <i class="edit icon"></i>
                     Modifier
                 </div>
-                <div onclick="delete_subscriber({{subscriber.id}});" class="delete_subscriber_btn item">
+                <div onclick="delete_subscriber({{subscriber.id}});" class="delete_subscriber_btn unbind_btn item">
                     <i class="trash icon"></i>
                     Supprimer
                 </div>
                 {% if is_granted('ROLE_ADMIN') %}
-                    <div onclick="enable_subscriber({{subscriber.id}});" class="enable_subscriber_btn item" {% if subscriber.state == 1 %} style="display: none" {% endif %}>
+                    <div onclick="enable_subscriber({{subscriber.id}});" class="enable_subscriber_btn unbind_btn item" {% if subscriber.state == 1 %} style="display: none" {% endif %}>
                         <i class="unlock icon"></i>
                         Activer
                     </div>
-                    <div onclick="disable_subscriber({{subscriber.id}});" class="disable_subscriber_btn item" {% if subscriber.state != 1 %} style="display: none" {% endif %}>
+                    <div onclick="disable_subscriber({{subscriber.id}});" class="disable_subscriber_btn unbind_btn item" {% if subscriber.state != 1 %} style="display: none" {% endif %}>
                         <i class="lock icon"></i>
                         Désactiver
                     </div>

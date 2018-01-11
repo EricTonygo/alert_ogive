@@ -1,4 +1,5 @@
 $(function () {
+    $('.unbind_btn').unbind('click');
     var init = 0;
 
     $('input[name="start-date"').datetimepicker({

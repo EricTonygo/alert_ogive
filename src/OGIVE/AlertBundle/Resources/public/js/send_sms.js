@@ -1,3 +1,7 @@
+$(function(){
+    
+});
+
 function send_sms_subscriber(id) {
     $('#message_error').hide();
     $('#message_success').hide();
