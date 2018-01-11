@@ -146,7 +146,7 @@ function send_subscription_confirmation(id) {
             },
             statusCode: {
                 500: function (xhr) {
-                    $('#message_error>div.header').html("Une erreur s'est produite au niveau du serveur");
+                    $('#message_error>div.header').html("Une erreur s'est produite au niveau du serveur.");
                     $('#message_error').show();
                 },
                 404: function (response, textStatus, jqXHR) {
