@@ -527,11 +527,11 @@ class EntrepriseController extends Controller {
 
     public function sendNotificationAccordingToType(Subscriber $subscriber, $subject, $message) {
             if ($subscriber->getNotificationType() == 2) {
-                $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $message. ". \nOGIVE SOLUTIONS vous remercie pour votre confiance.");
+                $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $message);
             } elseif ($subscriber->getNotificationType() == 1) {
                 $this->get('mail_service')->sendEmailSubscriber($subscriber, $subject, $message);
             } else {
-                $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $message. ". \nOGIVE SOLUTIONS vous remercie pour votre confiance.");
+                $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $message);
                 $this->get('mail_service')->sendEmailSubscriber($subscriber, $subject, $message);
             }
         
