@@ -4,9 +4,7 @@
             {%for subscriber in subscribers%}            
                 <div id="subscriber_grid{{subscriber.id}}" class="column">
                     <div class="ui fluid card">
-                        {#<div class="image">
-                            <img src="{{asset('bundles/ogivealert/images/avatar_1.png')}}" alt="{{subscriber.name}}"/>
-                        </div>#}
+                        
                         <div class="content">
                             <div class="header">
                                 {{subscriber.name}}{%if subscriber.entreprise%} ({{subscriber.entreprise.name}}){% endif %}

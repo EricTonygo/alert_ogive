@@ -36,8 +36,8 @@ class SmsService {
                 $this->twilio_client->messages->create(
                         $phoneNumber, // Text any number
                         array(
-                    'from' => 'OGIVE INFOS', // From a Twilio number in your account
-                    'body' => $message
+                            'from' => 'OGIVE INFOS', // From a Twilio number in your account
+                            'body' => $message
                         )
                 );
                 return true;

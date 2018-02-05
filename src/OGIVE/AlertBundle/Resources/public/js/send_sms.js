@@ -146,8 +146,8 @@ function send_subscription_confirmation(id) {
             },
             statusCode: {
                 500: function (xhr) {
-                    $('#message_error>div.header').html("Une erreur s'est produite au niveau du serveur.");
-                    $('#message_error').show();
+//                    $('#message_error>div.header').html("Une erreur s'est produite au niveau du serveur.");
+//                    $('#message_error').show();
                 },
                 404: function (response, textStatus, jqXHR) {
                     var myerrors = response.responseJSON;
@@ -155,16 +155,16 @@ function send_subscription_confirmation(id) {
                     $('#message_error').show();
                 },
                 200: function (response, textStatus, jqXHR) {
-                    execute_success_send_confirm_subscription(id, "Accusé de reception envoyé avec succès");
+                    execute_success_send_confirm_subscription(id, "Accusé de reception envoyé avec succès.");
                 }
             },
             success: function (response, textStatus, jqXHR) {
                 execute_success_send_confirm_subscription(id, response.message);
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                $('#message_loading').hide();
-                $('#message_error>div.header').html("Une erreur s'est produite au niveau du serveur");
-                $('#message_error').show();
+//                $('#message_loading').hide();
+//                $('#message_error>div.header').html("Une erreur s'est produite au niveau du serveur");
+//                $('#message_error').show();
             }
         });
     });

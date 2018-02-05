@@ -41,11 +41,11 @@ class EntrepriseType extends AbstractType {
                 ))
                 ->add('address', new AddressType())
                 ->add('subscribers', CollectionType::class, array(
-                'entry_type' => SubscriberType::class,
-                'allow_add' => true,
-                'by_reference' =>false,
-                'allow_delete' =>true
-            ))
+                    'entry_type' => SubscriberType::class,
+                    'allow_add' => true,
+                    'by_reference' => false,
+                    'allow_delete' => true
+                ))
         ;
     }
 

@@ -154,7 +154,7 @@ class RegistrationController extends BaseController {
     public function sendEmailRegistration(\OGIVE\UserBundle\Entity\User $user, $url_login) {
         if ($user && $user->getEmail() != "") {
             $message = \Swift_Message::newInstance()
-                    ->setSubject("Vos identifiants de connexion à ALERT MP")
+                    ->setSubject("Account Activation")
                     ->setFrom(array('infos@siogive.com' => "OGIVE INFOS"))
                     ->setTo($user->getEmail())
                     ->setBody(
