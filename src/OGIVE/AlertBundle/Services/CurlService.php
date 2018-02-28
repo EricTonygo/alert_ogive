@@ -19,6 +19,10 @@ class CurlService {
             'subject' => $procedure->getAbstract(),
             'main_domain' => $procedure->getDomain() ? $procedure->getDomain()->getName() : "",
             'sub_domain' => $procedure->getSubDomain() ? $procedure->getSubDomain()->getName() : "",
+            'owner' => $procedure->getOwner(),
+            'publication_date' => $procedure->publicationDate ? $procedure->publicationDate->format('d-m-Y H:i:s'): $procedure->publicationDate,
+            'opening_date' => $procedure->openingDate ? $procedure->openingDate->format('d-m-Y H:i:s'): $procedure->openingDate,
+            'deadline' => $procedure->deadline ? $procedure->deadline->format('d-m-Y H:i:s'):$procedure->deadline
         );
         $piecesjointes = $procedure->getPiecesjointes();
         $originalpiecesjointes = $procedure->getOriginalpiecesjointes();
