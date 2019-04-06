@@ -3,8 +3,8 @@ parameters:
     database_host: 127.0.0.1
     database_port: 3306
     database_name: db_alert_ogive
-    database_user: root
-    database_password: unhomme90
+    database_user: ogive
+    database_password: Ogive2017
     mailer_transport: smtp
     mailer_host: mail33.lwspanel.com
     mailer_port: 587
