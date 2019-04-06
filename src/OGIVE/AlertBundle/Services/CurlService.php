@@ -206,7 +206,7 @@ class CurlService {
             CURLOPT_SSL_VERIFYPEER => false,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => "sender=Tenders-Infos&username=Tenders19&password=%23tenders19&recipients=".$recipients."&message=".$message,
+            CURLOPT_POSTFIELDS => "sender=Tenders-Inf&username=Tenders19&password=%23tenders19&recipients=".$recipients."&message=".$message,
             CURLOPT_HTTPHEADER => array(
                 "Content-Type: application/x-www-form-urlencoded",
             ),
