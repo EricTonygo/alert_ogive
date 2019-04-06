@@ -3,6 +3,10 @@ curl -X POST \
 -d "grant_type=client_credentials" \
 https://api.orange.com/oauth/v2/token
 
+curl -X GET \
+-H "Authorization: Bearer BuBQvwnAZZPHw4EVjbPv5h2D9cYU" \
+"https://api.orange.com/sms/admin/v1/contracts"
+
 
 access_token_tonygoapp: 5RvSJAL7yY4wId3X7apA2lfIOHnN
 

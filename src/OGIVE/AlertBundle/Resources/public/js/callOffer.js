@@ -36,7 +36,7 @@ $(function () {
     $('#checkbox_aoio_add').change(function () {
         if ($(this).is(':checked')) {
             $('#field_asmi_add').hide();
-            $('##field_asmi_add>.ui.dropdown').dropdown('clear');
+            $('#field_asmi_add>.ui.dropdown').dropdown('clear');
         }
     });
 

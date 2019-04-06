@@ -16,11 +16,13 @@ use Osms;
 class SmsService {
 
     protected $twilio_client;
+    private  $curl_service;
     private $username = "ACdda206efadd5de15c5f0121a6a982a9c";
     private $password = "e77b1a26567145aa789a3dc0d701dea0";
 
-    public function __construct() {
+    public function __construct(CurlService $curlService) {
         $this->twilio_client = new Client($this->username, $this->password);
+        $this->curl_service = $curlService;
     }
 
     public function sendTwilioSms($phoneNumber, $message) {
@@ -51,35 +53,44 @@ class SmsService {
 
     public function sendSms($phoneNumber, $message) {
         if ($phoneNumber != "") {
-            $config = array(
-                //'token' => "MskEAyO9WuuKsljXho8VuGP263VE",
-                'token' => "BuBQvwnAZZPHw4EVjbPv5h2D9cYU"
-            );
+//            $config = array(
+//                //'token' => "MskEAyO9WuuKsljXho8VuGP263VE",
+//                'token' => "BuBQvwnAZZPHw4EVjbPv5h2D9cYU"
+//            );
             try {
-                $osms = new Osms\Osms($config);
-                $osms->setVerifyPeerSSL(false);
-                $response = $osms->sendSms(
-                        // sender
-                        'tel:+237699001539',
-                        //'tel:+237699213790',
-                        // receiver
-                        'tel:' . $phoneNumber,
-                        // message
-                        $message
-                );
-                if (empty($response['error'])) {
-                    return true;
-                } else {
-                    $this->sendTwilioSms($phoneNumber, $message);
-                    return true;
-                }
+//                $osms = new Osms\Osms($config);
+//                $osms->setVerifyPeerSSL(false);
+//                $response = $osms->sendSms(
+//                        // sender
+//                        'tel:+237699001539',
+//                        //'tel:+237699213790',
+//                        // receiver
+//                        'tel:' . $phoneNumber,
+//                        // message
+//                        $message
+//                );
+//                if (empty($response['error'])) {
+//                    return true;
+//                } else {
+                    //$this->sendTwilioSms($phoneNumber, $message);
+                   return  $this->sendSMSngin($phoneNumber, $message);
+//                    return true;
+//                }
             } catch (Exception $ex) {
-                $this->sendTwilioSms($phoneNumber, $message);
-                return true;
+                //$this->sendTwilioSms($phoneNumber, $message);
+//                $this->sendSMSngin($phoneNumber, $message);
+                return "error";
             }
         } else {
-            return false;
+            return "error";
         }
+    }
+    
+    public function sendSMSngin($phoneNumber, $message){
+        if(substr($phoneNumber, 0, 1) == "+"){
+            $phoneNumber = substr($phoneNumber, 1);
+        }
+        return $this->curl_service->sendSmsning($message, $phoneNumber);
     }
 
 }

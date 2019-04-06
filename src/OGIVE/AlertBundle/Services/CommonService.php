@@ -37,7 +37,7 @@ class CommonService {
             $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 1 semaine";
         }
         $content = $subscriber->getEntreprise()->getName() . ", votre souscription au service <<Appels d'offres Infos>> a été éffectuée avec succès. \nCoût du forfait = " . $cout . ". \nOGIVE SOLUTIONS vous remercie pour votre confiance.";
-        //$this->sms_service->sendSms($subscriber->getPhoneNumber(), $content);
+        $this->sms_service->sendSms($subscriber->getPhoneNumber(), $content);
         $this->mail_service->sendMail($subscriber->getEmail(), "CONFIRMATION DE L'ABONNEMENT", $content);
         $historiqueAlertSubscriber->setMessage($content);
         $historiqueAlertSubscriber->setSubscriber($subscriber);

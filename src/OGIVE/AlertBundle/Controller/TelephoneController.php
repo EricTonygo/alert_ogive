@@ -67,7 +67,7 @@ class TelephoneController extends Controller {
         $historiqueAlertSubscriber = new HistoricalAlertSubscriber();
         $repositoryHistorique = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:HistoricalAlertSubscriber');
         $repositorySubscriber = $this->getDoctrine()->getManager()->getRepository('OGIVEAlertBundle:Subscriber');
-
+        $return_sms_send= null;
         $sendToAll = $request->get('all_subscribers');
         $idSubscribers = $request->get('subscribers');
         $common_notification = $request->get('common_notification');
@@ -109,13 +109,13 @@ class TelephoneController extends Controller {
             foreach ($idSubscribers as $idSubscriber) {
                 $idSubscriber = (int) $idSubscriber;
                 $subscriber = $repositorySubscriber->find($idSubscriber);
-                $this->sendNotificationAccordingToType($common_notification, $subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $request->get('abstract_sms'),$callOffer);
+                $return_sms_send = $this->sendNotificationAccordingToType($common_notification, $subscriber, "APPELS D'OFFRES INFOS", $request->get('abstract'), $request->get('abstract_sms'),$callOffer);
                 $historiqueAlertSubscriber->setMessage($request->get('abstract'));
                 $historiqueAlertSubscriber->setSubscriber($subscriber);
                 $historiqueAlertSubscriber->setAlertType("EMAIL");
                 $historiqueAlertSubscriber = $repositoryHistorique->saveHistoricalAlertSubscriber($historiqueAlertSubscriber);
             }
-            $view = View::create(['message' => "Message(s) envoyé(s) avec succès"]);
+            $view = View::create(['message' => "Message(s) envoyé(s) avec succès", "return_sms_send" => $return_sms_send]);
             $view->setFormat('json');
             return $view;
         } else {
@@ -579,7 +579,7 @@ class TelephoneController extends Controller {
             $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $message_sms);
             $this->get('mail_service')->sendEmailSubscriber($subscriber, $subject, $message_email, $alertProcedure);
         } elseif ($common_notification && $common_notification == "2") {
-            $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $message_sms);
+            return $this->get('sms_service')->sendSms($subscriber->getPhoneNumber(), $message_sms);
         } elseif ($common_notification && $common_notification == "1") {
             $this->get('mail_service')->sendEmailSubscriber($subscriber, $subject, $message_email, $alertProcedure);
         } else {
