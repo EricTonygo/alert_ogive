@@ -21,7 +21,7 @@ class MailService {
         if ($email != "") {
             $message = \Swift_Message::newInstance()
                     ->setSubject($subject)
-                    ->setFrom(array('infos@siogive.com' => "OGIVE INFOS"))
+                    ->setFrom(array('contact@tenders-infos.com' => "TENDERS INFOS"))
                     ->setTo($email)
                     ->setBody(
                     $content
@@ -36,7 +36,7 @@ class MailService {
         if ($email != "") {
             $message = \Swift_Message::newInstance()
                     ->setSubject($subject)
-                    ->setFrom(array('infos@siogive.com' => "OGIVE INFOS"))
+                    ->setFrom(array('contact@tenders-infos.com' => "TENDERS INFOS"))
                     ->setTo($email)
                     ->setBody(
                     $this->templating->render('OGIVEAlertBundle:send_mail:template_send_procedure.html.twig', array('content' => $content)), 'text/html'
@@ -51,7 +51,7 @@ class MailService {
         if ($subscriber && $subscriber->getEmail() != "") {
             $message = \Swift_Message::newInstance()
                     ->setSubject($subject)
-                    ->setFrom(array('infos@siogive.com' => "OGIVE INFOS"))
+                    ->setFrom(array('contact@tenders-infos.com' => "TENDERS INFOS"))
                     ->setTo($subscriber->getEmail())
                     ->setBody(
                     $this->templating->render('OGIVEAlertBundle:send_mail:template_send_procedure.html.twig', array('content' => $content)), 'text/html'
