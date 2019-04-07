@@ -53,7 +53,7 @@ function add_entreprise() {
                                 prompt: "Veuillez saisir le numéro de téléphone de l'entreprise"
                             },
                             {
-                                type: 'regExp[/^([\+][0-9]{4,}?)$/]',
+                                type: 'regExp[/^([\+]{0,1}[0-9]{4,}?)$/]',
                                 prompt: "Veuillez saisir le numéro de téléphone valide"
                             }
                         ]
@@ -222,7 +222,7 @@ function execute_edit(id) {
                                 prompt: "Veuillez saisir le numéro de téléphone de l'entreprise"
                             },
                             {
-                                type: 'regExp[/^([\+][0-9]{4,}?)$/]',
+                                type: 'regExp[/^([\+]{0,1}[0-9]{4,}?)$/]',
                                 prompt: "Veuillez saisir le numéro de téléphone valide"
                             }
                         ]
