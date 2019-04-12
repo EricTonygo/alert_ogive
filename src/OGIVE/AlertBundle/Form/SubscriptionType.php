@@ -23,7 +23,7 @@ class SubscriptionType extends AbstractType {
                         2 => 'Semestrielle',
                         3 => 'Trimestrielle',
                         4 => 'Mensuelle',
-                        5 => 'Hebdomadaire'
+                        5 => 'Free' //the customer has subscribed for the Free Plan: Validity 2 Weeks
                     ),
                     'required' => false,
                     'placeholder' => 'Selectionner la périodicité',

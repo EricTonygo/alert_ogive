@@ -573,7 +573,7 @@ class Subscriber {
         } elseif ($this->getSubscription()->getPeriodicity() === 4) {
             $costAndValidity = $this->getSubscription()->getPrice() . " " . $this->getSubscription()->getCurrency() . ", validite = 1 mois.";
         } elseif ($this->getSubscription()->getPeriodicity() === 5) {
-            $costAndValidity = $this->getSubscription()->getPrice() . " " . $this->getSubscription()->getCurrency() . ", validite = 2 semaine.";
+            $costAndValidity = $this->getSubscription()->getPrice() . " " . $this->getSubscription()->getCurrency() . ", validite = 2 semaines.";
         }
         return $costAndValidity;
     }
