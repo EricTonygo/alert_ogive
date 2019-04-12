@@ -488,7 +488,7 @@ class EntrepriseController extends Controller {
         } elseif ($subscriber->getSubscription()->getPeriodicity() === 4) {
             $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 1 mois";
         } elseif ($subscriber->getSubscription()->getPeriodicity() === 5) {
-            $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 1 semaine";
+            $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 2 semaines";
         }
         $content = $subscriber->getEntreprise()->getName() . ", votre souscription au service <<APPELS D'OFFRES INFOS>> a été éffectuée avec succès. \nCoût du forfait = " . $cout;
         $this->sendNotificationAccordingToType($subscriber, "CONFIRMATION DE L'ABONNEMENT", $content);
@@ -511,8 +511,8 @@ class EntrepriseController extends Controller {
                 $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 3 mois";
             } elseif ($subscriber->getSubscription()->getPeriodicity() === 4) {
                 $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 1 mois";
-            } elseif ($subscriber->getSubscription()->getPeriodicity() === 4) {
-                $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 1 semaine";
+            } elseif ($subscriber->getSubscription()->getPeriodicity() === 5) {
+                $cout = $subscriber->getSubscription()->getPrice() . " " . $subscriber->getSubscription()->getCurrency() . ", validité = 2 semaines";
             }
             $content = $subscriber->getEntreprise()->getName() . ", votre abonnement au service <<APPELS D'OFFRES INFOS>> a été renouvelé avec succès. \nCoût du nouveau forfait = " . $cout;
             $this->sendNotificationAccordingToType($subscriber, "RENOUVELLEMENT DE L'ABONNEMENT", $content);
