@@ -6,7 +6,7 @@ parameters:
     database_user: ogive
     database_password: Ogive2017
     mailer_transport: smtp
-    mailer_host: mail33.lwspanel.com
+    mailer_host: smtp.tenders-infos.com
     mailer_port: 465
     mailer_user: contact@tenders-infos.com 
     mailer_password: con-Tenders19
