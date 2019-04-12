@@ -24,7 +24,7 @@ class AppExtension extends \Twig_Extension {
                                 return "Trimestrielle";
                             case 4:
                                 return "Mensuelle";
-                            case 3:
+                            case 5:
                                 return "Hebdomadaire";
                         }
                     }),
