@@ -48,7 +48,7 @@ class SubscriptionController extends Controller {
             $route_param_search_query['search_query'] = $search_query;
         }
         $start_from = ($page-1)*$maxResults>=0 ? ($page-1)*$maxResults: 0;
-        $total_pages = ceil(count($em->getRepository('OGIVEAlertBundle:Subscriber')->getAllByString($search_query))/$maxResults);
+        $total_pages = ceil(count($em->getRepository('OGIVEAlertBundle:Subscription')->getAllByString($search_query))/$maxResults);
         $form = $this->createForm('OGIVE\AlertBundle\Form\SubscriptionType', $subscription);
         $subscriptions = $em->getRepository('OGIVEAlertBundle:Subscription')->getAll($start_from, $maxResults, $search_query);
         return $this->render('OGIVEAlertBundle:subscription:index.html.twig', array(
