@@ -198,7 +198,7 @@ class CurlService {
         curl_setopt_array($curl, array(
             //CURLOPT_PORT => "8587",
           //  CURLOPT_URL => "https://www.smsngin.com:8587/api/sms/send",
-            CURLOPT_URL => "http://mmp.gtsnetwork.cloud/gts/sendsms?",
+            CURLOPT_URL => "http://mmp.gtsnetwork.cloud/gts/sendsms",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
             CURLOPT_MAXREDIRS => 10,
