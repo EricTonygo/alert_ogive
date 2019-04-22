@@ -196,8 +196,9 @@ class CurlService {
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_PORT => "8587",
-            CURLOPT_URL => "https://www.smsngin.com:8587/api/sms/send",
+            //CURLOPT_PORT => "8587",
+          //  CURLOPT_URL => "https://www.smsngin.com:8587/api/sms/send",
+            CURLOPT_URL => "http://mmp.gtsnetwork.cloud/gts/sendsms?",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
             CURLOPT_MAXREDIRS => 10,
@@ -206,9 +207,14 @@ class CurlService {
             CURLOPT_SSL_VERIFYPEER => false,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => "sender=Tenders-Inf&username=Tenders19&password=#tenders19&recipients=".$recipients."&message=".$message,
+           // CURLOPT_POSTFIELDS => "sender=Tenders-Inf&username=Tenders19&password=#tenders19&recipients=".$recipients."&message=".$message,
+            CURLOPT_POSTFIELDS => "version=2&phone=694414494&password=dare@gts123&from=Tenders-Inf&to=".$recipients."&text=".$message."&id=2657867",
             CURLOPT_HTTPHEADER => array(
-                "Content-Type: application/x-www-form-urlencoded",
+               // "Content-Type: application/x-www-form-urlencoded",
+               "Accept: */*",
+                "Cache-Control: no-cache",
+                "Connection: keep-alive",
+                "Host: mmp.gtsnetwork.cloud"
             ),
         ));
 
@@ -225,7 +231,7 @@ class CurlService {
     }
 
     private function get_home_url_website() {
-        return 'http://siogive.com';
+        return 'https://siogive.com';
     }
 
 }
