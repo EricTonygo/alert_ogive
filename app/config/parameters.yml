@@ -7,8 +7,8 @@ parameters:
     database_password: Ogive2017
     mailer_transport: smtp
     mailer_host: mail33.lwspanel.com
-    mailer_port: 587
-    mailer_user: contact@tenders-infos.com 
+    mailer_port: 465
+    mailer_user: contact@tenders-infos.com
     mailer_password: con-Tenders19
     mailer_encryption: ssl
     mailer_auth_mode: login

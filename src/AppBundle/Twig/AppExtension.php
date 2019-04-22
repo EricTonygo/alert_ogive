@@ -25,7 +25,11 @@ class AppExtension extends \Twig_Extension {
                             case 4:
                                 return "Mensuelle";
                             case 5:
+<<<<<<< HEAD
                                 return "Hebdomadaire";
+=======
+                                return "Free";
+>>>>>>> master
                         }
                     }),
             new \Twig_SimpleFilter('notificationType', function($value) {

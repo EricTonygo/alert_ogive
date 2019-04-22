@@ -572,8 +572,8 @@ class Subscriber {
             $costAndValidity = $this->getSubscription()->getPrice() . " " . $this->getSubscription()->getCurrency() . ", validite = 3 mois.";
         } elseif ($this->getSubscription()->getPeriodicity() === 4) {
             $costAndValidity = $this->getSubscription()->getPrice() . " " . $this->getSubscription()->getCurrency() . ", validite = 1 mois.";
-        } elseif ($this->getSubscription()->getPeriodicity() === 4) {
-            $costAndValidity = $this->getSubscription()->getPrice() . " " . $this->getSubscription()->getCurrency() . ", validite = 1 semaine.";
+        } elseif ($this->getSubscription()->getPeriodicity() === 5) {
+            $costAndValidity = $this->getSubscription()->getPrice() . " " . $this->getSubscription()->getCurrency() . ", validite = 2 semaines.";
         }
         return $costAndValidity;
     }
