@@ -17,4 +17,5 @@ Pour démarrer le projet il faut s'assurer d'avoir installer les éléments suiv
 -  Créer la base de données `php app/console doctrine:database:create`
 -  Mettre à jour le schéma de la base de données `php app/console doctrine:schema:update --force`
 -  Installer les assets : `php app/console assets:install`
+-  Créer un compte super admin : `php app/console fos:user:create` puis `php app/console fos:user:promote <username> ROLE_SUPER_ADMIN`
 -  Pour lancer le serveur intégré utiliser la commande : `php app/console server:run`
